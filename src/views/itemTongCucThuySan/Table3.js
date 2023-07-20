@@ -4,7 +4,7 @@ import styles from './styles'
 
 const Table3 = () => {
     return (
-        <View style={[{ borderColor: 'blue', borderTopWidth: 1 }]}>
+        <View style={[{ borderColor: '#0099FF', borderTopWidth: 0.8 }]}>
             <View style={[styles.row,]}>
                 <View style={[styles.row, { width: '33%'},styles.lineRight]}>
                     <View style={[styles.row, { width: '100%' }]}>

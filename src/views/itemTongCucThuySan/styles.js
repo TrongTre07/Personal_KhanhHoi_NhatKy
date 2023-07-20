@@ -8,16 +8,16 @@ const styles = StyleSheet.create({
     },
 
     lineRight:{
-        borderColor: 'blue',
-        borderRightWidth: 1,
+        borderColor: '#0099FF',
+        borderRightWidth: 0.6,
     },
     container: {
-        flex: 1,
-        padding: 8,
-        marginBottom:8,
+        // flex: 1,
+        paddingHorizontal: 8,
+        paddingTop:8,
         backgroundColor: '#fff',
-        borderColor: 'blue',
-        borderWidth: 1,
+        borderColor: '#0099FF',
+        borderWidth: 0.6,
     },
     txtHeader:{
         color:'black',
