@@ -4,6 +4,8 @@ import TestSqlite from './src/views/TestSqlite'
 import HeaderView from './src/views/HeaderView'
 import TestLocation from './src/views/TestLocation'
 import UserContext from './src/contexts/UserContext'
+import ExportPDF from './src/views/ExportPDF'
+import OpenPDF from './src/views/OpenPDF'
 
 const App = () => {
   return (
@@ -11,7 +13,7 @@ const App = () => {
 
     <View style={styles.container}>
 
-      <HeaderView/>
+      <OpenPDF/>
     </View>
     
   )
