@@ -6,6 +6,7 @@ import TestLocation from './src/views/TestLocation';
 import UserContext from './src/contexts/UserContext';
 import TongCucThuySanView from './src/views/TongCucThuySanView';
 import HoatDongChuyenTaiView from './src/views/HoatDongChuyenTaiView';
+import HoatDongKhaiThacThuySanView from './src/views/HoatDongKhaiThacThuySanView';
 
 const App = () => {
   return (
@@ -15,6 +16,7 @@ const App = () => {
         showsVerticalScrollIndicator={false}>
         <HeaderView />
         <TongCucThuySanView />
+        <HoatDongKhaiThacThuySanView />
         <HoatDongChuyenTaiView />
       </ScrollView>
     </View>

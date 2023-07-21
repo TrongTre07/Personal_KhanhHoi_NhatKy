@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
     },
     txtHeader:{
         color:'black',
-        fontSize:14,
+        fontSize:16,
         fontWeight:'bold'
     },
     header: {
@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     text: {
-        fontSize:12,
+        fontSize:16,
         color:'black'
     },
     input: {

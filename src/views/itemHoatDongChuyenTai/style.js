@@ -46,11 +46,11 @@ export const styles = StyleSheet.create({
     rowActionText: {
       color: '#fff',
       textAlign: 'center',
-      fontSize: 20,
+      fontSize: 18,
     },
   
     textValue: {
-      fontSize: 20,
+      fontSize: 16,
       color: '#000',
     },
   
@@ -62,11 +62,11 @@ export const styles = StyleSheet.create({
       marginTop: 12,
       paddingLeft: 12,
       color: '#000',
-      fontSize: 20,
+      fontSize: 18,
     },
   
     title: {
-      fontSize: 26,
+      fontSize: 18,
       color: '#000',
       fontWeight: 'bold',
       marginVertical: 12,
