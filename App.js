@@ -12,7 +12,7 @@ const App = () => {
     <View style={styles.container}>
       <ScrollView contentContainerStyle={{flexGrow:1}} showsVerticalScrollIndicator={false} >
         <TongCucThuySanView/>
-        <Text><Text>hi</Text></Text>
+        
       </ScrollView>
     </View>
 
