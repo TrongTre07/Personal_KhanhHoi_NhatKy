@@ -12,31 +12,37 @@ import React, {useState} from 'react';
 import DatePicker from 'react-native-date-picker';
 import {styles} from './itemHoatDongChuyenTai/style.js';
 const HoatDongChuyenTaiView = () => {
-  
-  const [count, setCount] = useState(0);
-
   const [listForm, setListForm] = React.useState([]);
 
-  const [soDangKyTau, setSoDangKyTau] = React.useState([]);
-  const [soGiayPhepKhaiThac, setSoGiayPhepKhaiThac] = React.useState([]);
-  const [viDo, setViDo] = React.useState([]);
-  const [kinhDo, setKinhDo] = React.useState([]);
-  const [tenLoaiThuySan, setTenLoaiThuySan] = React.useState([]);
-  const [khoiLuong, setKhoiLuong] = React.useState([]);
+  const [textInput, setTextInput] = React.useState([
+    {
+      shipRegisterNumber: '',
+      miningLicenseNumbewr: '',
+      latitude: '',
+      longitude: '',
+      speciesName: '',
+      weight: '',
+    },
+  ]);
 
   // date picker
   const [date, setDate] = React.useState(new Date());
 
-  const dateNowFormat = date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear();
+  const dateNowFormat =
+    date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear();
 
   const [open, setOpen] = React.useState(false);
 
   React.useEffect(() => {
     if (listForm.length === 0) {
-      handleAddRow();
+      const newListForm = [...listForm, <_renderForm key={listForm.length} />];
+      setListForm(newListForm);
     }
-
   }, [listForm]);
+
+  React.useEffect(() => {
+    console.log('textInput', textInput);
+  }, [textInput]);
 
   const _renderForm = () => {
     return (
@@ -71,7 +77,6 @@ const HoatDongChuyenTaiView = () => {
                 onChangeText={value =>
                   handleInputChangeSoDangKyTau(listForm.length, value)
                 }
-                value={soDangKyTau[listForm.length]}
                 style={[styles.input]}
               />
             </View>
@@ -82,7 +87,6 @@ const HoatDongChuyenTaiView = () => {
                 onChangeText={value =>
                   handleInputChangeSoGiayPhepKhaiThac(listForm.length, value)
                 }
-                value={soGiayPhepKhaiThac[listForm.length]}
               />
             </View>
           </View>
@@ -98,7 +102,6 @@ const HoatDongChuyenTaiView = () => {
                 onChangeText={value =>
                   handleInputChangeViDo(listForm.length, value)
                 }
-                value={viDo[listForm.length]}
               />
             </View>
             <View style={[styles.flex1, styles.ml16]}>
@@ -108,7 +111,6 @@ const HoatDongChuyenTaiView = () => {
                 onChangeText={value =>
                   handleInputChangeKinhDo(listForm.length, value)
                 }
-                value={kinhDo[listForm.length]}
               />
             </View>
           </View>
@@ -124,17 +126,16 @@ const HoatDongChuyenTaiView = () => {
                 onChangeText={value =>
                   handleInputChangeTenLoaiThuySan(listForm.length, value)
                 }
-                value={tenLoaiThuySan[listForm.length]}
               />
             </View>
             <View style={[styles.flex1, styles.ml16]}>
               <Text style={styles.textValue}>Khối lượng (kg)</Text>
               <TextInput
+                inputMode="numeric"
                 style={[styles.input]}
                 onChangeText={value =>
                   handleInputChangeKhoiLuong(listForm.length, value)
                 }
-                value={khoiLuong[listForm.length]}
               />
             </View>
           </View>
@@ -150,7 +151,7 @@ const HoatDongChuyenTaiView = () => {
           <Text style={styles.rowActionText}>Thêm dòng</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.deleteRow}>
+        <TouchableOpacity style={styles.deleteRow} onPress={handleDeleteRow}>
           <Text style={styles.rowActionText}>Xoá dòng</Text>
         </TouchableOpacity>
       </View>
@@ -160,52 +161,59 @@ const HoatDongChuyenTaiView = () => {
   const handleAddRow = () => {
     const newListForm = [...listForm, <_renderForm key={listForm.length} />];
     setListForm(newListForm);
-    setSoDangKyTau([...soDangKyTau, '']);
-    setSoGiayPhepKhaiThac([...soGiayPhepKhaiThac, '']);
-    setViDo([...viDo, '']);
-    setKinhDo([...kinhDo, '']);
-    setTenLoaiThuySan([...tenLoaiThuySan, '']);
-    setKhoiLuong([...khoiLuong, 0]);
+    textInput.push({
+      shipRegisterNumber: '',
+      miningLicenseNumbewr: '',
+      latitude: '',
+      longitude: '',
+      speciesName: '',
+      weight: 0,
+    });
+    setTextInput(textInput);
+  };
+
+  const handleDeleteRow = () => {
+    console.log(textInput);
   };
 
   const handleInputChangeSoDangKyTau = (index, value) => {
-    const list = [...soDangKyTau];
-    list[index] = value;
-    setSoDangKyTau(list);
+    const list = [...textInput];
+    list[index].shipRegisterNumber = value;
+    setTextInput(list);
   };
 
   const handleInputChangeSoGiayPhepKhaiThac = (index, value) => {
-    const list = [...soGiayPhepKhaiThac];
-    list[index] = value;
-    setSoGiayPhepKhaiThac(list);
+    const list = [...textInput];
+    list[index].miningLicenseNumbewr = value;
+    setTextInput(list);
   };
 
   const handleInputChangeViDo = (index, value) => {
-    const list = [...viDo];
-    list[index] = value;
-    setViDo(list);
+    const list = [...textInput];
+    list[index].latitude = value;
+    setTextInput(list);
   };
 
   const handleInputChangeKinhDo = (index, value) => {
-    const list = [...kinhDo];
-    list[index] = value;
-    setKinhDo(list);
+    const list = [...textInput];
+    list[index].longitude = value;
+    setTextInput(list);
   };
 
   const handleInputChangeTenLoaiThuySan = (index, value) => {
-    const list = [...tenLoaiThuySan];
-    list[index] = value;
-    setTenLoaiThuySan(list);
+    const list = [...textInput];
+    list[index].speciesName = value;
+    setTextInput(list);
   };
 
   const handleInputChangeKhoiLuong = (index, value) => {
-    const list = [...soDangKyTau];
-    list[index] = value;
-    setKhoiLuong(list);
+    const list = [...textInput];
+    list[index].weight = value;
+    setTextInput(list);
   };
 
   return (
-    <View style={{flex: 1, backgroundColor:'#fff'}}>
+    <View style={{flex: 1, backgroundColor: '#fff'}}>
       <ScrollView>
         <Text style={[styles.title, {marginTop: 24}]}>
           II. THÔNG TIN VỀ HOẠT ĐỘNG CHUYỂN TẢI (nếu có)
@@ -233,4 +241,3 @@ const HoatDongChuyenTaiView = () => {
 };
 
 export default HoatDongChuyenTaiView;
-
