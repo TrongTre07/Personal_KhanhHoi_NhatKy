@@ -4,7 +4,6 @@ import TestSqlite from './src/views/TestSqlite'
 import HeaderView from './src/views/HeaderView'
 import TestLocation from './src/views/TestLocation'
 import UserContext from './src/contexts/UserContext'
-import ChuyenBienSoView from './src/views/itemTongCucThuySan/ChuyenBienSoView'
 import TongCucThuySanView from './src/views/TongCucThuySanView'
 
 const App = () => {
@@ -13,6 +12,7 @@ const App = () => {
     <View style={styles.container}>
       <ScrollView contentContainerStyle={{flexGrow:1}} showsVerticalScrollIndicator={false} >
         <TongCucThuySanView/>
+        <Text><Text>hi</Text></Text>
       </ScrollView>
     </View>
 
