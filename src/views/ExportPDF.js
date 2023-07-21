@@ -2,45 +2,45 @@ import React, { useState } from 'react';
 import { Alert, Pressable, StyleSheet, Text, View } from 'react-native';
 import RNHTMLtoPDF from 'react-native-html-to-pdf';
 
-function GenaratePDF() {
-  const [isLoading, setIsLoading] = useState(false);
-  const [count, setCount] = useState(1);
 
-  const data = 
+function GenaratePDF() {
+    const [isLoading, setIsLoading] = useState(false);
+    const [count, setCount] = useState(1);
+    const data =
     {
-      id: 1,
-      ngheChinh: "Câu cá",
-      hoTenChuTau: "Nguyễn Văn A",
-      hoTenThuyenTruong: "Nguyễn Văn B",
-      soDKtau: "123456789",
-      chieuDaiLonNhat: 10,
-      congSuatMayChinh: 200,
-      soGiayPhep: "ABC221",
-      thoiHan:"20/12/2022",
-      nghePhu1:"",
-      nghePhu2:"",
-      ngheCau: 5,
-      soLuoiCau: 4,
-      ngheLuoi: 20,
-      chieuCaoLuoi: 30,
-      ngheLuoiChup: 40,
-      chieuCaoLuoiChup: 60,
-      ngheLuoiKeo: 14,
-      chieuCaoLuoiKeo: 22,
-      ngheKhac:"",
-      bienSo: "EDF2131",
-      cangDi: "Cảng Trọng Trề",
-      cangVe: "Cảng TrongLV",
-      thoiGianDi: Date.now(),
-      thoiGianVe: Date.now(),
-      nhatKy: Date.now(),
-      vaoSo: "123456789",
+        id: 1,
+        ngheChinh: "Câu cá",
+        hoTenChuTau: "Nguyễn Văn A",
+        hoTenThuyenTruong: "Nguyễn Văn B",
+        soDKtau: "123456789",
+        chieuDaiLonNhat: 10,
+        congSuatMayChinh: 200,
+        soGiayPhep: "ABC221",
+        thoiHan: "20/12/2022",
+        nghePhu1: "",
+        nghePhu2: "",
+        ngheCau: 5,
+        soLuoiCau: 4,
+        ngheLuoi: 20,
+        chieuCaoLuoi: 30,
+        ngheLuoiChup: 40,
+        chieuCaoLuoiChup: 60,
+        ngheLuoiKeo: 14,
+        chieuCaoLuoiKeo: 22,
+        ngheKhac: "",
+        bienSo: "EDF2131",
+        cangDi: "Cảng Trọng Trề",
+        cangVe: "Cảng TrongLV",
+        thoiGianDi: Date.now(),
+        thoiGianVe: Date.now(),
+        nhatKy: Date.now(),
+        vaoSo: "123456789",
     };
 
-  const generatePDF = async () => {
-    setIsLoading(true);
-    try {
-      const html = `
+    const generatePDF = async () => {
+        setIsLoading(true);
+        try {
+            const html = `
       <!DOCTYPE html
     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="vi" lang="vi">
@@ -699,53 +699,67 @@ function GenaratePDF() {
 
 </html>
 
-
-  
       `;
-      const options = {
-        html,
-        fileName: `invoice_${count}`,
-        directory: 'Invoices',
-      };
-      const file = await RNHTMLtoPDF.convert(options);
-      Alert.alert('Success', `PDF saved to ${file.filePath}`);
-      setCount(count + 1);
-      setIsLoading(false);
-    } catch (error) {
-      Alert.alert('Error', error.message);
+
+            //   RNFetchBlob.fs.mkdir(
+            //     RNFetchBlob.fs.dirs.DownloadDir,
+            //   )
+            //     .then(() => {
+            //       console.log('Đã tạo thư mục tải xuống');
+            //     })
+            //     .catch((error) => {
+            //       console.log('Lỗi khi tạo thư mục tải xuống:', error);
+            //     });
+
+            //   // Bây giờ, bạn có thể sử dụng DownloadDir để truy cập vào thư mục lưu trữ bên ngoài
+            //   const fileName = `${RNFetchBlob.fs.dirs.DownloadDir}/example.pdf`;
+            //   console.log('Đường dẫn tệp:', fileName);
+
+            //   console.log(fileName);
+            const options = {
+                html,
+                fileName: `invoice_${count}`,
+                directory: 'Downloader',
+            };
+            const file = await RNHTMLtoPDF.convert(options);
+            Alert.alert('Success', `PDF saved to ${file.filePath}`);
+            setCount(count + 1);
+            setIsLoading(false);
+        } catch (error) {
+            Alert.alert('Error', error.message);
+        }
+    };
+
+    if (isLoading) {
+        return <Text>Generating PDF...</Text>;
     }
-  };
 
-  if (isLoading) {
-    return <Text>Generating PDF...</Text>;
-  }
-
-  return (
-    <View style={styles.container}>
-      <Pressable style={styles.button} onPress={() => generatePDF()}>
-        <Text style={styles.text}>Generate PDF</Text>
-      </Pressable>
-    </View>
-  );
+    return (
+        <View style={styles.container}>
+            <Pressable style={styles.button} onPress={() => generatePDF()}>
+                <Text style={styles.text}>Generate PDF</Text>
+            </Pressable>
+        </View>
+    );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#aac',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  text: {
-    fontSize: 24,
-    color: '#fff',
-  },
-  button: {
-    backgroundColor: '#6c8ee3',
-    padding: 15,
-    borderRadius: 10,
-    margin: 20,
-  },
+    container: {
+        flex: 1,
+        backgroundColor: '#aac',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    text: {
+        fontSize: 24,
+        color: '#fff',
+    },
+    button: {
+        backgroundColor: '#6c8ee3',
+        padding: 15,
+        borderRadius: 10,
+        margin: 20,
+    },
 });
 
 export default GenaratePDF;
