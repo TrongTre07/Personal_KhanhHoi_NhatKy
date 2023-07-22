@@ -25,6 +25,8 @@ const HoatDongChuyenTaiView = () => {
     },
   ]);
 
+  const [sumOfWeight, setSumOfWeight] = React.useState(0);
+
   // date picker
   const [date, setDate] = React.useState(new Date());
 
@@ -39,10 +41,6 @@ const HoatDongChuyenTaiView = () => {
       setListForm(newListForm);
     }
   }, [listForm]);
-
-  React.useEffect(() => {
-    console.log('textInput', textInput);
-  }, [textInput]);
 
   const _renderForm = () => {
     return (
@@ -173,7 +171,13 @@ const HoatDongChuyenTaiView = () => {
   };
 
   const handleDeleteRow = () => {
-    console.log(textInput);
+    const newListForm = [...listForm];
+    if (newListForm.length > 1) {
+      newListForm.pop();
+      setListForm(newListForm);
+      textInput.pop();
+      setTextInput(textInput);
+    }
   };
 
   const handleInputChangeSoDangKyTau = (index, value) => {
@@ -210,6 +214,12 @@ const HoatDongChuyenTaiView = () => {
     const list = [...textInput];
     list[index].weight = value;
     setTextInput(list);
+
+    let sum = 0;
+    list.forEach(item => {
+      sum += Number(item.weight);
+    });
+    setSumOfWeight(sum);
   };
 
   return (
@@ -219,7 +229,12 @@ const HoatDongChuyenTaiView = () => {
           II. THÔNG TIN VỀ HOẠT ĐỘNG CHUYỂN TẢI (nếu có)
         </Text>
 
+        {/* form */}
         {listForm.map(form => form)}
+
+        {/* sum of weight */}
+        <Text style={[styles.title, {marginTop: 16}]}>Tổng khối lượng: {sumOfWeight} kg</Text>
+        {/* action */}
         {_renderActionView()}
       </ScrollView>
       <DatePicker
