@@ -7,6 +7,7 @@ import UserContext from './src/contexts/UserContext';
 import TongCucThuySanView from './src/views/TongCucThuySanView';
 import HoatDongChuyenTaiView from './src/views/HoatDongChuyenTaiView';
 import HoatDongKhaiThacThuySanView from './src/views/HoatDongKhaiThacThuySanView';
+import Login from './src/views/login/Login';
 
 const App = () => {
   return (
@@ -14,10 +15,11 @@ const App = () => {
       <ScrollView
         contentContainerStyle={{flexGrow: 1}}
         showsVerticalScrollIndicator={false}>
-        <HeaderView />
+        {/* <HeaderView />
         <TongCucThuySanView />
         <HoatDongKhaiThacThuySanView />
-        <HoatDongChuyenTaiView />
+        <HoatDongChuyenTaiView /> */}
+        <Login/>
       </ScrollView>
     </View>
   );
