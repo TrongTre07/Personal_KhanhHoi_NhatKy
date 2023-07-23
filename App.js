@@ -15,9 +15,10 @@ const App = () => {
         contentContainerStyle={{flexGrow: 1}}
         showsVerticalScrollIndicator={false}>
         <HeaderView />
-        <TongCucThuySanView />
-        <HoatDongKhaiThacThuySanView />
+        {/* <TongCucThuySanView />
+        <HoatDongKhaiThacThuySanView /> */}
         <HoatDongChuyenTaiView />
+
       </ScrollView>
     </View>
   );
