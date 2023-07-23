@@ -1,29 +1,29 @@
 import {StyleSheet} from 'react-native';
 const _renderInputSpecies = () => {
-    const inputs = [];
-    for (let i = 0; i < 8; i++) {
-      inputs.push(
-        <View key={i} style={[styles.flex1, styles.mr16]}>
-          <TextInput
-            placeholder="Loài"
-            style={[styles.input]}
-            onChangeText={value =>
-              handleInputChangeTenLoaiThuySan(listForm.length, value)
-            }
-          />
-          <TextInput
-            placeholder="Kg"
-            keyboardType="numeric"
-            style={[styles.input]}
-            onChangeText={value =>
-              handleInputChangeTenLoaiThuySan(listForm.length, value)
-            }
-          />
-        </View>,
-      );
-    }
-    return inputs;
-  };
+  const inputs = [];
+  for (let i = 0; i < 8; i++) {
+    inputs.push(
+      <View key={i} style={[styles.flex1, styles.mr16]}>
+        <TextInput
+          placeholder="Loài"
+          style={[styles.input]}
+          onChangeText={value =>
+            handleInputChangeTenLoaiThuySan(listForm.length, value)
+          }
+        />
+        <TextInput
+          placeholder="Kg"
+          keyboardType="numeric"
+          style={[styles.input]}
+          onChangeText={value =>
+            handleInputChangeTenLoaiThuySan(listForm.length, value)
+          }
+        />
+      </View>,
+    );
+  }
+  return inputs;
+};
 export const styles = StyleSheet.create({
   flexRow: {
     flexDirection: 'row',
@@ -31,7 +31,6 @@ export const styles = StyleSheet.create({
 
   flexRowSpecies: {
     flexDirection: 'column',
-    
   },
 
   flex1: {
@@ -82,6 +81,11 @@ export const styles = StyleSheet.create({
     fontSize: 16,
     color: '#000',
   },
+  textTotal: {
+    fontSize: 20,
+    color: '#000',
+    fontWeight: 'bold',
+  },
 
   input: {
     borderRadius: 8,
@@ -92,6 +96,7 @@ export const styles = StyleSheet.create({
     paddingLeft: 12,
     color: '#000',
     fontSize: 18,
+    fontWeight:'bold'
   },
 
   title: {
@@ -106,5 +111,26 @@ export const styles = StyleSheet.create({
     borderBottomWidth: 1,
     paddingBottom: 24,
     paddingTop: 12,
+  },
+
+  itemContainerFlatlist: {
+    backgroundColor: '#f2f2f2',
+    padding: 10,
+    marginHorizontal: 5,
+    borderRadius: 5,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  separator: {
+    width: 10,
+  },
+  box: {
+    borderRadius: 5,
+    borderWidth: 1,
+    borderColor: 'black',
+    width: 150,
+    height: 50,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });

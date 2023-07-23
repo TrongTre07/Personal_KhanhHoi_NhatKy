@@ -1,12 +1,17 @@
-import { View, Text,ScrollView, StyleSheet, TouchableOpacity } from 'react-native'
-import React from 'react'
-import HeaderView from './item/HeaderView'
-import TongCucThuySanView from './item/TongCucThuySanView'
-import HoatDongKhaiThacThuySanView from './item/HoatDongKhaiThacThuySanView'
-import HoatDongChuyenTaiView from './item/HoatDongChuyenTaiView'
+import {
+  View,
+  Text,
+  ScrollView,
+  StyleSheet,
+  TouchableOpacity,
+} from 'react-native';
+import React from 'react';
+import HeaderView from './item/HeaderView';
+import TongCucThuySanView from './item/TongCucThuySanView';
+import HoatDongKhaiThacThuySanView from './item/HoatDongKhaiThacThuySanView';
+import HoatDongChuyenTaiView from './item/HoatDongChuyenTaiView';
 
 const Form01adx01 = () => {
-
   const dateNow = new Date();
   const dateNowFormat =
     dateNow.getDate() +
@@ -27,6 +32,22 @@ const Form01adx01 = () => {
     },
   ]);
 
+  const [inputHoatDongKhaiThacThuySan, setInputHoatDongKhaiThacThuySan] =
+    React.useState([
+      {
+        timeTha: '',
+        viDoTha: '',
+        kinhDoTha: '',
+        timeThu: '',
+        viDoTha: '',
+        kinhDoThu: '',
+      },
+    ]);
+
+    const [inputLoaiCa, setInputLoaiCa] = React.useState([{
+      
+    }])
+
   React.useEffect(() => {
     console.log(inputHoatDongChuyenTai);
   }, [inputHoatDongChuyenTai]);
@@ -34,16 +55,24 @@ const Form01adx01 = () => {
   const _renderActionView = () => {
     return (
       <View style={styles.action}>
-        <TouchableOpacity style={[styles.actionCreate, styles.button]} onPress={handleCreateForm}>
+        <TouchableOpacity
+          style={[styles.actionCreate, styles.button]}
+          onPress={handleCreateForm}>
           <Text style={styles.actionText}>Tạo</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={[styles.actionSave, styles.button]} onPress={handleSaveForm}>
+        <TouchableOpacity
+          style={[styles.actionSave, styles.button]}
+          onPress={handleSaveForm}>
           <Text style={styles.actionTextDark}>Lưu bản nháp</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={[styles.actionDownload, styles.button]} onPress={handleDownloadForm}>
+        <TouchableOpacity
+          style={[styles.actionDownload, styles.button]}
+          onPress={handleDownloadForm}>
           <Text style={styles.actionText}>Tải mẫu</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={[styles.actionExportPDF, styles.button]} onPress={handleExportPDF}>
+        <TouchableOpacity
+          style={[styles.actionExportPDF, styles.button]}
+          onPress={handleExportPDF}>
           <Text style={styles.actionText}>Xuất File</Text>
         </TouchableOpacity>
       </View>
@@ -67,21 +96,22 @@ const Form01adx01 = () => {
   };
 
   return (
-    
-      <ScrollView
-        contentContainerStyle={{ flexGrow: 1 }}
-        showsVerticalScrollIndicator={false}>
-          <HeaderView/>
-          <TongCucThuySanView/>
-          <HoatDongKhaiThacThuySanView/>
-          <HoatDongChuyenTaiView textInput={inputHoatDongChuyenTai} setTextInput={setInputHoatDongChuyenTai}/>
-          {_renderActionView()}
-      </ScrollView>
+    <ScrollView
+      contentContainerStyle={{flexGrow: 1}}
+      showsVerticalScrollIndicator={false}>
+      <HeaderView />
+      <TongCucThuySanView />
+      <HoatDongKhaiThacThuySanView />
+      <HoatDongChuyenTaiView
+        textInput={inputHoatDongChuyenTai}
+        setTextInput={setInputHoatDongChuyenTai}
+      />
+      {_renderActionView()}
+    </ScrollView>
+  );
+};
 
-  )
-}
-
-export default Form01adx01
+export default Form01adx01;
 
 const styles = StyleSheet.create({
   button: {
@@ -92,7 +122,7 @@ const styles = StyleSheet.create({
 
   action: {
     flexDirection: 'row',
-    marginVertical: 12
+    marginVertical: 12,
   },
 
   actionText: {

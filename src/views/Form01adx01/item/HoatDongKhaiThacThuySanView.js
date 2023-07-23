@@ -1,5 +1,6 @@
 import {
   Button,
+  FlatList,
   Image,
   ScrollView,
   StyleSheet,
@@ -13,36 +14,64 @@ import DatePicker from 'react-native-date-picker';
 import {styles} from './itemHoatDongKhaiThacThuySan/styles';
 
 const HoatDongKhaiThacThuySanView = () => {
+  const [dateTha, setDateTha] = React.useState(new Date());
+  const [dateThu, setDateThu] = React.useState(new Date());
   const [listForm, setListForm] = React.useState([]);
   const [tableNet, setTableNet] = useState([]);
   const [textInput, setTextInput] = React.useState([
     {
-      shipRegisterNumber: '',
-      miningLicenseNumbewr: '',
-      latitude: '',
-      longitude: '',
-      speciesName: '',
-      weight: '',
+      timeTha: '',
+      viDoTha: '',
+      kinhDoTha: '',
+      timeThu: '',
+      viDoTha: '',
+      kinhDoThu: '',
     },
   ]);
 
+  const [loaiCa, setLoaiCa] = useState([
+    {id: '0', name: '', soLuong: ['0']},
+    {id: '1', name: '', soLuong: ['0']},
+    {id: '2', name: '', soLuong: ['0']},
+    {id: '3', name: '', soLuong: ['0']},
+    {id: '4', name: '', soLuong: ['0']},
+    {id: '5', name: '', soLuong: ['0']},
+    {id: '6', name: '', soLuong: ['0']},
+    {id: '7', name: '', soLuong: ['0']},
+    {id: '8', name: '', soLuong: ['0']},
+  ]);
+
+  const handleDateChangeTha = newDate => {
+    console.log(newDate);
+    const newInput = [...textInput];
+    newInput[0].timeTha = newDate.toLocaleDateString();
+    console.log("NEW ", newInput)
+    setTextInput(newInput)
+    setOpenTha(false)
+  };
+  const handleDateChangeThu = newDate => {
+  
+    setDateThu(newDate);
+    console.log("DATE: ", newDate)
+  };
+
   // date picker
-  const [dateTha, setDateTha] = React.useState(new Date());
-  const [dateThu, setDateThu] = React.useState(new Date());
+
 
   const formatDate = date => {
     const day = date.getDate();
     const month = date.getMonth() + 1;
     const year = date.getFullYear();
-    const hours = date.getHours();
-    const minutes = date.getMinutes();
+    // const hours = date.getHours();
+    // const minutes = date.getMinutes();
 
     // You can format the date and time as needed, e.g., 'dd/MM/yyyy HH:mm'
-    const formattedDate = `${day}/${month}/${year} ${hours}:${minutes}`;
+    // const formattedDate = `${day}/${month}/${year} ${hours}:${minutes}`;
+    const formattedDate = `${day}/${month}/${year}`;
     return formattedDate;
   };
 
-  const dateNowFormat = (date) => formatDate(date);
+  const dateNowFormat = date => formatDate(date);
 
   const [openTha, setOpenTha] = React.useState(false);
   const [openThu, setOpenThu] = React.useState(false);
@@ -54,34 +83,11 @@ const HoatDongKhaiThacThuySanView = () => {
     }
   }, [listForm]);
 
-  React.useEffect(() => {
-    console.log('textInput', textInput);
-  }, [textInput]);
 
-  const _renderTotal = () => {
-    const input = [];
-
-    for (let i = 0; i < 9; i++) {
-      const isEditable = i == 0;
-      input.push(
-        <View key={i} style={[styles.flex1, styles.mr16]}>
-          <TextInput
-            placeholder="Tổng"
-            editable={false}
-            style={[styles.input]}
-            onChangeText={value =>
-              handleInputChangeTenLoaiThuySan(listForm.length, value)
-            }
-          />
-        </View>,
-      );
-    }
-    return input;
-  };
   const _renderInputSpeciesName = () => {
     const input = [];
 
-    for (let i = 0; i < 9; i++) {
+    for (let i = 0; i < 10; i++) {
       const isEditable = i == 0;
       input.push(
         <View key={i} style={[styles.flex1, styles.mr16]}>
@@ -89,9 +95,7 @@ const HoatDongKhaiThacThuySanView = () => {
             placeholder="Loài"
             editable={!isEditable}
             style={[styles.input]}
-            onChangeText={value =>
-              handleInputChangeTenLoaiThuySan(listForm.length, value)
-            }
+            onChangeText={value => handleInputChangeTenLoaiThuySan(i, value)}
           />
         </View>,
       );
@@ -99,22 +103,62 @@ const HoatDongKhaiThacThuySanView = () => {
     return input;
   };
 
+  const calculateSumOfEachIndex = () => {
+    const totalSumByIndex = Array.from(
+      {length: loaiCa[0].soLuong.length},
+      () => 0,
+    );
+
+    loaiCa.forEach(item => {
+      item.soLuong.forEach((val, i) => {
+        totalSumByIndex[i] += parseInt(val);
+      });
+    });
+
+    return totalSumByIndex.map((sum, index) => (
+      <View
+        key={index}
+        style={[
+          styles.box,
+          index % 2 === 0 ? {backgroundColor: '#9dc5c3'} : null,
+        ]}>
+        <Text style={styles.textTotal}>{`Mẻ ${index + 1}: ${sum} Kg`}</Text>
+      </View>
+    ));
+  };
+
+  const calculateSumOfSoLuongForEachObject = () => {
+    return loaiCa.map(item => {
+      const sum = item.soLuong.reduce((acc, val) => acc + parseInt(val), 0);
+      return (
+        <View
+          key={item.id}
+          style={[
+            styles.box,
+            item.id % 2 === 0 ? {backgroundColor: '#9dc5c3'} : null,
+          ]}>
+          <Text style={styles.textTotal}>{`${item.name}: ${sum} Kg`}</Text>
+        </View>
+      );
+    });
+  };
+
   const _renderInputSpecies = index => {
     const inputs = [];
 
-    for (let i = 0; i < 9; i++) {
+    for (let i = 0; i < 10; i++) {
       const isEditable = i == 0;
-      const placeholderName = `Mẻ ${index}`;
+
+      placeholder = `Mẻ ${index}`;
+
       inputs.push(
         <View key={i} style={[styles.flex1, styles.mr16]}>
           <TextInput
-            placeholder={isEditable ? placeholderName : 'Kg'}
+            placeholder={isEditable ? placeholder : 'Kg'}
             keyboardType="numeric"
             style={[styles.input]}
             editable={!isEditable}
-            onChangeText={value =>
-              handleInputChangeTenLoaiThuySan(listForm.length, value)
-            }
+            onChangeText={value => handleInputChangeKhoiLuong(index, i, value)}
           />
         </View>,
       );
@@ -148,7 +192,7 @@ const HoatDongKhaiThacThuySanView = () => {
           <Text style={styles.title}>Thời điểm thả và vị trí thả (KĐ/VĐ) </Text>
           <View style={[styles.flexRow, styles.flex1]}>
             <Text style={styles.textValue}>Ngày, tháng: </Text>
-            <Text style={styles.textValue}>{dateNowFormat(dateTha)}</Text>
+            <Text style={styles.textValue}>{textInput[0].timeTha}</Text>
             <TouchableOpacity
               style={[styles.ml8, styles.mr8]}
               onPress={() => {
@@ -166,7 +210,7 @@ const HoatDongKhaiThacThuySanView = () => {
               <Text style={styles.textValue}>Vĩ Độ</Text>
               <TextInput
                 onChangeText={value =>
-                  handleInputChangeSoDangKyTau(listForm.length, value)
+                  handleInputChangeViDo(listForm.length, value)
                 }
                 style={[styles.input]}
               />
@@ -176,7 +220,7 @@ const HoatDongKhaiThacThuySanView = () => {
               <TextInput
                 style={[styles.input]}
                 onChangeText={value =>
-                  handleInputChangeSoGiayPhepKhaiThac(listForm.length, value)
+                  handleInputChangeKinhDo(listForm.length, value)
                 }
               />
             </View>
@@ -187,7 +231,7 @@ const HoatDongKhaiThacThuySanView = () => {
           <Text style={styles.title}>Thời điểm thu và vị trí thu (KĐ/VĐ) </Text>
           <View style={[styles.flexRow, styles.flex1]}>
             <Text style={styles.textValue}>Ngày, tháng: </Text>
-            <Text style={styles.textValue}>{dateNowFormat(dateThu)}</Text>
+            <Text style={styles.textValue}>{dateThu.toLocaleDateString()}</Text>
             <TouchableOpacity
               style={[styles.ml8, styles.mr8]}
               onPress={() => {
@@ -243,30 +287,32 @@ const HoatDongKhaiThacThuySanView = () => {
     const newListForm = [...listForm, <_renderForm key={listForm.length} />];
     setListForm(newListForm);
     textInput.push({
-      shipRegisterNumber: '',
-      miningLicenseNumbewr: '',
-      latitude: '',
-      longitude: '',
-      speciesName: '',
-      weight: 0,
+      timeTha: '',
+      viDoTha: '',
+      kinhDoTha: '',
+      timeThu: '',
+      viDoTha: '',
+      kinhDoThu: '',
     });
+
+    const newArray = loaiCa.map(item => ({
+      ...item,
+      soLuong: [...item.soLuong, '0'],
+    }));
+
+    setLoaiCa(newArray);
+
     setTextInput(textInput);
   };
 
   const handleDeleteRow = () => {
-    setListForm(listForm.pop());
-  };
-
-  const handleInputChangeSoDangKyTau = (index, value) => {
-    const list = [...textInput];
-    list[index].shipRegisterNumber = value;
-    setTextInput(list);
-  };
-
-  const handleInputChangeSoGiayPhepKhaiThac = (index, value) => {
-    const list = [...textInput];
-    list[index].miningLicenseNumbewr = value;
-    setTextInput(list);
+    const newListForm = [...listForm];
+    if (newListForm.length > 1) {
+      newListForm.pop();
+      setListForm(newListForm);
+      textInput.pop();
+      setTextInput(textInput);
+    }
   };
 
   const handleInputChangeViDo = (index, value) => {
@@ -282,15 +328,30 @@ const HoatDongKhaiThacThuySanView = () => {
   };
 
   const handleInputChangeTenLoaiThuySan = (index, value) => {
-    // const list = [...textInput];
-    // list[index].speciesName = value;
-    // setTextInput(list);
+    const list = [...loaiCa];
+    let existingItemIndex = list.findIndex(item => item.id == index);
+    if (index == 9) {
+      existingItemIndex = 9;
+    }
+    console.log(existingItemIndex, index);
+    if (existingItemIndex !== -1) {
+      list[existingItemIndex - 1].name = value;
+    } else {
+    }
+    console.log('LIST: ', list);
+    setLoaiCa(list);
   };
 
-  const handleInputChangeKhoiLuong = (index, value) => {
-    const list = [...textInput];
-    list[index].weight = value;
-    setTextInput(list);
+  const handleInputChangeKhoiLuong = (indexRow, indexSpecies, value) => {
+    const list = [...loaiCa];
+    let existingItemIndex = list.findIndex(item => item.id == indexSpecies);
+    if (indexSpecies == 9) {
+      existingItemIndex = 9;
+    }
+    if (existingItemIndex !== -1) {
+      list[existingItemIndex - 1].soLuong[indexRow - 1] = value;
+    }
+    setLoaiCa(list);
   };
 
   return (
@@ -312,42 +373,44 @@ const HoatDongKhaiThacThuySanView = () => {
             {_renderInputSpeciesName()}
           </View>
           {_renderTableNet()}
-          <View style={{flexDirection: 'row'}}>{_renderTotal()}</View>
 
-          {/* <View style={[styles.flexRowSpecies, {width: '100%'}]}>
-            <View style={{flexDirection: 'row'}}>
-              {_renderInputSpeciesName()}
-            </View>
-            <View style={{flexDirection: 'row'}}>{_renderInputSpecies()}</View>
-          </View> */}
+          <View style={{paddingTop: 20}}>
+            <FlatList
+              data={calculateSumOfSoLuongForEachObject()} 
+              renderItem={({item}) => item}
+              keyExtractor={(item, index) => index.toString()}
+              horizontal={true}
+              style={{paddingBottom: 10}}
+              ItemSeparatorComponent={() => <View style={styles.separator} />}
+            />
 
-          {/* <Text>Tổng mẻ thứ {listForm.length + 1}: </Text> */}
+            <FlatList
+              data={calculateSumOfEachIndex()} 
+              renderItem={({item}) => item}
+              keyExtractor={(item, index) => index.toString()}
+              horizontal={true}
+              ItemSeparatorComponent={() => <View style={styles.separator} />}
+              style={{paddingBottom: 10}}
+            />
+          </View>
         </View>
       </ScrollView>
       <DatePicker
         modal
-        mode="datetime"
+        mode="date"
         locale="en"
         open={openTha}
         date={dateTha}
-        onConfirm={date => {
-          setOpenTha(false);
-          setDateTha(date);
-        }}
+        onConfirm={handleDateChangeTha}
         onCancel={() => {
           setOpenTha(false);
         }}
       />
       <DatePicker
         modal
-        mode="datetime"
-        locale="en"
         open={openThu}
         date={dateThu}
-        onConfirm={date => {
-          setOpenThu(false);
-          setDateThu(date);
-        }}
+        onConfirm={handleDateChangeThu} 
         onCancel={() => {
           setOpenThu(false);
         }}
