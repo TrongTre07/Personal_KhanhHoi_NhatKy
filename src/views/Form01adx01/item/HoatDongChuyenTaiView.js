@@ -14,8 +14,17 @@ import {styles} from './itemHoatDongChuyenTai/style.js';
 const HoatDongChuyenTaiView = () => {
   const [listForm, setListForm] = React.useState([]);
 
+  const dateNow = new Date();
+  const dateNowFormat =
+    dateNow.getDate() +
+    '/' +
+    (dateNow.getMonth() + 1) +
+    '/' +
+    dateNow.getFullYear();
+
   const [textInput, setTextInput] = React.useState([
     {
+      date: dateNowFormat,
       shipRegisterNumber: '',
       miningLicenseNumbewr: '',
       latitude: '',
@@ -30,9 +39,6 @@ const HoatDongChuyenTaiView = () => {
   // date picker
   const [date, setDate] = React.useState(new Date());
 
-  const dateNowFormat =
-    date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear();
-
   const [open, setOpen] = React.useState(false);
 
   React.useEffect(() => {
@@ -41,6 +47,10 @@ const HoatDongChuyenTaiView = () => {
       setListForm(newListForm);
     }
   }, [listForm]);
+
+  React.useEffect(() => {
+    console.log(textInput);
+  }, [textInput]);
 
   const _renderForm = () => {
     return (
@@ -51,7 +61,9 @@ const HoatDongChuyenTaiView = () => {
           </Text>
           <View style={[styles.flexRow, styles.flex1]}>
             <Text style={styles.textValue}>Ngày, tháng: </Text>
-            <Text style={styles.textValue}>{dateNowFormat}</Text>
+            <Text style={styles.textValue}>
+              {textInput[listForm.length].date}
+            </Text>
             <TouchableOpacity
               style={[styles.ml8, styles.mr8]}
               onPress={() => {
@@ -138,6 +150,24 @@ const HoatDongChuyenTaiView = () => {
             </View>
           </View>
         </View>
+
+        <DatePicker
+          modal
+          mode="date"
+          locale="en"
+          open={open}
+          date={date}
+          onConfirm={date => {
+            setOpen(false);
+            setDate(date);
+            const list = [...textInput];
+            list[listForm.length].date = date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear();
+            setTextInput(list);
+          }}
+          onCancel={() => {
+            setOpen(false);
+          }}
+        />
       </View>
     );
   };
@@ -160,6 +190,7 @@ const HoatDongChuyenTaiView = () => {
     const newListForm = [...listForm, <_renderForm key={listForm.length} />];
     setListForm(newListForm);
     textInput.push({
+      date: dateNowFormat,
       shipRegisterNumber: '',
       miningLicenseNumbewr: '',
       latitude: '',
@@ -168,6 +199,9 @@ const HoatDongChuyenTaiView = () => {
       weight: 0,
     });
     setTextInput(textInput);
+    console.log(textInput);
+    // setDate([...date, new Date()]);
+    // setOpen([...open, false]);
   };
 
   const handleDeleteRow = () => {
@@ -222,6 +256,13 @@ const HoatDongChuyenTaiView = () => {
     setSumOfWeight(sum);
   };
 
+  const getDateNow = index => {
+    const date = textInput[index].date;
+    return (
+      date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear()
+    );
+  };
+
   return (
     <View style={{flex: 1, backgroundColor: '#fff'}}>
       <ScrollView>
@@ -233,24 +274,12 @@ const HoatDongChuyenTaiView = () => {
         {listForm.map(form => form)}
 
         {/* sum of weight */}
-        <Text style={[styles.title, {marginTop: 16}]}>Tổng khối lượng: {sumOfWeight} kg</Text>
+        <Text style={[styles.title, {marginTop: 16}]}>
+          Tổng khối lượng: {sumOfWeight} kg
+        </Text>
         {/* action */}
         {_renderActionView()}
       </ScrollView>
-      <DatePicker
-        modal
-        mode="date"
-        locale="en"
-        open={open}
-        date={date}
-        onConfirm={date => {
-          setOpen(false);
-          setDate(date);
-        }}
-        onCancel={() => {
-          setOpen(false);
-        }}
-      />
     </View>
   );
 };
