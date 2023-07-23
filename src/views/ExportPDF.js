@@ -839,14 +839,14 @@ function GenaratePDF() {
             const options = {
                 html,
                 fileName: `invoice_${count}`,
-                directory: 'Downloader',
+                directory: 'KHANHHOI',
             };
             const file = await RNHTMLtoPDF.convert(options);
-            Alert.alert('Success', `PDF saved to ${file.filePath}`);
+            Alert.alert('Thành công', `PDF lưu tại ${file.filePath}`);
             setCount(count + 1);
             setIsLoading(false);
         } catch (error) {
-            Alert.alert('Error', error.message);
+            Alert.alert('Lỗi', error.message);
         }
     };
 
