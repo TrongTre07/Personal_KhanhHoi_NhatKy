@@ -146,7 +146,7 @@ const Table1 = ({
             style={[styles.input, styles.text]}
           />
           <Pressable onPress={() => setOpen(true)}>
-            <Image style={{ width: 16, height: 16 }} source={require('../../img/iconDate.jpg')} />
+            <Image style={{ width: 16, height: 16 }} source={require('../../../../assets/images/calendar.png')} />
           </Pressable>
         </View>
       </View>

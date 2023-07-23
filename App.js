@@ -1,27 +1,32 @@
-import {ScrollView, StyleSheet, Text, View} from 'react-native';
-import React from 'react';
-import TestSqlite from './src/views/TestSqlite';
-import HeaderView from './src/views/HeaderView';
-import TestLocation from './src/views/TestLocation';
-import UserContext from './src/contexts/UserContext';
-import TongCucThuySanView from './src/views/TongCucThuySanView';
-import HoatDongChuyenTaiView from './src/views/HoatDongChuyenTaiView';
-import HoatDongKhaiThacThuySanView from './src/views/HoatDongKhaiThacThuySanView';
+import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import 'react-native-gesture-handler';
+import React, { useContext } from 'react';
+import { UserContext, UserContextProvider } from './src/contexts/UserContext';
+import { NavigationContainer } from '@react-navigation/native';
 import Login from './src/views/login/Login';
+import 'react-native-gesture-handler';
+import Form01adx01 from './src/views/Form01adx01/Form01adx01';
+import AppNavigation from './src/views/Navigations/AppNavigation';
+
+
+const Abc = ()=>{
+  const { isLoggedIn } = useContext(UserContext);
+
+  return (
+  <NavigationContainer>
+  {isLoggedIn ? <Login /> : <Form01adx01/>}
+</NavigationContainer>)
+}
 
 const App = () => {
+
   return (
-    <View style={styles.container}>
-      <ScrollView
-        contentContainerStyle={{flexGrow: 1}}
-        showsVerticalScrollIndicator={false}>
-        {/* <HeaderView />
-        <TongCucThuySanView />
-        <HoatDongKhaiThacThuySanView />
-        <HoatDongChuyenTaiView /> */}
-        <Login/>
-      </ScrollView>
-    </View>
+    <UserContextProvider>
+      <View style={styles.container}>
+        <Abc/>
+      </View>
+    </UserContextProvider>
+
   );
 };
 
@@ -30,7 +35,8 @@ export default App;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 12,
+    paddingHorizontal: 12,
+    paddingTop: 12,
     backgroundColor: '#fff',
   },
 });

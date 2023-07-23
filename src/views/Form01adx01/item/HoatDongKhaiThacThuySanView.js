@@ -157,7 +157,7 @@ const HoatDongKhaiThacThuySanView = () => {
               <Image
                 width={24}
                 height={24}
-                source={require('../assets/images/calendar.png')}
+                source={require('../../../assets/images/calendar.png')}
               />
             </TouchableOpacity>
           </View>
@@ -196,7 +196,7 @@ const HoatDongKhaiThacThuySanView = () => {
               <Image
                 width={24}
                 height={24}
-                source={require('../assets/images/calendar.png')}
+                source={require('../../../assets/images/calendar.png')}
               />
             </TouchableOpacity>
           </View>

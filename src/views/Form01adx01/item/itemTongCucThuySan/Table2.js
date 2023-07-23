@@ -17,7 +17,7 @@ const Table2 = ({
       jobOther
     });
 
-    console.log(inputValue)
+    // console.log(inputValue)
 
 
   return (

@@ -50,7 +50,7 @@ const Table3 = ({
                 break;
         }
     };
-    console.log(inputValue)
+    // console.log(inputValue)
 
     return (
 
