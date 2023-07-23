@@ -18,28 +18,33 @@ const styles = StyleSheet.create({
     btn:{
         margin:'5%',
         backgroundColor:'#0066FF',
-        width:'100%',
+        // width:'100%',
         // alignItems:'center',
         // justifyContent:'center',
         borderRadius:8
 
     },
+    box:{
+        backgroundColor:'#fff',
+        shadowColor: 'black',
+        shadowOpacity: 0.2,
+        shadowRadius: 10,
+        elevation: 5,
+        padding:12
+    },
+
 
     container: {
         flex: 1,
         padding: 8,
         backgroundColor: '#fff',
-        margin:'15%',
-        alignItems:'center',
+        marginHorizontal:'15%',
         justifyContent:'center',
+        // alignItems:'center',
         padding:20,
         // borderWidth:1,
         // borderRadius:8,
-        shadowColor: 'black',
-        shadowOpacity: 0.2,
-        shadowOffset: { width: 0, height: 0 },
-        shadowRadius: 7,
-        elevation: 4,
+
     },
 })
 export default styles
