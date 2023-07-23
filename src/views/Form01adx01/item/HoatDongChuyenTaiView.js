@@ -11,7 +11,7 @@ import {
 import React, {useState} from 'react';
 import DatePicker from 'react-native-date-picker';
 import {styles} from './itemHoatDongChuyenTai/style.js';
-const HoatDongChuyenTaiView = () => {
+const HoatDongChuyenTaiView = ({textInput, setTextInput}) => {
   const [listForm, setListForm] = React.useState([]);
 
   const dateNow = new Date();
@@ -22,17 +22,7 @@ const HoatDongChuyenTaiView = () => {
     '/' +
     dateNow.getFullYear();
 
-  const [textInput, setTextInput] = React.useState([
-    {
-      date: dateNowFormat,
-      shipRegisterNumber: '',
-      miningLicenseNumbewr: '',
-      latitude: '',
-      longitude: '',
-      speciesName: '',
-      weight: '',
-    },
-  ]);
+  
 
   const [sumOfWeight, setSumOfWeight] = React.useState(0);
 
@@ -48,9 +38,7 @@ const HoatDongChuyenTaiView = () => {
     }
   }, [listForm]);
 
-  React.useEffect(() => {
-    console.log(textInput);
-  }, [textInput]);
+
 
   const _renderForm = () => {
     return (
