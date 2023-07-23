@@ -1,33 +1,57 @@
-import React, {createContext, useState} from 'react';
+// LoginContext.js
+import React, {createContext, useEffect, useState} from 'react';
+import instance from '../axios/instance';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export const UserContext = createContext();
+const UserContext = createContext();
 
-export const UserContextProvider = ({children}) => {
+const UserProvider = ({children}) => {
+  const [data, setData] = useState([]);
+  const [token, setToken] = useState();
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
 
-  const [user, setUser] = useState(null);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const login = async (username, password) => {
+    // user: 'abc' pass: '123456'
+    try {
+      const payload = {userName_: username, pass_: password}; 
 
-  // useEffect(() => {
-  //   const checkLoginStatus = async () => {
-  //     const savedLoginStatus = await AsyncStorage.getItem('isLoggedIn');
-  //     const savedUser = await AsyncStorage.getItem('user');
-  //     setIsLoggedIn(savedLoginStatus === 'true');
-  //     setUser(JSON.parse(savedUser));
-  //   };
+      const response = await instance.post('home/login', payload);
+      await AsyncStorage.setItem('token', response.data)
+      console.log("ASYNC: ", await AsyncStorage.getItem('token'))
+      console.log('RES: ', response.data);
+      if(response.data != null){
+        setIsLoggedIn(true)
+      }
+    } catch (error) {
+      console.error('Error fetching data or saving token:', error);
+    }
+  };
 
-  //   checkLoginStatus();
-  // }, []);
+  const postForm = async (obj) =>{
+    try {
+      const payload = obj;
+      console.log("ASYNC POST: ", await AsyncStorage.getItem('token'))
+      
+      const response = await instance.post('api/FormAppendix/0101/create', payload)      
+      console.log("RES: ", response.data)
+    } catch (error) {
+      console.log("POST ERROR: ", error)
+    }
+  }
 
-
-  const [something, setSomething] = useState();
-
-  const contextValue = {
-    something,
-    isLoggedIn
+  const contextValues = {
+    isLoggedIn,
+    login,
+    token,
+    setToken,
+    postForm
   };
 
   return (
-    <UserContext.Provider value={contextValue}>{children}</UserContext.Provider>
+    <UserContext.Provider value={contextValues}>
+      {children}
+    </UserContext.Provider>
   );
 };
 
+export {UserContext, UserProvider};

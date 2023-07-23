@@ -5,13 +5,28 @@ import {
   StyleSheet,
   TouchableOpacity,
 } from 'react-native';
-import React from 'react';
+import React, {useContext} from 'react';
 import HeaderView from './item/HeaderView';
 import TongCucThuySanView from './item/TongCucThuySanView';
 import HoatDongKhaiThacThuySanView from './item/HoatDongKhaiThacThuySanView';
 import HoatDongChuyenTaiView from './item/HoatDongChuyenTaiView';
+import {FormContext} from '../../contexts/FormContext';
+import { UserContext } from '../../contexts/UserContext';
 
 const Form01adx01 = () => {
+  const {
+    thuMua,
+    setThuMua,
+    thongTinTau,
+    setThongTinTau,
+    khaiThac,
+    setKhaiThac,
+  } = useContext(FormContext);
+
+  const  {postForm} = useContext(UserContext)
+
+//===
+
   const dateNow = new Date();
   const dateNowFormat =
     dateNow.getDate() +
@@ -44,13 +59,13 @@ const Form01adx01 = () => {
       },
     ]);
 
-    const [inputLoaiCa, setInputLoaiCa] = React.useState([{
-      
-    }])
+  const [inputLoaiCa, setInputLoaiCa] = React.useState([{}]);
 
   React.useEffect(() => {
     console.log(inputHoatDongChuyenTai);
   }, [inputHoatDongChuyenTai]);
+
+///====
 
   const _renderActionView = () => {
     return (
@@ -88,11 +103,19 @@ const Form01adx01 = () => {
   };
 
   const handleDownloadForm = () => {
-    console.log('Download');
+    postForm(handleFormatObject());
   };
 
   const handleExportPDF = () => {
     console.log('Export');
+  };
+
+  const handleFormatObject = () => {
+    return {
+      ...thongTinTau,
+      ...khaiThac,
+      ...thuMua,
+    };
   };
 
   return (
