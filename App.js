@@ -7,6 +7,7 @@ import Login from './src/views/login/Login';
 import 'react-native-gesture-handler';
 import Form01adx01 from './src/views/Form01adx01/Form01adx01';
 import AppNavigation from './src/views/Navigations/AppNavigation';
+import Menu from './src/views/Home/Menu';
 
 
 const Abc = ()=>{
@@ -14,7 +15,7 @@ const Abc = ()=>{
 
   return (
   <NavigationContainer>
-  {isLoggedIn ? <Login /> : <Form01adx01/>}
+  {isLoggedIn ? <Login /> : < AppNavigation/>}
 </NavigationContainer>)
 }
 
@@ -23,7 +24,7 @@ const App = () => {
   return (
     <UserContextProvider>
       <View style={styles.container}>
-        <Abc/>
+        <Abc />
       </View>
     </UserContextProvider>
 
