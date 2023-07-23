@@ -17,14 +17,14 @@ const HoatDongKhaiThacThuySanView = () => {
   const [dateTha, setDateTha] = React.useState(new Date());
   const [dateThu, setDateThu] = React.useState(new Date());
   const [listForm, setListForm] = React.useState([]);
-  const [tableNet, setTableNet] = useState([]);
+  const [currentIndex, setCurrentIndex] = useState('0');
   const [textInput, setTextInput] = React.useState([
     {
       timeTha: '',
       viDoTha: '',
       kinhDoTha: '',
       timeThu: '',
-      viDoTha: '',
+      viDoThu: '',
       kinhDoThu: '',
     },
   ]);
@@ -44,19 +44,30 @@ const HoatDongKhaiThacThuySanView = () => {
   const handleDateChangeTha = newDate => {
     console.log(newDate);
     const newInput = [...textInput];
-    newInput[0].timeTha = newDate.toLocaleDateString();
-    console.log("NEW ", newInput)
-    setTextInput(newInput)
-    setOpenTha(false)
+    newInput[currentIndex].timeTha = newDate.toLocaleDateString();
+    console.log('NEW ', newInput);
+    setTextInput(newInput);
+    setOpenTha(false);
   };
   const handleDateChangeThu = newDate => {
-  
-    setDateThu(newDate);
-    console.log("DATE: ", newDate)
+    console.log(newDate);
+    const newInput = [...textInput];
+    newInput[currentIndex].timeThu = newDate.toLocaleDateString();
+    console.log('NEW ', newInput);
+    setTextInput(newInput);
+    setOpenThu(false);
+  };
+
+  const handleOpenDateTha = index => {
+    setCurrentIndex(index);
+    setOpenTha(true);
+  };
+  const handleOpenDateThu = index => {
+    setCurrentIndex(index);
+    setOpenThu(true);
   };
 
   // date picker
-
 
   const formatDate = date => {
     const day = date.getDate();
@@ -82,7 +93,6 @@ const HoatDongKhaiThacThuySanView = () => {
       setListForm(newListForm);
     }
   }, [listForm]);
-
 
   const _renderInputSpeciesName = () => {
     const input = [];
@@ -179,12 +189,12 @@ const HoatDongKhaiThacThuySanView = () => {
     return inputs;
   };
 
-  const _renderForm = () => {
+  const _renderForm = index => {
     return (
       <View style={styles.form}>
         <View style={[styles.view1, styles.flexRow, {width: '100%'}]}>
           <Text style={[styles.textValue, styles.flex1, {fontWeight: 'bold'}]}>
-            Mẻ thứ: {listForm.length + 1}
+            Mẻ thứ: {listForm.length}
           </Text>
         </View>
 
@@ -192,11 +202,11 @@ const HoatDongKhaiThacThuySanView = () => {
           <Text style={styles.title}>Thời điểm thả và vị trí thả (KĐ/VĐ) </Text>
           <View style={[styles.flexRow, styles.flex1]}>
             <Text style={styles.textValue}>Ngày, tháng: </Text>
-            <Text style={styles.textValue}>{textInput[0].timeTha}</Text>
+            <Text style={styles.textValue}>{textInput[index].timeTha}</Text>
             <TouchableOpacity
               style={[styles.ml8, styles.mr8]}
               onPress={() => {
-                setOpenTha(true);
+                handleOpenDateTha(index);
               }}>
               <Image
                 width={24}
@@ -209,9 +219,8 @@ const HoatDongKhaiThacThuySanView = () => {
             <View style={[styles.flex1, styles.mr16]}>
               <Text style={styles.textValue}>Vĩ Độ</Text>
               <TextInput
-                onChangeText={value =>
-                  handleInputChangeViDo(listForm.length, value)
-                }
+                keyboardType="numeric"
+                onChangeText={value => handleInputChangeViDoTha(index, value)}
                 style={[styles.input]}
               />
             </View>
@@ -219,9 +228,8 @@ const HoatDongKhaiThacThuySanView = () => {
               <Text style={styles.textValue}>Kinh độ</Text>
               <TextInput
                 style={[styles.input]}
-                onChangeText={value =>
-                  handleInputChangeKinhDo(listForm.length, value)
-                }
+                keyboardType="numeric"
+                onChangeText={value => handleInputChangeKinhDoTha(index, value)}
               />
             </View>
           </View>
@@ -231,11 +239,11 @@ const HoatDongKhaiThacThuySanView = () => {
           <Text style={styles.title}>Thời điểm thu và vị trí thu (KĐ/VĐ) </Text>
           <View style={[styles.flexRow, styles.flex1]}>
             <Text style={styles.textValue}>Ngày, tháng: </Text>
-            <Text style={styles.textValue}>{dateThu.toLocaleDateString()}</Text>
+            <Text style={styles.textValue}>{textInput[index].timeThu}</Text>
             <TouchableOpacity
               style={[styles.ml8, styles.mr8]}
               onPress={() => {
-                setOpenThu(true);
+                handleOpenDateThu(index);
               }}>
               <Image
                 width={24}
@@ -248,9 +256,8 @@ const HoatDongKhaiThacThuySanView = () => {
             <View style={[styles.flex1, styles.mr16]}>
               <Text style={styles.textValue}>Vĩ Độ</Text>
               <TextInput
-                onChangeText={value =>
-                  handleInputChangeSoDangKyTau(listForm.length, value)
-                }
+                onChangeText={value => handleInputChangeViDoThu(index, value)}
+                keyboardType="numeric"
                 style={[styles.input]}
               />
             </View>
@@ -258,9 +265,8 @@ const HoatDongKhaiThacThuySanView = () => {
               <Text style={styles.textValue}>Kinh độ</Text>
               <TextInput
                 style={[styles.input]}
-                onChangeText={value =>
-                  handleInputChangeSoGiayPhepKhaiThac(listForm.length, value)
-                }
+                keyboardType="numeric"
+                onChangeText={value => handleInputChangeKinhDoThu(index, value)}
               />
             </View>
           </View>
@@ -315,15 +321,26 @@ const HoatDongKhaiThacThuySanView = () => {
     }
   };
 
-  const handleInputChangeViDo = (index, value) => {
+  const handleInputChangeViDoTha = (index, value) => {
     const list = [...textInput];
-    list[index].latitude = value;
+    list[index].viDoTha = value;
     setTextInput(list);
   };
 
-  const handleInputChangeKinhDo = (index, value) => {
+  const handleInputChangeKinhDoTha = (index, value) => {
     const list = [...textInput];
-    list[index].longitude = value;
+    list[index].kinhDoTha = value;
+    setTextInput(list);
+  };
+  const handleInputChangeViDoThu = (index, value) => {
+    const list = [...textInput];
+    list[index].viDoThu = value;
+    setTextInput(list);
+  };
+
+  const handleInputChangeKinhDoThu = (index, value) => {
+    const list = [...textInput];
+    list[index].kinhDoThu = value;
     setTextInput(list);
   };
 
@@ -361,7 +378,9 @@ const HoatDongKhaiThacThuySanView = () => {
           I. THÔNG TIN VỀ HOẠT ĐỘNG KHAI THÁC THỦY SẢN
         </Text>
 
-        {listForm.map(form => form)}
+        {listForm.map((item, index) => (
+          <React.Fragment key={index}>{_renderForm(index)}</React.Fragment>
+        ))}
         {_renderActionView()}
 
         {/* Table Net */}
@@ -376,7 +395,7 @@ const HoatDongKhaiThacThuySanView = () => {
 
           <View style={{paddingTop: 20}}>
             <FlatList
-              data={calculateSumOfSoLuongForEachObject()} 
+              data={calculateSumOfSoLuongForEachObject()}
               renderItem={({item}) => item}
               keyExtractor={(item, index) => index.toString()}
               horizontal={true}
@@ -385,7 +404,7 @@ const HoatDongKhaiThacThuySanView = () => {
             />
 
             <FlatList
-              data={calculateSumOfEachIndex()} 
+              data={calculateSumOfEachIndex()}
               renderItem={({item}) => item}
               keyExtractor={(item, index) => index.toString()}
               horizontal={true}
@@ -398,7 +417,6 @@ const HoatDongKhaiThacThuySanView = () => {
       <DatePicker
         modal
         mode="date"
-        locale="en"
         open={openTha}
         date={dateTha}
         onConfirm={handleDateChangeTha}
@@ -408,9 +426,10 @@ const HoatDongKhaiThacThuySanView = () => {
       />
       <DatePicker
         modal
+        mode="date"
         open={openThu}
         date={dateThu}
-        onConfirm={handleDateChangeThu} 
+        onConfirm={handleDateChangeThu}
         onCancel={() => {
           setOpenThu(false);
         }}
