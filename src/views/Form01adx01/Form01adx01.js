@@ -4,6 +4,7 @@ import {
   ScrollView,
   StyleSheet,
   TouchableOpacity,
+  ToastAndroid,
 } from 'react-native';
 import React, {useContext} from 'react';
 import HeaderView from './item/HeaderView';
@@ -12,7 +13,9 @@ import HoatDongKhaiThacThuySanView from './item/HoatDongKhaiThacThuySanView';
 import HoatDongChuyenTaiView from './item/HoatDongChuyenTaiView';
 import {FormContext} from '../../contexts/FormContext';
 import { UserContext } from '../../contexts/UserContext';
-
+import Storage from '../../utils/storage';
+import { useNetInfo } from '@react-native-community/netinfo';
+import { useNavigation } from '@react-navigation/native';
 const Form01adx01 = () => {
   const {
     thuMua,
@@ -24,6 +27,10 @@ const Form01adx01 = () => {
   } = useContext(FormContext);
 
   const  {postForm} = useContext(UserContext)
+
+  const netInfo = useNetInfo();
+  const navigation = useNavigation();
+  
 
 //===
 
@@ -61,9 +68,9 @@ const Form01adx01 = () => {
 
   const [inputLoaiCa, setInputLoaiCa] = React.useState([{}]);
 
-  React.useEffect(() => {
-    console.log(inputHoatDongChuyenTai);
-  }, [inputHoatDongChuyenTai]);
+  // React.useEffect(() => {
+  //   console.log(inputHoatDongChuyenTai);
+  // }, [inputHoatDongChuyenTai]);
 
 ///====
 
@@ -94,12 +101,39 @@ const Form01adx01 = () => {
     );
   };
 
-  const handleCreateForm = () => {
-    console.log('Create');
+  const handleCreateForm = async () => {
+
+    const isConnect = netInfo.isConnected;
+    if (!isConnect) {
+      const dataForm = handleFormatObject();
+      const result = await Storage.getItem('bieumau_array');
+
+      if (result !== null) {
+
+        const data = JSON.parse(result);
+        data.push(dataForm);
+        await Storage.setItem('bieumau_array', JSON.stringify(data));
+
+      } else {
+
+        const data = [];
+        data.push(dataForm);
+        await Storage.setItem('bieumau_array', JSON.stringify(data));
+
+      }
+    } 
+    else {
+      await postForm(handleFormatObject());
+    }
+
+    ToastAndroid.show('Tạo thành công', ToastAndroid.SHORT);
+    navigation.goBack();
+
+
+
   };
 
-  const handleSaveForm = () => {
-    console.log('Save');
+  const handleSaveForm = async () => {
   };
 
   const handleDownloadForm = () => {

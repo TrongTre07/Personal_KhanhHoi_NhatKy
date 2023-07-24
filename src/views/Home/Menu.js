@@ -1,7 +1,39 @@
 import { View, Text, Button, TouchableOpacity } from 'react-native'
 import React from 'react'
 import styles from './styles'
+import { useNetInfo } from '@react-native-community/netinfo'
+import Storage from '../../utils/storage'
+import { UserContext } from '../../contexts/UserContext'
 const Menu = ({ navigation }) => {
+
+    const netInfo = useNetInfo();
+
+    const {postForm} = React.useContext(UserContext);
+
+    // check neu co wifi thi post file o local len server
+    React.useEffect(() => {
+        if (netInfo.isConnected) {
+            autoPostForm();
+        }
+    }, [netInfo.isConnected]);
+
+    const autoPostForm = async () => {
+        const result = await Storage.getItem('bieumau_array');
+        if (result !== null) {
+            const data = JSON.parse(result);
+            console.log(data.length)
+            // data.map(async (item) => {
+            //     await postForm(item);
+            // });
+
+            // await Storage.removeItem('bieumau_array');
+
+        }
+    };
+
+        
+
+
     return (
         <View style={{ flex: 1, backgroundColor: '#fff' }} >
             <View style={styles.container}>
