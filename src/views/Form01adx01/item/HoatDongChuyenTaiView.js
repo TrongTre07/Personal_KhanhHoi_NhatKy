@@ -11,10 +11,12 @@ import {
 import React, {useState} from 'react';
 import DatePicker from 'react-native-date-picker';
 import {styles} from './itemHoatDongChuyenTai/style.js';
+import CustomDatePicker from './itemTongCucThuySan/CustomDatePicker.js';
 const HoatDongChuyenTaiView = ({textInput, setTextInput}) => {
   const [listForm, setListForm] = React.useState([]);
 
   const dateNow = new Date();
+
   const dateNowFormat =
     dateNow.getDate() +
     '/' +
@@ -22,14 +24,10 @@ const HoatDongChuyenTaiView = ({textInput, setTextInput}) => {
     '/' +
     dateNow.getFullYear();
 
-  
-
   const [sumOfWeight, setSumOfWeight] = React.useState(0);
 
   // date picker
-  const [date, setDate] = React.useState(new Date());
-
-  const [open, setOpen] = React.useState(false);
+  const [dateFormat, setDateFormat] = React.useState([dateNowFormat]);
 
   React.useEffect(() => {
     if (listForm.length === 0) {
@@ -37,7 +35,6 @@ const HoatDongChuyenTaiView = ({textInput, setTextInput}) => {
       setListForm(newListForm);
     }
   }, [listForm]);
-
 
 
   const _renderForm = () => {
@@ -49,20 +46,14 @@ const HoatDongChuyenTaiView = ({textInput, setTextInput}) => {
           </Text>
           <View style={[styles.flexRow, styles.flex1]}>
             <Text style={styles.textValue}>Ngày, tháng: </Text>
-            <Text style={styles.textValue}>
+            <Text key={textInput[listForm.length].date} style={[styles.textValue, styles.mr8]}>
               {textInput[listForm.length].date}
             </Text>
-            <TouchableOpacity
-              style={[styles.ml8, styles.mr8]}
-              onPress={() => {
-                setOpen(true);
-              }}>
-              <Image
-                width={24}
-                height={24}
-                source={require('../../../assets/images/calendar.png')}
-              />
-            </TouchableOpacity>
+            <CustomDatePicker value={textInput[listForm.length].date} onDateChange={(date) => {
+              const list = [...textInput];
+              list[listForm.length].date = date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear();
+              setTextInput(list);
+            }} />
           </View>
         </View>
 
@@ -138,24 +129,6 @@ const HoatDongChuyenTaiView = ({textInput, setTextInput}) => {
             </View>
           </View>
         </View>
-
-        <DatePicker
-          modal
-          mode="date"
-          locale="en"
-          open={open}
-          date={date}
-          onConfirm={date => {
-            setOpen(false);
-            setDate(date);
-            const list = [...textInput];
-            list[listForm.length].date = date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear();
-            setTextInput(list);
-          }}
-          onCancel={() => {
-            setOpen(false);
-          }}
-        />
       </View>
     );
   };
@@ -188,8 +161,8 @@ const HoatDongChuyenTaiView = ({textInput, setTextInput}) => {
     });
     setTextInput(textInput);
     console.log(textInput);
-    // setDate([...date, new Date()]);
-    // setOpen([...open, false]);
+
+    // setDateFormat([...dateFormat, dateNowFormat]);
   };
 
   const handleDeleteRow = () => {
