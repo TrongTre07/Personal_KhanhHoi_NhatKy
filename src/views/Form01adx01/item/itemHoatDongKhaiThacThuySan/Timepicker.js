@@ -1,13 +1,40 @@
-import {StyleSheet, Text, View} from 'react-native';
-import React, {useState} from 'react';
+import React, { useState, useEffect } from 'react';
+import { View, Pressable, Image } from 'react-native';
 import DatePicker from 'react-native-date-picker';
 
-const Timepicker = () => {
-  const [date, setDate] = useState(new Date());
+const CustomDatePicker = ({ value, onDateChange }) => {
+  const [open, setOpen] = useState(false);
+  const [dateValue, setDateValue] = useState(new Date());
 
-  return <DatePicker open={true} date={date} onDateChange={setDate} />;
+  useEffect(() => {
+    if (value) {
+      const parsedDate = value instanceof Date ? value : new Date(value);
+      if (!isNaN(parsedDate.getTime())) {
+        setDateValue(parsedDate);
+      }
+    }
+  }, [value]);
+
+  return (
+    <View>
+      {open && (
+        <DatePicker
+          modal
+          open={open}
+          date={dateValue}
+          onConfirm={(date) => {
+            setOpen(false);
+            setDateValue(date);
+            onDateChange(date);
+          }}
+          onCancel={() => setOpen(false)}
+        />
+      )}
+      <Pressable onPress={() => setOpen(true)}>
+        <Image style={{ width: 16, height: 16 }} source={require('../../../../assets/images/calendar.png')} />
+      </Pressable>
+    </View>
+  );
 };
 
-export default Timepicker;
-
-const styles = StyleSheet.create({});
+export default CustomDatePicker;

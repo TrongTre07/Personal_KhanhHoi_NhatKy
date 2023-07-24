@@ -10,6 +10,8 @@ import AppNavigation from './src/views/Navigations/AppNavigation';
 import Datepicker from './src/utils/Datepicker';
 import {FormProvider} from './src/contexts/FormContext';
 import Menu from './src/views/Home/Menu';
+import HoatDongChuyenTaiView from './src/views/Form01adx01/item/HoatDongChuyenTaiView';
+import TongCucThuySanView from './src/views/Form01adx01/item/TongCucThuySanView';
 
 const AppNav = () => {
   const {isLoggedIn} = useContext(UserContext);
@@ -25,7 +27,8 @@ const App = () => {
     <UserProvider>
       <FormProvider>
         <View style={styles.container}>
-          <AppNav />
+          {/* <AppNav /> */}
+          <Form01adx01/>
         </View>
       </FormProvider>
     </UserProvider>

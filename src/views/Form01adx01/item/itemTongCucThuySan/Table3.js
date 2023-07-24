@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import styles from './styles'
 // import DatePicker from 'react-native-date-picker'
 import CustomDatePicker from './CustomDatePicker';
+import { dateNowFormat } from './formatdate';
 
 const Table3 = ({
     changeNumber,
@@ -26,7 +27,7 @@ const Table3 = ({
                     ...inputValue,
                     departurePort: {
                         ...departurePort,
-                        date: date.getDate() + '/' + Number(date.getMonth() + 1) + '/' + date.getFullYear(),
+                        date: dateNowFormat(date),
                     },
                 });
                 break;
@@ -35,7 +36,7 @@ const Table3 = ({
                     ...inputValue,
                     arrivalPort: {
                         ...arrivalPort,
-                        date: date.getDate() + '/' + Number(date.getMonth() + 1) + '/' + date.getFullYear(),
+                        date: dateNowFormat(date),
                     },
                 });
                 break;
@@ -44,7 +45,7 @@ const Table3 = ({
                     ...inputValue,
                     diary: {
                         ...diary,
-                        date: date.getDate() + '/' + Number(date.getMonth() + 1) + '/' + date.getFullYear(),
+                        date: dateNowFormat(date),
                     },
                 });
                 break;

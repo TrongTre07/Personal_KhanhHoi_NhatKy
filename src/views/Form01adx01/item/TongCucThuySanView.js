@@ -57,7 +57,7 @@ var data= {
   longMaxShip: '10',
   sumEngine: '1000',
   numberSeafood:'100000',
-  dateSeafood: '20/2/2023',
+  dateSeafood: '20/02/2023',
   sideJob1:'công an',
   sideJob2:'câu cá',
   jobCau:{size:'100',number:'2'},
@@ -67,7 +67,7 @@ var data= {
   jobOther:"cong an, size 123",
   sideJob2:'câu cá',
   changeNumber:'23516',
-  departurePort:{text:'di',date:'21/1/2011'},
-  arrivalPort:{text:'ve',date:'11/2/2011'},
-  diary:{date:'11/3/2011',text:'abc123'}
+  departurePort:{text:'di',date:'21/01/2011'},
+  arrivalPort:{text:'ve',date:'11/02/2011'},
+  diary:{date:'11/03/2011',text:'abc123'}
 }
