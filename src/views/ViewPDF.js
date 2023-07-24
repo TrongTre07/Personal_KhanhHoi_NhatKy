@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
 const ViewPDF = () => { // Sử dụng functional component và nhận giá trị pdfPath từ props
 //   console.log('pdfPath', pdfPath);
 //   const source = { uri: pdfPath }; // Sử dụng đường dẫn từ props
-  const abc = { uri: 'content://com.android.externalstorage.documents/document/primary%3ADocuments%2FDownloader%2Finvoice_2.pdf' };  
+  const abc = { uri: '/storage/emulated/0/Documents/Download/invoice_2.pdf' };  
   return (
     <View style={styles.container}>
       <Pdf

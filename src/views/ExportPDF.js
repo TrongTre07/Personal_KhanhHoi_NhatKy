@@ -1,11 +1,36 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Alert, Pressable, StyleSheet, Text, View } from 'react-native';
+import { FormContext } from '../contexts/FormContext';
 import RNHTMLtoPDF from 'react-native-html-to-pdf';
 
 
-function GenaratePDF() {
+
+const GenaratePDF = () => {
+    const { thuMua, thongTinTau, khaiThac } = useContext(FormContext);
+
     const [isLoading, setIsLoading] = useState(false);
     const [count, setCount] = useState(1);
+    const [fillData, setFillData] = useState({
+        thongTinTau: thongTinTau,
+        khaiThac: khaiThac,
+        thuMua: thuMua,
+    });
+    console.log('thuMua', thuMua);
+    console.log('thongTinTau', thongTinTau);
+    console.log('khaiThac', khaiThac);
+    const thoiGianDi = new Date(fillData.thongTinTau.ngay_di);
+    const ngayDi = thoiGianDi.getDate().toString();
+    const thangDi = (thoiGianDi.getMonth() + 1).toString();
+    const namDi = thoiGianDi.getFullYear().toString();
+    const thoiGianVe = new Date(fillData.thongTinTau.ngay_ve);
+    const ngayVe = thoiGianVe.getDate().toString();
+    const thangVe = (thoiGianVe.getMonth() + 1).toString();
+    const namVe = thoiGianVe.getFullYear().toString();
+    const thoiGianNop = new Date(fillData.thongTinTau.ngaynop);
+    const ngayNop = thoiGianNop.getDate().toString();
+    const thangNop = (thoiGianNop.getMonth() + 1).toString();
+    const namNop = thoiGianNop.getFullYear().toString();
+
     const array = [
         {
             id: 1,
@@ -112,7 +137,7 @@ function GenaratePDF() {
     console.log("name", name)
     const tongsanluong = array.map(item => item.tong);
     console.log("tongsanluong", tongsanluong)
-    const totalsanluong= tongsanluong.reduce((a, b) => a + b, 0);
+    const totalsanluong = tongsanluong.reduce((a, b) => a + b, 0);
     console.log("totalsanluong", totalsanluong)
     const tongLoai = array.map(item => item.Loai.map(name => name.soLuong))
     console.log("tongLoai", tongLoai)
@@ -199,7 +224,7 @@ function GenaratePDF() {
     ]
 
 
-    console.log("thongTinChuyenTai", thongTinChuyenTai)
+     console.log("thongTinChuyenTai", thongTinChuyenTai)
     const generatePDF = async () => {
         setIsLoading(true);
         try {
@@ -429,32 +454,32 @@ function GenaratePDF() {
                             --------------------</p>
                         <p class="s1"
                             style="padding-top: 10pt; width: 100%;text-indent: -6pt;line-height: 152%;">
-                            NHẬT KÝ KHAI THÁC THỦY SẢN <br><span class="s2">(NGHỀ CHÍNH:${nhatKy.ngheChinh})</span></p>
+                            NHẬT KÝ KHAI THÁC THỦY SẢN <br><span class="s2">(NGHỀ CHÍNH:${fillData.thongTinTau.nghechinh})</span></p>
                             <div class="s2" style="padding-top: 5pt;   flex-direction: column; text-align: start;">
                                 <div style=" display: inline-block; width: 40%;">
-                                    1. Họ và tên chủ tàu: ${nhatKy.hoTenChuTau};
+                                    1. Họ và tên chủ tàu: ${fillData.thongTinTau.ten_chutau};
                                 </div>
                                 <div style=" display: inline-block;width: 40%;">
-                                    2. Họ và tên thuyền trưởng: ${nhatKy.hoTenThuyenTruong}
+                                    2. Họ và tên thuyền trưởng: ${fillData.thongTinTau.ten_thuyentruong}
                                 </div>
                             </div>
                             <div class="s2" style="padding-top: 5pt; flex-direction: column; text-align: start; text-indent: 0pt;">
-                                <div style="display: inline-block;width: auto;">3. Số đăng ký tàu: ${nhatKy.soDKtau};</div>
-                                <div style="display: inline-block;width: auto;">4. Chiều dài lớn nhất của tàu: ${nhatKy.chieuDaiLonNhat} m;</div>
-                                <div style="display: inline-block;width: auto;">5. Tổng công suất máy chính: ${nhatKy.congSuatMayChinh} CV</div>
+                                <div style="display: inline-block;width: auto;">3. Số đăng ký tàu: ${fillData.thongTinTau.tau_bs};</div>
+                                <div style="display: inline-block;width: auto;">4. Chiều dài lớn nhất của tàu: ${fillData.thongTinTau.tau_chieudailonnhat} m;</div>
+                                <div style="display: inline-block;width: auto;">5. Tổng công suất máy chính: ${fillData.thongTinTau.tau_tongcongsuatmaychinh} CV</div>
                             </div>
                             <div class="s2" style="padding-top: 5pt;text-indent: 0pt;   flex-direction: column; text-align: start;">
                                 <div style=" display: inline-block; width: 40%;">
-                                    6. Số giấy phép khai thác thủy sản: ${nhatKy.soGiayPhep} ;
+                                    6. Số giấy phép khai thác thủy sản: ${fillData.thongTinTau.gpkt_so} ;
                                 </div>
                                 <div style=" display: inline-block;width: 40%;">
-                                    Thời hạn đến: ${nhatKy.thoiHan}
+                                    Thời hạn đến: ${fillData.thongTinTau.gpkt_thoihan}
                                 </div>
                             </div>
                         
                             <div class="s2" style="padding-top: 5pt;text-indent: 0pt;   flex-direction: column; text-align: start;">
-                                <div style="display: inline-block;width: 40%;">7. Nghề phụ 1: ${nhatKy.nghePhu1};</div>
-                                <div style="display: inline-block;width: 40%;">8. Nghề phụ 2: ${nhatKy.nghePhu2}</div>
+                                <div style="display: inline-block;width: 40%;">7. Nghề phụ 1: ${fillData.thongTinTau.nghephu1};</div>
+                                <div style="display: inline-block;width: 40%;">8. Nghề phụ 2: ${fillData.thongTinTau.nghephu2}</div>
                             </div>
                         <ol id="l1">
                             <li nhatKy-list-text="9.">
@@ -464,8 +489,8 @@ function GenaratePDF() {
                                     <li nhatKy-list-text="a.">
                                         <div class="s2"
                                             style="padding-top: 5pt;text-indent: 0pt;   flex-direction: column; text-align: start;">
-                                            <div style="display: inline-block;width: 45%;">Nghề câu: Chiều dài toàn bộ vàng câu: ${nhatKy.ngheCau} m;</div>
-                                            <div style="display: inline-block;width: 45%;">Số lưỡi câu lưỡi: ${nhatKy.soLuoiCau} lưỡi</div>
+                                            <div style="display: inline-block;width: 45%;">Nghề câu: Chiều dài toàn bộ vàng câu: ${fillData.thongTinTau.ncau_chieudaivangcau} m;</div>
+                                            <div style="display: inline-block;width: 45%;">Số lưỡi câu lưỡi: ${fillData.thongTinTau.ncau_soluoicau} lưỡi</div>
                                             
                                             
                                         </div>
@@ -473,8 +498,8 @@ function GenaratePDF() {
                                     <li nhatKy-list-text="b.">
                                         <div class="s2"
                                             style="padding-top: 5pt;text-indent: 0pt;   flex-direction: column; text-align: start;">
-                                            <div style="display: inline-block;width: 45%;">Nghề lưới vây, rê: Chiều dài toàn bộ lưới: ${nhatKy.ngheLuoi} m;</div>
-                                            <div style="display: inline-block;width: 45%;">Chiều cao lưới: ${nhatKy.chieuCaoLuoi} m</div>
+                                            <div style="display: inline-block;width: 45%;">Nghề lưới vây, rê: Chiều dài toàn bộ lưới: ${fillData.thongTinTau.nluoivay_chieudailuoi} m;</div>
+                                            <div style="display: inline-block;width: 45%;">Chiều cao lưới: ${fillData.thongTinTau.nluoivay_chieucaoluoi} m</div>
                                              
                                             
                                         </div>
@@ -482,8 +507,8 @@ function GenaratePDF() {
                                     <li nhatKy-list-text="c.">
                                         <div class="s2"
                                             style="padding-top: 5pt;text-indent: 0pt;   flex-direction: column; text-align: start;">
-                                            <div style="display: inline-block;width: 45%;">Nghề lưới chụp: Chu vi miệng lưới ${nhatKy.ngheLuoiChup} m;</div>
-                                            <div style="display: inline-block;width: 45%;">Chiều cao lưới: ${nhatKy.chieuCaoLuoiChup} m</div>
+                                            <div style="display: inline-block;width: 45%;">Nghề lưới chụp: Chu vi miệng lưới ${fillData.thongTinTau.nluoichup_chuvimiengluoi} m;</div>
+                                            <div style="display: inline-block;width: 45%;">Chiều cao lưới: ${fillData.thongTinTau.nluoichup_chieucaoluoi} m</div>
                                              
                                             
                                         </div>
@@ -491,8 +516,8 @@ function GenaratePDF() {
                                     <li nhatKy-list-text="d.">
                                         <div class="s2"
                                             style="padding-top: 5pt;text-indent: 0pt;   flex-direction: column; text-align: start;">
-                                            <div style="display: inline-block;width: 45%;">Nghề lưới kéo: Chiều dài giềng phao ${nhatKy.ngheLuoiKeo} m;</div>
-                                            <div style="display: inline-block;width: 45%;">Chiều cao lưới: ${nhatKy.chieuCaoLuoiKeo} m</div>
+                                            <div style="display: inline-block;width: 45%;">Nghề lưới kéo: Chiều dài giềng phao ${fillData.thongTinTau.nluoikeo_chieudaigiengphao} m;</div>
+                                            <div style="display: inline-block;width: 45%;">Chiều cao lưới: ${fillData.thongTinTau.nluoikeo_chieudaitoanboluoi} m</div>
                                              
                                             
                                         </div>
@@ -500,7 +525,7 @@ function GenaratePDF() {
                                     <li nhatKy-list-text="e.">
                                         <p class="s2"
                                             style="padding-top: 5pt;text-indent: 0pt;   flex-direction: column; text-align: start;">
-                                            Nghề khác: ${nhatKy.ngheKhac}
+                                            Nghề khác: ${fillData.thongTinTau.nkhac}
                                         </p>
                                     </li>
                                 </ol>
@@ -512,18 +537,18 @@ function GenaratePDF() {
                     <td
                         style="width:204pt;border-top-style:solid;border-top-width:1pt;border-left-style:solid;border-left-width:1pt;border-bottom-style:solid;border-bottom-width:1pt;border-right-style:solid;border-right-width:1pt">
                         <p class="s1" style="padding-top: 4pt;padding-left: 5pt;text-indent: 0pt;text-align: left;">
-                            Chuyến biển số: ${nhatKy.bienSo} </p>
+                            Chuyến biển số: ${fillData.thongTinTau.chuyenbien_so} </p>
                         <p class="s3" style="padding-top: 7pt;padding-left: 5pt;text-indent: 0pt;text-align: left;">
                             (Ghi chuyến biển số mấy trong năm)</p>
                     </td>
                     <td
                         style="width:536pt;border-top-style:solid;border-top-width:1pt;border-left-style:solid;border-left-width:1pt;border-bottom-style:solid;border-bottom-width:1pt;border-right-style:solid;border-right-width:1pt">
                         <p class="s2" style="padding-top: 4pt;padding-left: 5pt;text-indent: 0pt;text-align: left;">
-                            10: Cảng đi: ${nhatKy.cangDi} ; Thời gian đi: Ngày ....... tháng ....... năm ............</p>
+                            10: Cảng đi: ${fillData.thongTinTau.cang_di} ; Thời gian đi: Ngày ${ngayDi} tháng ${thangDi} năm ${namDi} </p>
                         <p class="s2" style="padding-top: 7pt;padding-left: 5pt;text-indent: 0pt;text-align: left;">
-                            11: Cảng về: ${nhatKy.cangVe} ; Thời gian cập: Ngày ....... tháng ....... năm ............</p>
+                            11: Cảng về: ${fillData.thongTinTau.cang_ve} ; Thời gian cập: Ngày ${ngayVe} tháng ${thangVe} năm ${namVe} </p>
                         <p class="s2" style="padding-top: 7pt;padding-left: 5pt;text-indent: 0pt;text-align: left;">
-                            12: Nộp Nhật ký: Ngày ....... tháng ....... năm ............;Vào Sổ số:...........................
+                            12: Nộp Nhật ký: Ngày ${ngayNop} tháng ${thangNop} năm ${namNop} Vào Sổ số: ${fillData.thongTinTau.vaoso_so}
                         </p>
                     </td>
                 </tr>
@@ -562,7 +587,7 @@ function GenaratePDF() {
                                         Vị trí thu
                                     </p>
                                 </td>
-                                <td style="width: 100%;" class="border-table" colspan="${nameLoai.length + 1}"
+                                <td style="width: 100%;" class="border-table" colspan="9"
                                     bgcolor="#D1D6DB">
                                     <p style="width: 100%;text-indent: 0pt;text-align: cenet;"></p>
                                     <p class="s4" style="width: 100%;text-indent: 0pt;text-align: center;">
@@ -599,15 +624,71 @@ function GenaratePDF() {
                                         Kinh độ
                                     </p>
                                 </td>
-                                ${totalQuantityByLoai.map(item => `
+                                
                                 <td style="width: 100%;" class="border-table" bgcolor="#D1D6DB">
                                     <p class="s4" style="width: 100%;text-indent: 0pt;text-align: center;">
                                         Loài
                                     </p>
-                                    <p class="s4" style="width: 100%;text-indent: 0pt;text-align: center;"> ${item.name} </p>
+                                    <p class="s4" style="width: 100%;text-indent: 0pt;text-align: center;"> ${fillData.khaiThac.loai_1} </p>
         
                                 </td>
-                                `).join('')}
+                                <td style="width: 100%;" class="border-table" bgcolor="#D1D6DB">
+                                    <p class="s4" style="width: 100%;text-indent: 0pt;text-align: center;">
+                                        Loài
+                                    </p>
+                                    <p class="s4" style="width: 100%;text-indent: 0pt;text-align: center;"> ${fillData.khaiThac.loai_2} </p>
+        
+                                </td>
+                                <td style="width: 100%;" class="border-table" bgcolor="#D1D6DB">
+                                    <p class="s4" style="width: 100%;text-indent: 0pt;text-align: center;">
+                                        Loài
+                                    </p>
+                                    <p class="s4" style="width: 100%;text-indent: 0pt;text-align: center;"> ${fillData.khaiThac.loai_3} </p>
+        
+                                </td>
+                                <td style="width: 100%;" class="border-table" bgcolor="#D1D6DB">
+                                    <p class="s4" style="width: 100%;text-indent: 0pt;text-align: center;">
+                                        Loài
+                                    </p>
+                                    <p class="s4" style="width: 100%;text-indent: 0pt;text-align: center;"> ${fillData.khaiThac.loai_4} </p>
+        
+                                </td>
+                                <td style="width: 100%;" class="border-table" bgcolor="#D1D6DB">
+                                    <p class="s4" style="width: 100%;text-indent: 0pt;text-align: center;">
+                                        Loài
+                                    </p>
+                                    <p class="s4" style="width: 100%;text-indent: 0pt;text-align: center;"> ${fillData.khaiThac.loai_5} </p>
+        
+                                </td>
+                                <td style="width: 100%;" class="border-table" bgcolor="#D1D6DB">
+                                    <p class="s4" style="width: 100%;text-indent: 0pt;text-align: center;">
+                                        Loài
+                                    </p>
+                                    <p class="s4" style="width: 100%;text-indent: 0pt;text-align: center;"> ${fillData.khaiThac.loai_6} </p>
+        
+                                </td>
+                                <td style="width: 100%;" class="border-table" bgcolor="#D1D6DB">
+                                    <p class="s4" style="width: 100%;text-indent: 0pt;text-align: center;">
+                                        Loài
+                                    </p>
+                                    <p class="s4" style="width: 100%;text-indent: 0pt;text-align: center;"> ${fillData.khaiThac.loai_7} </p>
+        
+                                </td>
+                                <td style="width: 100%;" class="border-table" bgcolor="#D1D6DB">
+                                    <p class="s4" style="width: 100%;text-indent: 0pt;text-align: center;">
+                                        Loài
+                                    </p>
+                                    <p class="s4" style="width: 100%;text-indent: 0pt;text-align: center;"> ${fillData.khaiThac.loai_8} </p>
+        
+                                </td>
+                                <td style="width: 100%;" class="border-table" bgcolor="#D1D6DB">
+                                    <p class="s4" style="width: 100%;text-indent: 0pt;text-align: center;">
+                                        Loài
+                                    </p>
+                                    <p class="s4" style="width: 100%;text-indent: 0pt;text-align: center;"> ${fillData.khaiThac.loai_9} </p>
+        
+                                </td>
+                                
         
                             </tr>
                             ${array.map(line => `
@@ -806,29 +887,14 @@ function GenaratePDF() {
         </html>
 
       `;
-
-            //   RNFetchBlob.fs.mkdir(
-            //     RNFetchBlob.fs.dirs.DownloadDir,
-            //   )
-            //     .then(() => {
-            //       console.log('Đã tạo thư mục tải xuống');
-            //     })
-            //     .catch((error) => {
-            //       console.log('Lỗi khi tạo thư mục tải xuống:', error);
-            //     });
-
-            //   // Bây giờ, bạn có thể sử dụng DownloadDir để truy cập vào thư mục lưu trữ bên ngoài
-            //   const fileName = `${RNFetchBlob.fs.dirs.DownloadDir}/example.pdf`;
-            //   console.log('Đường dẫn tệp:', fileName);
-
-            //   console.log(fileName);
             const options = {
                 html,
                 fileName: `invoice_${count}`,
-                directory: 'Dowload',
+                directory: 'Download',
             };
             const file = await RNHTMLtoPDF.convert(options);
             Alert.alert('Thành công', `PDF lưu tại ${file.filePath}`);
+            console.log("231231231231:", file.filePath);
             setCount(count + 1);
             setIsLoading(false);
         } catch (error) {

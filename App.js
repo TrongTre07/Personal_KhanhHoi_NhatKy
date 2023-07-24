@@ -12,7 +12,9 @@ import {FormProvider} from './src/contexts/FormContext';
 import Menu from './src/views/Home/Menu';
 import HoatDongChuyenTaiView from './src/views/Form01adx01/item/HoatDongChuyenTaiView';
 import TongCucThuySanView from './src/views/Form01adx01/item/TongCucThuySanView';
-
+import OpenPDF from './src/views/OpenPDF';
+import ExportPDF from './src/views/ExportPDF';
+import ViewPDF from './src/views/ViewPDF';
 const AppNav = () => {
   const {isLoggedIn} = useContext(UserContext);
 
@@ -28,7 +30,7 @@ const App = () => {
       <FormProvider>
         <View style={styles.container}>
           {/* <AppNav /> */}
-          <Form01adx01/>
+          <ExportPDF/>
         </View>
       </FormProvider>
     </UserProvider>
