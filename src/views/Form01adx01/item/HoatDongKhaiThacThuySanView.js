@@ -17,11 +17,8 @@ import {styles} from './itemHoatDongKhaiThacThuySan/styles';
 import CustomDatePicker from './itemHoatDongKhaiThacThuySan/Timepicker';
 
 const HoatDongKhaiThacThuySanView = () => {
-  const [dateTha, setDateTha] = React.useState(new Date());
-  const [dateThu, setDateThu] = React.useState(new Date());
   const {khaiThac, setKhaiThac} = useContext(FormContext);
   const [listForm, setListForm] = React.useState([]);
-  const [currentIndex, setCurrentIndex] = useState('0');
 
   const dateNow = new Date();
 
@@ -84,6 +81,7 @@ const HoatDongKhaiThacThuySanView = () => {
             placeholder="Loài"
             editable={!isEditable}
             style={[styles.input]}
+            // i: index ten loai ca range: 1-9
             onChangeText={value => handleInputChangeTenLoaiThuySan(i, value)}
           />
         </View>,
@@ -138,7 +136,7 @@ const HoatDongKhaiThacThuySanView = () => {
     for (let i = 0; i < 10; i++) {
       const isEditable = i == 0;
 
-      placeholder = `Mẻ ${index}`;
+      placeholder = `Mẻ ${index + 1}`;
 
       inputs.push(
         <View key={i} style={[styles.flex1, styles.mr16]}>
@@ -147,6 +145,7 @@ const HoatDongKhaiThacThuySanView = () => {
             keyboardType="numeric"
             style={[styles.input]}
             editable={!isEditable}
+            // i: 1-9
             onChangeText={value => handleInputChangeKhoiLuong(index, i, value)}
           />
         </View>,
@@ -161,7 +160,7 @@ const HoatDongKhaiThacThuySanView = () => {
     for (let i = 0; i < listForm.length; i++) {
       inputs.push(
         <View key={i} style={{flexDirection: 'row'}}>
-          {_renderInputSpecies(i + 1)}
+          {_renderInputSpecies(i)}
         </View>,
       );
     }
@@ -190,6 +189,12 @@ const HoatDongKhaiThacThuySanView = () => {
                 const newInput = [...textInput];
                 newInput[index].timeTha = dateNowFormat(newDate);
                 setTextInput(newInput);
+
+                //set data context time
+                const updatedKhaiThac = {...khaiThac};
+                updatedKhaiThac.khaithac[index].thoidiem_tha =
+                  dateNowFormat(newDate);
+                setKhaiThac(updatedKhaiThac);
               }}
             />
           </View>
@@ -226,6 +231,13 @@ const HoatDongKhaiThacThuySanView = () => {
                 const newInput = [...textInput];
                 newInput[index].timeThu = dateNowFormat(newDate);
                 setTextInput(newInput);
+
+                //set data context kinh do
+
+                const updatedKhaiThac = {...khaiThac};
+                updatedKhaiThac.khaithac[index].thoidiem_thu =
+                  dateNowFormat(newDate);
+                setKhaiThac(updatedKhaiThac);
               }}
             />
           </View>
@@ -281,21 +293,21 @@ const HoatDongKhaiThacThuySanView = () => {
     // Form Context
     const newKhaithacObject = {
       methu: listForm.length,
-      thoidiem_tha: '',
+      thoidiem_tha: dateNowFormat(null),
       vido_tha: '',
       kinhdo_tha: '',
-      thoidiem_thu: '',
+      thoidiem_thu: dateNowFormat(null),
       vido_thu: '',
       kinhdo_thu: '',
-      loai_1: '',
-      loai_2: '',
-      loai_3: '',
-      loai_4: '',
-      loai_5: '',
-      loai_6: '',
-      loai_7: '',
-      loai_8: '',
-      loai_9: '',
+      loai_1: khaiThac.khaithac[0].loai_1,
+      loai_2: khaiThac.khaithac[0].loai_2,
+      loai_3: khaiThac.khaithac[0].loai_3,
+      loai_4: khaiThac.khaithac[0].loai_4,
+      loai_5: khaiThac.khaithac[0].loai_5,
+      loai_6: khaiThac.khaithac[0].loai_6,
+      loai_7: khaiThac.khaithac[0].loai_7,
+      loai_8: khaiThac.khaithac[0].loai_8,
+      loai_9: khaiThac.khaithac[0].loai_9,
       loai_1_kl: '',
       loai_2_kl: '',
       loai_3_kl: '',
@@ -312,7 +324,6 @@ const HoatDongKhaiThacThuySanView = () => {
       ...prevState,
       khaithac: [...prevState.khaithac, newKhaithacObject],
     }));
-    console.log('NEW CONTEXT: ', khaiThac);
 
     const newArray = loaiCa.map(item => ({
       ...item,
@@ -332,6 +343,13 @@ const HoatDongKhaiThacThuySanView = () => {
       textInput.pop();
       setTextInput(textInput);
 
+      //delete last value of [loaiCa]
+      const updatedLoaiCa = loaiCa.map(item => {
+        const updatedSoLuong = item.soLuong.slice(0, -1); // Slice removes the last element
+        return {...item, soLuong: updatedSoLuong};
+      });
+      setLoaiCa(updatedLoaiCa);
+
       //Delete row at context
       const updatedKhaithac = [...khaiThac.khaithac];
       updatedKhaithac.pop();
@@ -341,7 +359,6 @@ const HoatDongKhaiThacThuySanView = () => {
         ...prevState,
         khaithac: updatedKhaithac,
       }));
-      console.log('DELETED: ', updatedKhaithac);
     }
   };
 
@@ -349,23 +366,47 @@ const HoatDongKhaiThacThuySanView = () => {
     const list = [...textInput];
     list[index].viDoTha = value;
     setTextInput(list);
+
+    //set data context vi do
+
+    const updatedKhaiThac = {...khaiThac};
+    updatedKhaiThac.khaithac[index].vido_tha = value;
+    setKhaiThac(updatedKhaiThac);
   };
 
   const handleInputChangeKinhDoTha = (index, value) => {
     const list = [...textInput];
     list[index].kinhDoTha = value;
     setTextInput(list);
+
+    //set data context kinh do
+
+    const updatedKhaiThac = {...khaiThac};
+    updatedKhaiThac.khaithac[index].kinhdo_tha = value;
+    setKhaiThac(updatedKhaiThac);
   };
   const handleInputChangeViDoThu = (index, value) => {
     const list = [...textInput];
     list[index].viDoThu = value;
     setTextInput(list);
+
+    //set data context kinh do
+
+    const updatedKhaiThac = {...khaiThac};
+    updatedKhaiThac.khaithac[index].vido_thu = value;
+    setKhaiThac(updatedKhaiThac);
   };
 
   const handleInputChangeKinhDoThu = (index, value) => {
     const list = [...textInput];
     list[index].kinhDoThu = value;
     setTextInput(list);
+
+    //set data context kinh do
+
+    const updatedKhaiThac = {...khaiThac};
+    updatedKhaiThac.khaithac[index].kinhdo_thu = value;
+    setKhaiThac(updatedKhaiThac);
   };
 
   const handleInputChangeTenLoaiThuySan = (index, value) => {
@@ -374,12 +415,18 @@ const HoatDongKhaiThacThuySanView = () => {
     if (index == 9) {
       existingItemIndex = 9;
     }
-    console.log(existingItemIndex, index);
     if (existingItemIndex !== -1) {
       list[existingItemIndex - 1].name = value;
-    } else {
+
+      //set data context ten ca
+
+      const updatedKhaiThac = {...khaiThac};
+      updatedKhaiThac.khaithac.forEach(item => {
+        const loaica = `loai_${existingItemIndex}`;
+        item[loaica] = value; // Use square brackets to set the property
+      });
+      setKhaiThac(updatedKhaiThac);
     }
-    console.log('LIST: ', list);
     setLoaiCa(list);
   };
 
@@ -390,7 +437,14 @@ const HoatDongKhaiThacThuySanView = () => {
       existingItemIndex = 9;
     }
     if (existingItemIndex !== -1) {
-      list[existingItemIndex - 1].soLuong[indexRow - 1] = value;
+      list[existingItemIndex - 1].soLuong[indexRow] = value;
+
+      //set data context so luong
+
+      const updatedKhaiThac = {...khaiThac};
+      updatedKhaiThac.khaithac[indexRow][`loai_${indexSpecies}_kl`] = value;
+      setKhaiThac(updatedKhaiThac);
+      console.log(updatedKhaiThac);
     }
     setLoaiCa(list);
   };

@@ -1,8 +1,29 @@
 import React, {createContext, useState} from 'react';
 
 export const FormContext = createContext();
+import CustomDatePicker from '../views/Form01adx01/item/itemTongCucThuySan/CustomDatePicker';
 
 export const FormProvider = ({children}) => {
+  const dateNowFormat = newDate => {
+    if (newDate === null) {
+      const day = dateNow.getDate().toString().padStart(2, '0');
+      const month = (dateNow.getMonth() + 1).toString().padStart(2, '0');
+      const year = dateNow.getFullYear();
+      const hours = dateNow.getHours().toString().padStart(2, '0');
+      const minutes = dateNow.getMinutes().toString().padStart(2, '0');
+      return `${day}/${month}/${year}, ${hours}:${minutes}`;
+    } else {
+      const day = newDate.getDate().toString().padStart(2, '0');
+      const month = (newDate.getMonth() + 1).toString().padStart(2, '0');
+      const year = newDate.getFullYear();
+      const hours = newDate.getHours().toString().padStart(2, '0');
+      const minutes = newDate.getMinutes().toString().padStart(2, '0');
+      return `${day}/${month}/${year}, ${hours}:${minutes}`;
+    }
+  };
+
+  const dateNow = new Date();
+
   const [user, setUser] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
@@ -42,14 +63,14 @@ export const FormProvider = ({children}) => {
     khaithac: [
       {
         methu: '1',
-        thoidiem_tha: '2023-07-22T14:44',
-        vido_tha: '10.5',
-        kinhdo_tha: '105.35',
-        thoidiem_thu: '2023-07-22T14:44',
-        vido_thu: '10.3',
-        kinhdo_thu: '105.6',
-        loai_1: 'cá',
-        loai_2: 'mực',
+        thoidiem_tha: dateNowFormat(null),
+        vido_tha: '',
+        kinhdo_tha: '',
+        thoidiem_thu: dateNowFormat(null),
+        vido_thu: '',
+        kinhdo_thu: '',
+        loai_1: '',
+        loai_2: '',
         loai_3: '',
         loai_4: '',
         loai_5: '',
@@ -57,8 +78,8 @@ export const FormProvider = ({children}) => {
         loai_7: '',
         loai_8: '',
         loai_9: '',
-        loai_1_kl: '200',
-        loai_2_kl: '200',
+        loai_1_kl: '',
+        loai_2_kl: '',
         loai_3_kl: '',
         loai_4_kl: '',
         loai_5_kl: '',
@@ -66,10 +87,11 @@ export const FormProvider = ({children}) => {
         loai_7_kl: '',
         loai_8_kl: '',
         loai_9_kl: '',
-        tongsanluong: '400',
+        tongsanluong: '',
       },
     ],
   });
+
 
   const [thuMua, setThuMua] = useState({
     thumua: [
@@ -100,4 +122,3 @@ export const FormProvider = ({children}) => {
     <FormContext.Provider value={contextValue}>{children}</FormContext.Provider>
   );
 };
-
