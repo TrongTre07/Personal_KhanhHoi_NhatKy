@@ -9,9 +9,10 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import DatePicker from 'react-native-date-picker';
-import {styles} from './itemHoatDongKhaiThacThuySan/styles';
+import { styles } from './itemHoatDongKhaiThacThuySan/styles';
+import CustomDatePicker from './itemTongCucThuySan/CustomDatePicker';
 
 const HoatDongKhaiThacThuySanView = () => {
   const [dateTha, setDateTha] = React.useState(new Date());
@@ -30,15 +31,15 @@ const HoatDongKhaiThacThuySanView = () => {
   ]);
 
   const [loaiCa, setLoaiCa] = useState([
-    {id: '0', name: '', soLuong: ['0']},
-    {id: '1', name: '', soLuong: ['0']},
-    {id: '2', name: '', soLuong: ['0']},
-    {id: '3', name: '', soLuong: ['0']},
-    {id: '4', name: '', soLuong: ['0']},
-    {id: '5', name: '', soLuong: ['0']},
-    {id: '6', name: '', soLuong: ['0']},
-    {id: '7', name: '', soLuong: ['0']},
-    {id: '8', name: '', soLuong: ['0']},
+    { id: '0', name: '', soLuong: ['0'] },
+    { id: '1', name: '', soLuong: ['0'] },
+    { id: '2', name: '', soLuong: ['0'] },
+    { id: '3', name: '', soLuong: ['0'] },
+    { id: '4', name: '', soLuong: ['0'] },
+    { id: '5', name: '', soLuong: ['0'] },
+    { id: '6', name: '', soLuong: ['0'] },
+    { id: '7', name: '', soLuong: ['0'] },
+    { id: '8', name: '', soLuong: ['0'] },
   ]);
 
   const handleDateChangeTha = newDate => {
@@ -58,14 +59,14 @@ const HoatDongKhaiThacThuySanView = () => {
     setOpenThu(false);
   };
 
-  const handleOpenDateTha = index => {
-    setCurrentIndex(index);
-    setOpenTha(true);
-  };
-  const handleOpenDateThu = index => {
-    setCurrentIndex(index);
-    setOpenThu(true);
-  };
+  // const handleOpenDateTha = index => {
+  //   setCurrentIndex(index);
+  //   setOpenTha(true);
+  // };
+  // const handleOpenDateThu = index => {
+  //   setCurrentIndex(index);
+  //   setOpenThu(true);
+  // };
 
   // date picker
 
@@ -73,11 +74,7 @@ const HoatDongKhaiThacThuySanView = () => {
     const day = date.getDate();
     const month = date.getMonth() + 1;
     const year = date.getFullYear();
-    // const hours = date.getHours();
-    // const minutes = date.getMinutes();
 
-    // You can format the date and time as needed, e.g., 'dd/MM/yyyy HH:mm'
-    // const formattedDate = `${day}/${month}/${year} ${hours}:${minutes}`;
     const formattedDate = `${day}/${month}/${year}`;
     return formattedDate;
   };
@@ -115,7 +112,7 @@ const HoatDongKhaiThacThuySanView = () => {
 
   const calculateSumOfEachIndex = () => {
     const totalSumByIndex = Array.from(
-      {length: loaiCa[0].soLuong.length},
+      { length: loaiCa[0].soLuong.length },
       () => 0,
     );
 
@@ -130,7 +127,7 @@ const HoatDongKhaiThacThuySanView = () => {
         key={index}
         style={[
           styles.box,
-          index % 2 === 0 ? {backgroundColor: '#9dc5c3'} : null,
+          index % 2 === 0 ? { backgroundColor: '#9dc5c3' } : null,
         ]}>
         <Text style={styles.textTotal}>{`Mẻ ${index + 1}: ${sum} Kg`}</Text>
       </View>
@@ -145,7 +142,7 @@ const HoatDongKhaiThacThuySanView = () => {
           key={item.id}
           style={[
             styles.box,
-            item.id % 2 === 0 ? {backgroundColor: '#9dc5c3'} : null,
+            item.id % 2 === 0 ? { backgroundColor: '#9dc5c3' } : null,
           ]}>
           <Text style={styles.textTotal}>{`${item.name}: ${sum} Kg`}</Text>
         </View>
@@ -181,7 +178,7 @@ const HoatDongKhaiThacThuySanView = () => {
 
     for (let i = 0; i < listForm.length; i++) {
       inputs.push(
-        <View key={i} style={{flexDirection: 'row'}}>
+        <View key={i} style={{ flexDirection: 'row' }}>
           {_renderInputSpecies(i + 1)}
         </View>,
       );
@@ -192,30 +189,27 @@ const HoatDongKhaiThacThuySanView = () => {
   const _renderForm = index => {
     return (
       <View style={styles.form}>
-        <View style={[styles.view1, styles.flexRow, {width: '100%'}]}>
-          <Text style={[styles.textValue, styles.flex1, {fontWeight: 'bold'}]}>
+        <View style={[styles.view1, styles.flexRow, { width: '100%' }]}>
+          <Text style={[styles.textValue, styles.flex1, { fontWeight: 'bold' }]}>
             Mẻ thứ: {listForm.length}
           </Text>
         </View>
 
         <View style={styles.view2}>
-          <Text style={styles.title}>Thời điểm thả và vị trí thả (KĐ/VĐ) </Text>
+        <Text style={styles.title}>Thời điểm thả và vị trí thả (KĐ/VĐ) </Text>
           <View style={[styles.flexRow, styles.flex1]}>
             <Text style={styles.textValue}>Ngày, tháng: </Text>
             <Text style={styles.textValue}>{textInput[index].timeTha}</Text>
-            <TouchableOpacity
-              style={[styles.ml8, styles.mr8]}
-              onPress={() => {
-                handleOpenDateTha(index);
-              }}>
-              <Image
-                width={24}
-                height={24}
-                source={require('../../../assets/images/calendar.png')}
-              />
-            </TouchableOpacity>
+            <CustomDatePicker
+              value={textInput[index].timeTha}
+              onDateChange={newDate => {
+                const newInput = [...textInput];
+                newInput[index].timeTha = newDate.toLocaleDateString();
+                setTextInput(newInput);
+              }}
+            />
           </View>
-          <View style={[styles.flexRow, {width: '100%'}]}>
+          <View style={[styles.flexRow, { width: '100%' }]}>
             <View style={[styles.flex1, styles.mr16]}>
               <Text style={styles.textValue}>Vĩ Độ</Text>
               <TextInput
@@ -236,23 +230,20 @@ const HoatDongKhaiThacThuySanView = () => {
         </View>
 
         <View style={styles.view2}>
-          <Text style={styles.title}>Thời điểm thu và vị trí thu (KĐ/VĐ) </Text>
+        <Text style={styles.title}>Thời điểm thu và vị trí thu (KĐ/VĐ) </Text>
           <View style={[styles.flexRow, styles.flex1]}>
             <Text style={styles.textValue}>Ngày, tháng: </Text>
             <Text style={styles.textValue}>{textInput[index].timeThu}</Text>
-            <TouchableOpacity
-              style={[styles.ml8, styles.mr8]}
-              onPress={() => {
-                handleOpenDateThu(index);
-              }}>
-              <Image
-                width={24}
-                height={24}
-                source={require('../../../assets/images/calendar.png')}
-              />
-            </TouchableOpacity>
+            <CustomDatePicker
+              value={textInput[index].timeThu}
+              onDateChange={newDate => {
+                const newInput = [...textInput];
+                newInput[index].timeThu = newDate.toLocaleDateString();
+                setTextInput(newInput);
+              }}
+            />
           </View>
-          <View style={[styles.flexRow, {width: '100%'}]}>
+          <View style={[styles.flexRow, { width: '100%' }]}>
             <View style={[styles.flex1, styles.mr16]}>
               <Text style={styles.textValue}>Vĩ Độ</Text>
               <TextInput
@@ -372,9 +363,9 @@ const HoatDongKhaiThacThuySanView = () => {
   };
 
   return (
-    <View style={{flex: 1, backgroundColor: '#fff'}}>
+    <View style={{ flex: 1, backgroundColor: '#fff' }}>
       <ScrollView>
-        <Text style={[styles.title, {marginTop: 24}]}>
+        <Text style={[styles.title, { marginTop: 24 }]}>
           I. THÔNG TIN VỀ HOẠT ĐỘNG KHAI THÁC THỦY SẢN
         </Text>
 
@@ -388,28 +379,28 @@ const HoatDongKhaiThacThuySanView = () => {
           <Text style={styles.title}>
             Sản lượng các loài thủy sản chủ yếu (Kg)
           </Text>
-          <View style={{flexDirection: 'row'}}>
+          <View style={{ flexDirection: 'row' }}>
             {_renderInputSpeciesName()}
           </View>
           {_renderTableNet()}
 
-          <View style={{paddingTop: 20}}>
+          <View style={{ paddingTop: 20 }}>
             <FlatList
               data={calculateSumOfSoLuongForEachObject()}
-              renderItem={({item}) => item}
+              renderItem={({ item }) => item}
               keyExtractor={(item, index) => index.toString()}
               horizontal={true}
-              style={{paddingBottom: 10}}
+              style={{ paddingBottom: 10 }}
               ItemSeparatorComponent={() => <View style={styles.separator} />}
             />
 
             <FlatList
               data={calculateSumOfEachIndex()}
-              renderItem={({item}) => item}
+              renderItem={({ item }) => item}
               keyExtractor={(item, index) => index.toString()}
               horizontal={true}
               ItemSeparatorComponent={() => <View style={styles.separator} />}
-              style={{paddingBottom: 10}}
+              style={{ paddingBottom: 10 }}
             />
           </View>
         </View>

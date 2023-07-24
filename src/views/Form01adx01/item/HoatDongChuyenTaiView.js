@@ -26,34 +26,39 @@ const HoatDongChuyenTaiView = ({textInput, setTextInput}) => {
 
   const [sumOfWeight, setSumOfWeight] = React.useState(0);
 
-  // date picker
-  const [dateFormat, setDateFormat] = React.useState([dateNowFormat]);
+  // // date picker
+  // const [dateFormat, setDateFormat] = React.useState([dateNowFormat]);
 
   React.useEffect(() => {
     if (listForm.length === 0) {
       const newListForm = [...listForm, <_renderForm key={listForm.length} />];
       setListForm(newListForm);
     }
+    console.log('textinput',textInput)
   }, [listForm]);
 
+  const handleDateChange = (index, date) => {
+    const list = [...textInput];
+    list[index].date = date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear();
+    setTextInput(list);
+  };
 
-  const _renderForm = () => {
+  const _renderForm = (index) => {
     return (
       <View style={styles.form}>
         <View style={[styles.view1, styles.flexRow, {width: '100%'}]}>
           <Text style={[styles.textValue, styles.flex1]}>
-            STT: {listForm.length + 1}
+            STT: {index + 1}
           </Text>
           <View style={[styles.flexRow, styles.flex1]}>
             <Text style={styles.textValue}>Ngày, tháng: </Text>
-            <Text key={textInput[listForm.length].date} style={[styles.textValue, styles.mr8]}>
-              {textInput[listForm.length].date}
+            <Text key={textInput[index].date} style={[styles.textValue, styles.mr8]}>
+              {textInput[index].date}
             </Text>
-            <CustomDatePicker value={textInput[listForm.length].date} onDateChange={(date) => {
-              const list = [...textInput];
-              list[listForm.length].date = date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear();
-              setTextInput(list);
-            }} />
+            <CustomDatePicker
+              value={new Date(textInput[index].date)} // Convert the string date to a Date object
+              onDateChange={(date) => handleDateChange(index, date)}
+            />
           </View>
         </View>
 
@@ -232,7 +237,9 @@ const HoatDongChuyenTaiView = ({textInput, setTextInput}) => {
         </Text>
 
         {/* form */}
-        {listForm.map(form => form)}
+        {listForm.map((_form, index) => (
+          <View key={index}>{_renderForm(index)}</View>
+        ))}
 
         {/* sum of weight */}
         <Text style={[styles.title, {marginTop: 16}]}>
