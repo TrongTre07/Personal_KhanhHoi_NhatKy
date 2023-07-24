@@ -17,12 +17,21 @@ const HoatDongChuyenTaiView = ({textInput, setTextInput}) => {
 
   const dateNow = new Date();
 
-  const dateNowFormat =
-    dateNow.getDate() +
-    '/' +
-    (dateNow.getMonth() + 1) +
-    '/' +
-    dateNow.getFullYear();
+  const dateNowFormat = (newDate) => {
+
+    if(newDate===null){
+      const day = dateNow.getDate().toString().padStart(2, '0');
+      const month = (dateNow.getMonth() + 1).toString().padStart(2, '0');
+      const year = dateNow.getFullYear();
+    return `${day}/${month}/${year}`;
+    }else{
+      const day = newDate.getDate().toString().padStart(2, '0');
+      const month = (newDate.getMonth() + 1).toString().padStart(2, '0');
+      const year = newDate.getFullYear();
+    return `${day}/${month}/${year}`;
+    }
+
+  };
 
   const [sumOfWeight, setSumOfWeight] = React.useState(0);
 
@@ -39,7 +48,7 @@ const HoatDongChuyenTaiView = ({textInput, setTextInput}) => {
 
   const handleDateChange = (index, date) => {
     const list = [...textInput];
-    list[index].date = date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear();
+    list[index].date = dateNowFormat(date);
     setTextInput(list);
   };
 
@@ -156,7 +165,7 @@ const HoatDongChuyenTaiView = ({textInput, setTextInput}) => {
     const newListForm = [...listForm, <_renderForm key={listForm.length} />];
     setListForm(newListForm);
     textInput.push({
-      date: dateNowFormat,
+      date: dateNowFormat(null),
       shipRegisterNumber: '',
       miningLicenseNumbewr: '',
       latitude: '',
@@ -222,12 +231,6 @@ const HoatDongChuyenTaiView = ({textInput, setTextInput}) => {
     setSumOfWeight(sum);
   };
 
-  const getDateNow = index => {
-    const date = textInput[index].date;
-    return (
-      date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear()
-    );
-  };
 
   return (
     <View style={{flex: 1, backgroundColor: '#fff'}}>

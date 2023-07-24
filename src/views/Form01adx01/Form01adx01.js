@@ -28,16 +28,18 @@ const Form01adx01 = () => {
 //===
 
   const dateNow = new Date();
-  const dateNowFormat =
-    dateNow.getDate() +
-    '/' +
-    (dateNow.getMonth() + 1) +
-    '/' +
-    dateNow.getFullYear();
+  const dateNowFormat = () => {
+
+    const day = dateNow.getDate().toString().padStart(2, '0');
+    const month = (dateNow.getMonth() + 1).toString().padStart(2, '0');
+    const year = dateNow.getFullYear();
+    return `${day}/${month}/${year}`;
+
+  };
 
   const [inputHoatDongChuyenTai, setInputHoatDongChuyenTai] = React.useState([
     {
-      date: dateNowFormat,
+      date: dateNowFormat(),
       shipRegisterNumber: '',
       miningLicenseNumbewr: '',
       latitude: '',
