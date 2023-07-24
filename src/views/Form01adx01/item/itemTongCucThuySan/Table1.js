@@ -1,10 +1,12 @@
 import {View, Text, TextInput, Image, Pressable} from 'react-native';
 import React, {useState, useMemo, useContext, useEffect} from 'react';
 import styles from './styles';
-import DatePicker from 'react-native-date-picker';
-import {Picker} from '@react-native-picker/picker';
+
 import {FormContext} from '../../../../contexts/FormContext';
 
+import DatePicker from 'react-native-date-picker'
+import { Picker } from '@react-native-picker/picker';
+import { dateNowFormat } from './formatdate';
 const Table1 = ({
   nameOwner,
   namePilot,
@@ -48,6 +50,7 @@ const Table1 = ({
   //   );
   // });
 
+
   // console.log(inputValue)
   return (
     <View>
@@ -59,16 +62,10 @@ const Table1 = ({
           date={date}
           onConfirm={date => {
             setInputValue({
-              ...inputValue,
-              dateSeafood:
-                date.getDate() +
-                '/' +
-                Number(date.getMonth() + 1) +
-                '/' +
-                date.getFullYear(),
-            });
-            setOpen(false);
-            setDate(date);
+              ...inputValue, dateSeafood:dateNowFormat(date)
+            })
+            setOpen(false)
+            setDate(date)
           }}
           onCancel={() => {
             setOpen(false);

@@ -11,6 +11,8 @@ import Datepicker from './src/utils/Datepicker';
 import {FormProvider} from './src/contexts/FormContext';
 import Menu from './src/views/Home/Menu';
 import HoatDongKhaiThacThuySanView from './src/views/Form01adx01/item/HoatDongKhaiThacThuySanView';
+import HoatDongChuyenTaiView from './src/views/Form01adx01/item/HoatDongChuyenTaiView';
+import TongCucThuySanView from './src/views/Form01adx01/item/TongCucThuySanView';
 
 const AppNav = () => {
   const {isLoggedIn} = useContext(UserContext);

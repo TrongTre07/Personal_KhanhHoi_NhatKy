@@ -10,9 +10,11 @@ import {
   View,
 } from 'react-native';
 import React, {useContext, useState} from 'react';
+import {FormContext} from '../../../contexts/FormContext';
+
 import DatePicker from 'react-native-date-picker';
 import {styles} from './itemHoatDongKhaiThacThuySan/styles';
-import {FormContext} from '../../../contexts/FormContext';
+import CustomDatePicker from './itemHoatDongKhaiThacThuySan/Timepicker';
 
 const HoatDongKhaiThacThuySanView = () => {
   const [dateTha, setDateTha] = React.useState(new Date());
@@ -20,12 +22,33 @@ const HoatDongKhaiThacThuySanView = () => {
   const {khaiThac, setKhaiThac} = useContext(FormContext);
   const [listForm, setListForm] = React.useState([]);
   const [currentIndex, setCurrentIndex] = useState('0');
+
+  const dateNow = new Date();
+
+  const dateNowFormat = newDate => {
+    if (newDate === null) {
+      const day = dateNow.getDate().toString().padStart(2, '0');
+      const month = (dateNow.getMonth() + 1).toString().padStart(2, '0');
+      const year = dateNow.getFullYear();
+      const hours = dateNow.getHours().toString().padStart(2, '0');
+      const minutes = dateNow.getMinutes().toString().padStart(2, '0');
+      return `${day}/${month}/${year}, ${hours}:${minutes}`;
+    } else {
+      const day = newDate.getDate().toString().padStart(2, '0');
+      const month = (newDate.getMonth() + 1).toString().padStart(2, '0');
+      const year = newDate.getFullYear();
+      const hours = newDate.getHours().toString().padStart(2, '0');
+      const minutes = newDate.getMinutes().toString().padStart(2, '0');
+      return `${day}/${month}/${year}, ${hours}:${minutes}`;
+    }
+  };
+
   const [textInput, setTextInput] = React.useState([
     {
-      timeTha: '',
+      timeTha: dateNowFormat(null),
       viDoTha: '',
       kinhDoTha: '',
-      timeThu: '',
+      timeThu: dateNowFormat(null),
       viDoThu: '',
       kinhDoThu: '',
     },
@@ -42,52 +65,6 @@ const HoatDongKhaiThacThuySanView = () => {
     {id: '7', name: '', soLuong: ['0']},
     {id: '8', name: '', soLuong: ['0']},
   ]);
-
-  const handleDateChangeTha = newDate => {
-    console.log(newDate);
-    const newInput = [...textInput];
-    newInput[currentIndex].timeTha = newDate.toLocaleDateString();
-    console.log('NEW ', newInput);
-    setTextInput(newInput);
-    setOpenTha(false);
-  };
-  const handleDateChangeThu = newDate => {
-    console.log(newDate);
-    const newInput = [...textInput];
-    newInput[currentIndex].timeThu = newDate.toLocaleDateString();
-    console.log('NEW ', newInput);
-    setTextInput(newInput);
-    setOpenThu(false);
-  };
-
-  const handleOpenDateTha = index => {
-    setCurrentIndex(index);
-    setOpenTha(true);
-  };
-  const handleOpenDateThu = index => {
-    setCurrentIndex(index);
-    setOpenThu(true);
-  };
-
-  // date picker
-
-  const formatDate = date => {
-    const day = date.getDate();
-    const month = date.getMonth() + 1;
-    const year = date.getFullYear();
-    // const hours = date.getHours();
-    // const minutes = date.getMinutes();
-
-    // You can format the date and time as needed, e.g., 'dd/MM/yyyy HH:mm'
-    // const formattedDate = `${day}/${month}/${year} ${hours}:${minutes}`;
-    const formattedDate = `${day}/${month}/${year}`;
-    return formattedDate;
-  };
-
-  const dateNowFormat = date => formatDate(date);
-
-  const [openTha, setOpenTha] = React.useState(false);
-  const [openThu, setOpenThu] = React.useState(false);
 
   React.useEffect(() => {
     if (listForm.length === 0) {
@@ -204,18 +181,17 @@ const HoatDongKhaiThacThuySanView = () => {
           <Text style={styles.title}>Thời điểm thả và vị trí thả (KĐ/VĐ) </Text>
           <View style={[styles.flexRow, styles.flex1]}>
             <Text style={styles.textValue}>Ngày, tháng: </Text>
-            <Text style={styles.textValue}>{textInput[index].timeTha}</Text>
-            <TouchableOpacity
-              style={[styles.ml8, styles.mr8]}
-              onPress={() => {
-                handleOpenDateTha(index);
-              }}>
-              <Image
-                width={24}
-                height={24}
-                source={require('../../../assets/images/calendar.png')}
-              />
-            </TouchableOpacity>
+            <Text style={[styles.textValue, styles.mr8]}>
+              {textInput[index].timeTha}
+            </Text>
+            <CustomDatePicker
+              value={textInput[index].timeTha}
+              onDateChange={newDate => {
+                const newInput = [...textInput];
+                newInput[index].timeTha = dateNowFormat(newDate);
+                setTextInput(newInput);
+              }}
+            />
           </View>
           <View style={[styles.flexRow, {width: '100%'}]}>
             <View style={[styles.flex1, styles.mr16]}>
@@ -241,18 +217,17 @@ const HoatDongKhaiThacThuySanView = () => {
           <Text style={styles.title}>Thời điểm thu và vị trí thu (KĐ/VĐ) </Text>
           <View style={[styles.flexRow, styles.flex1]}>
             <Text style={styles.textValue}>Ngày, tháng: </Text>
-            <Text style={styles.textValue}>{textInput[index].timeThu}</Text>
-            <TouchableOpacity
-              style={[styles.ml8, styles.mr8]}
-              onPress={() => {
-                handleOpenDateThu(index);
-              }}>
-              <Image
-                width={24}
-                height={24}
-                source={require('../../../assets/images/calendar.png')}
-              />
-            </TouchableOpacity>
+            <Text style={[styles.textValue, styles.mr8]}>
+              {textInput[index].timeThu}
+            </Text>
+            <CustomDatePicker
+              value={textInput[index].timeThu}
+              onDateChange={newDate => {
+                const newInput = [...textInput];
+                newInput[index].timeThu = dateNowFormat(newDate);
+                setTextInput(newInput);
+              }}
+            />
           </View>
           <View style={[styles.flexRow, {width: '100%'}]}>
             <View style={[styles.flex1, styles.mr16]}>
@@ -295,10 +270,10 @@ const HoatDongKhaiThacThuySanView = () => {
     const newListForm = [...listForm, <_renderForm key={listForm.length} />];
     setListForm(newListForm);
     textInput.push({
-      timeTha: '',
+      timeTha: dateNowFormat(null),
       viDoTha: '',
       kinhDoTha: '',
-      timeThu: '',
+      timeThu: dateNowFormat(null),
       viDoTha: '',
       kinhDoThu: '',
     });
@@ -366,7 +341,7 @@ const HoatDongKhaiThacThuySanView = () => {
         ...prevState,
         khaithac: updatedKhaithac,
       }));
-      console.log("DELETED: ", updatedKhaithac)
+      console.log('DELETED: ', updatedKhaithac);
     }
   };
 
@@ -463,26 +438,6 @@ const HoatDongKhaiThacThuySanView = () => {
           </View>
         </View>
       </ScrollView>
-      <DatePicker
-        modal
-        mode="date"
-        open={openTha}
-        date={dateTha}
-        onConfirm={handleDateChangeTha}
-        onCancel={() => {
-          setOpenTha(false);
-        }}
-      />
-      <DatePicker
-        modal
-        mode="date"
-        open={openThu}
-        date={dateThu}
-        onConfirm={handleDateChangeThu}
-        onCancel={() => {
-          setOpenThu(false);
-        }}
-      />
     </View>
   );
 };
