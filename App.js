@@ -9,17 +9,17 @@ import Form01adx01 from './src/views/Form01adx01/Form01adx01';
 import AppNavigation from './src/views/Navigations/AppNavigation';
 import Datepicker from './src/utils/Datepicker';
 import {FormProvider} from './src/contexts/FormContext';
+import Menu from './src/views/Home/Menu';
 
 const AppNav = () => {
   const {isLoggedIn} = useContext(UserContext);
   console.log(isLoggedIn)
 
   return (
-    // <NavigationContainer>
-    <>{!isLoggedIn ? <Login /> : <Form01adx01 />}</>
-    // </NavigationContainer>
-  );
-};
+  <NavigationContainer>
+  {isLoggedIn ? <Login /> : < AppNavigation/>}
+</NavigationContainer>)
+}
 
 const App = () => {
   return (
