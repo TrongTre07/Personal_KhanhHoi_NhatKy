@@ -13,11 +13,10 @@ import Menu from './src/views/Home/Menu';
 
 const AppNav = () => {
   const {isLoggedIn} = useContext(UserContext);
-  console.log(isLoggedIn)
 
   return (
   <NavigationContainer>
-  {isLoggedIn ? <Login /> : < AppNavigation/>}
+  {!isLoggedIn ? <Login /> : < AppNavigation/>}
 </NavigationContainer>)
 }
 
