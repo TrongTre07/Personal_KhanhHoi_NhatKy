@@ -9,13 +9,15 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import DatePicker from 'react-native-date-picker';
 import {styles} from './itemHoatDongKhaiThacThuySan/styles';
+import {FormContext} from '../../../contexts/FormContext';
 
 const HoatDongKhaiThacThuySanView = () => {
   const [dateTha, setDateTha] = React.useState(new Date());
   const [dateThu, setDateThu] = React.useState(new Date());
+  const {khaiThac, setKhaiThac} = useContext(FormContext);
   const [listForm, setListForm] = React.useState([]);
   const [currentIndex, setCurrentIndex] = useState('0');
   const [textInput, setTextInput] = React.useState([
@@ -301,6 +303,42 @@ const HoatDongKhaiThacThuySanView = () => {
       kinhDoThu: '',
     });
 
+    // Form Context
+    const newKhaithacObject = {
+      methu: listForm.length,
+      thoidiem_tha: '',
+      vido_tha: '',
+      kinhdo_tha: '',
+      thoidiem_thu: '',
+      vido_thu: '',
+      kinhdo_thu: '',
+      loai_1: '',
+      loai_2: '',
+      loai_3: '',
+      loai_4: '',
+      loai_5: '',
+      loai_6: '',
+      loai_7: '',
+      loai_8: '',
+      loai_9: '',
+      loai_1_kl: '',
+      loai_2_kl: '',
+      loai_3_kl: '',
+      loai_4_kl: '',
+      loai_5_kl: '',
+      loai_6_kl: '',
+      loai_7_kl: '',
+      loai_8_kl: '',
+      loai_9_kl: '',
+      tongsanluong: '',
+    };
+
+    setKhaiThac(prevState => ({
+      ...prevState,
+      khaithac: [...prevState.khaithac, newKhaithacObject],
+    }));
+    console.log('NEW CONTEXT: ', khaiThac);
+
     const newArray = loaiCa.map(item => ({
       ...item,
       soLuong: [...item.soLuong, '0'],
@@ -318,6 +356,17 @@ const HoatDongKhaiThacThuySanView = () => {
       setListForm(newListForm);
       textInput.pop();
       setTextInput(textInput);
+
+      //Delete row at context
+      const updatedKhaithac = [...khaiThac.khaithac];
+      updatedKhaithac.pop();
+
+      // Update the state with the new array
+      setKhaiThac(prevState => ({
+        ...prevState,
+        khaithac: updatedKhaithac,
+      }));
+      console.log("DELETED: ", updatedKhaithac)
     }
   };
 
