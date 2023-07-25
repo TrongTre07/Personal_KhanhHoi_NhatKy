@@ -8,7 +8,7 @@ export const FormProvider = ({children}) => {
 
   const [thongTinTau, setThongTinTau] = useState({
     isdraft: false,
-    dairy_name: 'abc-test',
+    dairy_name: 'abc-25-07',
     nghechinh: '',
     ten_chutau: 'abc',
     ten_thuyentruong: 'abc',

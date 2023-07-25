@@ -34,6 +34,7 @@ const UserProvider = ({children}) => {
       
       const response = await instance.post('api/FormAppendix/0101/create', payload)      
       console.log("RES: ", response.data)
+      return response.data;
     } catch (error) {
       console.log("POST ERROR: ", error)
     }

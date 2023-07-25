@@ -106,36 +106,33 @@ const Form01adx01 = () => {
   const handleCreateForm = async () => {
 
     const isConnect = netInfo.isConnected;
+
+    // chưa có mạng thì lưu local
     if (!isConnect) {
-      const dataForm = handleFormatObject();
-      const result = await Storage.getItem('bieumau_array');
+      const dataForm = {
+        isSavedForm: false,
+        form: handleFormatObject(),
+      }
+      const result = await Storage.getItem('form01adx01');
 
       if (result !== null) {
-
-        const data = JSON.parse(result);
-        data.push(dataForm);
-        await Storage.setItem('bieumau_array', JSON.stringify(data));
-
+        ToastAndroid.show('Hiện đang có form chưa được lưu', ToastAndroid.SHORT);
       } else {
 
         const data = [];
         data.push(dataForm);
-        await Storage.setItem('bieumau_array', JSON.stringify(data));
-
+        await Storage.setItem('form01adx01', JSON.stringify(data));
+        ToastAndroid.show('Tạo thành công', ToastAndroid.SHORT);
       }
     } 
     else {
       await postForm(handleFormatObject());
     }
 
-    ToastAndroid.show('Tạo thành công', ToastAndroid.SHORT);
-    navigation.goBack();
-
-
-
   };
 
   const handleSaveForm = async () => {
+    await Storage.removeItem('form01adx01');
   };
 
   const handleDownloadForm = () => {
