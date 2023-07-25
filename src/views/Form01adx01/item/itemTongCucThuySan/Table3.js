@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import styles from './styles'
 // import DatePicker from 'react-native-date-picker'
 import CustomDatePicker from './CustomDatePicker';
-import { dateNowFormat } from './formatdate';
+import { dateNowFormat,convertStringToDate } from './formatdate';
 
 const Table3 = ({
     changeNumber,
@@ -27,7 +27,7 @@ const Table3 = ({
                     ...inputValue,
                     departurePort: {
                         ...departurePort,
-                        date: dateNowFormat(date),
+                        date: dateNowFormat(date,"date"),
                     },
                 });
                 break;
@@ -36,7 +36,7 @@ const Table3 = ({
                     ...inputValue,
                     arrivalPort: {
                         ...arrivalPort,
-                        date: dateNowFormat(date),
+                        date: dateNowFormat(date,"date"),
                     },
                 });
                 break;
@@ -45,13 +45,13 @@ const Table3 = ({
                     ...inputValue,
                     diary: {
                         ...diary,
-                        date: dateNowFormat(date),
+                        date: dateNowFormat(date,"date"),
                     },
                 });
                 break;
         }
     };
-    // console.log(inputValue)
+    console.log(inputValue)
 
     return (
 
@@ -83,7 +83,7 @@ const Table3 = ({
                             <TextInput
                                 style={[styles.input, styles.text]}
                                 onChangeText={(text) => setInputValue({ ...inputValue, departurePort: { ...departurePort, date: text } })}
-                                value={inputValue.departurePort?.date}
+                                value={convertStringToDate(inputValue.departurePort?.date)}
                             />
                             <CustomDatePicker value={departurePort.date} onDateChange={(date) => handleDateChange('departurePort', date)} />
                         </View>
@@ -112,7 +112,7 @@ const Table3 = ({
                             <TextInput
                                 style={[styles.input, styles.text]}
                                 onChangeText={(text) => setInputValue({ ...inputValue, arrivalPort: { ...arrivalPort, date: text } })}
-                                value={inputValue.arrivalPort?.date}
+                                value={convertStringToDate(inputValue.arrivalPort?.date)}
                             />
                             <CustomDatePicker value={arrivalPort.date} onDateChange={(date) => handleDateChange('arrivalPort', date)} />
                         </View>
@@ -133,7 +133,7 @@ const Table3 = ({
                             <TextInput
                                 style={[styles.input, styles.text]}
                                 onChangeText={(text) => setInputValue({ ...inputValue, diary: { ...diary, date: text } })}
-                                value={inputValue.diary?.date}
+                                value={convertStringToDate(inputValue.diary?.date)}
                             />
                             <CustomDatePicker value={arrivalPort.date} onDateChange={(date) => handleDateChange('diary', date)} />
                             
