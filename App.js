@@ -15,6 +15,9 @@ import TongCucThuySanView from './src/views/Form01adx01/item/TongCucThuySanView'
 import OpenPDF from './src/views/OpenPDF';
 import ExportPDF from './src/views/ExportPDF';
 import ViewPDF from './src/views/ViewPDF';
+import { createStackNavigator } from '@react-navigation/stack';
+const Stack = createStackNavigator();
+
 const AppNav = () => {
   const {isLoggedIn} = useContext(UserContext);
 
@@ -26,14 +29,12 @@ const AppNav = () => {
 
 const App = () => {
   return (
-    <UserProvider>
-      <FormProvider>
-        <View style={styles.container}>
-          {/* <AppNav /> */}
-          <ExportPDF/>
-        </View>
-      </FormProvider>
-    </UserProvider>
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen name="OpenPDF" component={OpenPDF} />
+        <Stack.Screen name="ViewPDF" component={ViewPDF} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 };
 

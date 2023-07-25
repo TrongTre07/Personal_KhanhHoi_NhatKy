@@ -1,6 +1,10 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import Pdf from 'react-native-pdf';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { useNavigation } from '@react-navigation/native';
+
 
 const styles = StyleSheet.create({
   container: {
@@ -13,11 +17,15 @@ const styles = StyleSheet.create({
     width: '100%',
   },
 });
-
-const ViewPDF = () => { // Sử dụng functional component và nhận giá trị pdfPath từ props
+var response;
+const ViewPDF = (props) => { // Sử dụng functional component và nhận giá trị pdfPath từ props
 //   console.log('pdfPath', pdfPath);
 //   const source = { uri: pdfPath }; // Sử dụng đường dẫn từ props
-  const abc = { uri: '/storage/emulated/0/Documents/Download/invoice_2.pdf' };  
+  const{navigation ,route} = props;
+  const {uri} = route.params;
+  console.log('uri', uri);
+  
+  const abc = { uri: '/storage/emulated/0/Documents/adasd/invoice_2.pdf' };  
   return (
     <View style={styles.container}>
       <Pdf
@@ -27,7 +35,8 @@ const ViewPDF = () => { // Sử dụng functional component và nhận giá tr�
     </View>
   );
 };
-const openPDFDocument = (uri) => {
-    Linking.openURL(uri).catch((err) => console.error('An error occurred: ', err));
+export const openPDFDocument = (uri) => {
+    response =uri;
+    console.log('========================', response);
   };
 export default ViewPDF;

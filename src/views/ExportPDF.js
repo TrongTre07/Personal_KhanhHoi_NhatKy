@@ -15,9 +15,9 @@ const GenaratePDF = () => {
         khaiThac: khaiThac,
         thuMua: thuMua,
     });
-    console.log('thuMua', thuMua);
-    console.log('thongTinTau', thongTinTau);
+    console.log('khaithac', khaiThac.khaithac);
     console.log('khaiThac', khaiThac);
+    console.log("loai 1 ", khaiThac.khaithac[0].loai_1)
     const thoiGianDi = new Date(fillData.thongTinTau.ngay_di);
     const ngayDi = thoiGianDi.getDate().toString();
     const thangDi = (thoiGianDi.getMonth() + 1).toString();
@@ -36,8 +36,8 @@ const GenaratePDF = () => {
             id: 1,
             meThu: 1,
             thoiGianTha: "20/12/2022",
-            kinhDoTha: 100000000,
-            viDoTha: 20000000000,
+            kinhDoTha: 10,
+            viDoTha: 10,
             thoigianThu: "20/12/2022",
             kinhDoThu: 10,
             viDoThu: 20,
@@ -402,20 +402,22 @@ const GenaratePDF = () => {
         
                 table {
                     border-collapse: collapse;
-                    margin-left: 6.09154pt;
+                    margin-left: 0;
                 }
         
                 table td {
                     border: 1pt solid #2B3D4F;
-                    padding: 6pt;
+
                     text-align: center;
                 }
         
                 .table-header {
-                    width: 383pt;
                     border: 1pt solid #2B3D4F;
                     background-color: #D1D6DB;
                     text-align: center;
+                    padding-top: 5pt;
+                    padding-bottom: 5pt;
+                    
                 }
         
                 border-table {
@@ -441,7 +443,7 @@ const GenaratePDF = () => {
                     MẪU NHẬT KÝ KHAI THÁC THỦY SẢN</span>
             </h1>
             <br/>
-            <table class="new-page" style="border-collapse:collapse;margin-left:17.1151pt;height:100%; witdh:100%;"
+            <table class="new-page" style="border-collapse:collapse;height:100%; witdh:100%;"
                 cellspacing="0">
                 <tr style="height:100%; witdh:100%;">
                     <td style="width:100%;border-top-style:solid;border-top-width:1pt;border-left-style:solid;border-left-width:1pt;border-bottom-style:solid;border-bottom-width:1pt;border-right-style:solid;border-right-width:1pt"
@@ -559,170 +561,192 @@ const GenaratePDF = () => {
                         THÔNG TIN VỀ HOẠT ĐỘNG KHAI THÁC THỦY SẢN</p>
                     <p style="text-indent: 0pt;text-align: center;"></p>
                     <div style="overflow-x:auto;">
-                        <table cellspacing="0">
-                            <tr style="height:100%; align-items: center;">
-                                <td style="width: 100%;height:100%; align-items: center;justify-content: center;"
+                        <table cellspacing="0" >
+                            <tr >
+                                <td style="height:100%;"
                                     class="border-table" rowspan="2" bgcolor="#D1D6DB">
-                                    <div class="s4" style="width: 100%; text-indent: 0pt;text-align: center;">
+                                    <div class="s4" style="width: 100%;text-align: center;">
                                         Mẻ thứ
                                     </div>
                                 </td>
-                                <td style="width: 100%;align-items: center;" class="border-table" rowspan="2" bgcolor="#D1D6DB">
-                                    <p class="s4" style="width: 100%;text-align: center;text-indent: 0pt">
+                                <td style="width: 30pt;align-items: center;" class="border-table" rowspan="2" bgcolor="#D1D6DB">
+                                    <p class="s4" style="width: 100%;text-align: center;text-indent: 0pt; padding:">
                                         Thời điểm thả (giờ, phút, ngày, tháng)</p>
                                 </td>
-                                <td style="width: 100%;" class="border-table" colspan="2" bgcolor="#D1D6DB">
+                                <td style="width: 30pt;" class="border-table" colspan="2" bgcolor="#D1D6DB">
                                     <p style="text-indent: 0pt;text-align: center;"></p>
                                     <p class="s4" style="width: 100%;text-align: center;text-indent: 0pt;">
                                         Vị trí thả
                                     </p>
                                 </td>
-                                <td style="width: 100%;" class="border-table" rowspan="2" bgcolor="#D1D6DB">
+                                <td style="width: 30pt;" class="border-table" rowspan="2" bgcolor="#D1D6DB">
                                     <p class="s4" style="width: 100%;text-indent: 0pt;text-align: center;">
                                         Thời điểm thu (giờ, phút, ngày, tháng)</p>
                                 </td>
-                                <td style="width: 100%;" class="border-table" colspan="2" bgcolor="#D1D6DB">
+                                <td style="width: 30pt;" class="border-table" colspan="2" bgcolor="#D1D6DB">
                                     <p style="text-indent: 0pt;text-align: center;"></p>
                                     <p class="s4" style="width: 100%;text-indent: 0pt;text-align: center;">
                                         Vị trí thu
                                     </p>
                                 </td>
-                                <td style="width: 100%;" class="border-table" colspan="9"
+                                <td style="width: 100%" class="border-table" colspan="9"
                                     bgcolor="#D1D6DB">
-                                    <p style="width: 100%;text-indent: 0pt;text-align: cenet;"></p>
+                                    <p style="width: 100%;text-indent: 0pt;text-align: center;"></p>
                                     <p class="s4" style="width: 100%;text-indent: 0pt;text-align: center;">
                                         Sản lượng các loài thủy sản chủ yếu (kg)</p>
                                 </td>
-                                <td style="width: 100%;" class="border-table" rowspan="2" bgcolor="#D1D6DB">
+                                <td style="width: 30pt;" class="border-table" rowspan="2" bgcolor="#D1D6DB">
                                     <p style="width: 100%;text-indent: 0pt;text-align: center;"></p>
                                     <p class="s4" style="width: 100%;text-indent: 0pt;text-align: center;">
                                         Tổng sản lượng (kg)</p>
                                 </td>
                             </tr>
                             <tr style="height:100%">
-                                <td style="width: 100%;" class="border-table" bgcolor="#D1D6DB">
+                                <td style="width: 30pt; align-item= center;" class="border-table" bgcolor="#D1D6DB">
                                     <p style="width: 100%; text-indent: 0pt;text-align: center;"></p>
-                                    <p class="s4" style="width: 100%;text-indent: 0pt;text-align: center;">
+                                    <p class="s4" style="width: 100;text-indent: 0pt;text-align: center;">
                                         Vĩ độ
                                     </p>
                                 </td>
-                                <td style="width: 100%;" class="border-table" bgcolor="#D1D6DB">
+                                <td style="width: 30pt;" class="border-table" bgcolor="#D1D6DB">
                                     <p style="width: 100%;text-indent: 0pt;text-align: center;"></p>
                                     <p class="s4" style="width: 100%;text-indent: 0pt;text-align: center;">
                                         Kinh độ
                                     </p>
                                 </td>
-                                <td style="width: 100%;" class="border-table" bgcolor="#D1D6DB">
+                                <td style="width: 30pt;" class="border-table" bgcolor="#D1D6DB">
                                     <p style="width: 100%;text-indent: 0pt;text-align: center;"></p>
                                     <p class="s4" style="width: 100%;text-indent: 0pt;text-align: center;">
                                         Vĩ độ
                                     </p>
                                 </td>
-                                <td style="width: 100%;" class="border-table" bgcolor="#D1D6DB">
+                                <td style="width: 30pt;" class="border-table" bgcolor="#D1D6DB">
                                     <p style="width: 100%;text-indent: 0pt;text-align: center;"></p>
                                     <p class="s4" style="width: 100%;text-indent: 0pt;text-align: center;">
                                         Kinh độ
                                     </p>
                                 </td>
                                 
-                                <td style="width: 100%;" class="border-table" bgcolor="#D1D6DB">
+                                <td style="width: 30pt;" class="border-table" bgcolor="#D1D6DB">
                                     <p class="s4" style="width: 100%;text-indent: 0pt;text-align: center;">
                                         Loài
                                     </p>
-                                    <p class="s4" style="width: 100%;text-indent: 0pt;text-align: center;"> ${fillData.khaiThac.loai_1} </p>
+                                    <p class="s4" style="width: 100%;text-indent: 0pt;text-align: center;"> ${fillData.khaiThac.khaithac[0].loai_1} </p>
         
                                 </td>
-                                <td style="width: 100%;" class="border-table" bgcolor="#D1D6DB">
+                                <td style="width: 30pt;" class="border-table" bgcolor="#D1D6DB">
                                     <p class="s4" style="width: 100%;text-indent: 0pt;text-align: center;">
                                         Loài
                                     </p>
-                                    <p class="s4" style="width: 100%;text-indent: 0pt;text-align: center;"> ${fillData.khaiThac.loai_2} </p>
+                                    <p class="s4" style="width: 100%;text-indent: 0pt;text-align: center;"> ${fillData.khaiThac.khaithac[0].loai_2} </p>
         
                                 </td>
-                                <td style="width: 100%;" class="border-table" bgcolor="#D1D6DB">
+                                <td style="width: 30pt;" class="border-table" bgcolor="#D1D6DB">
                                     <p class="s4" style="width: 100%;text-indent: 0pt;text-align: center;">
                                         Loài
                                     </p>
-                                    <p class="s4" style="width: 100%;text-indent: 0pt;text-align: center;"> ${fillData.khaiThac.loai_3} </p>
+                                    <p class="s4" style="width: 100%;text-indent: 0pt;text-align: center;"> ${fillData.khaiThac.khaithac[0].loai_3} </p>
         
                                 </td>
-                                <td style="width: 100%;" class="border-table" bgcolor="#D1D6DB">
+                                <td style="width: 30pt;" class="border-table" bgcolor="#D1D6DB">
                                     <p class="s4" style="width: 100%;text-indent: 0pt;text-align: center;">
                                         Loài
                                     </p>
-                                    <p class="s4" style="width: 100%;text-indent: 0pt;text-align: center;"> ${fillData.khaiThac.loai_4} </p>
+                                    <p class="s4" style="width: 100%;text-indent: 0pt;text-align: center;"> ${fillData.khaiThac.khaithac[0].loai_4} </p>
         
                                 </td>
-                                <td style="width: 100%;" class="border-table" bgcolor="#D1D6DB">
+                                <td style="width: 30pt;" class="border-table" bgcolor="#D1D6DB">
                                     <p class="s4" style="width: 100%;text-indent: 0pt;text-align: center;">
                                         Loài
                                     </p>
-                                    <p class="s4" style="width: 100%;text-indent: 0pt;text-align: center;"> ${fillData.khaiThac.loai_5} </p>
+                                    <p class="s4" style="width: 100%;text-indent: 0pt;text-align: center;"> ${fillData.khaiThac.khaithac[0].loai_5} </p>
         
                                 </td>
-                                <td style="width: 100%;" class="border-table" bgcolor="#D1D6DB">
+                                <td style="width: 30pt;" class="border-table" bgcolor="#D1D6DB">
                                     <p class="s4" style="width: 100%;text-indent: 0pt;text-align: center;">
                                         Loài
                                     </p>
-                                    <p class="s4" style="width: 100%;text-indent: 0pt;text-align: center;"> ${fillData.khaiThac.loai_6} </p>
+                                    <p class="s4" style="width: 100%;text-indent: 0pt;text-align: center;"> ${fillData.khaiThac.khaithac[0].loai_6} </p>
         
                                 </td>
-                                <td style="width: 100%;" class="border-table" bgcolor="#D1D6DB">
+                                <td style="width: 30pt;" class="border-table" bgcolor="#D1D6DB">
                                     <p class="s4" style="width: 100%;text-indent: 0pt;text-align: center;">
                                         Loài
                                     </p>
-                                    <p class="s4" style="width: 100%;text-indent: 0pt;text-align: center;"> ${fillData.khaiThac.loai_7} </p>
+                                    <p class="s4" style="width: 100%;text-indent: 0pt;text-align: center;"> ${fillData.khaiThac.khaithac[0].loai_7} </p>
         
                                 </td>
-                                <td style="width: 100%;" class="border-table" bgcolor="#D1D6DB">
+                                <td style="width: 30pt;" class="border-table" bgcolor="#D1D6DB">
                                     <p class="s4" style="width: 100%;text-indent: 0pt;text-align: center;">
                                         Loài
                                     </p>
-                                    <p class="s4" style="width: 100%;text-indent: 0pt;text-align: center;"> ${fillData.khaiThac.loai_8} </p>
+                                    <p class="s4" style="width: 100%;text-indent: 0pt;text-align: center;"> ${fillData.khaiThac.khaithac[0].loai_8} </p>
         
                                 </td>
-                                <td style="width: 100%;" class="border-table" bgcolor="#D1D6DB">
+                                <td style="width: 30pt;" class="border-table" bgcolor="#D1D6DB">
                                     <p class="s4" style="width: 100%;text-indent: 0pt;text-align: center;">
                                         Loài
                                     </p>
-                                    <p class="s4" style="width: 100%;text-indent: 0pt;text-align: center;"> ${fillData.khaiThac.loai_9} </p>
+                                    <p class="s4" style="width: 100%;text-indent: 0pt;text-align: center;"> ${fillData.khaiThac.khaithac[0].loai_9} </p>
         
                                 </td>
                                 
         
                             </tr>
-                            ${array.map(line => `
-                            <tr style="height:100%">
+                            ${khaiThac.khaithac.map(line => `
+                            <tr>
         
-                                <td style="width: 100%;" class="border-table">
-                                    <p style="width: 100%; text-indent: 0pt;text-align: center;">${line.meThu}</p>
+                                <td  class="border-table">
+                                    <p style="width: 100%; text-indent: 0pt;text-align: center; padding: 2pt;">${line.methu}</p>
                                 </td>
-                                <td style="width: 100%;" class="border-table">
-                                    <p style="width: 100%; text-indent: 0pt;text-align: center;">${line.thoiGianTha} </p>
+                                <td  class="border-table">
+                                    <p style="width: 100%; text-indent: 0pt;text-align: center;padding: 2pt;">${line.thoidiem_tha}</p>
                                 </td>
-                                <td style="width: 100%;" class="border-table">
-                                    <p style="width: 100%; text-indent: 0pt;text-align: center;">${line.viDoTha}</p>
+                                <td  class="border-table" style="width: 25pt;">
+                                    <p style="width: 100%; text-indent: 0pt;text-align: center;padding: 2pt;">${line.vido_tha}</p>
                                 </td>
-                                <td style="width: 100%;" class="border-table">
-                                    <p style="width: 100%; text-indent: 0pt;text-align: center;">${line.kinhDoTha}</p>
+                                <td  class="border-table">
+                                    <p style="width: 100%; text-indent: 0pt;text-align: center;padding: 2pt;">${line.kinhdo_tha}</p>
                                 </td>
-                                <td style="width: 100%;" class="border-table">
-                                    <p style="width: 100%; text-indent: 0pt;text-align: center;">${line.thoigianThu}</p>
+                                <td  class="border-table">
+                                    <p style="width: 100%; text-indent: 0pt;text-align: center;padding: 2pt;">${line.thoidiem_thu}</p>
                                 </td>
-                                <td style="width: 100%;" class="border-table">
-                                    <p style="width: 100%; text-indent: 0pt;text-align: center;">${line.viDoThu}</p>
+                                <td class="border-table">
+                                    <p style="width: 100%; text-indent: 0pt;text-align: center;padding: 2pt;">${line.vido_thu}</p>
                                 </td>
-                                <td style="width: 100%;" class="border-table">
-                                    <p style="width: 100%; text-indent: 0pt;text-align: center;">${line.kinhDoThu}</p>
+                                <td class="border-table">
+                                    <p style="width: 100%; text-indent: 0pt;text-align: center;padding: 2pt;">${line.kinhdo_thu}</p>
                                 </td>
-                                ${line.Loai.map(loai => `
-                                <td style="width: 100%;" class="border-table">
-                                    <p style="width: 100%; text-indent: 0pt;text-align: center;">${loai.soLuong}</p>
+                                <td class="border-table">
+                                    <p style="width: 100%; text-indent: 0pt;text-align: center;padding: 2pt;">${line.loai_1_kl}</p>
                                 </td>
-                                `).join('')}
+                                <td class="border-table">
+                                    <p style="width: 100%; text-indent: 0pt;text-align: center;padding: 2pt;">${line.loai_2_kl}</p>
+                                </td>
+                                <td class="border-table">
+                                    <p style="width: 100%; text-indent: 0pt;text-align: center;padding: 2pt;">${line.loai_3_kl}</p>
+                                </td>
+                                <td class="border-table">
+                                    <p style="width: 100%; text-indent: 0pt;text-align: center;padding: 2pt;">${line.loai_4_kl}</p>
+                                </td>
+                                <td class="border-table">
+                                    <p style="width: 100%; text-indent: 0pt;text-align: center;padding: 2pt;">${line.loai_5_kl}</p>
+                                </td>
+                                <td class="border-table">
+                                    <p style="width: 100%; text-indent: 0pt;text-align: center;padding: 2pt;">${line.loai_6_kl}</p>
+                                </td>
+                                <td class="border-table">
+                                    <p style="width: 100%; text-indent: 0pt;text-align: center;padding: 2pt;">${line.loai_7_kl}</p>
+                                </td>
+                                <td class="border-table">
+                                    <p style="width: 100%; text-indent: 0pt;text-align: center;padding: 2pt;">${line.loai_8_kl}</p>
+                                </td>
+                                <td class="border-table">
+                                    <p style="width: 100%; text-indent: 0pt;text-align: center;padding: 2pt;">${line.loai_9_kl}</p>
+                                </td>
         
-                                <td style="width: 100%;" class="border-table">
-                                    <p style="width: 100%;text-align: center; text-indent: 0pt;">${line.tong}</p>
+                                <td class="border-table">
+                                    <p style="width: 30pt;text-align: center; text-indent: 0pt;">${line.tongsanluong}</p>
                                 </td>
         
                             </tr>
@@ -733,13 +757,36 @@ const GenaratePDF = () => {
                                         Tổng khối lượng
                                     </p>
                                 </td>
-                                ${totalQuantityByLoai.map(line => `
-                                <td style="width: 100%;" class="border-table">
-                                    <p style="width: 100%; text-indent: 0pt;text-align: center;">${line.tongLoai}</p>
+                                
+                                <td style="width: 25pt;" class="border-table">
+                                    <p style="width: 25pt; text-indent: 0pt;text-align: center;">${khaiThac.khaithac[0].loai_1_kl}</p>
                                 </td>
-                                `).join('')}
+                                <td style="width: 25pt;" class="border-table">
+                                    <p style="width: 25pt; text-indent: 0pt;text-align: center;">${khaiThac.khaithac[0].loai_2_kl}</p>
+                                </td>
+                                <td style="width: 25pt;" class="border-table">
+                                    <p style="width: 25pt; text-indent: 0pt;text-align: center;">${khaiThac.khaithac[0].loai_3_kl}</p>
+                                </td>
+                                <td style="width: 25pt;" class="border-table">
+                                    <p style="width: 25pt; text-indent: 0pt;text-align: center;">${khaiThac.khaithac[0].loai_4_kl}</p>
+                                </td>
+                                <td style="width: 25pt;" class="border-table">
+                                    <p style="width: 25pt; text-indent: 0pt;text-align: center;">${khaiThac.khaithac[0].loai_5_kl}</p>
+                                </td>
+                                <td style="width: 25pt;" class="border-table">
+                                    <p style="width: 25pt; text-indent: 0pt;text-align: center;">${khaiThac.khaithac[0].loai_6_kl}</p>
+                                </td>
+                                <td style="width: 25pt;" class="border-table">
+                                    <p style="width: 25pt; text-indent: 0pt;text-align: center;">${khaiThac.khaithac[0].loai_7_kl}</p>
+                                </td>
+                                <td style="width: 25pt;" class="border-table">
+                                    <p style="width: 25pt; text-indent: 0pt;text-align: center;">${khaiThac.khaithac[0].loai_8_kl}</p>
+                                </td>
+                                <td style="width: 25pt;" class="border-table">
+                                    <p style="width: 25pt; text-indent: 0pt;text-align: center;">${khaiThac.khaithac[0].loai_9_kl}</p>
+                                </td>
                                 <td style="width: 100%;" class="border-table">
-                                    <p style="width: 100%; text-indent: 0pt;text-align: center;">${totalsanluong}</p>
+                                    <p style="width: 40pt; text-indent: 0pt;text-align: center;">${totalsanluong}</p>
                                 </td>
                             </tr>
                         </table>
@@ -890,7 +937,7 @@ const GenaratePDF = () => {
             const options = {
                 html,
                 fileName: `invoice_${count}`,
-                directory: 'Download',
+                directory: 'adasd',
             };
             const file = await RNHTMLtoPDF.convert(options);
             Alert.alert('Thành công', `PDF lưu tại ${file.filePath}`);
