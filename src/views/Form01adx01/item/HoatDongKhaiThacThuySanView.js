@@ -8,6 +8,7 @@ import {
   TextInput,
   TouchableOpacity,
   View,
+  Alert,
 } from 'react-native';
 import React, {useContext, useState} from 'react';
 import {FormContext} from '../../../contexts/FormContext';
@@ -19,6 +20,7 @@ import CustomDatePicker from './itemHoatDongKhaiThacThuySan/Timepicker';
 const HoatDongKhaiThacThuySanView = () => {
   const {khaiThac, setKhaiThac} = useContext(FormContext);
   const [listForm, setListForm] = React.useState([]);
+  const [valueCheckNumber, setValueCheckNumber] = useState('0');
 
   const dateNow = new Date();
 
@@ -145,8 +147,11 @@ const HoatDongKhaiThacThuySanView = () => {
             keyboardType="numeric"
             style={[styles.input]}
             editable={!isEditable}
+            // value={isEditable ? placeholder : valueCheckNumber}
             // i: 1-9
-            onChangeText={value => handleInputChangeKhoiLuong(index, i, value)}
+            onChangeText={value => {
+              handleInputChangeKhoiLuong(index, i, value);
+            }}
           />
         </View>,
       );
@@ -276,6 +281,28 @@ const HoatDongKhaiThacThuySanView = () => {
         </TouchableOpacity>
       </View>
     );
+  };
+
+  const calculateTongSanLuong = () => {
+    const klFields = [
+      'loai_1_kl',
+      'loai_2_kl',
+      'loai_3_kl',
+      'loai_4_kl',
+      'loai_5_kl',
+      'loai_6_kl',
+      'loai_7_kl',
+      'loai_8_kl',
+      'loai_9_kl',
+    ];
+    let sum = 0;
+    for (const field of klFields) {
+      const klValue = parseFloat(khaiThac.khaithac[0][field]);
+      if (!isNaN(klValue)) {
+        sum += klValue;
+      }
+    }
+    return sum.toString(); // Convert sum back to string before updating the state
   };
 
   const handleAddRow = () => {
@@ -431,6 +458,13 @@ const HoatDongKhaiThacThuySanView = () => {
   };
 
   const handleInputChangeKhoiLuong = (indexRow, indexSpecies, value) => {
+    if (isNaN(value)) {
+      Alert.alert('Lỗi', 'Bạn phải nhập số.', [{text: 'OK'}]);
+      return;
+    } else if(value == ''){
+      value = '0'
+    }
+
     const list = [...loaiCa];
     let existingItemIndex = list.findIndex(item => item.id == indexSpecies);
     if (indexSpecies == 9) {
@@ -439,10 +473,21 @@ const HoatDongKhaiThacThuySanView = () => {
     if (existingItemIndex !== -1) {
       list[existingItemIndex - 1].soLuong[indexRow] = value;
 
+      let sum = 0;
+      list.forEach(item => {
+        const numVal = parseFloat(item.soLuong[indexRow]);
+        if (!isNaN(numVal)) {
+          sum += numVal;
+        }
+      });
+
       //set data context so luong
 
       const updatedKhaiThac = {...khaiThac};
-      updatedKhaiThac.khaithac[indexRow][`loai_${indexSpecies}_kl`] = value;
+      updatedKhaiThac.khaithac[indexRow][`loai_${existingItemIndex}_kl`] =
+        value;
+      updatedKhaiThac.khaithac[indexRow].tongsanluong = sum;
+
       setKhaiThac(updatedKhaiThac);
       console.log(updatedKhaiThac);
     }
