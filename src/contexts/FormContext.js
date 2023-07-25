@@ -96,15 +96,16 @@ export const FormProvider = ({children}) => {
   const [thuMua, setThuMua] = useState({
     thumua: [
       {
-        ngaythang: '2023-07-22',
-        tm_ct_bstau: 'bs-tau',
-        tm_ct_gpkt: '123456',
-        tm_ct_vt_vido: '10.2',
-        tm_ct_vt_kinhdo: '103.8',
-        daban_ct_loai: 'Mực',
-        daban_ct_khoiluong: '100',
+        ngaythang: dateNowFormat(null),
+        tm_ct_bstau: '',
+        tm_ct_gpkt: '',
+        tm_ct_vt_vido: '',
+        tm_ct_vt_kinhdo: '',
+        daban_ct_loai: '',
+        daban_ct_khoiluong: '',
         tm_ct_thuyentruong: '',
       },
+      
     ],
   });
 

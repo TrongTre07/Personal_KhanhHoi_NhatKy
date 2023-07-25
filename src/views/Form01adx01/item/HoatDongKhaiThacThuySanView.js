@@ -283,28 +283,6 @@ const HoatDongKhaiThacThuySanView = () => {
     );
   };
 
-  const calculateTongSanLuong = () => {
-    const klFields = [
-      'loai_1_kl',
-      'loai_2_kl',
-      'loai_3_kl',
-      'loai_4_kl',
-      'loai_5_kl',
-      'loai_6_kl',
-      'loai_7_kl',
-      'loai_8_kl',
-      'loai_9_kl',
-    ];
-    let sum = 0;
-    for (const field of klFields) {
-      const klValue = parseFloat(khaiThac.khaithac[0][field]);
-      if (!isNaN(klValue)) {
-        sum += klValue;
-      }
-    }
-    return sum.toString(); // Convert sum back to string before updating the state
-  };
-
   const handleAddRow = () => {
     const newListForm = [...listForm, <_renderForm key={listForm.length} />];
     setListForm(newListForm);
@@ -461,8 +439,8 @@ const HoatDongKhaiThacThuySanView = () => {
     if (isNaN(value)) {
       Alert.alert('Lỗi', 'Bạn phải nhập số.', [{text: 'OK'}]);
       return;
-    } else if(value == ''){
-      value = '0'
+    } else if (value == '') {
+      value = '0';
     }
 
     const list = [...loaiCa];

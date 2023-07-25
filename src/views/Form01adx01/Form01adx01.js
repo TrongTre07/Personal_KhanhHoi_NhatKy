@@ -47,6 +47,7 @@ const Form01adx01 = () => {
       speciesName: '',
       weight: '',
     },
+    
   ]);
 
   const [inputHoatDongKhaiThacThuySan, setInputHoatDongKhaiThacThuySan] =

@@ -8,65 +8,79 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import DatePicker from 'react-native-date-picker';
 import {styles} from './itemHoatDongChuyenTai/style.js';
 import CustomDatePicker from './itemTongCucThuySan/CustomDatePicker.js';
-const HoatDongChuyenTaiView = ({textInput, setTextInput}) => {
+import {FormContext} from '../../../contexts/FormContext.js';
+const HoatDongChuyenTaiView = () => {
   const [listForm, setListForm] = React.useState([]);
 
+  const {thuMua, setThuMua} = useContext(FormContext);
   const dateNow = new Date();
 
-  const dateNowFormat = (newDate) => {
-
-    if(newDate===null){
+  const dateNowFormat = newDate => {
+    if (newDate === null) {
       const day = dateNow.getDate().toString().padStart(2, '0');
       const month = (dateNow.getMonth() + 1).toString().padStart(2, '0');
       const year = dateNow.getFullYear();
-    return `${day}/${month}/${year}`;
-    }else{
+      return `${day}/${month}/${year}`;
+    } else {
       const day = newDate.getDate().toString().padStart(2, '0');
       const month = (newDate.getMonth() + 1).toString().padStart(2, '0');
       const year = newDate.getFullYear();
-    return `${day}/${month}/${year}`;
+      return `${day}/${month}/${year}`;
     }
-
   };
 
-  const [sumOfWeight, setSumOfWeight] = React.useState(0);
+  const [textInput, setTextInput] = React.useState([
+    {
+      date: dateNowFormat(null),
+      shipRegisterNumber: '',
+      miningLicenseNumbewr: '',
+      latitude: '',
+      longitude: '',
+      speciesName: '',
+      weight: '',
+    },
+  ]);
 
-  // // date picker
-  // const [dateFormat, setDateFormat] = React.useState([dateNowFormat]);
+  const [sumOfWeight, setSumOfWeight] = React.useState(0);
 
   React.useEffect(() => {
     if (listForm.length === 0) {
       const newListForm = [...listForm, <_renderForm key={listForm.length} />];
       setListForm(newListForm);
     }
-    console.log('textinput',textInput)
   }, [listForm]);
 
   const handleDateChange = (index, date) => {
     const list = [...textInput];
     list[index].date = dateNowFormat(date);
+    
     setTextInput(list);
+
+     //handle context
+     const updatedThuMua = {...thuMua};
+     updatedThuMua.thumua[index].ngaythang = dateNowFormat(date);
+     setThuMua(updatedThuMua);
   };
 
-  const _renderForm = (index) => {
+  const _renderForm = index => {
     return (
       <View style={styles.form}>
         <View style={[styles.view1, styles.flexRow, {width: '100%'}]}>
-          <Text style={[styles.textValue, styles.flex1]}>
-            STT: {index + 1}
-          </Text>
+          <Text style={[styles.textValue, styles.flex1]}>STT: {index + 1}</Text>
           <View style={[styles.flexRow, styles.flex1]}>
             <Text style={styles.textValue}>Ngày, tháng: </Text>
-            <Text key={textInput[index].date} style={[styles.textValue, styles.mr8]}>
+            <Text
+              key={textInput[index].date}
+              style={[styles.textValue, styles.mr8]}>
               {textInput[index].date}
             </Text>
             <CustomDatePicker
               value={new Date(textInput[index].date)} // Convert the string date to a Date object
-              onDateChange={(date) => handleDateChange(index, date)}
+              onDateChange={date => handleDateChange(index, date)}
             />
           </View>
         </View>
@@ -78,7 +92,7 @@ const HoatDongChuyenTaiView = ({textInput, setTextInput}) => {
               <Text style={styles.textValue}>Số đăng ký tàu</Text>
               <TextInput
                 onChangeText={value =>
-                  handleInputChangeSoDangKyTau(listForm.length, value)
+                  handleInputChangeSoDangKyTau(index, value)
                 }
                 style={[styles.input]}
               />
@@ -88,7 +102,7 @@ const HoatDongChuyenTaiView = ({textInput, setTextInput}) => {
               <TextInput
                 style={[styles.input]}
                 onChangeText={value =>
-                  handleInputChangeSoGiayPhepKhaiThac(listForm.length, value)
+                  handleInputChangeSoGiayPhepKhaiThac(index, value)
                 }
               />
             </View>
@@ -102,18 +116,14 @@ const HoatDongChuyenTaiView = ({textInput, setTextInput}) => {
               <Text style={styles.textValue}>Vĩ độ</Text>
               <TextInput
                 style={[styles.input]}
-                onChangeText={value =>
-                  handleInputChangeViDo(listForm.length, value)
-                }
+                onChangeText={value => handleInputChangeViDo(index, value)}
               />
             </View>
             <View style={[styles.flex1, styles.ml16]}>
               <Text style={styles.textValue}>Kinh độ</Text>
               <TextInput
                 style={[styles.input]}
-                onChangeText={value =>
-                  handleInputChangeKinhDo(listForm.length, value)
-                }
+                onChangeText={value => handleInputChangeKinhDo(index, value)}
               />
             </View>
           </View>
@@ -127,7 +137,7 @@ const HoatDongChuyenTaiView = ({textInput, setTextInput}) => {
               <TextInput
                 style={[styles.input]}
                 onChangeText={value =>
-                  handleInputChangeTenLoaiThuySan(listForm.length, value)
+                  handleInputChangeTenLoaiThuySan(index, value)
                 }
               />
             </View>
@@ -137,7 +147,7 @@ const HoatDongChuyenTaiView = ({textInput, setTextInput}) => {
                 inputMode="numeric"
                 style={[styles.input]}
                 onChangeText={value =>
-                  handleInputChangeKhoiLuong(listForm.length, value)
+                  handleInputChangeKhoiLuong(index, value)
                 }
               />
             </View>
@@ -174,9 +184,23 @@ const HoatDongChuyenTaiView = ({textInput, setTextInput}) => {
       weight: 0,
     });
     setTextInput(textInput);
-    console.log(textInput);
 
-    // setDateFormat([...dateFormat, dateNowFormat]);
+    // handle data of context
+    const newThuMuaObject = {
+      ngaythang: dateNowFormat(null),
+      tm_ct_bstau: '',
+      tm_ct_gpkt: '',
+      tm_ct_vt_vido: '',
+      tm_ct_vt_kinhdo: '',
+      daban_ct_loai: '',
+      daban_ct_khoiluong: '',
+      tm_ct_thuyentruong: '',
+    };
+
+    setThuMua(prevState => ({
+      ...prevState,
+      thumua: [...prevState.thumua, newThuMuaObject],
+    }));
   };
 
   const handleDeleteRow = () => {
@@ -186,6 +210,16 @@ const HoatDongChuyenTaiView = ({textInput, setTextInput}) => {
       setListForm(newListForm);
       textInput.pop();
       setTextInput(textInput);
+
+      //Delete row at context
+      const updatedThuMua = [...thuMua.thumua];
+      updatedThuMua.pop();
+
+      // Update the state with the new array
+      setThuMua(prevState => ({
+        ...prevState,
+        thumua: updatedThuMua,
+      }));
     }
   };
 
@@ -193,30 +227,58 @@ const HoatDongChuyenTaiView = ({textInput, setTextInput}) => {
     const list = [...textInput];
     list[index].shipRegisterNumber = value;
     setTextInput(list);
+
+    //handle context
+
+    const updatedThuMua = {...thuMua};
+    updatedThuMua.thumua[index].tm_ct_bstau = value;
+    setThuMua(updatedThuMua);
   };
 
   const handleInputChangeSoGiayPhepKhaiThac = (index, value) => {
     const list = [...textInput];
     list[index].miningLicenseNumbewr = value;
     setTextInput(list);
+
+    //handle context
+
+    const updatedThuMua = {...thuMua};
+    updatedThuMua.thumua[index].tm_ct_gpkt = value;
+    setThuMua(updatedThuMua);
   };
 
   const handleInputChangeViDo = (index, value) => {
     const list = [...textInput];
     list[index].latitude = value;
     setTextInput(list);
+
+    //handle context
+
+    const updatedThuMua = {...thuMua};
+    updatedThuMua.thumua[index].tm_ct_vt_vido = value;
+    setThuMua(updatedThuMua);
   };
 
   const handleInputChangeKinhDo = (index, value) => {
     const list = [...textInput];
     list[index].longitude = value;
     setTextInput(list);
+
+    //handle context
+    const updatedThuMua = {...thuMua};
+    updatedThuMua.thumua[index].tm_ct_vt_kinhdo = value;
+    setThuMua(updatedThuMua);
   };
 
   const handleInputChangeTenLoaiThuySan = (index, value) => {
     const list = [...textInput];
     list[index].speciesName = value;
     setTextInput(list);
+
+     //handle context
+     const updatedThuMua = {...thuMua};
+     updatedThuMua.thumua[index].daban_ct_loai = value;
+     setThuMua(updatedThuMua);
   };
 
   const handleInputChangeKhoiLuong = (index, value) => {
@@ -229,8 +291,13 @@ const HoatDongChuyenTaiView = ({textInput, setTextInput}) => {
       sum += Number(item.weight);
     });
     setSumOfWeight(sum);
-  };
 
+     //handle context
+     const updatedThuMua = {...thuMua};
+     updatedThuMua.thumua[index].daban_ct_khoiluong = value;
+     setThuMua(updatedThuMua);
+     console.log("KL: ", updatedThuMua)
+  };
 
   return (
     <View style={{flex: 1, backgroundColor: '#fff'}}>

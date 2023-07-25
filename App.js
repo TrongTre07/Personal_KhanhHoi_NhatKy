@@ -28,7 +28,7 @@ const App = () => {
     <UserProvider>
       <FormProvider>
         <View style={styles.container}>
-          <HoatDongKhaiThacThuySanView />
+          <HoatDongChuyenTaiView />
         </View>
       </FormProvider>
     </UserProvider>
