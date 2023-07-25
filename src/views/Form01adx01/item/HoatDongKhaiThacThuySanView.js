@@ -467,7 +467,6 @@ const HoatDongKhaiThacThuySanView = () => {
       updatedKhaiThac.khaithac[indexRow].tongsanluong = sum;
 
       setKhaiThac(updatedKhaiThac);
-      console.log(updatedKhaiThac);
     }
     setLoaiCa(list);
   };

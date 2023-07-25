@@ -116,6 +116,7 @@ const HoatDongChuyenTaiView = () => {
               <Text style={styles.textValue}>Vĩ độ</Text>
               <TextInput
                 style={[styles.input]}
+                keyboardType='numeric'
                 onChangeText={value => handleInputChangeViDo(index, value)}
               />
             </View>
@@ -123,6 +124,7 @@ const HoatDongChuyenTaiView = () => {
               <Text style={styles.textValue}>Kinh độ</Text>
               <TextInput
                 style={[styles.input]}
+                keyboardType='numeric'
                 onChangeText={value => handleInputChangeKinhDo(index, value)}
               />
             </View>
@@ -296,7 +298,7 @@ const HoatDongChuyenTaiView = () => {
      const updatedThuMua = {...thuMua};
      updatedThuMua.thumua[index].daban_ct_khoiluong = value;
      setThuMua(updatedThuMua);
-     console.log("KL: ", updatedThuMua)
+     
   };
 
   return (

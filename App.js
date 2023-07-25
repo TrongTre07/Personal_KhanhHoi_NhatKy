@@ -13,6 +13,7 @@ import Menu from './src/views/Home/Menu';
 import HoatDongKhaiThacThuySanView from './src/views/Form01adx01/item/HoatDongKhaiThacThuySanView';
 import HoatDongChuyenTaiView from './src/views/Form01adx01/item/HoatDongChuyenTaiView';
 import TongCucThuySanView from './src/views/Form01adx01/item/TongCucThuySanView';
+import MyScreen from './src/views/Form01adx01/item/MyScreen';
 
 const AppNav = () => {
   const {isLoggedIn} = useContext(UserContext);
@@ -28,7 +29,8 @@ const App = () => {
     <UserProvider>
       <FormProvider>
         <View style={styles.container}>
-          <HoatDongChuyenTaiView />
+          {/* <MyScreen /> */}
+          <Form01adx01/>
         </View>
       </FormProvider>
     </UserProvider>
