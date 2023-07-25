@@ -4,6 +4,7 @@ import Form01adx01 from '../Form01adx01/Form01adx01';
 import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
 import Menu from '../Home/Menu';
+import Form01adx01Diary from '../Form01adx01/Form01adx01Diary';
 
 const Stack = createStackNavigator();
 const AppNavigation = () => {
@@ -21,7 +22,12 @@ const AppNavigation = () => {
         name="menu" component={Menu}
       />
       <Stack.Screen
-         name="Form01adx01" 
+         name="form01adx01Diary" 
+         component={Form01adx01Diary} 
+         options={{ headerTitle: '01-PLI. Nhật ký khai thác thủy sản' ,}}
+         />
+      <Stack.Screen
+         name="form01adx01" 
          component={Form01adx01} 
          options={{ headerTitle: '01-PLI. Nhật ký khai thác thủy sản' ,}}
          />

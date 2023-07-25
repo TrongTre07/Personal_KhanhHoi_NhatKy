@@ -13,7 +13,8 @@ import HoatDongChuyenTaiView from './item/HoatDongChuyenTaiView';
 import {FormContext} from '../../contexts/FormContext';
 import { UserContext } from '../../contexts/UserContext';
 
-const Form01adx01 = () => {
+const Form01adx01 = ({navigation}) => {
+
   const {
     thuMua,
     setThuMua,
@@ -24,8 +25,6 @@ const Form01adx01 = () => {
   } = useContext(FormContext);
 
   const  {postForm} = useContext(UserContext)
-
-//===
 
   const dateNow = new Date();
   const dateNowFormat = () => {
