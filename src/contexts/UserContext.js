@@ -22,10 +22,8 @@ const UserProvider = ({children}) => {
       if (!(await AsyncStorage.getItem('token')))
         await AsyncStorage.setItem('token', response.data);
 
-      console.log('ASYNC: ', await AsyncStorage.getItem('token'));
-      console.log('RES: ', response.data);
-
       if (response.data != null) {
+        console.log(response.data)
         setIsLoggedIn(true);
       }
     } catch (error) {
@@ -48,9 +46,9 @@ const UserProvider = ({children}) => {
     }
   };
 
-  useEffect(() => {
-    checkLoginStatus();
-  }, []);
+  // useEffect(() => {
+  //   checkLoginStatus();
+  // }, []);
 
   //
   const postForm = async obj => {

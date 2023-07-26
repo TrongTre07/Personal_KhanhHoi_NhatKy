@@ -16,7 +16,11 @@ import {FormContext} from '../../../contexts/FormContext';
 import DatePicker from 'react-native-date-picker';
 import {styles} from './itemHoatDongKhaiThacThuySan/styles';
 import CustomDatePicker from './itemHoatDongKhaiThacThuySan/Timepicker';
-import { dateNowFormat,convertStringToDate , convertStringToDateHour} from './itemTongCucThuySan/formatdate';
+import {
+  dateNowFormat,
+  convertStringToDate,
+  convertStringToDateHour,
+} from './itemTongCucThuySan/formatdate';
 
 const HoatDongKhaiThacThuySanView = () => {
   const {khaiThac, setKhaiThac} = useContext(FormContext);
@@ -24,26 +28,6 @@ const HoatDongKhaiThacThuySanView = () => {
   const [valueCheckNumber, setValueCheckNumber] = useState('0');
 
   const dateNow = new Date();
-
-  // const dateNowFormat = (newDate) => {
-
-  //   if(newDate===null){
-  //     const day = dateNow.getDate().toString().padStart(2, '0');
-  //     const month = (dateNow.getMonth() + 1).toString().padStart(2, '0');
-  //     const year = dateNow.getFullYear();
-  //     const hours = dateNow.getHours().toString().padStart(2, '0');
-  //     const minutes = dateNow.getMinutes().toString().padStart(2, '0');
-  //   return `${day}/${month}/${year}, ${hours}:${minutes}`;
-  //   }else{
-  //     const day = newDate.getDate().toString().padStart(2, '0');
-  //     const month = (newDate.getMonth() + 1).toString().padStart(2, '0');
-  //     const year = newDate.getFullYear();
-  //     const hours = newDate.getHours().toString().padStart(2, '0');
-  //     const minutes = newDate.getMinutes().toString().padStart(2, '0');
-  //   return `${day}/${month}/${year}, ${hours}:${minutes}`;
-  //   }
-
-  // };
 
   const [textInput, setTextInput] = React.useState([
     {
@@ -188,12 +172,14 @@ const HoatDongKhaiThacThuySanView = () => {
           <Text style={styles.title}>Thời điểm thả và vị trí thả (KĐ/VĐ) </Text>
           <View style={[styles.flexRow, styles.flex1]}>
             <Text style={styles.textValue}>Ngày, tháng: </Text>
-            <Text style={[styles.textValue,styles.mr8]}>{convertStringToDateHour(textInput[index].timeTha)}</Text>
+            <Text style={[styles.textValue, styles.mr8]}>
+              {convertStringToDateHour(textInput[index].timeTha)}
+            </Text>
             <CustomDatePicker
               value={textInput[index].timeTha}
               onDateChange={newDate => {
                 const newInput = [...textInput];
-                newInput[index].timeTha = dateNowFormat(newDate,'dateHour');
+                newInput[index].timeTha = dateNowFormat(newDate, 'dateHour');
                 setTextInput(newInput);
 
                 //set data context time
@@ -228,12 +214,14 @@ const HoatDongKhaiThacThuySanView = () => {
           <Text style={styles.title}>Thời điểm thu và vị trí thu (KĐ/VĐ) </Text>
           <View style={[styles.flexRow, styles.flex1]}>
             <Text style={styles.textValue}>Ngày, tháng: </Text>
-            <Text style={[styles.textValue,styles.mr8]}>{convertStringToDateHour(textInput[index].timeThu)}</Text>
+            <Text style={[styles.textValue, styles.mr8]}>
+              {convertStringToDateHour(textInput[index].timeThu)}
+            </Text>
             <CustomDatePicker
               value={convertStringToDate(textInput[index].timeThu)}
               onDateChange={newDate => {
                 const newInput = [...textInput];
-                newInput[index].timeThu = dateNowFormat(newDate,'dateHour');
+                newInput[index].timeThu = dateNowFormat(newDate, 'dateHour');
                 setTextInput(newInput);
 
                 //set data context kinh do

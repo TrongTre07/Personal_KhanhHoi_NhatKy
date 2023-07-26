@@ -15,8 +15,7 @@ import {FormContext} from '../../contexts/FormContext';
 import {UserContext} from '../../contexts/UserContext';
 import Spinner from 'react-native-loading-spinner-overlay';
 
-const Form01adx01 = ({navigation,route}) => {
-
+const Form01adx01 = ({navigation, route}) => {
   const {
     thuMua,
     setThuMua,
@@ -102,7 +101,7 @@ const Form01adx01 = ({navigation,route}) => {
       ...thuMua,
     };
   };
-    return (
+  return (
     <ScrollView
       contentContainerStyle={{flexGrow: 1}}
       showsVerticalScrollIndicator={false}>

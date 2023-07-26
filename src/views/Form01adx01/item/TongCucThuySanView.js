@@ -1,20 +1,18 @@
-import { ScrollView, StyleSheet,TextInput, Text, View } from 'react-native'
-import React,{useContext,useState,useEffect} from 'react'
-import styles from './itemTongCucThuySan/styles'
-import Table1 from './itemTongCucThuySan/Table1'
-import Table2 from './itemTongCucThuySan/Table2'
-import Table3 from './itemTongCucThuySan/Table3'
+import {ScrollView, StyleSheet, TextInput, Text, View} from 'react-native';
+import React, {useContext, useState, useEffect} from 'react';
+import styles from './itemTongCucThuySan/styles';
+import Table1 from './itemTongCucThuySan/Table1';
+import Table2 from './itemTongCucThuySan/Table2';
+import Table3 from './itemTongCucThuySan/Table3';
 import {FormContext} from '../../../contexts/FormContext';
 
-import { UserContext } from '../../../contexts/UserContext.js';
+import {UserContext} from '../../../contexts/UserContext.js';
 
 const TongCucThuySanView = ({id}) => {
   const {thongTinTau, setThongTinTau} = useContext(FormContext);
 
-  const {getDiaryForm,dataInfShip,data} = useContext(UserContext);
+  const {getDiaryForm, dataInfShip, data} = useContext(UserContext);
   // const [dataInf, setDataInf] = useState();
-
-  console.log(id);
 
   const dataInf = data.find(item => item.id === id);
 
@@ -22,11 +20,8 @@ const TongCucThuySanView = ({id}) => {
     const updatedThongTinTau = {...thongTinTau};
     updatedThongTinTau.nghechinh = value;
     setThongTinTau(updatedThongTinTau);
-    console.log(updatedThongTinTau)
+    console.log(updatedThongTinTau);
   };
-  
-
-
 
   return (
     <View style={styles.container}>
@@ -34,14 +29,16 @@ const TongCucThuySanView = ({id}) => {
         <Text style={styles.txtHeader}>TỔNG CỤC THUỶ SẢN</Text>
         <Text style={styles.txtHeader}>-----------</Text>
         <Text style={styles.txtHeader}>NHẬT KÝ KHAI THÁC THUỶ SẢN</Text>
-        <View style={[styles.row, { width: '30%' }]}>
-          <Text style={[styles.txtHeader,{fontWeight:'400'}]}>{'('}NGHỀ CHÍNH:</Text>
-          <TextInput style={styles.input} value={data.nghechinh} />
-          <Text style={[styles.txtHeader,{fontWeight:'400'}]}>{')'}</Text>
+        <View style={[styles.row, {width: '30%'}]}>
+          <Text style={[styles.txtHeader, {fontWeight: '400'}]}>
+            {'('}NGHỀ CHÍNH:
+          </Text>
+          <TextInput style={styles.input} value={data.nghechinh} onChangeText={handleNgheChinh}/>
+          <Text style={[styles.txtHeader, {fontWeight: '400'}]}>{')'}</Text>
         </View>
       </View>
 
-      <Table1         
+      <Table1
         ten_chutau={dataInf.ten_chutau}
         ten_thuyentruong={dataInf.ten_thuyentruong}
         id_tau={dataInf.id_tau}
@@ -51,33 +48,33 @@ const TongCucThuySanView = ({id}) => {
         gpkt_so={dataInf.gpkt_so}
         gpkt_thoihan={dataInf.gpkt_thoihan}
         nghephu1={dataInf.nghephu1}
-        nghephu2={dataInf.nghephu2}/>
+        nghephu2={dataInf.nghephu2}
+      />
       <Table2
-          ncau_chieudaivangcau={dataInf.ncau_chieudaivangcau}
-          ncau_soluoicau={dataInf.ncau_soluoicau}
-          nluoivay_chieudailuoi={dataInf.nluoivay_chieudailuoi}
-          nluoivay_chieucaoluoi={dataInf.nluoivay_chieucaoluoi}
-          nluoichup_chuvimiengluoi={dataInf.nluoichup_chuvimiengluoi}
-          nluoichup_chieucaoluoi={dataInf.nluoichup_chieucaoluoi}
-          nluoikeo_chieudaigiengphao={dataInf.nluoikeo_chieudaigiengphao}
-          nluoikeo_chieudaitoanboluoi={dataInf.nluoikeo_chieudaitoanboluoi}
-          nkhac={dataInf.nkhac}
+        ncau_chieudaivangcau={dataInf.ncau_chieudaivangcau}
+        ncau_soluoicau={dataInf.ncau_soluoicau}
+        nluoivay_chieudailuoi={dataInf.nluoivay_chieudailuoi}
+        nluoivay_chieucaoluoi={dataInf.nluoivay_chieucaoluoi}
+        nluoichup_chuvimiengluoi={dataInf.nluoichup_chuvimiengluoi}
+        nluoichup_chieucaoluoi={dataInf.nluoichup_chieucaoluoi}
+        nluoikeo_chieudaigiengphao={dataInf.nluoikeo_chieudaigiengphao}
+        nluoikeo_chieudaitoanboluoi={dataInf.nluoikeo_chieudaitoanboluoi}
+        nkhac={dataInf.nkhac}
       />
       <Table3
-          chuyenbien_so={dataInf.chuyenbien_so}
-          cang_di={dataInf.cang_di}
-          ngay_di={dataInf.ngay_di}
-          cang_ve={dataInf.cang_ve}
-          ngay_ve={dataInf.ngay_ve}
-          ngaynop={dataInf.ngaynop}
-          vaoso_so={dataInf.vaoso_so}
-          who_create={dataInf.who_create}
-          dairy_name={dataInf.dairy_name}
-          date_create={dataInf.date_create}
-          isdraft={dataInf.isdraft}
-          date_modified={dataInf.date_modified}
-              
-              />
+        chuyenbien_so={dataInf.chuyenbien_so}
+        cang_di={dataInf.cang_di}
+        ngay_di={dataInf.ngay_di}
+        cang_ve={dataInf.cang_ve}
+        ngay_ve={dataInf.ngay_ve}
+        ngaynop={dataInf.ngaynop}
+        vaoso_so={dataInf.vaoso_so}
+        who_create={dataInf.who_create}
+        dairy_name={dataInf.dairy_name}
+        date_create={dataInf.date_create}
+        isdraft={dataInf.isdraft}
+        date_modified={dataInf.date_modified}
+      />
     </View>
   );
 };

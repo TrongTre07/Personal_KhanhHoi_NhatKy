@@ -16,23 +16,23 @@ import { dateNowFormat,convertStringToDate } from './itemTongCucThuySan/formatda
 import { UserContext } from '../../../contexts/UserContext.js';
 import {FormContext} from '../../../contexts/FormContext.js';
 
-const HoatDongChuyenTaiView = ({textInput, setTextInput}) => {
+const HoatDongChuyenTaiView = () => {
   const [listForm, setListForm] = React.useState([]);
 
   const [sumOfWeight, setSumOfWeight] = React.useState(0);
   const {thuMua, setThuMua} = useContext(FormContext);
 
-  // const [textInput, setTextInput] = React.useState([
-  //   {
-  //     date: dateNowFormat(null),
-  //     shipRegisterNumber: '',
-  //     miningLicenseNumbewr: '',
-  //     latitude: '',
-  //     longitude: '',
-  //     speciesName: '',
-  //     weight: '',
-  //   },
-  // ]);
+  const [textInput, setTextInput] = React.useState([
+    {
+      date: dateNowFormat(null),
+      shipRegisterNumber: '',
+      miningLicenseNumbewr: '',
+      latitude: '',
+      longitude: '',
+      speciesName: '',
+      weight: '',
+    },
+  ]);
 
   React.useEffect(() => {
     if (listForm.length === 0) {

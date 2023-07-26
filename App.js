@@ -24,7 +24,7 @@ const AppNav = () => {
 
   return (
   <NavigationContainer>
-    {!isLoggedIn ? <Login /> : <AppNavigation/>}
+    {isLoggedIn == false ? <Login /> : <AppNavigation/>}
 </NavigationContainer>)
 }
 
@@ -35,7 +35,7 @@ const App = () => {
       <FormProvider>
         <View style={styles.container}>
           {/* <MyScreen /> */}
-          <Form01adx01/>
+          <AppNav/>
         </View>
       </FormProvider>
     </UserProvider>

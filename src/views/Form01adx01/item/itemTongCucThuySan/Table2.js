@@ -25,47 +25,45 @@ const Table2 = ({
     nluoikeo_chieudaitoanboluoi,
     nkhac,
   });
-  setThongTinTau({...thongTinTau, nluoivay_chieudailuoi: value});
+  // setThongTinTau({...thongTinTau, nluoivay_chieudailuoi: value});
 
-  const handleChieuCaoLuoiVay = value => {
-    setInputValue({
-      ...inputValue,
-      jobVayRe: {...jobVayRe, number: value},
-    });
-    setThongTinTau({...thongTinTau, nluoivay_chieucaoluoi: value});
-  };
+  // const handleChieuCaoLuoiVay = value => {
+  //   setInputValue({
+  //     ...inputValue,
+  //     jobVayRe: {...jobVayRe, number: value},
+  //   });
+  //   setThongTinTau({...thongTinTau, nluoivay_chieucaoluoi: value});
+  // };
 
-  const handleChuViMiengLuoiChup = value => {
-    setInputValue({...inputValue, jobChup: {...jobChup, size: value}});
-    setThongTinTau({...thongTinTau, nluoichup_chuvimiengluoi: value});
-  };
+  // const handleChuViMiengLuoiChup = value => {
+  //   setInputValue({...inputValue, jobChup: {...jobChup, size: value}});
+  //   setThongTinTau({...thongTinTau, nluoichup_chuvimiengluoi: value});
+  // };
 
-  const handleChieuCaoLuoiChup = value => {
-    setInputValue({
-      ...inputValue,
-      jobChup: {...jobChup, number: value},
-    });
-    setThongTinTau({...thongTinTau, nluoichup_chieucaoluoi: value});
-  };
+  // const handleChieuCaoLuoiChup = value => {
+  //   setInputValue({
+  //     ...inputValue,
+  //     jobChup: {...jobChup, number: value},
+  //   });
+  //   setThongTinTau({...thongTinTau, nluoichup_chieucaoluoi: value});
+  // };
 
-  const handleChieuDaiGiengPhaoKeo = value => {
-    setInputValue({...inputValue, jobKeo: {...jobKeo, size: value}});
-    setThongTinTau({...thongTinTau, nluoikeo_chieudaigiengphao: value});
-  };
+  // const handleChieuDaiGiengPhaoKeo = value => {
+  //   setInputValue({...inputValue, jobKeo: {...jobKeo, size: value}});
+  //   setThongTinTau({...thongTinTau, nluoikeo_chieudaigiengphao: value});
+  // };
 
-  const handleChieuCaoLuoiKeo = value => {
-    setInputValue({...inputValue, jobKeo: {...jobKeo, number: value}});
-    setThongTinTau({...thongTinTau, nluoikeo_chieudaitoanboluoi: value});
-  };
+  // const handleChieuCaoLuoiKeo = value => {
+  //   setInputValue({...inputValue, jobKeo: {...jobKeo, number: value}});
+  //   setThongTinTau({...thongTinTau, nluoikeo_chieudaitoanboluoi: value});
+  // };
 
-  const handleNgheKhac = value => {
-    setInputValue({...inputValue, jobOther: value});
-    setThongTinTau({...thongTinTau, nkhac: value});
+  // const handleNgheKhac = value => {
+  //   setInputValue({...inputValue, jobOther: value});
+  //   setThongTinTau({...thongTinTau, nkhac: value});
+  // };
 
-    // const updatedThongTinTau = {...thongTinTau};
-    // updatedThongTinTau.nkhac = value;
-    // console.log('NGHE KHAC: ', updatedThongTinTau);
-  };
+  const {thongTinTau, setThongTinTau} = useContext(FormContext)
 
   return (
     <View>
@@ -83,9 +81,10 @@ const Table2 = ({
           </Text>
           <TextInput
             style={[styles.input, styles.text]}
-            onChangeText={text =>
-              setInputValue({...inputValue, ncau_chieudaivangcau: text})
-            }
+            onChangeText={text => {
+              setThongTinTau({...thongTinTau, ncau_chieudaivangcau: text});
+              setInputValue({...inputValue, ncau_chieudaivangcau: text});
+            }}
             value={inputValue.ncau_chieudaivangcau}
           />
           <Text style={styles.text}>m;</Text>
@@ -94,9 +93,10 @@ const Table2 = ({
           <Text style={styles.text}>Số lưỡi câu:</Text>
           <TextInput
             style={[styles.input, styles.text]}
-            onChangeText={text =>
-              setInputValue({...inputValue, ncau_soluoicau: text})
-            }
+            onChangeText={text => {
+              setThongTinTau({...thongTinTau, ncau_soluoicau: text});
+              setInputValue({...inputValue, ncau_soluoicau: text});
+            }}
             value={inputValue.ncau_soluoicau}
           />
           <Text style={styles.text}>lưỡi</Text>
@@ -110,9 +110,10 @@ const Table2 = ({
           </Text>
           <TextInput
             style={[styles.input, styles.text]}
-            onChangeText={text =>
-              setInputValue({...inputValue, nluoivay_chieudailuoi: text})
-            }
+            onChangeText={text => {
+              setThongTinTau({...thongTinTau, nluoivay_chieudailuoi: text});
+              setInputValue({...inputValue, nluoivay_chieudailuoi: text});
+            }}
             value={inputValue.jobVayRe?.size}
           />
           <Text style={styles.text}>m;</Text>
@@ -121,9 +122,10 @@ const Table2 = ({
           <Text style={styles.text}>Chiều cao lưới:</Text>
           <TextInput
             style={[styles.input, styles.text]}
-            onChangeText={text =>
-              setInputValue({...inputValue, nluoivay_chieucaoluoi: text})
-            }
+            onChangeText={text => {
+              setThongTinTau({...thongTinTau, nluoivay_chieucaoluoi: text});
+              setInputValue({...inputValue, nluoivay_chieucaoluoi: text});
+            }}
             value={inputValue.nluoivay_chieucaoluoi}
           />
           <Text style={styles.text}>m</Text>
@@ -135,9 +137,10 @@ const Table2 = ({
           <Text style={styles.text}>c. Nghề lưới chụp: Chu vi miệng lưới</Text>
           <TextInput
             style={[styles.input, styles.text]}
-            onChangeText={text =>
-              setInputValue({...inputValue, nluoichup_chuvimiengluoi: text})
-            }
+            onChangeText={text => {
+              setThongTinTau({...thongTinTau, nluoichup_chuvimiengluoi: text});
+              setInputValue({...inputValue, nluoichup_chuvimiengluoi: text});
+            }}
             value={inputValue.nluoichup_chuvimiengluoi}
           />
           <Text style={styles.text}>m;</Text>
@@ -146,9 +149,10 @@ const Table2 = ({
           <Text style={styles.text}>Chiều cao lưới:</Text>
           <TextInput
             style={[styles.input, styles.text]}
-            onChangeText={text =>
-              setInputValue({...inputValue, nluoichup_chieucaoluoi: text})
-            }
+            onChangeText={text => {
+              setThongTinTau({...thongTinTau, nluoichup_chieucaoluoi: text});
+              setInputValue({...inputValue, nluoichup_chieucaoluoi: text});
+            }}
             value={inputValue.jobChup?.number}
           />
           <Text style={styles.text}>m</Text>
@@ -162,9 +166,13 @@ const Table2 = ({
           </Text>
           <TextInput
             style={[styles.input, styles.text]}
-            onChangeText={text =>
-              setInputValue({...inputValue, nluoikeo_chieudaigiengphao: text})
-            }
+            onChangeText={text => {
+              setThongTinTau({
+                ...thongTinTau,
+                nluoikeo_chieudaigiengphao: text,
+              });
+              setInputValue({...inputValue, nluoikeo_chieudaigiengphao: text});
+            }}
             value={inputValue.nluoikeo_chieudaigiengphao}
           />
           <Text style={styles.text}>m;</Text>
@@ -173,9 +181,13 @@ const Table2 = ({
           <Text style={styles.text}>Chiều cao lưới:</Text>
           <TextInput
             style={[styles.input, styles.text]}
-            onChangeText={text =>
-              setInputValue({...inputValue, nluoikeo_chieudaigiengphao: text})
-            }
+            onChangeText={text => {
+              setThongTinTau({
+                ...thongTinTau,
+                nluoikeo_chieudaitoanboluoi: text,
+              });
+              setInputValue({...inputValue, nluoikeo_chieudaitoanboluoi: text});
+            }}
             value={inputValue.nluoikeo_chieudaigiengphao}
           />
           <Text style={styles.text}>m</Text>
@@ -186,7 +198,10 @@ const Table2 = ({
         <View style={[styles.row, {width: '100%'}]}>
           <Text style={styles.text}>e. Nghề khác:</Text>
           <TextInput
-            onChangeText={text => setInputValue({...inputValue, nkhac: text})}
+            onChangeText={text => {
+              setThongTinTau({...thongTinTau, nkhac: text});
+              setInputValue({...inputValue, nkhac: text});
+            }}
             value={inputValue.nkhac}
             style={[styles.input, styles.text]}
           />
