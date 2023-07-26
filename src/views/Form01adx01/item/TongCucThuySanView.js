@@ -4,10 +4,12 @@ import styles from './itemTongCucThuySan/styles'
 import Table1 from './itemTongCucThuySan/Table1'
 import Table2 from './itemTongCucThuySan/Table2'
 import Table3 from './itemTongCucThuySan/Table3'
+import {FormContext} from '../../../contexts/FormContext';
 
 import { UserContext } from '../../../contexts/UserContext.js';
 
 const TongCucThuySanView = ({id}) => {
+  const {thongTinTau, setThongTinTau} = useContext(FormContext);
 
   const {getDiaryForm,dataInfShip,data} = useContext(UserContext);
   // const [dataInf, setDataInf] = useState();
@@ -16,14 +18,19 @@ const TongCucThuySanView = ({id}) => {
 
   const dataInf = data.find(item => item.id === id);
 
-
+  const handleNgheChinh = value => {
+    const updatedThongTinTau = {...thongTinTau};
+    updatedThongTinTau.nghechinh = value;
+    setThongTinTau(updatedThongTinTau);
+    console.log(updatedThongTinTau)
+  };
   
 
 
 
   return (
     <View style={styles.container}>
-      <View style={[styles.header,]}>
+      <View style={[styles.header]}>
         <Text style={styles.txtHeader}>TỔNG CỤC THUỶ SẢN</Text>
         <Text style={styles.txtHeader}>-----------</Text>
         <Text style={styles.txtHeader}>NHẬT KÝ KHAI THÁC THUỶ SẢN</Text>
@@ -32,7 +39,7 @@ const TongCucThuySanView = ({id}) => {
           <TextInput style={styles.input} value={data.nghechinh} />
           <Text style={[styles.txtHeader,{fontWeight:'400'}]}>{')'}</Text>
         </View>
-      </View> 
+      </View>
 
       <Table1         
         ten_chutau={dataInf.ten_chutau}
@@ -72,10 +79,10 @@ const TongCucThuySanView = ({id}) => {
               
               />
     </View>
-  )
-}
+  );
+};
 
-export default TongCucThuySanView
+export default TongCucThuySanView;
 
 // var dataInf= {
 //   nameOwner: 'Huy Tran',

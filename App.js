@@ -8,8 +8,12 @@ import 'react-native-gesture-handler';
 
 import {FormProvider} from './src/contexts/FormContext';
 import Menu from './src/views/Home/Menu';
+import HoatDongKhaiThacThuySanView from './src/views/Form01adx01/item/HoatDongKhaiThacThuySanView';
+import HoatDongChuyenTaiView from './src/views/Form01adx01/item/HoatDongChuyenTaiView';
+import TongCucThuySanView from './src/views/Form01adx01/item/TongCucThuySanView';
 import AppNavigation from './src/views/Navigations/AppNavigation';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Form01adx01 from './src/views/Form01adx01/Form01adx01';
 
 const AppNav = () => {
   const {isLoggedIn,setIsLoggedIn} = useContext(UserContext);
@@ -30,7 +34,8 @@ const App = () => {
     <UserProvider>
       <FormProvider>
         <View style={styles.container}>
-          <AppNav />
+          {/* <MyScreen /> */}
+          <Form01adx01/>
         </View>
       </FormProvider>
     </UserProvider>
