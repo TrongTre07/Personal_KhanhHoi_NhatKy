@@ -1,6 +1,8 @@
 import { View, Text, Button, TouchableOpacity } from 'react-native'
-import React from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import styles from './styles'
+
+import { UserContext } from '../../contexts/UserContext';
 const Menu = ({navigation}) => {
 
     return (

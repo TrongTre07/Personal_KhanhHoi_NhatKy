@@ -9,9 +9,14 @@ import 'react-native-gesture-handler';
 import {FormProvider} from './src/contexts/FormContext';
 import Menu from './src/views/Home/Menu';
 import AppNavigation from './src/views/Navigations/AppNavigation';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const AppNav = () => {
-  const {isLoggedIn} = useContext(UserContext);
+  const {isLoggedIn,setIsLoggedIn} = useContext(UserContext);
+  // if(AsyncStorage.getItem('token'))
+  //   setIsLoggedIn(true)
+  // else
+  // setIsLoggedIn(false)
 
   return (
   <NavigationContainer>
@@ -20,6 +25,7 @@ const AppNav = () => {
 }
 
 const App = () => {
+
   return (
     <UserProvider>
       <FormProvider>

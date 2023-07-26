@@ -31,10 +31,10 @@ const AppNavigation = () => {
                 <View style={{flexDirection: 'row', alignItems: 'center',width: '100%', justifyContent: 'space-between'}}>
                     <Text style={[styles.btnText,{color:'red'}]}>'01-PLI. Nhật ký khai thác thủy sản'</Text>
                     <TouchableOpacity style={{}}  onPress={() => navigation.navigate('form01adx01')}>
-  <View style={[styles.btn,{backgroundColor:'#33CC00'}]}>
-    <Text style={[styles.btnText,{color:'#fff'}]}>Tạo</Text>
-  </View>
-</TouchableOpacity>
+                      <View style={[styles.btn,{backgroundColor:'#33CC00'}]}>
+                        <Text style={[styles.btnText,{color:'#fff'}]}>Tạo</Text>
+                      </View>
+                    </TouchableOpacity>
                 </View>
       ),
             

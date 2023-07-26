@@ -6,16 +6,19 @@ import { Table, TableWrapper, Row, Rows, Col } from 'react-native-table-componen
 import { useNavigation } from '@react-navigation/native';
 const Form01adx01Diary = ({navigation}) => {
 
-  const {getDiaryForm,deleteFormId} = useContext(UserContext);
+  const {getDiaryForm,deleteFormId,dataInfShip} = useContext(UserContext);
   const [data, setData] = useState([]);
 
+  console.log('dataInfShip');
+
+    const fetchdata = async ()=>{
+    setData(await getDiaryForm());
+   }
   useEffect( ()=>{
     fetchdata();
   },[])
 
-   const fetchdata = async ()=>{
-    setData(await getDiaryForm());
-   }
+
 
    //alert delete
    const handleDelete = (id) => {
