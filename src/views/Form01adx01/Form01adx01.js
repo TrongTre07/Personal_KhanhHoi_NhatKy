@@ -13,7 +13,7 @@ import HoatDongChuyenTaiView from './item/HoatDongChuyenTaiView';
 import {FormContext} from '../../contexts/FormContext';
 import { UserContext } from '../../contexts/UserContext';
 
-const Form01adx01 = ({navigation}) => {
+const Form01adx01 = ({navigation,route}) => {
 
   const {
     thuMua,
@@ -118,13 +118,12 @@ const Form01adx01 = ({navigation}) => {
       ...thuMua,
     };
   };
-
-  return (
+    return (
     <ScrollView
       contentContainerStyle={{flexGrow: 1}}
       showsVerticalScrollIndicator={false}>
       <HeaderView />
-      <TongCucThuySanView />
+      <TongCucThuySanView id={route.params?.id} />
       <HoatDongKhaiThacThuySanView />
       <HoatDongChuyenTaiView
         textInput={inputHoatDongChuyenTai}

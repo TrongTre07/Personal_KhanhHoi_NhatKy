@@ -10,60 +10,60 @@ import CustomDatePicker from './CustomDatePicker';
 import { UserContext } from '../../../../contexts/UserContext';
 
 const Table1 = ({
-  nameOwner,
-  namePilot,
-  tentau,
-  numberShip,
-  longMaxShip,
-  sumEngine,
-  numberSeafood,
-  dateSeafood,
-  sideJob1,
-  sideJob2,
+  ten_chutau,
+  ten_thuyentruong,
+  id_tau,
+  tau_bs,
+  tau_chieudailonnhat,
+  tau_tongcongsuatmaychinh,
+  gpkt_so,
+  gpkt_thoihan,
+  nghephu1,
+  nghephu2,
 }) => {
 
   //data
   const  {dataInfShip} = useContext(UserContext)
 
-  
-  const [data, setData] = useState([
-    {
-      "idShip": 1,
-      "tentau": "HC-1234-TS1",
-      "date_create": "2023-07-12T15:57:07",
-      "isActive": true,
-      "gpkt": "HAGPKT",
-      "chutau": "abc",
-      "gpkt_thoihan": "12/2/2022",
-      "chieudailonnhat": 12,
-      "congsuat": 12,
-    },
-      {
-        "idShip": 4,
-        "tentau": "TC-1234-TS",
-        "date_create": "2023-07-19T10:24:18",
-        "isActive": true,
-        "gpkt": "HAGPKT",
-        "chutau": "abc",
-        "gpkt_thoihan": "12/2/2022",
-        "chieudailonnhat": 12,
-        "congsuat": 12
-      }
-  ])
+  console.log('tau',dataInfShip)
+  // const [data, setData] = useState([
+  //   {
+  //     "idShip": 1,
+  //     "tentau": "HC-1234-TS1",
+  //     "date_create": "2023-07-12T15:57:07",
+  //     "isActive": true,
+  //     "gpkt": "HAGPKT",
+  //     "chutau": "abc",
+  //     "gpkt_thoihan": "12/2/2022",
+  //     "chieudailonnhat": 12,
+  //     "congsuat": 12,
+  //   },
+  //     {
+  //       "idShip": 4,
+  //       "tentau": "TC-1234-TS",
+  //       "date_create": "2023-07-19T10:24:18",
+  //       "isActive": true,
+  //       "gpkt": "HAGPKT",
+  //       "chutau": "abc",
+  //       "gpkt_thoihan": "12/2/2022",
+  //       "chieudailonnhat": 12,
+  //       "congsuat": 12
+  //     }
+  // ])
 
 
   //data[]
   const [inputValue, setInputValue] = useState({
-    chutau:nameOwner,
-    namePilot,
-    tentau,
-    chieudailonnhat,
-    isActive,
-    congsuat,
-    gpkt,
+    ten_chutau,
+    ten_thuyentruong,
+    id_tau,
+    tau_bs,
+    tau_chieudailonnhat,
+    tau_tongcongsuatmaychinh,
+    gpkt_so,
     gpkt_thoihan,
-    sideJob1,
-    sideJob2,
+    nghephu1,
+    nghephu2,
   });
 
 
@@ -76,8 +76,8 @@ const Table1 = ({
         <View style={[styles.row, { width: '50%' }]}>
           <Text style={styles.text}>1. Họ và tên chủ tàu:</Text>
           <TextInput
-            onChangeText={(text) => setInputValue({ ...inputValue, nameOwner: text })}
-            value={inputValue.nameOwner}
+            onChangeText={(text) => setInputValue({ ...inputValue, ten_chutau: text })}
+            value={inputValue.ten_chutau}
             style={[styles.input, styles.text]}
           />
           <Text style={styles.text}>;</Text>
@@ -85,8 +85,8 @@ const Table1 = ({
         <View style={[styles.row, { width: '50%' }]}>
           <Text style={styles.text}>2. Họ và tên thuyền trưởng:</Text>
           <TextInput
-            onChangeText={(text) => setInputValue({ ...inputValue, namePilot: text })}
-            value={inputValue.namePilot}
+            onChangeText={(text) => setInputValue({ ...inputValue, ten_thuyentruong: text })}
+            value={inputValue.ten_thuyentruong}
             style={[styles.input, styles.text]}
           />
         </View>
@@ -100,13 +100,21 @@ const Table1 = ({
             <Text style={[styles.text,]}>:</Text>
           </View>
           <Picker
-            selectedValue={inputValue.numberShip}
+            selectedValue={inputValue.tau_bs}
             style={[styles.input]}
-            onValueChange={(itemValue, itemIndex) => setInputValue({...inputValue, numberShip:itemValue})}
+            onValueChange={(itemValue, itemIndex) => {
+              //tau_bs và tentau là 1
+              const dataInf = dataInfShip.find(item => itemValue === item.tentau);
+              setInputValue({...inputValue, 
+                tau_bs: dataInf.tentau,
+                gpkt_so: dataInf.gpkt,
+                gpkt_thoihan: dataInf.gpkt_thoihan,
+              })}
+            }
           >
             <Picker.Item style={styles.text} label="- Chọn tàu -" value="" />
             {              
-              data.map((value,key) => (
+              dataInfShip.map((value,key) => (
                   <Picker.Item 
                     key={key} 
                     style={styles.text}
@@ -125,8 +133,8 @@ const Table1 = ({
         <View style={[styles.row, { width: '33%', height: 'auto' }]}>
           <Text style={[styles.text, { width: '65%' }]}>4. Chiều dài lớn nhất của tàu:</Text>
           <TextInput
-            onChangeText={(text) => setInputValue({ ...inputValue, longMaxShip: text })}
-            value={inputValue.longMaxShip}
+            onChangeText={(text) => setInputValue({ ...inputValue, tau_chieudailonnhat: text })}
+            value={inputValue.tau_chieudailonnhat}
             style={[styles.input, styles.text]}
           />
           <Text style={styles.text}>m; </Text>
@@ -134,8 +142,8 @@ const Table1 = ({
         <View style={[styles.row, { width: '34%', height: 'auto' }]}>
           <Text style={[styles.text, { width: '60%' }]}>5. Tổng công xuất máy chính:</Text>
           <TextInput
-            onChangeText={(text) => setInputValue({ ...inputValue, sumEngine: text })}
-            value={inputValue.sumEngine}
+            onChangeText={(text) => setInputValue({ ...inputValue, tau_tongcongsuatmaychinh: text })}
+            value={inputValue.tau_tongcongsuatmaychinh}
             style={[styles.input, styles.text]}
           />
           <Text style={styles.text}>CV</Text>
@@ -146,8 +154,8 @@ const Table1 = ({
         <View style={[styles.row, { width: '50%' }]}>
           <Text style={styles.text}>6. Số giấy phép khai {'\n'} thác thuỷ sản:</Text>
           <TextInput
-            onChangeText={(text) => setInputValue({ ...inputValue, numberSeafood: text })}
-            value={inputValue.numberSeafood}
+            onChangeText={(text) => setInputValue({ ...inputValue, gpkt_so: text })}
+            value={inputValue.gpkt_so}
             style={[styles.input, styles.text]}
           />
           <Text style={styles.text}>;</Text>
@@ -155,8 +163,8 @@ const Table1 = ({
         <View style={[styles.row, { width: '50%' }]}>
           <Text style={styles.text}>Thời hạn đến:</Text>
           <TextInput
-            onChangeText={(text) => setInputValue({ ...inputValue, dateSeafood: text })}
-            value={inputValue.dateSeafood.toString()}
+            onChangeText={(text) => setInputValue({ ...inputValue, gpkt_thoihan: text })}
+            value={inputValue.gpkt_thoihan}
             style={[styles.input, styles.text]}
           />
           {/* <Pressable onPress={() => setOpen(true)}>
@@ -166,7 +174,7 @@ const Table1 = ({
             onDateChange={(date) => 
 
                       setInputValue({
-                        ...inputValue, dateSeafood:dateNowFormat(date,"string")
+                        ...inputValue, gpkt_thoihan:dateNowFormat(date,"string")
                     })}
           />
         </View>
@@ -176,8 +184,8 @@ const Table1 = ({
         <View style={[styles.row, { width: '50%' }]}>
           <Text style={styles.text}>7. Ngề phụ 1:</Text>
           <TextInput
-            onChangeText={(text) => setInputValue({ ...inputValue, sideJob1: text })}
-            value={inputValue.sideJob1}
+            onChangeText={(text) => setInputValue({ ...inputValue, nghephu1: text })}
+            value={inputValue.nghephu1}
             style={[styles.input, styles.text]}
           />
           <Text style={styles.text}>;</Text>
@@ -185,8 +193,8 @@ const Table1 = ({
         <View style={[styles.row, { width: '50%' }]}>
           <Text style={styles.text}>8. Nghề phụ 2:</Text>
           <TextInput
-            onChangeText={(text) => setInputValue({ ...inputValue, sideJob2: text })}
-            value={inputValue.sideJob2}
+            onChangeText={(text) => setInputValue({ ...inputValue, nghephu2: text })}
+            value={inputValue.nghephu2}
             style={[styles.input, styles.text]}
           />
         </View>

@@ -9,7 +9,7 @@ const Form01adx01Diary = ({navigation}) => {
   const {getDiaryForm,deleteFormId,dataInfShip} = useContext(UserContext);
   const [data, setData] = useState([]);
 
-  console.log('dataInfShip');
+  // console.log('dataInfShip',dataInfShip);
 
     const fetchdata = async ()=>{
     setData(await getDiaryForm());
@@ -51,7 +51,7 @@ const Form01adx01Diary = ({navigation}) => {
         </View>
       </TouchableOpacity>
       <TouchableOpacity 
-          onPress={() => navigation.navigate('form01adx01')}
+          onPress={() => navigation.navigate('form01adx01',{id:id})}
       >
         <View style={[styles.btn,{backgroundColor:'#00FFFF'}]}>
           <Text style={styles.btnText}>Sửa</Text>

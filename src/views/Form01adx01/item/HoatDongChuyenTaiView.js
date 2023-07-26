@@ -13,32 +13,13 @@ import DatePicker from 'react-native-date-picker';
 import {styles} from './itemHoatDongChuyenTai/style.js';
 import CustomDatePicker from './itemTongCucThuySan/CustomDatePicker.js';
 import { dateNowFormat,convertStringToDate } from './itemTongCucThuySan/formatdate.js';
+import { UserContext } from '../../../contexts/UserContext.js';
 
 const HoatDongChuyenTaiView = ({textInput, setTextInput}) => {
   const [listForm, setListForm] = React.useState([]);
 
-  // const dateNow = new Date();
-
-  // const dateNowFormat = (newDate) => {
-
-  //   if(newDate===null){
-  //     const day = dateNow.getDate().toString().padStart(2, '0');
-  //     const month = (dateNow.getMonth() + 1).toString().padStart(2, '0');
-  //     const year = dateNow.getFullYear();
-  //   return `${day}/${month}/${year}`;
-  //   }else{
-  //     const day = newDate.getDate().toString().padStart(2, '0');
-  //     const month = (newDate.getMonth() + 1).toString().padStart(2, '0');
-  //     const year = newDate.getFullYear();
-  //   return `${day}/${month}/${year}`;
-  //   }
-
-  // };
-
   const [sumOfWeight, setSumOfWeight] = React.useState(0);
 
-  // // date picker
-  // const [dateFormat, setDateFormat] = React.useState([dateNowFormat]);
 
   React.useEffect(() => {
     if (listForm.length === 0) {

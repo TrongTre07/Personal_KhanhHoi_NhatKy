@@ -26,8 +26,7 @@ const UserProvider = ({children}) => {
 
       if(response.data != null){
         setIsLoggedIn(true);
-        const dataship= await instance.get('api/FormAppendix/getallship');
-        setDataInfShip(await dataship.data);
+
       }else{
         await AsyncStorage.removeItem('token');
         console.log('Name successfully deleted.');
@@ -72,6 +71,9 @@ const UserProvider = ({children}) => {
   const getDiaryForm = async () =>{
     try {
       const response = await instance.get('api/FormAppendix/getall_0101');
+      setData(await response.data);
+      const dataship= await instance.get('api/FormAppendix/getallship');
+      setDataInfShip(await dataship.data);
       return response.data;
     } catch (error) {
       console.log("GET ERROR: ", error)
@@ -105,6 +107,7 @@ const UserProvider = ({children}) => {
     postForm,
     getDiaryForm,
     deleteFormId,getFormId,dataInfShip,
+    data
     };
 
   return (

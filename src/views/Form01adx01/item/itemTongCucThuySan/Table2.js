@@ -3,21 +3,29 @@ import React,{useState} from 'react'
 import styles from './styles'
 
 const Table2 = ({
-      jobCau,
-      jobVayRe,
-      jobChup,
-      jobKeo,
-      jobOther
+      ncau_chieudaivangcau,
+      ncau_soluoicau,
+      nluoivay_chieudailuoi,
+      nluoivay_chieucaoluoi,
+      nluoichup_chuvimiengluoi,
+      nluoichup_chieucaoluoi,
+      nluoikeo_chieudaigiengphao,
+      nluoikeo_chieudaitoanboluoi,
+      nkhac
   }) => {
     const [inputValue, setInputValue] = useState({
-      jobCau,
-      jobVayRe,
-      jobChup,
-      jobKeo,
-      jobOther
+      ncau_chieudaivangcau,
+      ncau_soluoicau,
+      nluoivay_chieudailuoi,
+      nluoivay_chieucaoluoi,
+      nluoichup_chuvimiengluoi,
+      nluoichup_chieucaoluoi,
+      nluoikeo_chieudaigiengphao,
+      nluoikeo_chieudaitoanboluoi,
+      nkhac
     });
 
-    // console.log(inputValue)
+    console.log(inputValue)
 
 
   return (
@@ -35,8 +43,8 @@ const Table2 = ({
           <Text style={styles.text}>a. Nghề câu: Chiều dài toàn bộ vàng câu</Text>
           <TextInput 
             style={[styles.input,styles.text]}
-            onChangeText={(text) => setInputValue({ ...inputValue, jobCau: {...jobCau,size:text} })}
-            value={inputValue.jobCau?.size}
+            onChangeText={(text) => setInputValue({ ...inputValue, ncau_chieudaivangcau: text })}
+            value={inputValue.ncau_chieudaivangcau}
             />
           <Text style={styles.text}>m;</Text>
         </View>
@@ -44,8 +52,8 @@ const Table2 = ({
           <Text style={styles.text}>Số lưỡi câu:</Text>
           <TextInput 
             style={[styles.input,styles.text]}
-            onChangeText={(text) => setInputValue({ ...inputValue, jobCau: {...jobCau,number:text} })}
-            value={inputValue.jobCau?.number}
+            onChangeText={(text) => setInputValue({ ...inputValue, ncau_soluoicau: text })}
+            value={inputValue.ncau_soluoicau}
           />
           <Text style={styles.text}>lưỡi</Text>
         </View>
@@ -56,7 +64,7 @@ const Table2 = ({
           <Text style={styles.text}>b. Nghề lưới vây, rê: Chiều dài toàn bộ lưới</Text>
           <TextInput 
             style={[styles.input,styles.text]}
-            onChangeText={(text) => setInputValue({ ...inputValue, jobVayRe: {...jobVayRe,size:text} })}
+            onChangeText={(text) => setInputValue({ ...inputValue, nluoivay_chieudailuoi: text })}
             value={inputValue.jobVayRe?.size}
           />
           <Text style={styles.text}>m;</Text>
@@ -65,8 +73,8 @@ const Table2 = ({
           <Text style={styles.text}>Chiều cao lưới:</Text>
           <TextInput 
             style={[styles.input,styles.text]}
-            onChangeText={(text) => setInputValue({ ...inputValue, jobVayRe: {...jobVayRe,number:text} })}
-            value={inputValue.jobVayRe?.number}
+            onChangeText={(text) => setInputValue({ ...inputValue, nluoivay_chieucaoluoi: text })}
+            value={inputValue.nluoivay_chieucaoluoi}
           />
           <Text style={styles.text}>m</Text>
         </View>
@@ -77,8 +85,8 @@ const Table2 = ({
           <Text style={styles.text}>c. Nghề lưới chụp: Chu vi miệng lưới</Text>
           <TextInput 
             style={[styles.input,styles.text]}
-            onChangeText={(text) => setInputValue({ ...inputValue, jobChup: {...jobChup,size:text} })}
-            value={inputValue.jobChup?.size}
+            onChangeText={(text) => setInputValue({ ...inputValue, nluoichup_chuvimiengluoi: text})}
+            value={inputValue.nluoichup_chuvimiengluoi}
           />
           <Text style={styles.text}>m;</Text>
         </View>
@@ -86,7 +94,7 @@ const Table2 = ({
           <Text style={styles.text}>Chiều cao lưới:</Text>
           <TextInput 
             style={[styles.input,styles.text]}
-            onChangeText={(text) => setInputValue({ ...inputValue, jobChup: {...jobChup,number:text} })}
+            onChangeText={(text) => setInputValue({ ...inputValue, nluoichup_chieucaoluoi: text })}
             value={inputValue.jobChup?.number}
           />
           <Text style={styles.text}>m</Text>
@@ -98,8 +106,8 @@ const Table2 = ({
           <Text style={styles.text}>d. Nghề lưới kéo: Chiều dài giềng phao</Text>
           <TextInput 
             style={[styles.input,styles.text]}
-            onChangeText={(text) => setInputValue({ ...inputValue, jobKeo: {...jobKeo,size:text} })}
-            value={inputValue.jobKeo?.size}
+            onChangeText={(text) => setInputValue({ ...inputValue, nluoikeo_chieudaigiengphao: text })}
+            value={inputValue.nluoikeo_chieudaigiengphao}
           />
           <Text style={styles.text}>m;</Text>
         </View>
@@ -107,8 +115,8 @@ const Table2 = ({
           <Text style={styles.text}>Chiều cao lưới:</Text>
           <TextInput 
             style={[styles.input,styles.text]}
-            onChangeText={(text) => setInputValue({ ...inputValue, jobKeo: {...jobKeo,number:text} })}
-            value={inputValue.jobKeo?.number}
+            onChangeText={(text) => setInputValue({ ...inputValue, nluoikeo_chieudaigiengphao: text })}
+            value={inputValue.nluoikeo_chieudaigiengphao}
           />
           <Text style={styles.text}>m</Text>
         </View>
@@ -118,8 +126,8 @@ const Table2 = ({
         <View style={[styles.row,{width:'100%'}]}>
           <Text style={styles.text}>e. Nghề khác:</Text>
           <TextInput
-            onChangeText={(text) => setInputValue({ ...inputValue, jobOther: text })}
-            value={inputValue.jobOther}
+            onChangeText={(text) => setInputValue({ ...inputValue, nkhac: text })}
+            value={inputValue.nkhac}
             style={[styles.input, styles.text]}
           />
         </View>
