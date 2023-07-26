@@ -15,7 +15,8 @@ import {FormContext} from '../../contexts/FormContext';
 import {UserContext} from '../../contexts/UserContext';
 import Spinner from 'react-native-loading-spinner-overlay';
 
-const Form01adx01 = () => {
+const Form01adx01 = ({navigation}) => {
+
   const {
     thuMua,
     setThuMua,

@@ -45,6 +45,24 @@ const UserProvider = ({children}) => {
     }
   };
 
+  const getDiaryForm = async () => {
+    try {
+      const response = await instance.get('api/FormAppendix/getall_0101');
+      return response.data;
+    } catch (error) {
+      console.log('POST ERROR: ', error);
+    }
+  };
+
+  const deleteFormId = async id => {
+    try {
+      const response = await instance.post(`api/FormAppendix/0101/del/${id}`);
+      console.log('delete', response.data);
+    } catch (error) {
+      console.log('POST ERROR: ', error);
+    }
+  };
+
   const contextValues = {
     isLoggedIn,
     login,
@@ -55,6 +73,9 @@ const UserProvider = ({children}) => {
     setIsLoading,
     isError,
     setIsError,
+
+    getDiaryForm,
+    deleteFormId,
   };
 
   return (
