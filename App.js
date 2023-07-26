@@ -2,7 +2,7 @@ import {ScrollView, StyleSheet, Text, View} from 'react-native';
 import 'react-native-gesture-handler';
 import React, {useContext} from 'react';
 import {UserContext, UserProvider} from './src/contexts/UserContext';
-import {NavigationContainer} from '@react-navigation/native';
+import {NavigationContainer, useNavigation} from '@react-navigation/native';
 import Login from './src/views/login/Login';
 import 'react-native-gesture-handler';
 

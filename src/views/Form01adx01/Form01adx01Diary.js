@@ -87,6 +87,7 @@ const Form01adx01Diary = ({navigation}) => {
 
   return (
     <View style={styles.container}>
+
       <ScrollView showsVerticalScrollIndicator={false}>
         <Table borderStyle={{ borderWidth: 1 }}>
           <Row data={state.tableHead} flexArr={[0.8, 1, 2, 1.5, 1.5, 2, 2, 3.5]} style={styles.head} textStyle={styles.textHead} />
