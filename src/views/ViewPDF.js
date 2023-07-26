@@ -11,6 +11,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor:'red'
   },
   pdf: {
     flex: 1,
@@ -21,11 +22,12 @@ var response;
 const ViewPDF = (props) => { // Sử dụng functional component và nhận giá trị pdfPath từ props
 //   console.log('pdfPath', pdfPath);
 //   const source = { uri: pdfPath }; // Sử dụng đường dẫn từ props
-  const{navigation ,route} = props;
-  const {uri} = route.params;
-  console.log('uri', uri);
+  // const{navigation ,route} = props;
+  // const {uri} = route.params;
+  // console.log('uri', uri);
+  // const babi ={uri};
   
-  const abc = { uri: '/storage/emulated/0/Documents/adasd/invoice_2.pdf' };  
+  const abc = { uri: 'storage/emulated/0/Documents/pdf/invoice_2.pdf' };  
   return (
     <View style={styles.container}>
       <Pdf

@@ -937,7 +937,7 @@ const GenaratePDF = () => {
             const options = {
                 html,
                 fileName: `invoice_${count}`,
-                directory: 'adasd',
+                directory: 'pdf',
             };
             const file = await RNHTMLtoPDF.convert(options);
             Alert.alert('Thành công', `PDF lưu tại ${file.filePath}`);

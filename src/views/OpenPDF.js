@@ -16,24 +16,17 @@ const OpenPDF = ({ navigation }) => {
         try {
             console.log('handleDocumentSelection');
             const response = await DocumentPicker.pick({
-                presentationStyle: 'fullScreen',
+                
                 type: [types.pdf],
             });
+            console.log('fileResponse', response[0].uri.toString());
             setFileResponse(response);
-            console.log('fileResponse', response);
+            
 
             return (
                 
                 console.log('fileResponse', fileResponse),
-                navigation.navigate('ViewPDF',{ uri:  fileResponse.map((file, index) => (
-                    <Text
-                        key={index.toString()}
-                        style={styles.uri}
-                        numberOfLines={1}
-                        ellipsizeMode={'middle'}>
-                        {file?.uri}
-                    </Text>
-                ))})
+                navigation.navigate('ViewPDF', { uri: response[0].uri.toString() })
               );
         } catch (err) {
             console.warn(err);
