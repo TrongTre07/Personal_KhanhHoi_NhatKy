@@ -1,15 +1,16 @@
 import { View, Text, StyleSheet, TouchableOpacity,ScrollView, Alert } from 'react-native'
 import React, { useContext, useEffect, useState } from 'react'
 import { UserContext } from '../../contexts/UserContext';
-
+import {GenaratePDF, GeneratePDF} from '../ExportPDF';
 import { Table, TableWrapper, Row, Rows, Col } from 'react-native-table-component';
 import { useNavigation } from '@react-navigation/native';
 const Form01adx01Diary = ({navigation}) => {
 
   const {getDiaryForm,deleteFormId,dataInfShip} = useContext(UserContext);
   const [data, setData] = useState([]);
+  
 
-  console.log('dataInfShip');
+  // console.log('-------------------------------------------', data);
 
     const fetchdata = async ()=>{
     setData(await getDiaryForm());
@@ -19,7 +20,9 @@ const Form01adx01Diary = ({navigation}) => {
   },[])
 
 
-
+  const handleGeneratePDF = (data,name) => {
+    GeneratePDF(data,name);
+  };
    //alert delete
    const handleDelete = (id) => {
     Alert.alert(
@@ -57,7 +60,23 @@ const Form01adx01Diary = ({navigation}) => {
           <Text style={styles.btnText}>Sửa</Text>
         </View>
       </TouchableOpacity>      
-      <TouchableOpacity  onPress={() => {}}>
+      <TouchableOpacity  onPress={(id) => {
+          console.log('id', id);
+          console.log('-------------------------------------', data);
+          const datafile = data.find((item)=>{
+             if(item.id == id){
+              console.log('item---------------------------------------', item);
+              return item;
+            }
+            else{
+              console.log('item--------------------------------------', item);
+              return item.id;
+            }
+          });
+          console.log('datafile', datafile);
+          handleGeneratePDF(datafile, datafile.dairy_name);
+      }}>
+        
         <View style={[styles.btn,{backgroundColor:'#FF99FF'}]}>
           <Text style={styles.btnText}>Tải xuống</Text>
         </View>
@@ -87,6 +106,7 @@ const Form01adx01Diary = ({navigation}) => {
     tableColum: selectedData
 
   }
+  
 
   return (
     <View style={styles.container}>
