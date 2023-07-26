@@ -30,9 +30,7 @@ const Form01adx01 = () => {
 
   const netInfo = useNetInfo();
   const navigation = useNavigation();
-  
 
-//===
 
   const dateNow = new Date();
   const dateNowFormat = () => {
