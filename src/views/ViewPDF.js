@@ -27,7 +27,7 @@ const ViewPDF = (props) => { // Sử dụng functional component và nhận giá
   // console.log('uri', uri);
   // const babi ={uri};
   
-  const abc = { uri: 'storage/emulated/0/Documents/pdf/invoice_2.pdf' };  
+  const abc = { uri: 'content://com.android.externalstorage.documents/document/primary%3ADocuments%2Fpdf%2Finvoice_1.pdf' };  
   return (
     <View style={styles.container}>
       <Pdf

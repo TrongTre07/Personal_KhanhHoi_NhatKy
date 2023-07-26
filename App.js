@@ -29,20 +29,20 @@ const AppNav = () => {
 
 const App = () => {
   return (
-    // <NavigationContainer>
-    //    <Stack.Navigator>
-    //     <Stack.Screen name="OpenPDF" component={OpenPDF} />
-    //     <Stack.Screen name="ViewPDF" component={ViewPDF} />
-    //   </Stack.Navigator>
-    // </NavigationContainer>
-    <UserProvider>
-      <FormProvider>
-        <View style={styles.container}>
-          {/* <AppNav /> */}
-          <ViewPDF/>
-        </View>
-      </FormProvider>
-    </UserProvider>
+    <NavigationContainer>
+       <Stack.Navigator>
+        <Stack.Screen name="OpenPDF" component={OpenPDF} />
+        <Stack.Screen name="ViewPDF" component={ViewPDF} />
+      </Stack.Navigator>
+    </NavigationContainer>
+    // <UserProvider>
+    //   <FormProvider>
+    //     <View style={styles.container}>
+    //       {/* <AppNav /> */}
+    //       <ViewPDF/>
+    //     </View>
+    //   </FormProvider>
+    // </UserProvider>
   );
 };
 
