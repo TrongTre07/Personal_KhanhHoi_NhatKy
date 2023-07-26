@@ -13,7 +13,7 @@ import React, { useState } from 'react';
 import DatePicker from 'react-native-date-picker';
 import { styles } from './itemHoatDongKhaiThacThuySan/styles';
 import CustomDatePicker from './itemHoatDongKhaiThacThuySan/Timepicker';
-import { dateNowFormat,convertStringToDate } from './itemTongCucThuySan/formatdate';
+import { dateNowFormat,convertStringToDate , convertStringToDateHour} from './itemTongCucThuySan/formatdate';
 
 const HoatDongKhaiThacThuySanView = () => {
   const [dateTha, setDateTha] = React.useState(new Date());
@@ -23,32 +23,32 @@ const HoatDongKhaiThacThuySanView = () => {
 
   const dateNow = new Date();
 
-  const dateNowFormat = (newDate) => {
+  // const dateNowFormat = (newDate) => {
 
-    if(newDate===null){
-      const day = dateNow.getDate().toString().padStart(2, '0');
-      const month = (dateNow.getMonth() + 1).toString().padStart(2, '0');
-      const year = dateNow.getFullYear();
-      const hours = dateNow.getHours().toString().padStart(2, '0');
-      const minutes = dateNow.getMinutes().toString().padStart(2, '0');
-    return `${day}/${month}/${year}, ${hours}:${minutes}`;
-    }else{
-      const day = newDate.getDate().toString().padStart(2, '0');
-      const month = (newDate.getMonth() + 1).toString().padStart(2, '0');
-      const year = newDate.getFullYear();
-      const hours = newDate.getHours().toString().padStart(2, '0');
-      const minutes = newDate.getMinutes().toString().padStart(2, '0');
-    return `${day}/${month}/${year}, ${hours}:${minutes}`;
-    }
+  //   if(newDate===null){
+  //     const day = dateNow.getDate().toString().padStart(2, '0');
+  //     const month = (dateNow.getMonth() + 1).toString().padStart(2, '0');
+  //     const year = dateNow.getFullYear();
+  //     const hours = dateNow.getHours().toString().padStart(2, '0');
+  //     const minutes = dateNow.getMinutes().toString().padStart(2, '0');
+  //   return `${day}/${month}/${year}, ${hours}:${minutes}`;
+  //   }else{
+  //     const day = newDate.getDate().toString().padStart(2, '0');
+  //     const month = (newDate.getMonth() + 1).toString().padStart(2, '0');
+  //     const year = newDate.getFullYear();
+  //     const hours = newDate.getHours().toString().padStart(2, '0');
+  //     const minutes = newDate.getMinutes().toString().padStart(2, '0');
+  //   return `${day}/${month}/${year}, ${hours}:${minutes}`;
+  //   }
 
-  };
+  // };
 
   const [textInput, setTextInput] = React.useState([
     {
-      timeTha: dateNowFormat(null),
+      timeTha: dateNowFormat('nullHour'),
       viDoTha: '',
       kinhDoTha: '',
-      timeThu: dateNowFormat(null),
+      timeThu: dateNowFormat('nullHour'),
       viDoThu: '',
       kinhDoThu: '',
     },
@@ -182,12 +182,12 @@ const HoatDongKhaiThacThuySanView = () => {
         <Text style={styles.title}>Thời điểm thả và vị trí thả (KĐ/VĐ) </Text>
           <View style={[styles.flexRow, styles.flex1]}>
             <Text style={styles.textValue}>Ngày, tháng: </Text>
-            <Text style={[styles.textValue,styles.mr8]}>{textInput[index].timeTha}</Text>
+            <Text style={[styles.textValue,styles.mr8]}>{convertStringToDateHour(textInput[index].timeTha)}</Text>
             <CustomDatePicker
               value={textInput[index].timeTha}
               onDateChange={newDate => {
                 const newInput = [...textInput];
-                newInput[index].timeTha = dateNowFormat(newDate);
+                newInput[index].timeTha = dateNowFormat(newDate,'dateHour');
                 setTextInput(newInput);
               }}
             />
@@ -216,12 +216,12 @@ const HoatDongKhaiThacThuySanView = () => {
         <Text style={styles.title}>Thời điểm thu và vị trí thu (KĐ/VĐ) </Text>
           <View style={[styles.flexRow, styles.flex1]}>
             <Text style={styles.textValue}>Ngày, tháng: </Text>
-            <Text style={[styles.textValue,styles.mr8]}>{textInput[index].timeThu}</Text>
+            <Text style={[styles.textValue,styles.mr8]}>{convertStringToDateHour(textInput[index].timeThu)}</Text>
             <CustomDatePicker
               value={convertStringToDate(textInput[index].timeThu)}
               onDateChange={newDate => {
                 const newInput = [...textInput];
-                newInput[index].timeThu = newDate;
+                newInput[index].timeThu = dateNowFormat(newDate,'dateHour');
                 setTextInput(newInput);
               }}
             />
@@ -267,10 +267,10 @@ const HoatDongKhaiThacThuySanView = () => {
     const newListForm = [...listForm, <_renderForm key={listForm.length} />];
     setListForm(newListForm);
     textInput.push({
-      timeTha: dateNowFormat(null),
+      timeTha: dateNowFormat('nullHour'),
       viDoTha: '',
       kinhDoTha: '',
-      timeThu: dateNowFormat(null),
+      timeThu: dateNowFormat('nullHour'),
       viDoTha: '',
       kinhDoThu: '',
     });

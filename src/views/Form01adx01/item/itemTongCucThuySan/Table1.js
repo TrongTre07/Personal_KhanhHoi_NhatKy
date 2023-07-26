@@ -1,16 +1,18 @@
 
 import { View, Text, TextInput, Image, Pressable } from 'react-native';
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo ,useContext} from 'react';
 import styles from './styles';
 import DatePicker from 'react-native-date-picker'
 import { Picker } from '@react-native-picker/picker';
 import { dateNowFormat } from './formatdate';
 import CustomDatePicker from './CustomDatePicker';
 
+import { UserContext } from '../../../../contexts/UserContext';
+
 const Table1 = ({
   nameOwner,
   namePilot,
-  arrNumberShip,
+  tentau,
   numberShip,
   longMaxShip,
   sumEngine,
@@ -20,22 +22,52 @@ const Table1 = ({
   sideJob2,
 }) => {
 
+  //data
+  const  {dataInfShip} = useContext(UserContext)
+
+  
+  const [data, setData] = useState([
+    {
+      "idShip": 1,
+      "tentau": "HC-1234-TS1",
+      "date_create": "2023-07-12T15:57:07",
+      "isActive": true,
+      "gpkt": "HAGPKT",
+      "chutau": "abc",
+      "gpkt_thoihan": "12/2/2022",
+      "chieudailonnhat": 12,
+      "congsuat": 12,
+    },
+      {
+        "idShip": 4,
+        "tentau": "TC-1234-TS",
+        "date_create": "2023-07-19T10:24:18",
+        "isActive": true,
+        "gpkt": "HAGPKT",
+        "chutau": "abc",
+        "gpkt_thoihan": "12/2/2022",
+        "chieudailonnhat": 12,
+        "congsuat": 12
+      }
+  ])
+
+
   //data[]
   const [inputValue, setInputValue] = useState({
-    nameOwner,
+    chutau:nameOwner,
     namePilot,
-    numberShip,
-    longMaxShip,
-    sumEngine,
-    numberSeafood,
-    dateSeafood,
+    tentau,
+    chieudailonnhat,
+    isActive,
+    congsuat,
+    gpkt,
+    gpkt_thoihan,
     sideJob1,
     sideJob2,
   });
-  //data
-  const [date, setDate] = useState(new Date())
-  const [open, setOpen] = useState(false)
 
+
+  
 
   console.log(inputValue)
   return (
@@ -74,12 +106,12 @@ const Table1 = ({
           >
             <Picker.Item style={styles.text} label="- Chọn tàu -" value="" />
             {              
-              arrNumberShip.map((value,key) => (
+              data.map((value,key) => (
                   <Picker.Item 
                     key={key} 
                     style={styles.text}
-                    label={value}
-                    value={value} />
+                    label={value.tentau}
+                    value={value.tentau} />
                 ))
               }
           </Picker>
@@ -121,7 +153,7 @@ const Table1 = ({
           <Text style={styles.text}>;</Text>
         </View>
         <View style={[styles.row, { width: '50%' }]}>
-          <Text style={styles.text}>Thời gian đến:</Text>
+          <Text style={styles.text}>Thời hạn đến:</Text>
           <TextInput
             onChangeText={(text) => setInputValue({ ...inputValue, dateSeafood: text })}
             value={inputValue.dateSeafood.toString()}
