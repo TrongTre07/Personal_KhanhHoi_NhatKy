@@ -71,7 +71,7 @@ const Form01adx01Diary = ({navigation}) => {
     
   );
 //data
-    const selectedData = data.map((item,index) => ([
+    const selectedData = data?.map((item,index) => ([
       index,
       item.dairy_name,
       item.tau_bs,

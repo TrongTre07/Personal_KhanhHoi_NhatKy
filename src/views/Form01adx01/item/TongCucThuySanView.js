@@ -67,7 +67,7 @@ var data= {
   jobOther:"cong an, size 123",
   sideJob2:'câu cá',
   changeNumber:'23516',
-  departurePort:{text:'di',date:'21/01/2011'},
-  arrivalPort:{text:'ve',date:'11/02/2011'},
-  diary:{date:'11/03/2011',text:'abc123'}
+  departurePort:{text:'di',date:'1021-10-12'},
+  arrivalPort:{text:'ve',date:'2002-19-20'},
+  diary:{date:'2021-11-02',text:'abc123'}
 }

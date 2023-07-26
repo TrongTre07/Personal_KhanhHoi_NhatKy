@@ -12,26 +12,28 @@ import React, {useState} from 'react';
 import DatePicker from 'react-native-date-picker';
 import {styles} from './itemHoatDongChuyenTai/style.js';
 import CustomDatePicker from './itemTongCucThuySan/CustomDatePicker.js';
+import { dateNowFormat,convertStringToDate } from './itemTongCucThuySan/formatdate.js';
+
 const HoatDongChuyenTaiView = ({textInput, setTextInput}) => {
   const [listForm, setListForm] = React.useState([]);
 
-  const dateNow = new Date();
+  // const dateNow = new Date();
 
-  const dateNowFormat = (newDate) => {
+  // const dateNowFormat = (newDate) => {
 
-    if(newDate===null){
-      const day = dateNow.getDate().toString().padStart(2, '0');
-      const month = (dateNow.getMonth() + 1).toString().padStart(2, '0');
-      const year = dateNow.getFullYear();
-    return `${day}/${month}/${year}`;
-    }else{
-      const day = newDate.getDate().toString().padStart(2, '0');
-      const month = (newDate.getMonth() + 1).toString().padStart(2, '0');
-      const year = newDate.getFullYear();
-    return `${day}/${month}/${year}`;
-    }
+  //   if(newDate===null){
+  //     const day = dateNow.getDate().toString().padStart(2, '0');
+  //     const month = (dateNow.getMonth() + 1).toString().padStart(2, '0');
+  //     const year = dateNow.getFullYear();
+  //   return `${day}/${month}/${year}`;
+  //   }else{
+  //     const day = newDate.getDate().toString().padStart(2, '0');
+  //     const month = (newDate.getMonth() + 1).toString().padStart(2, '0');
+  //     const year = newDate.getFullYear();
+  //   return `${day}/${month}/${year}`;
+  //   }
 
-  };
+  // };
 
   const [sumOfWeight, setSumOfWeight] = React.useState(0);
 
@@ -48,7 +50,7 @@ const HoatDongChuyenTaiView = ({textInput, setTextInput}) => {
 
   const handleDateChange = (index, date) => {
     const list = [...textInput];
-    list[index].date = dateNowFormat(date);
+    list[index].date = dateNowFormat(date,"date");
     setTextInput(list);
   };
 
@@ -62,7 +64,7 @@ const HoatDongChuyenTaiView = ({textInput, setTextInput}) => {
           <View style={[styles.flexRow, styles.flex1]}>
             <Text style={styles.textValue}>Ngày, tháng: </Text>
             <Text key={textInput[index].date} style={[styles.textValue, styles.mr8]}>
-              {textInput[index].date}
+              {convertStringToDate(textInput[index].date)}
             </Text>
             <CustomDatePicker
               value={new Date(textInput[index].date)} // Convert the string date to a Date object

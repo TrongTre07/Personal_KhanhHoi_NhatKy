@@ -40,24 +40,6 @@ const Table1 = ({
   console.log(inputValue)
   return (
     <View>
-      {/* {open && (
-        <DatePicker
-          modal
-          mode={"date"}
-          open={open}
-          date={date}
-          onConfirm={(date) => {
-            setInputValue({
-              ...inputValue, dateSeafood:dateNowFormat(date,"string")
-            })
-            setOpen(false)
-            setDate(date)
-          }}
-          onCancel={() => {
-            setOpen(false)
-          }}
-        />
-      )} */}
       <View style={[styles.row]}>
         <View style={[styles.row, { width: '50%' }]}>
           <Text style={styles.text}>1. Họ và tên chủ tàu:</Text>

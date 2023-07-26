@@ -28,11 +28,16 @@ const UserProvider = ({children}) => {
         setIsLoggedIn(true);
         const dataship= await instance.get('api/FormAppendix/getallship');
         setDataInfShip(await dataship.data);
+      }else{
+        await AsyncStorage.removeItem('token');
+        console.log('Name successfully deleted.');
       }
     } catch (error) {
       console.error('Error fetching data or saving token:', error);
     }
   };
+
+  //check login token
   const checkLoginStatus = async () => {
     try {
       const userToken = await AsyncStorage.getItem('token');
@@ -50,6 +55,8 @@ const UserProvider = ({children}) => {
     checkLoginStatus();
   }, []);
 
+
+  //
   const postForm = async (obj) =>{
     try {
       const payload = obj;

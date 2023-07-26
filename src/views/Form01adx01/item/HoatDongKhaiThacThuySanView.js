@@ -13,6 +13,7 @@ import React, { useState } from 'react';
 import DatePicker from 'react-native-date-picker';
 import { styles } from './itemHoatDongKhaiThacThuySan/styles';
 import CustomDatePicker from './itemHoatDongKhaiThacThuySan/Timepicker';
+import { dateNowFormat,convertStringToDate } from './itemTongCucThuySan/formatdate';
 
 const HoatDongKhaiThacThuySanView = () => {
   const [dateTha, setDateTha] = React.useState(new Date());
@@ -217,10 +218,10 @@ const HoatDongKhaiThacThuySanView = () => {
             <Text style={styles.textValue}>Ngày, tháng: </Text>
             <Text style={[styles.textValue,styles.mr8]}>{textInput[index].timeThu}</Text>
             <CustomDatePicker
-              value={textInput[index].timeThu}
+              value={convertStringToDate(textInput[index].timeThu)}
               onDateChange={newDate => {
                 const newInput = [...textInput];
-                newInput[index].timeThu = dateNowFormat(newDate);
+                newInput[index].timeThu = newDate;
                 setTextInput(newInput);
               }}
             />
