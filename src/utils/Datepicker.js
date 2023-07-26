@@ -8,7 +8,7 @@ const Datepicker = () => {
 
   // Function to handle date change in the DatePicker
   const handleDateChange = newDate => {
-    console.log(newDate);
+    
     setOpen(false);
     setDate(newDate);
   };

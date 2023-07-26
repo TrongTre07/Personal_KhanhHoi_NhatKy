@@ -19,8 +19,6 @@ const UserProvider = ({children}) => {
 
       const response = await instance.post('home/login', payload);
       await AsyncStorage.setItem('token', response.data);
-      console.log('ASYNC: ', await AsyncStorage.getItem('token'));
-      console.log('RES: ', response.data);
       if (response.data != null) {
         setIsLoggedIn(true);
       }
@@ -57,7 +55,7 @@ const UserProvider = ({children}) => {
   const deleteFormId = async id => {
     try {
       const response = await instance.post(`api/FormAppendix/0101/del/${id}`);
-      console.log('delete', response.data);
+     
     } catch (error) {
       console.log('POST ERROR: ', error);
     }
@@ -73,7 +71,6 @@ const UserProvider = ({children}) => {
     setIsLoading,
     isError,
     setIsError,
-
     getDiaryForm,
     deleteFormId,
   };

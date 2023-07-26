@@ -1,5 +1,5 @@
 import {ScrollView, StyleSheet, TextInput, Text, View} from 'react-native';
-import React, {useContext} from 'react';
+import React, {useContext, useState, useEffect} from 'react';
 import styles from './itemTongCucThuySan/styles';
 import Table1 from './itemTongCucThuySan/Table1';
 import Table2 from './itemTongCucThuySan/Table2';
@@ -8,7 +8,43 @@ import {FormContext} from '../../../contexts/FormContext';
 
 const TongCucThuySanView = () => {
   const {thongTinTau, setThongTinTau} = useContext(FormContext);
-  // setThongTinTau(data)
+
+  // isdraft: false,
+  //   dairy_name: 'abc-test',
+  //   nghechinh: '',
+  //   ten_chutau: 'abc',
+  //   ten_thuyentruong: 'abc',
+  //   id_tau: '1',
+  //   tau_bs: 'HC-1234-TS1',
+  //   tau_chieudailonnhat: '12',
+  //   tau_tongcongsuatmaychinh: '12',
+  //   gpkt_so: 'HAGPKT',
+  //   gpkt_thoihan: '12/2/2022',
+  //   nghephu1: '',
+  //   nghephu2: '',
+  
+  //   ncau_chieudaivangcau: '',
+  //   ncau_soluoicau: '',
+  //   nluoivay_chieudailuoi: '',
+  //   nluoivay_chieucaoluoi: '',
+  //   nluoichup_chuvimiengluoi: '',
+  //   nluoichup_chieucaoluoi: '',
+  //   nluoikeo_chieudaigiengphao: '',
+  //   nluoikeo_chieudaitoanboluoi: '',
+  //   nkhac: '',
+  //   chuyenbien_so: '',
+  //   cang_di: '',
+  //   ngay_di: '2023-07-22',
+  //   cang_ve: '',
+  //   ngay_ve: '2023-07-22',
+  //   ngaynop: '2023-07-22',
+  //   vaoso_so: '',
+  const handleNgheChinh = value => {
+    const updatedThongTinTau = {...thongTinTau};
+    updatedThongTinTau.nghechinh = value;
+    setThongTinTau(updatedThongTinTau);
+    console.log(updatedThongTinTau)
+  };
 
   return (
     <View style={styles.container}>
@@ -20,7 +56,7 @@ const TongCucThuySanView = () => {
           <Text style={[styles.txtHeader, {fontWeight: '400'}]}>
             {'('}NGHỀ CHÍNH:
           </Text>
-          <TextInput style={styles.input} />
+          <TextInput style={styles.input} onChangeText={handleNgheChinh} />
           <Text style={[styles.txtHeader, {fontWeight: '400'}]}>{')'}</Text>
         </View>
       </View>

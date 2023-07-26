@@ -11,6 +11,8 @@ import Menu from './src/views/Home/Menu';
 import HoatDongKhaiThacThuySanView from './src/views/Form01adx01/item/HoatDongKhaiThacThuySanView';
 import HoatDongChuyenTaiView from './src/views/Form01adx01/item/HoatDongChuyenTaiView';
 import TongCucThuySanView from './src/views/Form01adx01/item/TongCucThuySanView';
+import AppNavigation from './src/views/Navigations/AppNavigation';
+import Form01adx01 from './src/views/Form01adx01/Form01adx01';
 
 const AppNav = () => {
   const {isLoggedIn} = useContext(UserContext);
