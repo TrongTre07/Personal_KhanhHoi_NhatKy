@@ -5,6 +5,8 @@ import styles from './styles';
 import DatePicker from 'react-native-date-picker'
 import { Picker } from '@react-native-picker/picker';
 import { dateNowFormat } from './formatdate';
+import CustomDatePicker from './CustomDatePicker';
+
 const Table1 = ({
   nameOwner,
   namePilot,
@@ -35,10 +37,10 @@ const Table1 = ({
   const [open, setOpen] = useState(false)
 
 
-  // console.log(inputValue)
+  console.log(inputValue)
   return (
     <View>
-      {open && (
+      {/* {open && (
         <DatePicker
           modal
           mode={"date"}
@@ -46,7 +48,7 @@ const Table1 = ({
           date={date}
           onConfirm={(date) => {
             setInputValue({
-              ...inputValue, dateSeafood:dateNowFormat(date)
+              ...inputValue, dateSeafood:dateNowFormat(date,"string")
             })
             setOpen(false)
             setDate(date)
@@ -55,7 +57,7 @@ const Table1 = ({
             setOpen(false)
           }}
         />
-      )}
+      )} */}
       <View style={[styles.row]}>
         <View style={[styles.row, { width: '50%' }]}>
           <Text style={styles.text}>1. Họ và tên chủ tàu:</Text>
@@ -143,9 +145,16 @@ const Table1 = ({
             value={inputValue.dateSeafood.toString()}
             style={[styles.input, styles.text]}
           />
-          <Pressable onPress={() => setOpen(true)}>
+          {/* <Pressable onPress={() => setOpen(true)}>
             <Image style={{ width: 16, height: 16 }} source={require('../../../../assets/images/calendar.png')} />
-          </Pressable>
+          </Pressable> */}
+          <CustomDatePicker 
+            onDateChange={(date) => 
+
+                      setInputValue({
+                        ...inputValue, dateSeafood:dateNowFormat(date,"string")
+                    })}
+          />
         </View>
       </View>
 
