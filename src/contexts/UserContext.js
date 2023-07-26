@@ -27,9 +27,6 @@ const UserProvider = ({children}) => {
       if(response.data != null){
         setIsLoggedIn(true);
 
-      }else{
-        await AsyncStorage.removeItem('token');
-        console.log('Name successfully deleted.');
       }
     } catch (error) {
       console.error('Error fetching data or saving token:', error);
