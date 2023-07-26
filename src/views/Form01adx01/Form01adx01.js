@@ -117,15 +117,16 @@ const Form01adx01 = () => {
         const data = [];
         data.push(dataForm);
         await Storage.setItem('form01adx01', JSON.stringify(data));
-        ToastAndroid.show('Tạo thành công', ToastAndroid.SHORT);
       }
-      setTimeout(() => {
-        navigation.goBack();
-      }, 1000);
     } 
     else {
       await postForm(handleFormatObject());
     }
+    ToastAndroid.show('Tạo thành công', ToastAndroid.SHORT);
+    setTimeout(() => {
+      navigation.goBack();
+    }, 1000);
+
 
   };
 
