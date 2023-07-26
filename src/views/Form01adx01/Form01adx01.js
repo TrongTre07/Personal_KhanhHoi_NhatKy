@@ -107,10 +107,7 @@ const Form01adx01 = () => {
 
     // chưa có mạng thì lưu local
     if (!isConnect) {
-      const dataForm = {
-        isSavedForm: false,
-        form: handleFormatObject(),
-      }
+      const dataForm = handleFormatObject();
       const result = await Storage.getItem('form01adx01');
 
       if (result !== null) {
@@ -122,6 +119,9 @@ const Form01adx01 = () => {
         await Storage.setItem('form01adx01', JSON.stringify(data));
         ToastAndroid.show('Tạo thành công', ToastAndroid.SHORT);
       }
+      setTimeout(() => {
+        navigation.goBack();
+      }, 1000);
     } 
     else {
       await postForm(handleFormatObject());

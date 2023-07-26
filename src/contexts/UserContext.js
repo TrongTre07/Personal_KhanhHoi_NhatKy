@@ -17,8 +17,7 @@ const UserProvider = ({children}) => {
       const payload = {userName_: username, pass_: password}; 
 
       const response = await instance.post('home/login', payload);
-      if(!(await AsyncStorage.getItem('token')))
-        await AsyncStorage.setItem('token', response.data)
+      await AsyncStorage.setItem('token', response.data)
       
       console.log("ASYNC: ", await AsyncStorage.getItem('token'))
       console.log('RES: ', response.data);

@@ -8,30 +8,6 @@ import {useFocusEffect, useIsFocused} from '@react-navigation/core';
 const Menu = ({navigation}) => {
   const netInfo = useNetInfo();
 
-  const {postForm} = React.useContext(UserContext);
-
-  // check neu co wifi thi post file o local len server
-  useFocusEffect(
-    React.useCallback(() => {
-      if (netInfo.isConnected) {
-        autoPostForm();
-      }
-    }, [netInfo.isConnected]),
-  );
-
-  const autoPostForm = async () => {
-    const result = await Storage.getItem('form01adx01');
-    if (result !== null) {
-      const data = JSON.parse(result);
-
-      // check response true thi xoa form
-      const result = await postForm(data[0].form);
-      if (result) {
-        await Storage.removeItem('form01adx01');
-      }
-    }
-  };
-
   return (
     <View style={{flex: 1, backgroundColor: '#fff'}}>
       <View style={styles.container}>
@@ -40,7 +16,7 @@ const Menu = ({navigation}) => {
             <Text style={styles.txtHeader}>Danh sách</Text>
           </View>
           <TouchableOpacity
-            onPress={() => navigation.navigate('Form01adx01')}
+            onPress={() => navigation.navigate('form01adx01Diary')}
             style={[styles.btn]}>
             <Text style={styles.text}>01-PLI. Nhật ký khai thác thủy sản</Text>
           </TouchableOpacity>
