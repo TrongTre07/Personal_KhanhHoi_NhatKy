@@ -37,15 +37,11 @@ const UserProvider = ({children}) => {
     try {
       const userToken = await AsyncStorage.getItem('token');
       if (userToken) {
-        // Kiểm tra hợp lệ token ở đây (ví dụ: kiểm tra thời gian hết hạn)
-        // Nếu token còn hạn, đánh dấu người dùng đã đăng nhập
         setIsLoggedIn(true);
       } else {
-        // Nếu không có token, đánh dấu người dùng chưa đăng nhập
         setIsLoggedIn(false);
       }
     } catch (error) {
-      // Xử lý lỗi nếu cần
       console.log('Error checking login status:', error);
     }
   };
