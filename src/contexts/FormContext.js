@@ -2,25 +2,9 @@ import React, {createContext, useState} from 'react';
 
 export const FormContext = createContext();
 import CustomDatePicker from '../views/Form01adx01/item/itemTongCucThuySan/CustomDatePicker';
-
+import {dateNowFormat} from '../views/Form01adx01/item/itemTongCucThuySan/formatdate'
 export const FormProvider = ({children}) => {
-  const dateNowFormat = newDate => {
-    if (newDate === null) {
-      const day = dateNow.getDate().toString().padStart(2, '0');
-      const month = (dateNow.getMonth() + 1).toString().padStart(2, '0');
-      const year = dateNow.getFullYear();
-      const hours = dateNow.getHours().toString().padStart(2, '0');
-      const minutes = dateNow.getMinutes().toString().padStart(2, '0');
-      return `${day}/${month}/${year}, ${hours}:${minutes}`;
-    } else {
-      const day = newDate.getDate().toString().padStart(2, '0');
-      const month = (newDate.getMonth() + 1).toString().padStart(2, '0');
-      const year = newDate.getFullYear();
-      const hours = newDate.getHours().toString().padStart(2, '0');
-      const minutes = newDate.getMinutes().toString().padStart(2, '0');
-      return `${day}/${month}/${year}, ${hours}:${minutes}`;
-    }
-  };
+
 
   const dateNow = new Date();
 
@@ -63,10 +47,10 @@ export const FormProvider = ({children}) => {
     khaithac: [
       {
         methu: '1',
-        thoidiem_tha: dateNowFormat(null),
+        thoidiem_tha: dateNowFormat('nullHour'),
         vido_tha: '',
         kinhdo_tha: '',
-        thoidiem_thu: dateNowFormat(null),
+        thoidiem_thu: dateNowFormat('nullHour'),
         vido_thu: '',
         kinhdo_thu: '',
         loai_1: '',

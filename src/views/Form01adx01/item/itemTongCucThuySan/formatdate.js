@@ -1,5 +1,7 @@
 export const dateNowFormat = (newDate, txtCategory) => {
-  // if(newDate==='null'){
+  if(newDate===undefined){
+    return '';
+  }
   const dateNow = new Date();
 
   if (newDate === null) {
@@ -41,22 +43,32 @@ export const dateNowFormat = (newDate, txtCategory) => {
 };
 
 export const convertStringToDate = inputString => {
-  if (inputString.includes('-')) {
-    const [year, month, day] = inputString.split('-');
-    const formattedDate = `${day}/${month}/${year}`;
-    return formattedDate;
-  } else {
-    return inputString;
+  try {
+    if (inputString?.includes('-')) {
+      const [year, month, day] = inputString.split('-');
+      const formattedDate = `${day}/${month}/${year}`;
+      return formattedDate;
+    } else {
+      return inputString;
+    }
+  } catch (error) {
+    
   }
+
 };
 
 export const convertStringToDateHour = inputString => {
-  if (inputString.includes('T')) {
-    const [datePart, timePart] = inputString.split('T');
-    const [year, month, day] = datePart.split('-');
-    const [hours, minutes, seconds] = timePart.split(':');
-
-    const formattedDate = `${day}/${month}/${year}, ${hours}:${minutes}`;
-    return formattedDate;
+  try {
+    if (inputString.includes('T')) {
+      const [datePart, timePart] = inputString.split('T');
+      const [year, month, day] = datePart.split('-');
+      const [hours, minutes, seconds] = timePart.split(':');
+  
+      const formattedDate = `${day}/${month}/${year}, ${hours}:${minutes}`;
+      return formattedDate;
+    }
+  } catch (error) {
+    
   }
+
 };

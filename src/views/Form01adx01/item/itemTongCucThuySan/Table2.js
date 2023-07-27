@@ -25,45 +25,8 @@ const Table2 = ({
     nluoikeo_chieudaitoanboluoi,
     nkhac,
   });
-  // setThongTinTau({...thongTinTau, nluoivay_chieudailuoi: value});
 
-  // const handleChieuCaoLuoiVay = value => {
-  //   setInputValue({
-  //     ...inputValue,
-  //     jobVayRe: {...jobVayRe, number: value},
-  //   });
-  //   setThongTinTau({...thongTinTau, nluoivay_chieucaoluoi: value});
-  // };
-
-  // const handleChuViMiengLuoiChup = value => {
-  //   setInputValue({...inputValue, jobChup: {...jobChup, size: value}});
-  //   setThongTinTau({...thongTinTau, nluoichup_chuvimiengluoi: value});
-  // };
-
-  // const handleChieuCaoLuoiChup = value => {
-  //   setInputValue({
-  //     ...inputValue,
-  //     jobChup: {...jobChup, number: value},
-  //   });
-  //   setThongTinTau({...thongTinTau, nluoichup_chieucaoluoi: value});
-  // };
-
-  // const handleChieuDaiGiengPhaoKeo = value => {
-  //   setInputValue({...inputValue, jobKeo: {...jobKeo, size: value}});
-  //   setThongTinTau({...thongTinTau, nluoikeo_chieudaigiengphao: value});
-  // };
-
-  // const handleChieuCaoLuoiKeo = value => {
-  //   setInputValue({...inputValue, jobKeo: {...jobKeo, number: value}});
-  //   setThongTinTau({...thongTinTau, nluoikeo_chieudaitoanboluoi: value});
-  // };
-
-  // const handleNgheKhac = value => {
-  //   setInputValue({...inputValue, jobOther: value});
-  //   setThongTinTau({...thongTinTau, nkhac: value});
-  // };
-
-  const {thongTinTau, setThongTinTau} = useContext(FormContext)
+  const {thongTinTau, setThongTinTau} = useContext(FormContext);
 
   return (
     <View>
@@ -80,6 +43,7 @@ const Table2 = ({
             a. Nghề câu: Chiều dài toàn bộ vàng câu
           </Text>
           <TextInput
+            keyboardType="numeric"
             style={[styles.input, styles.text]}
             onChangeText={text => {
               setThongTinTau({...thongTinTau, ncau_chieudaivangcau: text});
@@ -92,6 +56,7 @@ const Table2 = ({
         <View style={[styles.row, {width: '35%'}]}>
           <Text style={styles.text}>Số lưỡi câu:</Text>
           <TextInput
+            keyboardType="numeric"
             style={[styles.input, styles.text]}
             onChangeText={text => {
               setThongTinTau({...thongTinTau, ncau_soluoicau: text});
@@ -109,6 +74,7 @@ const Table2 = ({
             b. Nghề lưới vây, rê: Chiều dài toàn bộ lưới
           </Text>
           <TextInput
+            keyboardType="numeric"
             style={[styles.input, styles.text]}
             onChangeText={text => {
               setThongTinTau({...thongTinTau, nluoivay_chieudailuoi: text});
@@ -121,6 +87,7 @@ const Table2 = ({
         <View style={[styles.row, {width: '35%'}]}>
           <Text style={styles.text}>Chiều cao lưới:</Text>
           <TextInput
+            keyboardType="numeric"
             style={[styles.input, styles.text]}
             onChangeText={text => {
               setThongTinTau({...thongTinTau, nluoivay_chieucaoluoi: text});
@@ -136,6 +103,7 @@ const Table2 = ({
         <View style={[styles.row, {width: '65%'}]}>
           <Text style={styles.text}>c. Nghề lưới chụp: Chu vi miệng lưới</Text>
           <TextInput
+            keyboardType="numeric"
             style={[styles.input, styles.text]}
             onChangeText={text => {
               setThongTinTau({...thongTinTau, nluoichup_chuvimiengluoi: text});
@@ -148,6 +116,7 @@ const Table2 = ({
         <View style={[styles.row, {width: '35%'}]}>
           <Text style={styles.text}>Chiều cao lưới:</Text>
           <TextInput
+            keyboardType="numeric"
             style={[styles.input, styles.text]}
             onChangeText={text => {
               setThongTinTau({...thongTinTau, nluoichup_chieucaoluoi: text});
@@ -165,6 +134,7 @@ const Table2 = ({
             d. Nghề lưới kéo: Chiều dài giềng phao
           </Text>
           <TextInput
+            keyboardType="numeric"
             style={[styles.input, styles.text]}
             onChangeText={text => {
               setThongTinTau({
@@ -180,6 +150,7 @@ const Table2 = ({
         <View style={[styles.row, {width: '35%'}]}>
           <Text style={styles.text}>Chiều cao lưới:</Text>
           <TextInput
+            keyboardType="numeric"
             style={[styles.input, styles.text]}
             onChangeText={text => {
               setThongTinTau({
@@ -188,7 +159,7 @@ const Table2 = ({
               });
               setInputValue({...inputValue, nluoikeo_chieudaitoanboluoi: text});
             }}
-            value={inputValue.nluoikeo_chieudaigiengphao}
+            value={inputValue.nluoikeo_chieudaitoanboluoi}
           />
           <Text style={styles.text}>m</Text>
         </View>

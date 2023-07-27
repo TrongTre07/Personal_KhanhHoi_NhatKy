@@ -78,7 +78,7 @@ const Form01adx01 = ({navigation, route}) => {
   };
 
   const handleCreateForm = () => {
-    console.log('Create');
+    postForm(handleFormatObject());
   };
 
   const handleSaveForm = () => {
@@ -86,7 +86,7 @@ const Form01adx01 = ({navigation, route}) => {
   };
 
   const handleDownloadForm = () => {
-    postForm(handleFormatObject());
+    console.log(handleFormatObject());
   };
 
   const handleExportPDF = () => {

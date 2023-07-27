@@ -48,7 +48,7 @@ const HoatDongChuyenTaiView = () => {
 
      //handle context
      const updatedThuMua = {...thuMua};
-     updatedThuMua.thumua[index].ngaythang = dateNowFormat(date);
+     updatedThuMua.thumua[index].ngaythang = dateNowFormat(date,'date');
      setThuMua(updatedThuMua);
   };
 

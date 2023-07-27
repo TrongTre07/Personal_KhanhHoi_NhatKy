@@ -26,8 +26,6 @@ const Table1 = ({
   //data
   const {dataInfShip} = useContext(UserContext);
 
-  console.log('tau', dataInfShip);
-
   //data[]
   const [inputValue, setInputValue] = useState({
     ten_chutau,
@@ -44,45 +42,45 @@ const Table1 = ({
 
   const {thongTinTau, setThongTinTau} = useContext(FormContext);
 
-  const handleTenThuyenTruong = value => {
-    setInputValue({...inputValue, namePilot: value});
-    setThongTinTau({...thongTinTau, ten_thuyentruong: value});
-  };
-  const handleIdTau = value => {
-    setInputValue({...inputValue, numberShip: value});
-    setThongTinTau({...thongTinTau, id_tau: value});
-  };
-  const handleTauBS = value => {
-    setInputValue({...inputValue, namePilot: value});
-    setThongTinTau({...thongTinTau, ten_thuyentruong: value});
-  };
-  const handleChieuDaiLonNhat = value => {
-    setInputValue({...inputValue, longMaxShip: value});
-    setThongTinTau({...thongTinTau, tau_chieudailonnhat: value});
-  };
-  const handleTongCongSuatMayChinh = value => {
-    setInputValue({...inputValue, sumEngine: value});
-    setThongTinTau({...thongTinTau, tau_tongcongsuatmaychinh: value});
-  };
-  const handleGPKTSo = value => {
-    setInputValue({...inputValue, numberSeafood: value});
-    setThongTinTau({...thongTinTau, gpkt_so: value});
-  };
-  const handleGPKTThoiHan = (value, string) => {
-    setInputValue({...inputValue, dateSeafood: dateNowFormat(value, string)});
-    setThongTinTau({
-      ...thongTinTau,
-      gpkt_thoihan: dateNowFormat(value, string),
-    });
-  };
-  const handleNghePhu1 = value => {
-    setInputValue({...inputValue, sideJob1: value});
-    setThongTinTau({...thongTinTau, nghephu1: value});
-  };
-  const handleNghePhu2 = value => {
-    setInputValue({...inputValue, sideJob2: value});
-    setThongTinTau({...thongTinTau, nghephu2: value});
-  };
+  // const handleTenThuyenTruong = value => {
+  //   setInputValue({...inputValue, namePilot: value});
+  //   setThongTinTau({...thongTinTau, ten_thuyentruong: value});
+  // };
+  // const handleIdTau = value => {
+  //   setInputValue({...inputValue, numberShip: value});
+  //   setThongTinTau({...thongTinTau, id_tau: value});
+  // };
+  // const handleTauBS = value => {
+  //   setInputValue({...inputValue, namePilot: value});
+  //   setThongTinTau({...thongTinTau, ten_thuyentruong: value});
+  // };
+  // const handleChieuDaiLonNhat = value => {
+  //   setInputValue({...inputValue, longMaxShip: value});
+  //   setThongTinTau({...thongTinTau, tau_chieudailonnhat: value});
+  // };
+  // const handleTongCongSuatMayChinh = value => {
+  //   setInputValue({...inputValue, sumEngine: value});
+  //   setThongTinTau({...thongTinTau, tau_tongcongsuatmaychinh: value});
+  // };
+  // const handleGPKTSo = value => {
+  //   setInputValue({...inputValue, numberSeafood: value});
+  //   setThongTinTau({...thongTinTau, gpkt_so: value});
+  // };
+  // const handleGPKTThoiHan = (value, string) => {
+  //   setInputValue({...inputValue, dateSeafood: dateNowFormat(value, string)});
+  //   setThongTinTau({
+  //     ...thongTinTau,
+  //     gpkt_thoihan: dateNowFormat(value, string),
+  //   });
+  // };
+  // const handleNghePhu1 = value => {
+  //   setInputValue({...inputValue, sideJob1: value});
+  //   setThongTinTau({...thongTinTau, nghephu1: value});
+  // };
+  // const handleNghePhu2 = value => {
+  //   setInputValue({...inputValue, sideJob2: value});
+  //   setThongTinTau({...thongTinTau, nghephu2: value});
+  // };
   return (
     <View>
       <View style={[styles.row]}>
@@ -130,6 +128,18 @@ const Table1 = ({
                 ...inputValue,
                 tau_bs: dataInf.tentau,
                 gpkt_so: dataInf.gpkt,
+                id_tau: dataInf.idShip.toString(),
+                tau_chieudailonnhat: dataInf.chieudailonnhat + '',
+                tau_tongcongsuatmaychinh: dataInf.congsuat + '',
+                gpkt_thoihan: dataInf.gpkt_thoihan,
+              });
+              setThongTinTau({
+                ...thongTinTau,
+                tau_bs: dataInf.tentau,
+                gpkt_so: dataInf.gpkt,
+                id_tau: dataInf.idShip.toString(),
+                tau_chieudailonnhat: dataInf.chieudailonnhat + '',
+                tau_tongcongsuatmaychinh: dataInf.congsuat + '',
                 gpkt_thoihan: dataInf.gpkt_thoihan,
               });
             }}>
@@ -149,6 +159,7 @@ const Table1 = ({
             4. Chiều dài lớn nhất của tàu:
           </Text>
           <TextInput
+            editable={false}
             onChangeText={text => {
               setThongTinTau({...thongTinTau, tau_chieudailonnhat: value});
               setInputValue({...inputValue, tau_chieudailonnhat: text});
@@ -163,6 +174,7 @@ const Table1 = ({
             5. Tổng công xuất máy chính:
           </Text>
           <TextInput
+            editable={false}
             onChangeText={text => {
               setThongTinTau({...thongTinTau, tau_tongcongsuatmaychinh: value});
               setInputValue({...inputValue, tau_tongcongsuatmaychinh: text});
@@ -180,6 +192,7 @@ const Table1 = ({
             6. Số giấy phép khai {'\n'} thác thuỷ sản:
           </Text>
           <TextInput
+            editable={false}
             onChangeText={text => {
               setThongTinTau({...thongTinTau, gpkt_so: text});
               setInputValue({...inputValue, gpkt_so: text});

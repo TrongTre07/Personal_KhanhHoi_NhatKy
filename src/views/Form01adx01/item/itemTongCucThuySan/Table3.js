@@ -6,10 +6,11 @@ import {
   Image,
   Pressable,
 } from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useContext} from 'react';
 import styles from './styles';
 // import DatePicker from 'react-native-date-picker'
 import CustomDatePicker from './CustomDatePicker';
+import {FormContext} from '../../../../contexts/FormContext';
 import {dateNowFormat, convertStringToDate} from './formatdate';
 
 const Table3 = ({
@@ -71,7 +72,6 @@ const Table3 = ({
         break;
     }
   };
-  console.log(inputValue);
 
   return (
     <View style={[{borderColor: '#0099FF', borderTopWidth: 0.6}]}>
@@ -189,6 +189,7 @@ const Table3 = ({
                 style={[styles.input, styles.text]}
                 onChangeText={text => {
                   setThongTinTau({...thongTinTau, vaoso_so: text});
+
                   setInputValue({...inputValue, vaoso_so: text});
                 }}
                 value={inputValue.vaoso_so}

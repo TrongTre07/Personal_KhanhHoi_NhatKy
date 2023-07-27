@@ -228,7 +228,7 @@ const HoatDongKhaiThacThuySanView = () => {
 
                 const updatedKhaiThac = {...khaiThac};
                 updatedKhaiThac.khaithac[index].thoidiem_thu =
-                  dateNowFormat(newDate);
+                  dateNowFormat(newDate,'dateHour');
                 setKhaiThac(updatedKhaiThac);
               }}
             />
@@ -284,11 +284,11 @@ const HoatDongKhaiThacThuySanView = () => {
 
     // Form Context
     const newKhaithacObject = {
-      methu: listForm.length,
-      thoidiem_tha: dateNowFormat(null),
+      methu: listForm.length.toString(),
+      thoidiem_tha: dateNowFormat('nullHour'),
       vido_tha: '',
       kinhdo_tha: '',
-      thoidiem_thu: dateNowFormat(null),
+      thoidiem_thu: dateNowFormat('nullHour'),
       vido_thu: '',
       kinhdo_thu: '',
       loai_1: khaiThac.khaithac[0].loai_1,
@@ -451,7 +451,7 @@ const HoatDongKhaiThacThuySanView = () => {
       const updatedKhaiThac = {...khaiThac};
       updatedKhaiThac.khaithac[indexRow][`loai_${existingItemIndex}_kl`] =
         value;
-      updatedKhaiThac.khaithac[indexRow].tongsanluong = sum;
+      updatedKhaiThac.khaithac[indexRow].tongsanluong = sum.toString();
 
       setKhaiThac(updatedKhaiThac);
     }

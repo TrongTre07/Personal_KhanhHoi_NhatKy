@@ -58,6 +58,7 @@ const UserProvider = ({children}) => {
         'api/FormAppendix/0101/create',
         payload,
       );
+      console.log("RES: ", response.data)
       setIsLoading(false);
     } catch (error) {
       setIsLoading(false);
