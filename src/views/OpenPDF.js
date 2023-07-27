@@ -19,30 +19,11 @@ const OpenPDF = ({ navigation }) => {
             const res = await DocumentPicker.pick({
               type: [DocumentPicker.types.allFiles],
             });
+            console.log('resssss', res);
             await FileViewer.open(res[0].uri);
-            // const path = FileViewer.open(res, { showOpenWithDialog: true })
-            // console.log('path', path);
           } catch (e) {
             console.log('error', e);
           }
-        // try {
-        //     console.log('handleDocumentSelection');
-        //     const response = await DocumentPicker.pick({
-                
-        //         type: [types.pdf],
-        //     });
-        //     console.log('fileResponse', response[0].uri.toString());
-        //     setFileResponse(response);
-            
-
-        //     return (
-        //         Linking.openURL(response[0].uri)
-        //         // console.log('fileResponse', fileResponse),
-        //         // navigation.navigate('ViewPDF', { uri: response[0].uri.toString() })
-        //       );
-        // } catch (err) {
-        //     console.warn(err);
-        // }
     }, []);
 
     return (

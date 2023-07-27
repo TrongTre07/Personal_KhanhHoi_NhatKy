@@ -12,6 +12,7 @@ import HoatDongKhaiThacThuySanView from './item/HoatDongKhaiThacThuySanView';
 import HoatDongChuyenTaiView from './item/HoatDongChuyenTaiView';
 import {FormContext} from '../../contexts/FormContext';
 import { UserContext } from '../../contexts/UserContext';
+import { GeneratePDF } from '../ExportPDF';
 
 const Form01adx01 = ({navigation}) => {
 
@@ -88,13 +89,15 @@ const Form01adx01 = ({navigation}) => {
         </TouchableOpacity>
         <TouchableOpacity
           style={[styles.actionExportPDF, styles.button]}
-          onPress={handleExportPDF}>
+          onPress={() => {handleGeneratePDF()}}>
           <Text style={styles.actionText}>Xuất File</Text>
         </TouchableOpacity>
       </View>
     );
   };
-
+  const handleGeneratePDF = (data,name) => {
+    GeneratePDF(data,name);
+  };
   const handleCreateForm = () => {
     console.log('Create');
   };

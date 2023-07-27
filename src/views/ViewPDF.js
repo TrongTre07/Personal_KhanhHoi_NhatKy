@@ -1,67 +1,67 @@
-import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import React, { useContext, useEffect } from 'react';
+import { View, StyleSheet, PermissionsAndroid } from 'react-native';
 import Pdf from 'react-native-pdf';
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { useNavigation } from '@react-navigation/native';
-import RNFetchBlob from 'rn-fetch-blob';
-
+import { FormContext } from '../contexts/FormContext';
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor:'red'
+    backgroundColor: 'red',
   },
   pdf: {
     flex: 1,
     width: '100%',
   },
 });
-var response;
-const ViewPDF = (props) => { // Sử dụng functional component và nhận giá trị pdfPath từ props
-//   console.log('pdfPath', pdfPath);
-//   const source = { uri: pdfPath }; // Sử dụng đường dẫn từ props
-  // const{navigation ,route} = props;
-  // const {uri} = route.params;
-  // console.log('uri', uri);
-  // const babi ={uri};
-  
-  const abc = { uri: 'content://com.android.externalstorage.documents/document/primary%3ADocuments%2Fpdf%2Finvoice_1.pdf' };  
-  convertContentUriToAbsolutePath(abc)
-  .then((absolutePath) => {
-    if (absolutePath) {
-      console.log('Đường dẫn tệp tin tuyệt đối:', absolutePath);
-      // Gửi absolutePath đến mã xử lý tiếp theo ở đây
-    } else {
-      console.log('Không thể chuyển đổi content URI thành đường dẫn tuyệt đối.', absolutePath);
+
+const ViewPDF = () => {
+  const { thongTinTau } = useContext(FormContext);
+  console.log('========================', thongTinTau.dairy_name);
+
+  const pdfPath = `file:///storage/emulated/0/Documents/pdf/abc.pdf`;
+
+  useEffect(() => {
+    requestExternalStoragePermission();
+  }, []);
+
+  const requestExternalStoragePermission = async () => {
+    try {
+      const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
+        {
+          title: 'External Storage Permission',
+          message: 'This app needs access to your external storage to open PDF files.',
+          buttonPositive: 'OK',
+        }
+      );
+      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+        console.log('External storage permission granted');
+      } else {
+        console.log('External storage permission denied');
+      }
+    } catch (err) {
+      console.warn('Error while requesting external storage permission:', err);
     }
-  })
-  .catch((error) => {
-    console.log('Error:', error);
-  });
+  };
+
+  let yourPDFURI = { uri: pdfPath, cache: true };
+
   return (
-    <View style={styles.container}>
+    <View style={{ flex: 1 }}>
       <Pdf
-        source={abc}
-        style={styles.pdf}
+        ref={(pdf) => {
+          this.pdf = pdf;
+        }}
+        source={yourPDFURI}
+        style={{ flex: 1 }}
+        onError={(error) => {
+          console.log(error);
+        }}
       />
     </View>
   );
 };
-export const openPDFDocument = (uri) => {
-    response =uri;
-    console.log('========================', response);
-  };
 
-  async function convertContentUriToAbsolutePath(contentUri) {
-    try {
-      const realPath = await RNFetchBlob.fs.getContentIntentPath(contentUri);
-      return realPath;
-    } catch (error) {
-      console.log('Error converting content URI to absolute path:', error);
-      return null;
-    }
-  }
 export default ViewPDF;

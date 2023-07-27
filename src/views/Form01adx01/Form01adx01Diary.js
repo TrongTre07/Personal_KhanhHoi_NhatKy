@@ -1,9 +1,13 @@
 import { View, Text, StyleSheet, TouchableOpacity,ScrollView, Alert } from 'react-native'
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState,useCallback } from 'react'
 import { UserContext } from '../../contexts/UserContext';
 import {GenaratePDF, GeneratePDF} from '../ExportPDF';
 import { Table, TableWrapper, Row, Rows, Col } from 'react-native-table-component';
 import { useNavigation } from '@react-navigation/native';
+import DocumentPicker, { types } from 'react-native-document-picker';
+import FileViewer from "react-native-file-viewer";
+import { StatusBar } from 'react-native';
+
 const Form01adx01Diary = ({navigation}) => {
 
   const {getDiaryForm,deleteFormId,dataInfShip} = useContext(UserContext);
@@ -44,17 +48,27 @@ const Form01adx01Diary = ({navigation}) => {
       { cancelable: false }
     );
   };
+  const handleDocumentSelection = useCallback(async () => {
 
+    try {
+        const res = await DocumentPicker.pick({
+          type: [DocumentPicker.types.allFiles],
+        });
+        await FileViewer.open(res[0].uri);
+      } catch (e) {
+        console.log('error', e);
+      }
+}, []);
 
   const elementButton = (id) => (
     <View style={styles.boxbtn}>
-      <TouchableOpacity onPress={()=>{}}>
+      <TouchableOpacity onPress={()=> {handleDocumentSelection()}}>
       <View style={[styles.btn,{backgroundColor:'#99FF33'}]}>
           <Text style={styles.btnText}>Xem</Text>
         </View>
       </TouchableOpacity>
       <TouchableOpacity 
-          onPress={() => navigation.navigate('form01adx01')}
+          onPress={() => navigation.navigate('ViewPDF')}
       >
         <View style={[styles.btn,{backgroundColor:'#00FFFF'}]}>
           <Text style={styles.btnText}>Sửa</Text>

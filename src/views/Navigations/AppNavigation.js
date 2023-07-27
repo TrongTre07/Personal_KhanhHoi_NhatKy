@@ -5,6 +5,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import Menu from '../Home/Menu';
 import Form01adx01Diary from '../Form01adx01/Form01adx01Diary';
+import ViewPDF from '../ViewPDF';
 
 const Stack = createStackNavigator();
 const AppNavigation = () => {
@@ -57,6 +58,14 @@ const AppNavigation = () => {
       options={{ headerTitle: '04-PLI. Báo cáo thăm dò, tìm kiếm, dẫn dụ nguồn lợi thủy sản' ,}}
       
       />
+
+      <Stack.Screen 
+      name="ViewPDF"
+      component={ViewPDF} 
+      options={{ headerTitle: 'ViewPDF' ,}}
+      
+      />
+      
     </Stack.Navigator>
   )
 }

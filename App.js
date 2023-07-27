@@ -5,6 +5,7 @@ import {UserContext, UserProvider} from './src/contexts/UserContext';
 import {NavigationContainer, useNavigation} from '@react-navigation/native';
 import Login from './src/views/login/Login';
 import 'react-native-gesture-handler';
+import PDF from './src/views/PDF';
 
 import {FormProvider} from './src/contexts/FormContext';
 import Menu from './src/views/Home/Menu';
@@ -27,6 +28,15 @@ const AppNav = () => {
 const App = () => {
 
   return (
+  //   <UserProvider>
+  //   <FormProvider>
+  //     <View style={styles.container}>
+  //       {/* <AppNav /> */}
+  //       <PDF/>
+  //     </View>
+  //   </FormProvider>
+  // </UserProvider>
+ 
     <UserProvider>
       <FormProvider>
         <View style={styles.container}>
