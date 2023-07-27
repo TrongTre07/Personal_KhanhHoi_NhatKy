@@ -5,7 +5,7 @@ import {UserContext, UserProvider} from './src/contexts/UserContext';
 import {NavigationContainer, useNavigation} from '@react-navigation/native';
 import Login from './src/views/login/Login';
 import 'react-native-gesture-handler';
-import PDF from './src/views/PDF';
+
 
 import {FormProvider} from './src/contexts/FormContext';
 import Menu from './src/views/Home/Menu';
