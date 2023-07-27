@@ -1,92 +1,127 @@
-import {  View, Text, TextInput,Button, TouchableOpacity } from 'react-native'
-import React,{useState} from 'react'
-import styles from './styles'
+import {View, Text, TextInput, Button, TouchableOpacity} from 'react-native';
+import React, {useContext, useState} from 'react';
+import styles from './styles';
+import {FormContext} from '../../../../contexts/FormContext';
 
 const Table2 = ({
-      jobCau,
-      jobVayRe,
-      jobChup,
-      jobKeo,
-      jobOther
-  }) => {
-    const [inputValue, setInputValue] = useState({
-      jobCau,
-      jobVayRe,
-      jobChup,
-      jobKeo,
-      jobOther
-    });
+  ncau_chieudaivangcau,
+  ncau_soluoicau,
+  nluoivay_chieudailuoi,
+  nluoivay_chieucaoluoi,
+  nluoichup_chuvimiengluoi,
+  nluoichup_chieucaoluoi,
+  nluoikeo_chieudaigiengphao,
+  nluoikeo_chieudaitoanboluoi,
+  nkhac,
+}) => {
+  const [inputValue, setInputValue] = useState({
+    ncau_chieudaivangcau,
+    ncau_soluoicau,
+    nluoivay_chieudailuoi,
+    nluoivay_chieucaoluoi,
+    nluoichup_chuvimiengluoi,
+    nluoichup_chieucaoluoi,
+    nluoikeo_chieudaigiengphao,
+    nluoikeo_chieudaitoanboluoi,
+    nkhac,
+  });
 
-    // console.log(inputValue)
-
+  const {thongTinTau, setThongTinTau} = useContext(FormContext);
 
   return (
     <View>
-
-
       <View>
         <Text style={styles.text}>
-          9. Kích thước chủ yếu của ngư cụ {'('}ghi cụ thể theo nghề chính {')'}:
+          9. Kích thước chủ yếu của ngư cụ {'('}ghi cụ thể theo nghề chính {')'}
+          :
         </Text>
       </View>
 
       <View style={[styles.row]}>
-        <View style={[styles.row,{width:'65%'}]}>
-          <Text style={styles.text}>a. Nghề câu: Chiều dài toàn bộ vàng câu</Text>
-          <TextInput 
-            style={[styles.input,styles.text]}
-            onChangeText={(text) => setInputValue({ ...inputValue, jobCau: {...jobCau,size:text} })}
-            value={inputValue.jobCau?.size}
-            />
+        <View style={[styles.row, {width: '65%'}]}>
+          <Text style={styles.text}>
+            a. Nghề câu: Chiều dài toàn bộ vàng câu
+          </Text>
+          <TextInput
+            keyboardType="numeric"
+            style={[styles.input, styles.text]}
+            onChangeText={text => {
+              setThongTinTau({...thongTinTau, ncau_chieudaivangcau: text});
+              setInputValue({...inputValue, ncau_chieudaivangcau: text});
+            }}
+            value={inputValue.ncau_chieudaivangcau}
+          />
           <Text style={styles.text}>m;</Text>
         </View>
-        <View style={[styles.row,{width:'35%'}]}>
+        <View style={[styles.row, {width: '35%'}]}>
           <Text style={styles.text}>Số lưỡi câu:</Text>
-          <TextInput 
-            style={[styles.input,styles.text]}
-            onChangeText={(text) => setInputValue({ ...inputValue, jobCau: {...jobCau,number:text} })}
-            value={inputValue.jobCau?.number}
+          <TextInput
+            keyboardType="numeric"
+            style={[styles.input, styles.text]}
+            onChangeText={text => {
+              setThongTinTau({...thongTinTau, ncau_soluoicau: text});
+              setInputValue({...inputValue, ncau_soluoicau: text});
+            }}
+            value={inputValue.ncau_soluoicau}
           />
           <Text style={styles.text}>lưỡi</Text>
         </View>
       </View>
 
       <View style={[styles.row]}>
-        <View style={[styles.row,{width:'65%'}]}>
-          <Text style={styles.text}>b. Nghề lưới vây, rê: Chiều dài toàn bộ lưới</Text>
-          <TextInput 
-            style={[styles.input,styles.text]}
-            onChangeText={(text) => setInputValue({ ...inputValue, jobVayRe: {...jobVayRe,size:text} })}
+        <View style={[styles.row, {width: '65%'}]}>
+          <Text style={styles.text}>
+            b. Nghề lưới vây, rê: Chiều dài toàn bộ lưới
+          </Text>
+          <TextInput
+            keyboardType="numeric"
+            style={[styles.input, styles.text]}
+            onChangeText={text => {
+              setThongTinTau({...thongTinTau, nluoivay_chieudailuoi: text});
+              setInputValue({...inputValue, nluoivay_chieudailuoi: text});
+            }}
             value={inputValue.jobVayRe?.size}
           />
           <Text style={styles.text}>m;</Text>
         </View>
-        <View style={[styles.row,{width:'35%'}]}>
+        <View style={[styles.row, {width: '35%'}]}>
           <Text style={styles.text}>Chiều cao lưới:</Text>
-          <TextInput 
-            style={[styles.input,styles.text]}
-            onChangeText={(text) => setInputValue({ ...inputValue, jobVayRe: {...jobVayRe,number:text} })}
-            value={inputValue.jobVayRe?.number}
+          <TextInput
+            keyboardType="numeric"
+            style={[styles.input, styles.text]}
+            onChangeText={text => {
+              setThongTinTau({...thongTinTau, nluoivay_chieucaoluoi: text});
+              setInputValue({...inputValue, nluoivay_chieucaoluoi: text});
+            }}
+            value={inputValue.nluoivay_chieucaoluoi}
           />
           <Text style={styles.text}>m</Text>
         </View>
       </View>
 
       <View style={[styles.row]}>
-        <View style={[styles.row,{width:'65%'}]}>
+        <View style={[styles.row, {width: '65%'}]}>
           <Text style={styles.text}>c. Nghề lưới chụp: Chu vi miệng lưới</Text>
-          <TextInput 
-            style={[styles.input,styles.text]}
-            onChangeText={(text) => setInputValue({ ...inputValue, jobChup: {...jobChup,size:text} })}
-            value={inputValue.jobChup?.size}
+          <TextInput
+            keyboardType="numeric"
+            style={[styles.input, styles.text]}
+            onChangeText={text => {
+              setThongTinTau({...thongTinTau, nluoichup_chuvimiengluoi: text});
+              setInputValue({...inputValue, nluoichup_chuvimiengluoi: text});
+            }}
+            value={inputValue.nluoichup_chuvimiengluoi}
           />
           <Text style={styles.text}>m;</Text>
         </View>
-        <View style={[styles.row,{width:'35%'}]}>
+        <View style={[styles.row, {width: '35%'}]}>
           <Text style={styles.text}>Chiều cao lưới:</Text>
-          <TextInput 
-            style={[styles.input,styles.text]}
-            onChangeText={(text) => setInputValue({ ...inputValue, jobChup: {...jobChup,number:text} })}
+          <TextInput
+            keyboardType="numeric"
+            style={[styles.input, styles.text]}
+            onChangeText={text => {
+              setThongTinTau({...thongTinTau, nluoichup_chieucaoluoi: text});
+              setInputValue({...inputValue, nluoichup_chieucaoluoi: text});
+            }}
             value={inputValue.jobChup?.number}
           />
           <Text style={styles.text}>m</Text>
@@ -94,38 +129,57 @@ const Table2 = ({
       </View>
 
       <View style={[styles.row]}>
-        <View style={[styles.row,{width:'65%'}]}>
-          <Text style={styles.text}>d. Nghề lưới kéo: Chiều dài giềng phao</Text>
-          <TextInput 
-            style={[styles.input,styles.text]}
-            onChangeText={(text) => setInputValue({ ...inputValue, jobKeo: {...jobKeo,size:text} })}
-            value={inputValue.jobKeo?.size}
+        <View style={[styles.row, {width: '65%'}]}>
+          <Text style={styles.text}>
+            d. Nghề lưới kéo: Chiều dài giềng phao
+          </Text>
+          <TextInput
+            keyboardType="numeric"
+            style={[styles.input, styles.text]}
+            onChangeText={text => {
+              setThongTinTau({
+                ...thongTinTau,
+                nluoikeo_chieudaigiengphao: text,
+              });
+              setInputValue({...inputValue, nluoikeo_chieudaigiengphao: text});
+            }}
+            value={inputValue.nluoikeo_chieudaigiengphao}
           />
           <Text style={styles.text}>m;</Text>
         </View>
-        <View style={[styles.row,{width:'35%'}]}>
+        <View style={[styles.row, {width: '35%'}]}>
           <Text style={styles.text}>Chiều cao lưới:</Text>
-          <TextInput 
-            style={[styles.input,styles.text]}
-            onChangeText={(text) => setInputValue({ ...inputValue, jobKeo: {...jobKeo,number:text} })}
-            value={inputValue.jobKeo?.number}
+          <TextInput
+            keyboardType="numeric"
+            style={[styles.input, styles.text]}
+            onChangeText={text => {
+              setThongTinTau({
+                ...thongTinTau,
+                nluoikeo_chieudaitoanboluoi: text,
+              });
+              setInputValue({...inputValue, nluoikeo_chieudaitoanboluoi: text});
+            }}
+            value={inputValue.nluoikeo_chieudaitoanboluoi}
           />
           <Text style={styles.text}>m</Text>
         </View>
       </View>
 
       <View style={[styles.row]}>
-        <View style={[styles.row,{width:'100%'}]}>
+        <View style={[styles.row, {width: '100%'}]}>
           <Text style={styles.text}>e. Nghề khác:</Text>
           <TextInput
-            onChangeText={(text) => setInputValue({ ...inputValue, jobOther: text })}
-            value={inputValue.jobOther}
+            onChangeText={text => {
+              setThongTinTau({...thongTinTau, nkhac: text});
+              setInputValue({...inputValue, nkhac: text});
+            }}
+            value={inputValue.nkhac}
             style={[styles.input, styles.text]}
           />
         </View>
       </View>
     </View>
-  )
-}
+  );
+};
 
-export default Table2
+export default Table2;

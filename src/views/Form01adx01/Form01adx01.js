@@ -4,8 +4,9 @@ import {
   ScrollView,
   StyleSheet,
   TouchableOpacity,
+  Alert,
 } from 'react-native';
-import React, {useContext} from 'react';
+import React, {useContext, useState} from 'react';
 import HeaderView from './item/HeaderView';
 import TongCucThuySanView from './item/TongCucThuySanView';
 import HoatDongKhaiThacThuySanView from './item/HoatDongKhaiThacThuySanView';
@@ -13,9 +14,11 @@ import HoatDongChuyenTaiView from './item/HoatDongChuyenTaiView';
 import {FormContext} from '../../contexts/FormContext';
 import { UserContext } from '../../contexts/UserContext';
 import { GeneratePDF } from '../ExportPDF';
+import Spinner from 'react-native-loading-spinner-overlay';
 
-const Form01adx01 = ({navigation}) => {
 
+
+const Form01adx01 = ({navigation, route}) => {
   const {
     thuMua,
     setThuMua,
@@ -25,49 +28,30 @@ const Form01adx01 = ({navigation}) => {
     setKhaiThac,
   } = useContext(FormContext);
 
-  const  {postForm} = useContext(UserContext)
+  const {postForm} = useContext(UserContext);
+  const {isLoading, setIsLoading} = useContext(UserContext);
+  const {isError, setIsError} = useContext(UserContext);
 
   const dateNow = new Date();
   const dateNowFormat = () => {
-
     const day = dateNow.getDate().toString().padStart(2, '0');
     const month = (dateNow.getMonth() + 1).toString().padStart(2, '0');
     const year = dateNow.getFullYear();
     return `${day}/${month}/${year}`;
-
   };
 
-  const [inputHoatDongChuyenTai, setInputHoatDongChuyenTai] = React.useState([
-    {
-      date: dateNowFormat(),
-      shipRegisterNumber: '',
-      miningLicenseNumbewr: '',
-      latitude: '',
-      longitude: '',
-      speciesName: '',
-      weight: '',
-    },
-  ]);
-
-  const [inputHoatDongKhaiThacThuySan, setInputHoatDongKhaiThacThuySan] =
-    React.useState([
-      {
-        timeTha: '',
-        viDoTha: '',
-        kinhDoTha: '',
-        timeThu: '',
-        viDoTha: '',
-        kinhDoThu: '',
-      },
-    ]);
-
-  const [inputLoaiCa, setInputLoaiCa] = React.useState([{}]);
-
   React.useEffect(() => {
-    console.log(inputHoatDongChuyenTai);
-  }, [inputHoatDongChuyenTai]);
-
-///====
+    if (isError) {
+      Alert.alert('Lỗi', 'Có lỗi xảy ra.', [
+        {
+          text: 'OK',
+          onPress: () => {
+            setIsError(false);
+          },
+        },
+      ]);
+    }
+  }, [isError]);
 
   const _renderActionView = () => {
     return (
@@ -99,7 +83,7 @@ const Form01adx01 = ({navigation}) => {
     GeneratePDF(data,name);
   };
   const handleCreateForm = () => {
-    console.log('Create');
+    postForm(handleFormatObject());
   };
 
   const handleSaveForm = () => {
@@ -107,11 +91,12 @@ const Form01adx01 = ({navigation}) => {
   };
 
   const handleDownloadForm = () => {
-    postForm(handleFormatObject());
+    console.log(handleFormatObject());
   };
 
   const handleExportPDF = () => {
-    console.log('Export');
+    // setIsLoading(true);
+    console.log('DATA: ', handleFormatObject());
   };
 
   const handleFormatObject = () => {
@@ -121,19 +106,21 @@ const Form01adx01 = ({navigation}) => {
       ...thuMua,
     };
   };
-
   return (
     <ScrollView
       contentContainerStyle={{flexGrow: 1}}
       showsVerticalScrollIndicator={false}>
       <HeaderView />
-      <TongCucThuySanView />
+      <TongCucThuySanView id={route.params?.id} />
       <HoatDongKhaiThacThuySanView />
-      <HoatDongChuyenTaiView
-        textInput={inputHoatDongChuyenTai}
-        setTextInput={setInputHoatDongChuyenTai}
-      />
+      <HoatDongChuyenTaiView />
       {_renderActionView()}
+      <Spinner
+        visible={isLoading}
+        textContent={'Đang tải...'}
+        color="blue"
+        textStyle={styles.spinnerText}
+      />
     </ScrollView>
   );
 };
@@ -141,6 +128,11 @@ const Form01adx01 = ({navigation}) => {
 export default Form01adx01;
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   button: {
     borderRadius: 5,
     padding: 10,

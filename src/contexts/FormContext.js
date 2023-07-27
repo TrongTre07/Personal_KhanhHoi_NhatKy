@@ -1,23 +1,28 @@
 import React, {createContext, useState} from 'react';
 
 export const FormContext = createContext();
-
+import CustomDatePicker from '../views/Form01adx01/item/itemTongCucThuySan/CustomDatePicker';
+import {dateNowFormat} from '../views/Form01adx01/item/itemTongCucThuySan/formatdate'
 export const FormProvider = ({children}) => {
+
+
+  const dateNow = new Date();
+
   const [user, setUser] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const [thongTinTau, setThongTinTau] = useState({
     isdraft: false,
-    dairy_name: 'abc-test',
+    dairy_name: 'test_form_1',
     nghechinh: '',
-    ten_chutau: 'abc',
-    ten_thuyentruong: 'abc',
-    id_tau: '1',
-    tau_bs: 'HC-1234-TS1',
-    tau_chieudailonnhat: '12',
-    tau_tongcongsuatmaychinh: '12',
-    gpkt_so: 'HAGPKT',
-    gpkt_thoihan: '12/2/2022',
+    ten_chutau: '',
+    ten_thuyentruong: '',
+    id_tau: '',
+    tau_bs: '',
+    tau_chieudailonnhat: '',
+    tau_tongcongsuatmaychinh: '',
+    gpkt_so: '',
+    gpkt_thoihan: '',
     nghephu1: '',
     nghephu2: '',
     ncau_chieudaivangcau: '',
@@ -31,10 +36,10 @@ export const FormProvider = ({children}) => {
     nkhac: '',
     chuyenbien_so: '',
     cang_di: '',
-    ngay_di: '2023-07-22',
+    ngay_di: '',
     cang_ve: '',
-    ngay_ve: '2023-07-22',
-    ngaynop: '2023-07-22',
+    ngay_ve: '',
+    ngaynop: '',
     vaoso_so: '',
   });
 
@@ -42,14 +47,14 @@ export const FormProvider = ({children}) => {
     khaithac: [
       {
         methu: '1',
-        thoidiem_tha: '2023-07-22T14:44',
-        vido_tha: '10.5656',
-        kinhdo_tha: '105.3598',
-        thoidiem_thu: '2023-07-22T14:44',
-        vido_thu: '10.3',
-        kinhdo_thu: '105.6',
-        loai_1: 'cá',
-        loai_2: 'mực',
+        thoidiem_tha: dateNowFormat('nullHour'),
+        vido_tha: '',
+        kinhdo_tha: '',
+        thoidiem_thu: dateNowFormat('nullHour'),
+        vido_thu: '',
+        kinhdo_thu: '',
+        loai_1: '',
+        loai_2: '',
         loai_3: '',
         loai_4: '',
         loai_5: '',
@@ -57,32 +62,34 @@ export const FormProvider = ({children}) => {
         loai_7: '',
         loai_8: '',
         loai_9: '',
-        loai_1_kl: '200',
-        loai_2_kl: '200',
-        loai_3_kl: '200',
-        loai_4_kl: '200',
-        loai_5_kl: '200',
-        loai_6_kl: '200',
-        loai_7_kl: '200',
-        loai_8_kl: '200',
-        loai_9_kl: '200',
-        tongsanluong: '400',
+        loai_1_kl: '',
+        loai_2_kl: '',
+        loai_3_kl: '',
+        loai_4_kl: '',
+        loai_5_kl: '',
+        loai_6_kl: '',
+        loai_7_kl: '',
+        loai_8_kl: '',
+        loai_9_kl: '',
+        tongsanluong: '',
       },
     ],
   });
 
+
   const [thuMua, setThuMua] = useState({
     thumua: [
       {
-        ngaythang: '2023-07-22',
-        tm_ct_bstau: 'bs-tau',
-        tm_ct_gpkt: '123456',
-        tm_ct_vt_vido: '10.2',
-        tm_ct_vt_kinhdo: '103.8',
-        daban_ct_loai: 'Mực',
-        daban_ct_khoiluong: '100',
+        ngaythang: dateNowFormat(null),
+        tm_ct_bstau: '',
+        tm_ct_gpkt: '',
+        tm_ct_vt_vido: '',
+        tm_ct_vt_kinhdo: '',
+        daban_ct_loai: '',
+        daban_ct_khoiluong: '',
         tm_ct_thuyentruong: '',
       },
+      
     ],
   });
 
@@ -100,4 +107,3 @@ export const FormProvider = ({children}) => {
     <FormContext.Provider value={contextValue}>{children}</FormContext.Provider>
   );
 };
-

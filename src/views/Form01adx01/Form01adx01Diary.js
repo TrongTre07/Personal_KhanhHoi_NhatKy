@@ -15,6 +15,7 @@ const Form01adx01Diary = ({navigation}) => {
   
 
   // console.log('-------------------------------------------', data);
+  // console.log('dataInfShip',dataInfShip);
 
     const fetchdata = async ()=>{
     setData(await getDiaryForm());
@@ -68,7 +69,7 @@ const Form01adx01Diary = ({navigation}) => {
         </View>
       </TouchableOpacity>
       <TouchableOpacity 
-          onPress={() => navigation.navigate('form01adx01')}
+          onPress={() => navigation.navigate('form01adx01',{id:id})}
       >
         <View style={[styles.btn,{backgroundColor:'#00FFFF'}]}>
           <Text style={styles.btnText}>Sửa</Text>
@@ -104,7 +105,7 @@ const Form01adx01Diary = ({navigation}) => {
     
   );
 //data
-    const selectedData = data.map((item,index) => ([
+    const selectedData = data?.map((item,index) => ([
       index,
       item.dairy_name,
       item.tau_bs,

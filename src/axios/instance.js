@@ -12,7 +12,6 @@ const Clientip = '192.168.1.2'
 instance.interceptors.request.use(
   async config => {
     const APIKey =await Storage.getItem('token');
-    console.log('APIKEY: ', APIKey);
     config.headers['Clientip'] = Clientip;
     config.headers['APIKey'] = APIKey;
 
