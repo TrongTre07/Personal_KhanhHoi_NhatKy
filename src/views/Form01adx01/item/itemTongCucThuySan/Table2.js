@@ -2,31 +2,13 @@ import {View, Text, TextInput, Button, TouchableOpacity} from 'react-native';
 import React, {useContext, useState} from 'react';
 import styles from './styles';
 import {FormContext} from '../../../../contexts/FormContext';
+import {UserContext} from '../../../../contexts/UserContext';
 
-const Table2 = ({
-  ncau_chieudaivangcau,
-  ncau_soluoicau,
-  nluoivay_chieudailuoi,
-  nluoivay_chieucaoluoi,
-  nluoichup_chuvimiengluoi,
-  nluoichup_chieucaoluoi,
-  nluoikeo_chieudaigiengphao,
-  nluoikeo_chieudaitoanboluoi,
-  nkhac,
-}) => {
-  const [inputValue, setInputValue] = useState({
-    ncau_chieudaivangcau,
-    ncau_soluoicau,
-    nluoivay_chieudailuoi,
-    nluoivay_chieucaoluoi,
-    nluoichup_chuvimiengluoi,
-    nluoichup_chieucaoluoi,
-    nluoikeo_chieudaigiengphao,
-    nluoikeo_chieudaitoanboluoi,
-    nkhac,
-  });
+const Table2 = ({}) => {
+
 
   const {thongTinTau, setThongTinTau} = useContext(FormContext);
+  const {data,setData} = useContext(UserContext);
 
   return (
     <View>
@@ -47,9 +29,9 @@ const Table2 = ({
             style={[styles.input, styles.text]}
             onChangeText={text => {
               setThongTinTau({...thongTinTau, ncau_chieudaivangcau: text});
-              setInputValue({...inputValue, ncau_chieudaivangcau: text});
+              setData({...data, ncau_chieudaivangcau: text});
             }}
-            value={inputValue.ncau_chieudaivangcau}
+            value={data.ncau_chieudaivangcau}
           />
           <Text style={styles.text}>m;</Text>
         </View>
@@ -60,9 +42,9 @@ const Table2 = ({
             style={[styles.input, styles.text]}
             onChangeText={text => {
               setThongTinTau({...thongTinTau, ncau_soluoicau: text});
-              setInputValue({...inputValue, ncau_soluoicau: text});
+              setData({...data, ncau_soluoicau: text});
             }}
-            value={inputValue.ncau_soluoicau}
+            value={data.ncau_soluoicau}
           />
           <Text style={styles.text}>lưỡi</Text>
         </View>
@@ -78,9 +60,9 @@ const Table2 = ({
             style={[styles.input, styles.text]}
             onChangeText={text => {
               setThongTinTau({...thongTinTau, nluoivay_chieudailuoi: text});
-              setInputValue({...inputValue, nluoivay_chieudailuoi: text});
+              setData({...data, nluoivay_chieudailuoi: text});
             }}
-            value={inputValue.jobVayRe?.size}
+            value={data.nluoivay_chieudailuoi}
           />
           <Text style={styles.text}>m;</Text>
         </View>
@@ -91,9 +73,9 @@ const Table2 = ({
             style={[styles.input, styles.text]}
             onChangeText={text => {
               setThongTinTau({...thongTinTau, nluoivay_chieucaoluoi: text});
-              setInputValue({...inputValue, nluoivay_chieucaoluoi: text});
+              setData({...data, nluoivay_chieucaoluoi: text});
             }}
-            value={inputValue.nluoivay_chieucaoluoi}
+            value={data.nluoivay_chieucaoluoi}
           />
           <Text style={styles.text}>m</Text>
         </View>
@@ -107,9 +89,9 @@ const Table2 = ({
             style={[styles.input, styles.text]}
             onChangeText={text => {
               setThongTinTau({...thongTinTau, nluoichup_chuvimiengluoi: text});
-              setInputValue({...inputValue, nluoichup_chuvimiengluoi: text});
+              setData({...data, nluoichup_chuvimiengluoi: text});
             }}
-            value={inputValue.nluoichup_chuvimiengluoi}
+            value={data.nluoichup_chuvimiengluoi}
           />
           <Text style={styles.text}>m;</Text>
         </View>
@@ -120,9 +102,9 @@ const Table2 = ({
             style={[styles.input, styles.text]}
             onChangeText={text => {
               setThongTinTau({...thongTinTau, nluoichup_chieucaoluoi: text});
-              setInputValue({...inputValue, nluoichup_chieucaoluoi: text});
+              setData({...data, nluoichup_chieucaoluoi: text});
             }}
-            value={inputValue.jobChup?.number}
+            value={data.nluoivay_chieudailuoi}
           />
           <Text style={styles.text}>m</Text>
         </View>
@@ -141,9 +123,9 @@ const Table2 = ({
                 ...thongTinTau,
                 nluoikeo_chieudaigiengphao: text,
               });
-              setInputValue({...inputValue, nluoikeo_chieudaigiengphao: text});
+              setData({...data, nluoikeo_chieudaigiengphao: text});
             }}
-            value={inputValue.nluoikeo_chieudaigiengphao}
+            value={data.nluoikeo_chieudaigiengphao}
           />
           <Text style={styles.text}>m;</Text>
         </View>
@@ -157,9 +139,9 @@ const Table2 = ({
                 ...thongTinTau,
                 nluoikeo_chieudaitoanboluoi: text,
               });
-              setInputValue({...inputValue, nluoikeo_chieudaitoanboluoi: text});
+              setData({...data, nluoikeo_chieudaitoanboluoi: text});
             }}
-            value={inputValue.nluoikeo_chieudaitoanboluoi}
+            value={data.nluoikeo_chieudaitoanboluoi}
           />
           <Text style={styles.text}>m</Text>
         </View>
@@ -171,9 +153,9 @@ const Table2 = ({
           <TextInput
             onChangeText={text => {
               setThongTinTau({...thongTinTau, nkhac: text});
-              setInputValue({...inputValue, nkhac: text});
+              setData({...data, nkhac: text});
             }}
-            value={inputValue.nkhac}
+            value={data.nkhac}
             style={[styles.input, styles.text]}
           />
         </View>

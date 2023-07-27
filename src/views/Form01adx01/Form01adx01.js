@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   Alert,
 } from 'react-native';
-import React, {useContext, useState} from 'react';
+import React, {useContext, useEffect, useState,} from 'react';
 import HeaderView from './item/HeaderView';
 import TongCucThuySanView from './item/TongCucThuySanView';
 import HoatDongKhaiThacThuySanView from './item/HoatDongKhaiThacThuySanView';
@@ -14,6 +14,7 @@ import HoatDongChuyenTaiView from './item/HoatDongChuyenTaiView';
 import {FormContext} from '../../contexts/FormContext';
 import {UserContext} from '../../contexts/UserContext';
 import Spinner from 'react-native-loading-spinner-overlay';
+import {useIsFocused} from '@react-navigation/native'
 
 const Form01adx01 = ({navigation, route}) => {
   const {
@@ -30,12 +31,6 @@ const Form01adx01 = ({navigation, route}) => {
   const {isError, setIsError} = useContext(UserContext);
 
   const dateNow = new Date();
-  const dateNowFormat = () => {
-    const day = dateNow.getDate().toString().padStart(2, '0');
-    const month = (dateNow.getMonth() + 1).toString().padStart(2, '0');
-    const year = dateNow.getFullYear();
-    return `${day}/${month}/${year}`;
-  };
 
   React.useEffect(() => {
     if (isError) {
@@ -49,15 +44,35 @@ const Form01adx01 = ({navigation, route}) => {
       ]);
     }
   }, [isError]);
+  const id = route.params?.id;
+  const {getDetailFormId,setData,data} = useContext(UserContext);
+  const isFocus= useIsFocused();
+
+  useEffect(()=>{
+    setData({})
+  },[!isFocus])
+
+
+  useEffect(() => {
+    getDetailFormId(id);
+  }, []);
 
   const _renderActionView = () => {
     return (
       <View style={styles.action}>
-        <TouchableOpacity
-          style={[styles.actionCreate, styles.button]}
-          onPress={handleCreateForm}>
-          <Text style={styles.actionText}>Tạo</Text>
-        </TouchableOpacity>
+        {id ? (
+          <TouchableOpacity
+            style={[styles.actionCreate, styles.button]}
+            onPress={{}}>
+            <Text style={styles.actionText}>Cập nhật</Text>
+          </TouchableOpacity>
+        ) : (
+          <TouchableOpacity
+            style={[styles.actionCreate, styles.button]}
+            onPress={handleCreateForm}>
+            <Text style={styles.actionText}>Tạo</Text>
+          </TouchableOpacity>
+        )}
         <TouchableOpacity
           style={[styles.actionSave, styles.button]}
           onPress={handleSaveForm}>
@@ -106,8 +121,8 @@ const Form01adx01 = ({navigation, route}) => {
       contentContainerStyle={{flexGrow: 1}}
       showsVerticalScrollIndicator={false}>
       <HeaderView />
-      <TongCucThuySanView id={route.params?.id} />
-      <HoatDongKhaiThacThuySanView />
+      <TongCucThuySanView />
+      <HoatDongKhaiThacThuySanView id={id} />
       <HoatDongChuyenTaiView />
       {_renderActionView()}
       <Spinner

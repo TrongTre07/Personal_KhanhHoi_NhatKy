@@ -12,59 +12,36 @@ import styles from './styles';
 import CustomDatePicker from './CustomDatePicker';
 import {FormContext} from '../../../../contexts/FormContext';
 import {dateNowFormat, convertStringToDate} from './formatdate';
+import {UserContext} from '../../../../contexts/UserContext';
 
 const Table3 = ({
-  chuyenbien_so,
-  cang_di,
-  ngay_di,
-  cang_ve,
-  ngay_ve,
-  ngaynop,
-  vaoso_so,
-  who_create,
-  dairy_name,
-  date_create,
-  isdraft,
-  date_modified,
 }) => {
-  const [inputValue, setInputValue] = useState({
-    chuyenbien_so,
-    cang_di,
-    ngay_di,
-    cang_ve,
-    ngay_ve,
-    ngaynop,
-    vaoso_so,
-    who_create,
-    dairy_name,
-    date_create,
-    isdraft,
-    date_modified,
-  });
+
 
   const {thongTinTau, setThongTinTau} = useContext(FormContext);
+  const {data,setData} = useContext(UserContext);
 
   //date
   const handleDateChange = (name, date) => {
     switch (name) {
       case 'departurePort':
-        setInputValue({
-          ...inputValue,
+        setData({
+          ...data,
           ngay_di: dateNowFormat(date, 'date'),
         });
         setThongTinTau({...thongTinTau, ngay_di: dateNowFormat(date, 'date')});
         break;
       case 'arrivalPort':
-        setInputValue({
-          ...inputValue,
+        setData({
+          ...data,
           ngay_ve: dateNowFormat(date, 'date'),
         });
         setThongTinTau({...thongTinTau, ngay_ve: dateNowFormat(date, 'date')});
 
         break;
       case 'diary':
-        setInputValue({
-          ...inputValue,
+        setData({
+          ...data,
           ngaynop: dateNowFormat(date, 'date'),
         });
         setThongTinTau({...thongTinTau, ngaynop: dateNowFormat(date, 'date')});
@@ -85,9 +62,9 @@ const Table3 = ({
               style={[styles.input, styles.text, {fontWeight: '600'}]}
               onChangeText={text => {
                 setThongTinTau({...thongTinTau, chuyenbien_so: text});
-                setInputValue({...inputValue, chuyenbien_so: text});
+                setData({...data, chuyenbien_so: text});
               }}
-              value={inputValue.chuyenbien_so}
+              value={data.chuyenbien_so}
             />
           </View>
         </View>
@@ -99,9 +76,9 @@ const Table3 = ({
                 style={[styles.input, styles.text]}
                 onChangeText={text => {
                   setThongTinTau({...thongTinTau, cang_di: text});
-                  setInputValue({...inputValue, cang_di: text});
+                  setData({...data, cang_di: text});
                 }}
-                value={inputValue.cang_di}
+                value={data.cang_di}
               />
             </View>
             <View style={[styles.row, {width: '50%'}]}>
@@ -110,12 +87,12 @@ const Table3 = ({
                 style={[styles.input, styles.text]}
                 onChangeText={text => {
                   setThongTinTau({...thongTinTau, ngay_di: text});
-                  setInputValue({...inputValue, ngay_di: text});
+                  setData({...data, ngay_di: text});
                 }}
-                value={convertStringToDate(inputValue.ngay_di)}
+                value={convertStringToDate(data.ngay_di)}
               />
               <CustomDatePicker
-                value={ngay_di}
+                value={data.ngay_di}
                 onDateChange={date => handleDateChange('departurePort', date)}
               />
             </View>
@@ -137,9 +114,9 @@ const Table3 = ({
                 style={[styles.input, styles.text]}
                 onChangeText={text => {
                   setThongTinTau({...thongTinTau, cang_ve: text});
-                  setInputValue({...inputValue, cang_ve: text});
+                  setData({...data, cang_ve: text});
                 }}
-                value={inputValue.cang_ve}
+                value={data.cang_ve}
               />
             </View>
             <View style={[styles.row, {width: '50%'}]}>
@@ -148,12 +125,12 @@ const Table3 = ({
                 style={[styles.input, styles.text]}
                 onChangeText={text => {
                   setThongTinTau({...thongTinTau, ngay_ve: text});
-                  setInputValue({...inputValue, ngay_ve: text});
+                  setData({...data, ngay_ve: text});
                 }}
-                value={convertStringToDate(inputValue.ngay_ve)}
+                value={convertStringToDate(data.ngay_ve)}
               />
               <CustomDatePicker
-                value={ngay_ve}
+                value={data.ngay_ve}
                 onDateChange={date => handleDateChange('arrivalPort', date)}
               />
             </View>
@@ -174,12 +151,12 @@ const Table3 = ({
                 style={[styles.input, styles.text]}
                 onChangeText={text => {
                   setThongTinTau({...thongTinTau, ngaynop: text});
-                  setInputValue({...inputValue, ngaynop: text});
+                  setData({...data, ngaynop: text});
                 }}
-                value={convertStringToDate(inputValue.ngaynop)}
+                value={convertStringToDate(data.ngaynop)}
               />
               <CustomDatePicker
-                value={ngaynop}
+                value={data.ngaynop}
                 onDateChange={date => handleDateChange('diary', date)}
               />
             </View>
@@ -190,9 +167,9 @@ const Table3 = ({
                 onChangeText={text => {
                   setThongTinTau({...thongTinTau, vaoso_so: text});
 
-                  setInputValue({...inputValue, vaoso_so: text});
+                  setData({...data, vaoso_so: text});
                 }}
-                value={inputValue.vaoso_so}
+                value={data.vaoso_so}
               />
             </View>
           </View>

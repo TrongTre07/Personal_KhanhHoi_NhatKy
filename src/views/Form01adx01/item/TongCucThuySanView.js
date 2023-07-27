@@ -8,13 +8,13 @@ import {FormContext} from '../../../contexts/FormContext';
 
 import {UserContext} from '../../../contexts/UserContext.js';
 
-const TongCucThuySanView = ({id}) => {
+const TongCucThuySanView = () => {
   const {thongTinTau, setThongTinTau} = useContext(FormContext);
 
-  const {getDiaryForm, dataInfShip, data} = useContext(UserContext);
-  // const [dataInf, setDataInf] = useState();
-
-  const dataInf = data.find(item => item.id === id);
+  const {getDiaryForm, dataShip, data} = useContext(UserContext);
+  // const [data, setdata] = useState();
+  console.log("INFOR: ", data.ten_chutau, data.ten_thuyentruong)
+  // const data = data.find(item => item.id === id);
 
   const handleNgheChinh = value => {
     const updatedThongTinTau = {...thongTinTau};
@@ -32,55 +32,25 @@ const TongCucThuySanView = ({id}) => {
           <Text style={[styles.txtHeader, {fontWeight: '400'}]}>
             {'('}NGHỀ CHÍNH:
           </Text>
-          <TextInput style={styles.input} value={data.nghechinh} onChangeText={handleNgheChinh}/>
+          <TextInput
+            style={styles.input}
+            value={data.nghechinh}
+            onChangeText={handleNgheChinh}
+          />
           <Text style={[styles.txtHeader, {fontWeight: '400'}]}>{')'}</Text>
         </View>
       </View>
 
-      <Table1
-        ten_chutau={dataInf?.ten_chutau}
-        ten_thuyentruong={dataInf?.ten_thuyentruong}
-        id_tau={dataInf?.id_tau}
-        tau_bs={dataInf?.tau_bs}
-        tau_chieudailonnhat={dataInf?.tau_chieudailonnhat}
-        tau_tongcongsuatmaychinh={dataInf?.tau_tongcongsuatmaychinh}
-        gpkt_so={dataInf?.gpkt_so}
-        gpkt_thoihan={dataInf?.gpkt_thoihan}
-        nghephu1={dataInf?.nghephu1}
-        nghephu2={dataInf?.nghephu2}
-      />
-      <Table2
-        ncau_chieudaivangcau={dataInf?.ncau_chieudaivangcau}
-        ncau_soluoicau={dataInf?.ncau_soluoicau}
-        nluoivay_chieudailuoi={dataInf?.nluoivay_chieudailuoi}
-        nluoivay_chieucaoluoi={dataInf?.nluoivay_chieucaoluoi}
-        nluoichup_chuvimiengluoi={dataInf?.nluoichup_chuvimiengluoi}
-        nluoichup_chieucaoluoi={dataInf?.nluoichup_chieucaoluoi}
-        nluoikeo_chieudaigiengphao={dataInf?.nluoikeo_chieudaigiengphao}
-        nluoikeo_chieudaitoanboluoi={dataInf?.nluoikeo_chieudaitoanboluoi}
-        nkhac={dataInf?.nkhac}
-      />
-      <Table3
-        chuyenbien_so={dataInf?.chuyenbien_so}
-        cang_di={dataInf?.cang_di}
-        ngay_di={dataInf?.ngay_di}
-        cang_ve={dataInf?.cang_ve}
-        ngay_ve={dataInf?.ngay_ve}
-        ngaynop={dataInf?.ngaynop}
-        vaoso_so={dataInf?.vaoso_so}
-        who_create={dataInf?.who_create}
-        dairy_name={dataInf?.dairy_name}
-        date_create={dataInf?.date_create}
-        isdraft={dataInf?.isdraft}
-        date_modified={dataInf?.date_modified}
-      />
+      <Table1/>
+      <Table2/>
+      <Table3/>
     </View>
   );
 };
 
 export default TongCucThuySanView;
 
-// var dataInf= {
+// var data= {
 //   nameOwner: 'Huy Tran',
 //   namePilot: 'Trong tre',
 //   arrNumberShip: ['1234321','H2341','abc'],

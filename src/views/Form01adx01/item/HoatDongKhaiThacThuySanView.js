@@ -21,24 +21,50 @@ import {
   convertStringToDate,
   convertStringToDateHour,
 } from './itemTongCucThuySan/formatdate';
+import { UserContext } from '../../../contexts/UserContext';
 
-const HoatDongKhaiThacThuySanView = () => {
+const HoatDongKhaiThacThuySanView = ({id}) => {
   const {khaiThac, setKhaiThac} = useContext(FormContext);
+  const {data} = useContext(UserContext)
   const [listForm, setListForm] = React.useState([]);
   const [valueCheckNumber, setValueCheckNumber] = useState('0');
 
-  const dateNow = new Date();
-
   const [textInput, setTextInput] = React.useState([
     {
-      timeTha: dateNowFormat('nullHour'),
-      viDoTha: '',
-      kinhDoTha: '',
-      timeThu: dateNowFormat('nullHour'),
-      viDoThu: '',
-      kinhDoThu: '',
+      timeTha:data.thoidiem_tha || dateNowFormat('nullHour'),
+      viDoTha: data.vido_tha || '',
+      kinhDoTha:data.kinhdo_tha || '',
+      timeThu: data.thoidiem_thu || dateNowFormat('nullHour'),
+      viDoThu: data.vido_thu || '',
+      kinhDoThu:data.kinhdo_thu ||  '',
     },
   ]);
+  // methu: listForm.length.toString(),
+  // thoidiem_tha: dateNowFormat('nullHour'),
+  // vido_tha: '',
+  // kinhdo_tha: '',
+  // thoidiem_thu: dateNowFormat('nullHour'),
+  // vido_thu: '',
+  // kinhdo_thu: '',
+  // loai_1: khaiThac.khaithac[0].loai_1,
+  // loai_2: khaiThac.khaithac[0].loai_2,
+  // loai_3: khaiThac.khaithac[0].loai_3,
+  // loai_4: khaiThac.khaithac[0].loai_4,
+  // loai_5: khaiThac.khaithac[0].loai_5,
+  // loai_6: khaiThac.khaithac[0].loai_6,
+  // loai_7: khaiThac.khaithac[0].loai_7,
+  // loai_8: khaiThac.khaithac[0].loai_8,
+  // loai_9: khaiThac.khaithac[0].loai_9,
+  // loai_1_kl: '',
+  // loai_2_kl: '',
+  // loai_3_kl: '',
+  // loai_4_kl: '',
+  // loai_5_kl: '',
+  // loai_6_kl: '',
+  // loai_7_kl: '',
+  // loai_8_kl: '',
+  // loai_9_kl: '',
+  // tongsanluong: '',
 
   const [loaiCa, setLoaiCa] = useState([
     {id: '0', name: '', soLuong: ['0']},

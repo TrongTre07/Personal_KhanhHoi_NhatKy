@@ -23,7 +23,7 @@ const UserProvider = ({children}) => {
         await AsyncStorage.setItem('token', response.data);
 
       if (response.data != null) {
-        console.log(response.data)
+        console.log(response.data);
         setIsLoggedIn(true);
       }
     } catch (error) {
@@ -46,9 +46,9 @@ const UserProvider = ({children}) => {
     }
   };
 
-  // useEffect(() => {
-  //   checkLoginStatus();
-  // }, []);
+  useEffect(() => {
+    checkLoginStatus();
+  }, []);
 
   //
   const postForm = async obj => {
@@ -58,7 +58,7 @@ const UserProvider = ({children}) => {
         'api/FormAppendix/0101/create',
         payload,
       );
-      console.log("RES: ", response.data)
+      console.log('RES: ', response.data);
       setIsLoading(false);
     } catch (error) {
       setIsLoading(false);
@@ -87,12 +87,17 @@ const UserProvider = ({children}) => {
     }
   };
 
-  const getFormId = async id => {
+  const getDetailFormId = async id => {
     try {
-      const response = await instance.post(`api/FormAppendix/0101/del/${id}`);
-      console.log('delete', response.data);
+      console.log("ID: ", id)
+      const response = await instance.get(
+        `/api/FormAppendix/getdetail_0101_byid/${id}`,
+      );
+
+      console.log('RES: ', response.data);
+      setData(await response.data)
     } catch (error) {
-      console.log('GET ERROR: ', error);
+      console.log('ERROR: ', error);
     }
   };
 
@@ -109,9 +114,10 @@ const UserProvider = ({children}) => {
     setIsError,
     getDiaryForm,
     deleteFormId,
-    getFormId,
     dataInfShip,
     data,
+    setData,
+    getDetailFormId,
   };
 
   return (
