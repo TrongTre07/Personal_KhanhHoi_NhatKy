@@ -2,7 +2,7 @@ import React, { useContext, useEffect } from 'react';
 import { View, StyleSheet, PermissionsAndroid } from 'react-native';
 import Pdf from 'react-native-pdf';
 import { FormContext } from '../contexts/FormContext';
-
+import FileViewer from "react-native-file-viewer";
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -47,7 +47,7 @@ const ViewPDF = () => {
   };
 
   let yourPDFURI = { uri: pdfPath, cache: true };
-
+  
   return (
     <View style={{ flex: 1 }}>
       <Pdf

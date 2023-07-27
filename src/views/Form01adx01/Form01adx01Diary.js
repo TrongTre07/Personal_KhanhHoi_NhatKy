@@ -22,7 +22,7 @@ const Form01adx01Diary = ({navigation}) => {
   useEffect( ()=>{
     fetchdata();
   },[])
-
+  
 
   const handleGeneratePDF = (data,name) => {
     GeneratePDF(data,name);
@@ -68,7 +68,7 @@ const Form01adx01Diary = ({navigation}) => {
         </View>
       </TouchableOpacity>
       <TouchableOpacity 
-          onPress={() => navigation.navigate('ViewPDF')}
+          onPress={() => navigation.navigate('form01adx01')}
       >
         <View style={[styles.btn,{backgroundColor:'#00FFFF'}]}>
           <Text style={styles.btnText}>Sửa</Text>

@@ -44,7 +44,7 @@ const App = () => {
         </View>
       </FormProvider>
     </UserProvider>
-  );
+   );
 };
 
 export default App;
