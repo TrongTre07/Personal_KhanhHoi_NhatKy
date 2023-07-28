@@ -1,8 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, Button, Modal, StyleSheet } from 'react-native';
 
-const AlertInputComponent = ({ visible, onClose, onSubmit }) => {
+const AlertInputComponent = ({ visible, onClose, onSubmit, initialValue, actionPopup }) => {
   const [inputText, setInputText] = useState('');
+  const [action, setAction] = useState('Tạo')
+
+  useEffect(() => {
+    setInputText(initialValue || ''); // Set initial value when the popup appears
+  }, [initialValue]);
 
   const handleInputChange = (text) => {
     setInputText(text);
@@ -25,17 +30,17 @@ const AlertInputComponent = ({ visible, onClose, onSubmit }) => {
     >
       <View style={styles.modalContainer}>
         <View style={styles.modalContent}>
-          <Text style={styles.title}>Type Something</Text>
+          <Text style={styles.title}>Nhập tên biểu mẫu</Text>
           <TextInput
             value={inputText}
             onChangeText={handleInputChange}
             style={styles.input}
-            placeholder="Type something..."
+            placeholder="Biểu mẫu..."
             placeholderTextColor="#777"
           />
           <View style={styles.buttonContainer}>
-            <Button title="Cancel" onPress={onClose} color="#FF6347" />
-            <Button title="Submit" onPress={handleSubmit} color="#007BFF" />
+            <Button title="Hủy" onPress={onClose} color="#FF6347" />
+            <Button title={action} onPress={handleSubmit} color="#007BFF" />
           </View>
         </View>
       </View>

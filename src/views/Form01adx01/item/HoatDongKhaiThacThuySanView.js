@@ -52,6 +52,7 @@ const HoatDongKhaiThacThuySanView = ({id}) => {
 
   useEffect(() => {
     if (data.khaithac && data.khaithac.length > 0) {
+
       setTextInput(data.khaithac);
       let newValue = [];
 
@@ -80,13 +81,11 @@ const HoatDongKhaiThacThuySanView = ({id}) => {
           if (index == 0) {
             newListCa[j].soLuong.pop();
             newListCa[j].soLuong.push(item[loaiTenKl]);
-            
           } else {
             newListCa[j].soLuong.push(item[loaiTenKl]);
           }
         }
       });
-      console.log("CA: ", newListCa)
       setLoaiCa(newListCa);
     }
   }, [data.khaithac]);
@@ -492,7 +491,6 @@ const HoatDongKhaiThacThuySanView = ({id}) => {
     } else if (value == '') {
       // value = '0';
     }
-
     const list = [...loaiCa];
     let existingItemIndex = list.findIndex(item => item.id == indexSpecies);
     if (indexSpecies == 9) {

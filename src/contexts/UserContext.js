@@ -2,13 +2,13 @@
 import React, {createContext, useContext, useEffect, useState} from 'react';
 import instance from '../axios/instance';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useNavigation } from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 
 const UserContext = createContext();
 
 const UserProvider = ({children}) => {
   // const navigation = useNavigation();
-  
+
   const [data, setData] = useState([]);
   const [dataInfShip, setDataInfShip] = useState([]);
   const [token, setToken] = useState();
@@ -84,7 +84,9 @@ const UserProvider = ({children}) => {
 
   const deleteFormId = async id => {
     try {
-      await instance.post(`api/FormAppendix/0101/del/${id}`);
+      if (id) {
+        await instance.post(`api/FormAppendix/0101/del/${id}`);
+      }
     } catch (error) {
       console.log('Delete ERROR: ', error);
     }
@@ -95,10 +97,18 @@ const UserProvider = ({children}) => {
       const response = await instance.get(
         `/api/FormAppendix/getdetail_0101_byid/${id}`,
       );
-
       setData(await response.data);
     } catch (error) {
       console.log('ERROR: ', error);
+    }
+  };
+
+  const updateForm = async obj => {
+    try {
+      const response = await instance.post(`/api/FormAppendix/0101/update`, obj);
+      console.log('RES UPDATE: ', response.data);
+    } catch (error) {
+      console.log('ERROR UPDATE: ', error);
     }
   };
 
@@ -119,6 +129,7 @@ const UserProvider = ({children}) => {
     data,
     setData,
     getDetailFormId,
+    updateForm
   };
 
   return (

@@ -25,6 +25,7 @@ const Form01adx01 = ({route}) => {
     thuMua,
     setThuMua,
     thongTinTau,
+
     setThongTinTau,
     khaiThac,
     setKhaiThac,
@@ -32,8 +33,9 @@ const Form01adx01 = ({route}) => {
 
   const [isPopupVisible, setPopupVisible] = useState(false);
   const [receivedData, setReceivedData] = useState('');
+  const [initialValue, setInitialValue] = useState('');
 
-  const {postForm} = useContext(UserContext);
+  const {postForm, updateForm} = useContext(UserContext);
   const {isLoading, setIsLoading} = useContext(UserContext);
   const {isError, setIsError} = useContext(UserContext);
 
@@ -66,6 +68,13 @@ const Form01adx01 = ({route}) => {
     getDetailFormId(id);
   }, []);
 
+  useEffect(() => {
+    console.log('DATA NGHECHINH', data.nghechinh);
+    if (data.nghechinh) {
+      setInitialValue(data.nghechinh);
+    }
+  }, [data]);
+
   const handleTriggerButtonClick = () => {
     setPopupVisible(true);
   };
@@ -74,10 +83,28 @@ const Form01adx01 = ({route}) => {
     setPopupVisible(false);
   };
 
-  const handleDataSubmit = (data) => {
-    const newdata = {...thongTinTau}
-    newdata.dairy_name = data
-    console.log("REV: ", newdata)
+  const handleDataSubmit = value => {
+    if (thongTinTau.id_tau == '') {
+      Alert.alert('Lỗi', 'Bạn phải chọn tàu!', [
+        {
+          text: 'OK',
+          onPress: () => {
+            setIsError(false);
+          },
+        },
+      ]);
+    }
+    if (thongTinTau.id == undefined) {
+      //neu la create thi field id khong ton tai
+      console.log('CREATE ACTIVATED');
+      handleCreateForm(value, 'create');
+    } else {
+      console.log('UPDATE ACTIVATED');
+      handleCreateForm(value, 'update');
+    }
+  };
+  const handleUpdate = () => {
+    setPopupVisible(true);
   };
 
   const _renderActionView = () => {
@@ -86,7 +113,7 @@ const Form01adx01 = ({route}) => {
         {id ? (
           <TouchableOpacity
             style={[styles.actionCreate, styles.button]}
-            onPress={{}}>
+            onPress={handleUpdate}>
             <Text style={styles.actionText}>Cập nhật</Text>
           </TouchableOpacity>
         ) : (
@@ -115,16 +142,15 @@ const Form01adx01 = ({route}) => {
     );
   };
 
-  // const handleCreateForm = () => {
-  //   postForm(handleFormatObject());
-  const handleCreateForm = async () => {
-
-
+  const handleCreateForm = async (value, string) => {
+    let objectPost = handleFormatObject();
+    objectPost.dairy_name = value;
+    console.log('OBJ: ', objectPost);
     const isConnect = netInfo.isConnected;
 
     // chưa có mạng thì lưu local
     if (!isConnect) {
-      const dataForm = handleFormatObject();
+      const dataForm = objectPost;
       const result = await Storage.getItem('form01adx01');
 
       if (result !== null) {
@@ -137,8 +163,12 @@ const Form01adx01 = ({route}) => {
         data.push(dataForm);
         await Storage.setItem('form01adx01', JSON.stringify(data));
       }
-    } else {
-      await postForm(handleFormatObject());
+    } else if (string == 'create') {
+      console.log('CREATE');
+      await postForm(objectPost);
+    } else if (string == 'update') {
+      console.log('UPDATED');
+      await updateForm(objectPost);
     }
     ToastAndroid.show('Tạo thành công', ToastAndroid.SHORT);
     setTimeout(() => {
@@ -185,6 +215,8 @@ const Form01adx01 = ({route}) => {
         visible={isPopupVisible}
         onClose={handlePopupClose}
         onSubmit={handleDataSubmit}
+        initialValue={initialValue}
+        // Pass the initial value as a prop
       />
     </ScrollView>
   );
