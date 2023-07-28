@@ -88,7 +88,7 @@ const Form01adx01Diary = ({navigation}) => {
               return item.id;
             }
           });
-          console.log('datafile', datafile);
+          console.log('datafile', datafile );
           handleGeneratePDF(datafile, datafile.dairy_name);
       }}>
         
