@@ -12,9 +12,6 @@ const TongCucThuySanView = () => {
   const {thongTinTau, setThongTinTau} = useContext(FormContext);
 
   const {getDiaryForm, dataShip, data} = useContext(UserContext);
-  // const [data, setdata] = useState();
-  console.log("INFOR: ", data.ten_chutau, data.ten_thuyentruong)
-  // const data = data.find(item => item.id === id);
 
   const handleNgheChinh = value => {
     const updatedThongTinTau = {...thongTinTau};

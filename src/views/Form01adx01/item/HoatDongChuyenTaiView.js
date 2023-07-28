@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {useContext, useState} from 'react';
+import React, {useContext, useState, useEffect} from 'react';
 import DatePicker from 'react-native-date-picker';
 import {styles} from './itemHoatDongChuyenTai/style.js';
 import CustomDatePicker from './itemTongCucThuySan/CustomDatePicker.js';
@@ -21,18 +21,40 @@ const HoatDongChuyenTaiView = () => {
 
   const [sumOfWeight, setSumOfWeight] = React.useState(0);
   const {thuMua, setThuMua} = useContext(FormContext);
+  const {data} = useContext(UserContext);
+
 
   const [textInput, setTextInput] = React.useState([
     {
-      date: dateNowFormat(null),
-      shipRegisterNumber: '',
-      miningLicenseNumbewr: '',
-      latitude: '',
-      longitude: '',
-      speciesName: '',
-      weight: '',
+      ngaythang: dateNowFormat(null),
+      tm_ct_bstau: '',
+      tm_ct_gpkt: '',
+      tm_ct_vt_vido: '',
+      tm_ct_vt_kinhdo: '',
+      daban_ct_loai: '',
+      daban_ct_khoiluong: '',
     },
   ]);
+ 
+  useEffect(() => {
+    if (data.thumua && data.thumua.length > 0) {
+      console.log("DATA: ", data.thumua)
+      setTextInput(data.thumua);
+      let newValue = [];
+      
+      
+      data.thumua.forEach((item, index) => {
+        newValue.push(<_renderForm key={index} />);
+        setListForm(newValue);
+      });
+      let sum = 0;
+      data.thumua.forEach(item => {
+        sum += Number(item.daban_ct_khoiluong);
+      });
+      setSumOfWeight(sum);
+      
+    }
+  }, [data.thumua]);
 
   React.useEffect(() => {
     if (listForm.length === 0) {
@@ -43,7 +65,7 @@ const HoatDongChuyenTaiView = () => {
 
   const handleDateChange = (index, date) => {
     const list = [...textInput];
-    list[index].date = dateNowFormat(date,"date");
+    list[index].ngaythang = dateNowFormat(date,"date");
     setTextInput(list);
 
      //handle context
@@ -60,10 +82,10 @@ const HoatDongChuyenTaiView = () => {
           <View style={[styles.flexRow, styles.flex1]}>
             <Text style={styles.textValue}>Ngày, tháng: </Text>
             <Text key={textInput[index].date} style={[styles.textValue, styles.mr8]}>
-              {convertStringToDate(textInput[index].date)}
+              {convertStringToDate(textInput[index].ngaythang)}
             </Text>
             <CustomDatePicker
-              value={new Date(textInput[index].date)} // Convert the string date to a Date object
+              value={textInput[index].ngaythang} // Convert the string date to a Date object
               onDateChange={date => handleDateChange(index, date)}
             />
           </View>
@@ -75,6 +97,7 @@ const HoatDongChuyenTaiView = () => {
             <View style={[styles.flex1, styles.mr16]}>
               <Text style={styles.textValue}>Số đăng ký tàu</Text>
               <TextInput
+              value={textInput[index].tm_ct_bstau}
                 onChangeText={value =>
                   handleInputChangeSoDangKyTau(index, value)
                 }
@@ -84,6 +107,7 @@ const HoatDongChuyenTaiView = () => {
             <View style={[styles.flex1, styles.ml16]}>
               <Text style={styles.textValue}>Số giấy phép khai thác</Text>
               <TextInput
+              value={textInput[index].tm_ct_gpkt}
                 style={[styles.input]}
                 onChangeText={value =>
                   handleInputChangeSoGiayPhepKhaiThac(index, value)
@@ -99,6 +123,7 @@ const HoatDongChuyenTaiView = () => {
             <View style={[styles.flex1, styles.mr16]}>
               <Text style={styles.textValue}>Vĩ độ</Text>
               <TextInput
+              value={textInput[index].tm_ct_vt_vido}
                 style={[styles.input]}
                 keyboardType='numeric'
                 onChangeText={value => handleInputChangeViDo(index, value)}
@@ -107,6 +132,8 @@ const HoatDongChuyenTaiView = () => {
             <View style={[styles.flex1, styles.ml16]}>
               <Text style={styles.textValue}>Kinh độ</Text>
               <TextInput
+              value={textInput[index].tm_ct_vt_kinhdo}
+
                 style={[styles.input]}
                 keyboardType='numeric'
                 onChangeText={value => handleInputChangeKinhDo(index, value)}
@@ -121,6 +148,7 @@ const HoatDongChuyenTaiView = () => {
             <View style={[styles.flex1, styles.mr16]}>
               <Text style={styles.textValue}>Tên loài thủy sản</Text>
               <TextInput
+              value={textInput[index].daban_ct_loai}
                 style={[styles.input]}
                 onChangeText={value =>
                   handleInputChangeTenLoaiThuySan(index, value)
@@ -130,6 +158,7 @@ const HoatDongChuyenTaiView = () => {
             <View style={[styles.flex1, styles.ml16]}>
               <Text style={styles.textValue}>Khối lượng (kg)</Text>
               <TextInput
+              value={textInput[index].daban_ct_khoiluong}
                 inputMode="numeric"
                 style={[styles.input]}
                 onChangeText={value =>
@@ -211,7 +240,7 @@ const HoatDongChuyenTaiView = () => {
 
   const handleInputChangeSoDangKyTau = (index, value) => {
     const list = [...textInput];
-    list[index].shipRegisterNumber = value;
+    list[index].tm_ct_bstau = value;
     setTextInput(list);
 
     //handle context
@@ -223,7 +252,7 @@ const HoatDongChuyenTaiView = () => {
 
   const handleInputChangeSoGiayPhepKhaiThac = (index, value) => {
     const list = [...textInput];
-    list[index].miningLicenseNumbewr = value;
+    list[index].tm_ct_gpkt = value;
     setTextInput(list);
 
     //handle context
@@ -235,7 +264,7 @@ const HoatDongChuyenTaiView = () => {
 
   const handleInputChangeViDo = (index, value) => {
     const list = [...textInput];
-    list[index].latitude = value;
+    list[index].tm_ct_vt_vido = value;
     setTextInput(list);
 
     //handle context
@@ -247,7 +276,7 @@ const HoatDongChuyenTaiView = () => {
 
   const handleInputChangeKinhDo = (index, value) => {
     const list = [...textInput];
-    list[index].longitude = value;
+    list[index].tm_ct_vt_kinhdo = value;
     setTextInput(list);
 
     //handle context
@@ -258,7 +287,7 @@ const HoatDongChuyenTaiView = () => {
 
   const handleInputChangeTenLoaiThuySan = (index, value) => {
     const list = [...textInput];
-    list[index].speciesName = value;
+    list[index].daban_ct_loai = value;
     setTextInput(list);
 
      //handle context
@@ -269,12 +298,12 @@ const HoatDongChuyenTaiView = () => {
 
   const handleInputChangeKhoiLuong = (index, value) => {
     const list = [...textInput];
-    list[index].weight = value;
+    list[index].daban_ct_khoiluong = value;
     setTextInput(list);
 
     let sum = 0;
     list.forEach(item => {
-      sum += Number(item.weight);
+      sum += Number(item.daban_ct_khoiluong);
     });
     setSumOfWeight(sum);
 

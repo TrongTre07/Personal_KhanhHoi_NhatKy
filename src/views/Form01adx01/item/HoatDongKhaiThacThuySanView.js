@@ -10,7 +10,7 @@ import {
   View,
   Alert,
 } from 'react-native';
-import React, {useContext, useState} from 'react';
+import React, {useContext, useState, useEffect} from 'react';
 import {FormContext} from '../../../contexts/FormContext';
 
 import DatePicker from 'react-native-date-picker';
@@ -21,51 +21,23 @@ import {
   convertStringToDate,
   convertStringToDateHour,
 } from './itemTongCucThuySan/formatdate';
-import { UserContext } from '../../../contexts/UserContext';
+import {UserContext} from '../../../contexts/UserContext';
 
 const HoatDongKhaiThacThuySanView = ({id}) => {
   const {khaiThac, setKhaiThac} = useContext(FormContext);
-  const {data} = useContext(UserContext)
+  const {data} = useContext(UserContext);
   const [listForm, setListForm] = React.useState([]);
-  const [valueCheckNumber, setValueCheckNumber] = useState('0');
 
   const [textInput, setTextInput] = React.useState([
     {
-      timeTha:data.thoidiem_tha || dateNowFormat('nullHour'),
-      viDoTha: data.vido_tha || '',
-      kinhDoTha:data.kinhdo_tha || '',
-      timeThu: data.thoidiem_thu || dateNowFormat('nullHour'),
-      viDoThu: data.vido_thu || '',
-      kinhDoThu:data.kinhdo_thu ||  '',
+      thoidiem_tha: dateNowFormat('nullHour'),
+      vido_tha: '',
+      kinhdo_tha: '',
+      thoidiem_thu: dateNowFormat('nullHour'),
+      vido_thu: '',
+      kinhdo_thu: '',
     },
   ]);
-  // methu: listForm.length.toString(),
-  // thoidiem_tha: dateNowFormat('nullHour'),
-  // vido_tha: '',
-  // kinhdo_tha: '',
-  // thoidiem_thu: dateNowFormat('nullHour'),
-  // vido_thu: '',
-  // kinhdo_thu: '',
-  // loai_1: khaiThac.khaithac[0].loai_1,
-  // loai_2: khaiThac.khaithac[0].loai_2,
-  // loai_3: khaiThac.khaithac[0].loai_3,
-  // loai_4: khaiThac.khaithac[0].loai_4,
-  // loai_5: khaiThac.khaithac[0].loai_5,
-  // loai_6: khaiThac.khaithac[0].loai_6,
-  // loai_7: khaiThac.khaithac[0].loai_7,
-  // loai_8: khaiThac.khaithac[0].loai_8,
-  // loai_9: khaiThac.khaithac[0].loai_9,
-  // loai_1_kl: '',
-  // loai_2_kl: '',
-  // loai_3_kl: '',
-  // loai_4_kl: '',
-  // loai_5_kl: '',
-  // loai_6_kl: '',
-  // loai_7_kl: '',
-  // loai_8_kl: '',
-  // loai_9_kl: '',
-  // tongsanluong: '',
-
   const [loaiCa, setLoaiCa] = useState([
     {id: '0', name: '', soLuong: ['0']},
     {id: '1', name: '', soLuong: ['0']},
@@ -77,6 +49,47 @@ const HoatDongKhaiThacThuySanView = ({id}) => {
     {id: '7', name: '', soLuong: ['0']},
     {id: '8', name: '', soLuong: ['0']},
   ]);
+
+  useEffect(() => {
+    if (data.khaithac && data.khaithac.length > 0) {
+      setTextInput(data.khaithac);
+      let newValue = [];
+
+      let newListCa = [...loaiCa];
+      data.khaithac.forEach((item, index) => {
+        newValue.push(<_renderForm key={index} />);
+        setListForm(newValue);
+
+        // newListCa[0].soLuong.push(item.loai_1_kl);
+        // newListCa[1].soLuong.push(item.loai_2_kl);
+        // newListCa[2].soLuong.push(item.loai_3_kl);
+        // newListCa[3].soLuong.push(item.loai_4_kl);
+        // newListCa[4].soLuong.push(item.loai_5_kl);
+        // newListCa[5].soLuong.push(item.loai_6_kl);
+        // newListCa[6].soLuong.push(item.loai_7_kl);
+        // newListCa[7].soLuong.push(item.loai_8_kl);
+        // newListCa[8].soLuong.push(item.loai_9_kl);
+
+        for (let j = 0; j < 9; j++) {
+          const loaiTen = `loai_${j + 1}`;
+          const loaiTenKl = `loai_${j + 1}_kl`;
+          if (item[loaiTen] != '') {
+            newListCa[j].name = item[loaiTen];
+          }
+
+          if (index == 0) {
+            newListCa[j].soLuong.pop();
+            newListCa[j].soLuong.push(item[loaiTenKl]);
+            
+          } else {
+            newListCa[j].soLuong.push(item[loaiTenKl]);
+          }
+        }
+      });
+      console.log("CA: ", newListCa)
+      setLoaiCa(newListCa);
+    }
+  }, [data.khaithac]);
 
   React.useEffect(() => {
     if (listForm.length === 0) {
@@ -90,12 +103,17 @@ const HoatDongKhaiThacThuySanView = ({id}) => {
 
     for (let i = 0; i < 10; i++) {
       const isEditable = i == 0;
+      let valueLoai;
+      if (i != 0) {
+        valueLoai = loaiCa[i - 1].name;
+      }
       input.push(
         <View key={i} style={[styles.flex1, styles.mr16]}>
           <TextInput
             placeholder="Loài"
             editable={!isEditable}
             style={[styles.input]}
+            value={valueLoai}
             // i: index ten loai ca range: 1-9
             onChangeText={value => handleInputChangeTenLoaiThuySan(i, value)}
           />
@@ -113,7 +131,7 @@ const HoatDongKhaiThacThuySanView = ({id}) => {
 
     loaiCa.forEach(item => {
       item.soLuong.forEach((val, i) => {
-        totalSumByIndex[i] += parseInt(val);
+        totalSumByIndex[i] += parseInt(val) || 0;
       });
     });
 
@@ -131,7 +149,10 @@ const HoatDongKhaiThacThuySanView = ({id}) => {
 
   const calculateSumOfSoLuongForEachObject = () => {
     return loaiCa.map(item => {
-      const sum = item.soLuong.reduce((acc, val) => acc + parseInt(val), 0);
+      const sum = item.soLuong.reduce(
+        (acc, val) => acc + (parseInt(val) || 0),
+        0,
+      );
       return (
         <View
           key={item.id}
@@ -150,6 +171,10 @@ const HoatDongKhaiThacThuySanView = ({id}) => {
 
     for (let i = 0; i < 10; i++) {
       const isEditable = i == 0;
+      let valueCa;
+      if (i != 0) {
+        valueCa = loaiCa[i - 1].soLuong[index];
+      }
 
       placeholder = `Mẻ ${index + 1}`;
 
@@ -160,7 +185,7 @@ const HoatDongKhaiThacThuySanView = ({id}) => {
             keyboardType="numeric"
             style={[styles.input]}
             editable={!isEditable}
-            // value={isEditable ? placeholder : valueCheckNumber}
+            value={valueCa}
             // i: 1-9
             onChangeText={value => {
               handleInputChangeKhoiLuong(index, i, value);
@@ -190,7 +215,7 @@ const HoatDongKhaiThacThuySanView = ({id}) => {
       <View style={styles.form}>
         <View style={[styles.view1, styles.flexRow, {width: '100%'}]}>
           <Text style={[styles.textValue, styles.flex1, {fontWeight: 'bold'}]}>
-            Mẻ thứ: {listForm.length}
+            Mẻ thứ: {index + 1}
           </Text>
         </View>
 
@@ -199,13 +224,16 @@ const HoatDongKhaiThacThuySanView = ({id}) => {
           <View style={[styles.flexRow, styles.flex1]}>
             <Text style={styles.textValue}>Ngày, tháng: </Text>
             <Text style={[styles.textValue, styles.mr8]}>
-              {convertStringToDateHour(textInput[index].timeTha)}
+              {convertStringToDateHour(textInput[index].thoidiem_tha)}
             </Text>
             <CustomDatePicker
-              value={textInput[index].timeTha}
+              value={textInput[index].thoidiem_tha}
               onDateChange={newDate => {
                 const newInput = [...textInput];
-                newInput[index].timeTha = dateNowFormat(newDate, 'dateHour');
+                newInput[index].thoidiem_tha = dateNowFormat(
+                  newDate,
+                  'dateHour',
+                );
                 setTextInput(newInput);
 
                 //set data context time
@@ -223,6 +251,7 @@ const HoatDongKhaiThacThuySanView = ({id}) => {
                 keyboardType="numeric"
                 onChangeText={value => handleInputChangeViDoTha(index, value)}
                 style={[styles.input]}
+                value={textInput[index].vido_tha}
               />
             </View>
             <View style={[styles.flex1, styles.ml16]}>
@@ -231,6 +260,7 @@ const HoatDongKhaiThacThuySanView = ({id}) => {
                 style={[styles.input]}
                 keyboardType="numeric"
                 onChangeText={value => handleInputChangeKinhDoTha(index, value)}
+                value={textInput[index].kinhdo_tha}
               />
             </View>
           </View>
@@ -241,20 +271,25 @@ const HoatDongKhaiThacThuySanView = ({id}) => {
           <View style={[styles.flexRow, styles.flex1]}>
             <Text style={styles.textValue}>Ngày, tháng: </Text>
             <Text style={[styles.textValue, styles.mr8]}>
-              {convertStringToDateHour(textInput[index].timeThu)}
+              {convertStringToDateHour(textInput[index].thoidiem_thu)}
             </Text>
             <CustomDatePicker
-              value={convertStringToDate(textInput[index].timeThu)}
+              value={convertStringToDate(textInput[index].thoidiem_thu)}
               onDateChange={newDate => {
                 const newInput = [...textInput];
-                newInput[index].timeThu = dateNowFormat(newDate, 'dateHour');
+                newInput[index].thoidiem_thu = dateNowFormat(
+                  newDate,
+                  'dateHour',
+                );
                 setTextInput(newInput);
 
                 //set data context kinh do
 
                 const updatedKhaiThac = {...khaiThac};
-                updatedKhaiThac.khaithac[index].thoidiem_thu =
-                  dateNowFormat(newDate,'dateHour');
+                updatedKhaiThac.khaithac[index].thoidiem_thu = dateNowFormat(
+                  newDate,
+                  'dateHour',
+                );
                 setKhaiThac(updatedKhaiThac);
               }}
             />
@@ -266,6 +301,7 @@ const HoatDongKhaiThacThuySanView = ({id}) => {
                 onChangeText={value => handleInputChangeViDoThu(index, value)}
                 keyboardType="numeric"
                 style={[styles.input]}
+                value={textInput[index].vido_thu}
               />
             </View>
             <View style={[styles.flex1, styles.ml16]}>
@@ -274,6 +310,7 @@ const HoatDongKhaiThacThuySanView = ({id}) => {
                 style={[styles.input]}
                 keyboardType="numeric"
                 onChangeText={value => handleInputChangeKinhDoThu(index, value)}
+                value={textInput[index].kinhdo_thu}
               />
             </View>
           </View>
@@ -300,12 +337,12 @@ const HoatDongKhaiThacThuySanView = ({id}) => {
     const newListForm = [...listForm, <_renderForm key={listForm.length} />];
     setListForm(newListForm);
     textInput.push({
-      timeTha: dateNowFormat('nullHour'),
-      viDoTha: '',
-      kinhDoTha: '',
-      timeThu: dateNowFormat('nullHour'),
-      viDoTha: '',
-      kinhDoThu: '',
+      thoidiem_tha: dateNowFormat('nullHour'),
+      vido_tha: '',
+      kinhdo_tha: '',
+      thoidiem_thu: dateNowFormat('nullHour'),
+      vido_thu: '',
+      kinhdo_thu: '',
     });
 
     // Form Context
@@ -382,7 +419,7 @@ const HoatDongKhaiThacThuySanView = ({id}) => {
 
   const handleInputChangeViDoTha = (index, value) => {
     const list = [...textInput];
-    list[index].viDoTha = value;
+    list[index].vido_tha = value;
     setTextInput(list);
 
     //set data context vi do
@@ -394,7 +431,7 @@ const HoatDongKhaiThacThuySanView = ({id}) => {
 
   const handleInputChangeKinhDoTha = (index, value) => {
     const list = [...textInput];
-    list[index].kinhDoTha = value;
+    list[index].kinhdo_tha = value;
     setTextInput(list);
 
     //set data context kinh do
@@ -405,7 +442,7 @@ const HoatDongKhaiThacThuySanView = ({id}) => {
   };
   const handleInputChangeViDoThu = (index, value) => {
     const list = [...textInput];
-    list[index].viDoThu = value;
+    list[index].vido_thu = value;
     setTextInput(list);
 
     //set data context kinh do
@@ -417,7 +454,7 @@ const HoatDongKhaiThacThuySanView = ({id}) => {
 
   const handleInputChangeKinhDoThu = (index, value) => {
     const list = [...textInput];
-    list[index].kinhDoThu = value;
+    list[index].kinhdo_thu = value;
     setTextInput(list);
 
     //set data context kinh do
@@ -453,7 +490,7 @@ const HoatDongKhaiThacThuySanView = ({id}) => {
       Alert.alert('Lỗi', 'Bạn phải nhập số.', [{text: 'OK'}]);
       return;
     } else if (value == '') {
-      value = '0';
+      // value = '0';
     }
 
     const list = [...loaiCa];

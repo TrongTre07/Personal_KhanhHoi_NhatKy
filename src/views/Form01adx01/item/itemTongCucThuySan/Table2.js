@@ -104,7 +104,7 @@ const Table2 = ({}) => {
               setThongTinTau({...thongTinTau, nluoichup_chieucaoluoi: text});
               setData({...data, nluoichup_chieucaoluoi: text});
             }}
-            value={data.nluoivay_chieudailuoi}
+            value={data.nluoichup_chieudailuoi}
           />
           <Text style={styles.text}>m</Text>
         </View>
