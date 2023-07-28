@@ -19,7 +19,7 @@ import { UserContext } from '../../contexts/UserContext';
 import Storage from '../../utils/storage';
 import { useNetInfo } from '@react-native-community/netinfo';
 import { useNavigation } from '@react-navigation/native';
-const Form01adx01 = ({navigation, route}) => {
+const Form01adx01 = ({ route}) => {
   const {
     thuMua,
     setThuMua,
