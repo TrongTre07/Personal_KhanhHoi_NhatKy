@@ -7,19 +7,20 @@ import {
   Alert,
   ToastAndroid,
 } from 'react-native';
-import React, {useContext, useEffect, useState,} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import HeaderView from './item/HeaderView';
 import TongCucThuySanView from './item/TongCucThuySanView';
 import HoatDongKhaiThacThuySanView from './item/HoatDongKhaiThacThuySanView';
 import HoatDongChuyenTaiView from './item/HoatDongChuyenTaiView';
 import {FormContext} from '../../contexts/FormContext';
 import Spinner from 'react-native-loading-spinner-overlay';
-import {useIsFocused} from '@react-navigation/native'
-import { UserContext } from '../../contexts/UserContext';
+import {useIsFocused} from '@react-navigation/native';
+import {UserContext} from '../../contexts/UserContext';
 import Storage from '../../utils/storage';
-import { useNetInfo } from '@react-native-community/netinfo';
-import { useNavigation } from '@react-navigation/native';
-const Form01adx01 = ({ route}) => {
+import {useNetInfo} from '@react-native-community/netinfo';
+import {useNavigation} from '@react-navigation/native';
+import AlertInputComponent from '../../utils/AlertInputComponent';
+const Form01adx01 = ({route}) => {
   const {
     thuMua,
     setThuMua,
@@ -29,13 +30,15 @@ const Form01adx01 = ({ route}) => {
     setKhaiThac,
   } = useContext(FormContext);
 
+  const [isPopupVisible, setPopupVisible] = useState(false);
+  const [receivedData, setReceivedData] = useState('');
+
   const {postForm} = useContext(UserContext);
   const {isLoading, setIsLoading} = useContext(UserContext);
   const {isError, setIsError} = useContext(UserContext);
 
   const netInfo = useNetInfo();
   const navigation = useNavigation();
-
 
   const dateNow = new Date();
 
@@ -52,17 +55,30 @@ const Form01adx01 = ({ route}) => {
     }
   }, [isError]);
   const id = route.params?.id;
-  const {getDetailFormId,setData,data} = useContext(UserContext);
-  const isFocus= useIsFocused();
+  const {getDetailFormId, setData, data} = useContext(UserContext);
+  const isFocus = useIsFocused();
 
-  useEffect(()=>{
-    setData({})
-  },[!isFocus])
-
+  useEffect(() => {
+    setData({});
+  }, [!isFocus]);
 
   useEffect(() => {
     getDetailFormId(id);
   }, []);
+
+  const handleTriggerButtonClick = () => {
+    setPopupVisible(true);
+  };
+
+  const handlePopupClose = () => {
+    setPopupVisible(false);
+  };
+
+  const handleDataSubmit = (data) => {
+    const newdata = {...thongTinTau}
+    newdata.dairy_name = data
+    console.log("REV: ", newdata)
+  };
 
   const _renderActionView = () => {
     return (
@@ -76,7 +92,7 @@ const Form01adx01 = ({ route}) => {
         ) : (
           <TouchableOpacity
             style={[styles.actionCreate, styles.button]}
-            onPress={handleCreateForm}>
+            onPress={handleTriggerButtonClick}>
             <Text style={styles.actionText}>Tạo</Text>
           </TouchableOpacity>
         )}
@@ -103,6 +119,7 @@ const Form01adx01 = ({ route}) => {
   //   postForm(handleFormatObject());
   const handleCreateForm = async () => {
 
+
     const isConnect = netInfo.isConnected;
 
     // chưa có mạng thì lưu local
@@ -111,23 +128,22 @@ const Form01adx01 = ({ route}) => {
       const result = await Storage.getItem('form01adx01');
 
       if (result !== null) {
-        ToastAndroid.show('Hiện đang có form chưa được lưu', ToastAndroid.SHORT);
+        ToastAndroid.show(
+          'Hiện đang có form chưa được lưu',
+          ToastAndroid.SHORT,
+        );
       } else {
-
         const data = [];
         data.push(dataForm);
         await Storage.setItem('form01adx01', JSON.stringify(data));
       }
-    } 
-    else {
+    } else {
       await postForm(handleFormatObject());
     }
     ToastAndroid.show('Tạo thành công', ToastAndroid.SHORT);
     setTimeout(() => {
       navigation.goBack();
     }, 1000);
-
-
   };
 
   const handleSaveForm = async () => {
@@ -164,6 +180,11 @@ const Form01adx01 = ({ route}) => {
         textContent={'Đang tải...'}
         color="blue"
         textStyle={styles.spinnerText}
+      />
+      <AlertInputComponent
+        visible={isPopupVisible}
+        onClose={handlePopupClose}
+        onSubmit={handleDataSubmit}
       />
     </ScrollView>
   );
