@@ -39,44 +39,54 @@ const HoatDongKhaiThacThuySanView = ({id}) => {
     },
   ]);
   const [loaiCa, setLoaiCa] = useState([
-    {id: '0', name: '', soLuong: []},
-    {id: '1', name: '', soLuong: []},
-    {id: '2', name: '', soLuong: []},
-    {id: '3', name: '', soLuong: []},
-    {id: '4', name: '', soLuong: []},
-    {id: '5', name: '', soLuong: []},
-    {id: '6', name: '', soLuong: []},
-    {id: '7', name: '', soLuong: []},
-    {id: '8', name: '', soLuong: []},
+    {id: '0', name: '', soLuong: ['0']},
+    {id: '1', name: '', soLuong: ['0']},
+    {id: '2', name: '', soLuong: ['0']},
+    {id: '3', name: '', soLuong: ['0']},
+    {id: '4', name: '', soLuong: ['0']},
+    {id: '5', name: '', soLuong: ['0']},
+    {id: '6', name: '', soLuong: ['0']},
+    {id: '7', name: '', soLuong: ['0']},
+    {id: '8', name: '', soLuong: ['0']},
   ]);
 
   useEffect(() => {
     if (data.khaithac && data.khaithac.length > 0) {
       setTextInput(data.khaithac);
       let newValue = [];
-      // let newCa = [{id: '', name: '', soLuong: []}];
+
       let newListCa = [...loaiCa];
       data.khaithac.forEach((item, index) => {
         newValue.push(<_renderForm key={index} />);
         setListForm(newValue);
 
-        newListCa[0].soLuong.push(item.loai_1_kl);
-        newListCa[1].soLuong.push(item.loai_2_kl);
-        newListCa[2].soLuong.push(item.loai_3_kl);
-        newListCa[3].soLuong.push(item.loai_4_kl);
-        newListCa[4].soLuong.push(item.loai_5_kl);
-        newListCa[5].soLuong.push(item.loai_6_kl);
-        newListCa[6].soLuong.push(item.loai_7_kl);
-        newListCa[7].soLuong.push(item.loai_8_kl);
-        newListCa[8].soLuong.push(item.loai_9_kl);
+        // newListCa[0].soLuong.push(item.loai_1_kl);
+        // newListCa[1].soLuong.push(item.loai_2_kl);
+        // newListCa[2].soLuong.push(item.loai_3_kl);
+        // newListCa[3].soLuong.push(item.loai_4_kl);
+        // newListCa[4].soLuong.push(item.loai_5_kl);
+        // newListCa[5].soLuong.push(item.loai_6_kl);
+        // newListCa[6].soLuong.push(item.loai_7_kl);
+        // newListCa[7].soLuong.push(item.loai_8_kl);
+        // newListCa[8].soLuong.push(item.loai_9_kl);
 
         for (let j = 0; j < 9; j++) {
           const loaiTen = `loai_${j + 1}`;
+          const loaiTenKl = `loai_${j + 1}_kl`;
           if (item[loaiTen] != '') {
             newListCa[j].name = item[loaiTen];
           }
+
+          if (index == 0) {
+            newListCa[j].soLuong.pop();
+            newListCa[j].soLuong.push(item[loaiTenKl]);
+            
+          } else {
+            newListCa[j].soLuong.push(item[loaiTenKl]);
+          }
         }
       });
+      console.log("CA: ", newListCa)
       setLoaiCa(newListCa);
     }
   }, [data.khaithac]);
@@ -480,7 +490,7 @@ const HoatDongKhaiThacThuySanView = ({id}) => {
       Alert.alert('Lỗi', 'Bạn phải nhập số.', [{text: 'OK'}]);
       return;
     } else if (value == '') {
-      value = '0';
+      // value = '0';
     }
 
     const list = [...loaiCa];
