@@ -5,6 +5,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   Alert,
+  ToastAndroid,
 } from 'react-native';
 import React, {useContext, useEffect, useState,} from 'react';
 import HeaderView from './item/HeaderView';
@@ -12,10 +13,12 @@ import TongCucThuySanView from './item/TongCucThuySanView';
 import HoatDongKhaiThacThuySanView from './item/HoatDongKhaiThacThuySanView';
 import HoatDongChuyenTaiView from './item/HoatDongChuyenTaiView';
 import {FormContext} from '../../contexts/FormContext';
-import {UserContext} from '../../contexts/UserContext';
 import Spinner from 'react-native-loading-spinner-overlay';
 import {useIsFocused} from '@react-navigation/native'
-
+import { UserContext } from '../../contexts/UserContext';
+import Storage from '../../utils/storage';
+import { useNetInfo } from '@react-native-community/netinfo';
+import { useNavigation } from '@react-navigation/native';
 const Form01adx01 = ({navigation, route}) => {
   const {
     thuMua,
@@ -29,6 +32,10 @@ const Form01adx01 = ({navigation, route}) => {
   const {postForm} = useContext(UserContext);
   const {isLoading, setIsLoading} = useContext(UserContext);
   const {isError, setIsError} = useContext(UserContext);
+
+  const netInfo = useNetInfo();
+  const navigation = useNavigation();
+
 
   const dateNow = new Date();
 
@@ -92,12 +99,39 @@ const Form01adx01 = ({navigation, route}) => {
     );
   };
 
-  const handleCreateForm = () => {
-    postForm(handleFormatObject());
+  // const handleCreateForm = () => {
+  //   postForm(handleFormatObject());
+  const handleCreateForm = async () => {
+
+    const isConnect = netInfo.isConnected;
+
+    // chưa có mạng thì lưu local
+    if (!isConnect) {
+      const dataForm = handleFormatObject();
+      const result = await Storage.getItem('form01adx01');
+
+      if (result !== null) {
+        ToastAndroid.show('Hiện đang có form chưa được lưu', ToastAndroid.SHORT);
+      } else {
+
+        const data = [];
+        data.push(dataForm);
+        await Storage.setItem('form01adx01', JSON.stringify(data));
+      }
+    } 
+    else {
+      await postForm(handleFormatObject());
+    }
+    ToastAndroid.show('Tạo thành công', ToastAndroid.SHORT);
+    setTimeout(() => {
+      navigation.goBack();
+    }, 1000);
+
+
   };
 
-  const handleSaveForm = () => {
-    console.log('Save');
+  const handleSaveForm = async () => {
+    await Storage.removeItem('form01adx01');
   };
 
   const handleDownloadForm = () => {
