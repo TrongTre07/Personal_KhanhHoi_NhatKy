@@ -1,62 +1,80 @@
-import { View, Text ,TouchableOpacity,StyleSheet} from 'react-native'
+import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native'
 import React from 'react'
 import Form01adx01 from '../Form01adx01/Form01adx01';
 import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import Menu from '../Home/Menu';
 import Form01adx01Diary from '../Form01adx01/Form01adx01Diary';
+import { createDrawerNavigator } from '@react-navigation/drawer';
+import HeaderScreen from './HeaderScreen';
+import Form01Navigation from './Form01Navigation';
+import Login from '../login/Login';
+import Form02ad02 from '../Form02adx02/Form02ad02';
 
 const Stack = createStackNavigator();
+
+const Drawer = createDrawerNavigator();
+
+const MainNavigation = () => {
+  return (
+    <Drawer.Navigator>
+      <Drawer.Screen
+        name="Form01Navigation"
+        component={Form01Navigation}
+        options={{
+          drawerType: 'front',
+          headerTitle: HeaderScreen,
+          title: "Nhật ký khai thác thủy sản",
+
+        }}
+      />
+      <Drawer.Screen
+        name="2"
+        component={Form02ad02}
+        options={{
+          drawerType: 'front',
+          headerTitle: () => <Image style={{ width: 200, height: 100, resizeMode: 'contain' }} source={require('../../img/logo-khanhhoi.png')} />,
+          title: "Nhật ký thu mua, chuyển tải thủy sản",
+
+        }}
+      />
+      <Drawer.Screen
+        name="3"
+        component={Form02ad02}
+        options={{
+          drawerType: 'front',
+          headerTitle: () => <Image style={{ width: 200, height: 100, resizeMode: 'contain' }} source={require('../../img/logo-khanhhoi.png')} />,
+          title: "Báo cáo khai thác thuỷ sản",
+
+        }}
+      />
+
+    </Drawer.Navigator>)
+
+}
+
 const AppNavigation = () => {
   const navigation = useNavigation();
 
   return (
-    <Stack.Navigator 
-      screenOptions={{
-        headerTitleStyle: {
-          width:'100%'
-        }
-      }}
-    >
+    <Stack.Navigator
+
+     >
       <Stack.Screen
-        options={{ headerShown: false }}
-        name="menu" component={Menu}
-      />
+        options={{
+          headerShown:false,
+        }}
+        name="MainNavigation"
+        component={MainNavigation}>
+      </Stack.Screen>
+
       <Stack.Screen
-         name="form01adx01Diary" 
-         component={Form01adx01Diary} 
-         options={{ 
-            headerTitle: 
-              () => (
-                <View style={{flexDirection: 'row', alignItems: 'center',width: '100%', justifyContent: 'space-between'}}>
-                    <Text style={[styles.btnText,{color:'red'}]}>'01-PLI. Nhật ký khai thác thủy sản'</Text>
-                    <TouchableOpacity style={{}}  onPress={() => navigation.navigate('form01adx01')}>
-                      <View style={[styles.btn,{backgroundColor:'#33CC00'}]}>
-                        <Text style={[styles.btnText,{color:'#fff'}]}>Tạo</Text>
-                      </View>
-                    </TouchableOpacity>
-                </View>
-      ),
-            
-          }}
-         />
-      <Stack.Screen
-         name="form01adx01" 
-         component={Form01adx01} 
-         options={{ headerTitle: '01-PLI. Nhật ký khai thác thủy sản' ,}}
-         />
-      <Stack.Screen 
-      name="form02adx02" 
-      component={Form01adx01} 
-      options={{ headerTitle: '02-PLI. Nhật ký thu mua, chuyên tải thủy sản<' ,}}
-      
-      />
-      <Stack.Screen 
-      name="form03adx03" 
-      component={Form01adx01} 
-      options={{ headerTitle: '04-PLI. Báo cáo thăm dò, tìm kiếm, dẫn dụ nguồn lợi thủy sản' ,}}
-      
-      />
+        options={{
+          title:''
+        }}
+        name="login"
+        component={Login}>
+      </Stack.Screen>
     </Stack.Navigator>
   )
 }
@@ -64,24 +82,4 @@ const AppNavigation = () => {
 export default AppNavigation;
 
 
-const styles = StyleSheet.create({
-  
-  textHead:{
-    textAlign: 'center', 
-    padding:3,
-    fontSize:16,
-    color: '#fff',
-    fontWeight:'600'
-  },
-  btn:{
-    borderRadius:8,
-    margin:3
-  
-  },
-  btnText:{
-    paddingVertical:6,
-    paddingHorizontal:14,
-    fontSize: 24, 
-    fontWeight:'600'
-  }
-});
+

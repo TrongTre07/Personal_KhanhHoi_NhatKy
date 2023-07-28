@@ -3,10 +3,10 @@ import React, { useContext, useEffect, useState } from 'react'
 import { UserContext } from '../../contexts/UserContext';
 
 import { Table, TableWrapper, Row, Rows, Col } from 'react-native-table-component';
-import { useNavigation } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 const Form01adx01Diary = ({navigation}) => {
 
-  const {getDiaryForm,deleteFormId,dataInfShip} = useContext(UserContext);
+  const {getDiaryForm,deleteFormId,dataInfShip,is} = useContext(UserContext);
   const [data, setData] = useState([]);
 
   // console.log('dataInfShip',dataInfShip);

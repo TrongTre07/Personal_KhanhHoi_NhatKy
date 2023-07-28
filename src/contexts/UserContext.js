@@ -2,10 +2,13 @@
 import React, {createContext, useContext, useEffect, useState} from 'react';
 import instance from '../axios/instance';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useNavigation } from '@react-navigation/native';
 
 const UserContext = createContext();
 
 const UserProvider = ({children}) => {
+  // const navigation = useNavigation();
+  
   const [data, setData] = useState([]);
   const [dataInfShip, setDataInfShip] = useState([]);
   const [token, setToken] = useState();
@@ -25,6 +28,7 @@ const UserProvider = ({children}) => {
       if (response.data != null) {
         console.log(response.data);
         setIsLoggedIn(true);
+        // navigation.goBack();
       }
     } catch (error) {
       setIsError(true);
@@ -81,7 +85,7 @@ const UserProvider = ({children}) => {
 
   const deleteFormId = async id => {
     try {
-      const response = await instance.post(`api/FormAppendix/0101/del/${id}`);
+      await instance.post(`api/FormAppendix/0101/del/${id}`);
     } catch (error) {
       console.log('Delete ERROR: ', error);
     }

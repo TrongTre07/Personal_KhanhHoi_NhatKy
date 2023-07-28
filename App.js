@@ -24,7 +24,7 @@ const AppNav = () => {
 
   return (
   <NavigationContainer>
-    {isLoggedIn == false ? <Login /> : <AppNavigation/>}
+    <AppNavigation/>
 </NavigationContainer>)
 }
 

@@ -1,18 +1,24 @@
-import React, {useState, useContext} from 'react';
-import {View, TextInput, Alert, Text, TouchableOpacity} from 'react-native';
+import React, {useState, useContext,useEffect} from 'react';
+import {View, TextInput, Alert, Text, TouchableOpacity, ToastAndroid} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import styles from './styles';
 import {UserProvider, UserContext} from '../../contexts/UserContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-const Login = () => {
+const Login = ({navigation}) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
-  const {login} = useContext(UserContext);
+  const {login,isLoggedIn} = useContext(UserContext);
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
     login(username, password);
+
   };
+  if(isLoggedIn){
+    navigation.goBack();
+    ToastAndroid.show('Đăng nhập thành công', ToastAndroid.SHORT);
+
+  }
 
   return (
     <View style={styles.container}>
