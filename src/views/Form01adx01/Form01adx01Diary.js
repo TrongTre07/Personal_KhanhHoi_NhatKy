@@ -14,10 +14,15 @@ const Form01adx01Diary = ({navigation}) => {
 
   // console.log('dataInfShip',dataInfShip);
 
-  const {getDiaryForm, deleteFormId, dataInfShip} = useContext(UserContext);
+  const {getDiaryForm, deleteFormId, dataInfShip,isLoggedIn,postForm} = useContext(UserContext);
 
   const netInfo = useNetInfo();
-  const {postForm} = React.useContext(UserContext);
+
+  useEffect(()=>{
+    if(!isLoggedIn){
+      setData([])
+    }
+  },[isLoggedIn])
 
   // check neu co wifi thi post file o local len server
   useFocusEffect(

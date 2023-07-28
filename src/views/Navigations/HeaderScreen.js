@@ -21,8 +21,8 @@ const HeaderScreen = () => {
         {
           text: 'Đăng xuất',
           onPress: async () => {
-            await AsyncStorage.removeItem('token');
             setIsLoggedIn(false);
+            AsyncStorage.removeItem('token');
           }
 
         },

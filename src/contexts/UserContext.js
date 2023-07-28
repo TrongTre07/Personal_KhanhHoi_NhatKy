@@ -1,14 +1,16 @@
 // LoginContext.js
-import React, {createContext, useContext, useEffect, useState} from 'react';
+import React, { createContext, useContext, useEffect, useState } from 'react';
 import instance from '../axios/instance';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
+import { ToastAndroid } from 'react-native'
+import jwtDecode from 'jwt-decode';
 
 const UserContext = createContext();
 
-const UserProvider = ({children}) => {
+const UserProvider = ({ children }) => {
   // const navigation = useNavigation();
-  
+
   const [data, setData] = useState([]);
   const [dataInfShip, setDataInfShip] = useState([]);
   const [token, setToken] = useState();
@@ -19,25 +21,30 @@ const UserProvider = ({children}) => {
   const login = async (username, password) => {
     // user: 'abc' pass: '123456'
     try {
-      const payload = {userName_: username, pass_: password};
+      const payload = { userName_: username, pass_: password };
 
       const response = await instance.post('home/login', payload);
-      if (!(await AsyncStorage.getItem('token')))
-        await AsyncStorage.setItem('token', response.data);
+      console.log(response.data)
 
       if (response.data != null) {
+
+        await AsyncStorage.setItem('token', response.data);
         setIsLoggedIn(true);
-        // navigation.goBack();
+        ToastAndroid.show('Đăng nhập thành công.', ToastAndroid.SHORT);
+      } else {
+        ToastAndroid.show('Tài khoản hoặc mật khẩu không đúng.', ToastAndroid.SHORT);
       }
     } catch (error) {
       setIsError(true);
       console.error('Error fetching data or saving token:', error);
+      ToastAndroid.show('Đăng nhập thất bại, vui lòng thử lại sau.', ToastAndroid.SHORT);
     }
   };
 
   //check login token
   const checkLoginStatus = async () => {
     try {
+      // có token thì true ko thì false
       const userToken = await AsyncStorage.getItem('token');
       if (userToken) {
         setIsLoggedIn(true);
@@ -53,6 +60,11 @@ const UserProvider = ({children}) => {
     checkLoginStatus();
   }, []);
 
+
+  //
+
+
+
   //
   const postForm = async obj => {
     try {
@@ -61,7 +73,7 @@ const UserProvider = ({children}) => {
         'api/FormAppendix/0101/create',
         payload,
       );
-      console.log('RES: ', response.data);
+      console.log('RES abc: ', response.data);
       setIsLoading(false);
     } catch (error) {
       setIsLoading(false);
@@ -72,11 +84,15 @@ const UserProvider = ({children}) => {
 
   const getDiaryForm = async () => {
     try {
-      const response = await instance.get('api/FormAppendix/getall_0101');
-      setData(await response.data);
-      const dataship = await instance.get('api/FormAppendix/getallship');
-      setDataInfShip(await dataship.data);
-      return response.data;
+      if (await AsyncStorage.getItem('token')) {
+        const response = await instance.get('api/FormAppendix/getall_0101');
+        setData(await response.data);
+
+        //api getShip
+        const dataship = await instance.get('api/FormAppendix/getallship');
+        setDataInfShip(await dataship.data);
+        return response.data;
+      }
     } catch (error) {
       console.log('GET ERROR: ', error);
     }
@@ -92,11 +108,14 @@ const UserProvider = ({children}) => {
 
   const getDetailFormId = async id => {
     try {
-      const response = await instance.get(
-        `/api/FormAppendix/getdetail_0101_byid/${id}`,
-      );
+      if (await AsyncStorage.getItem('token')) {
+        const response = await instance.get(
+          `/api/FormAppendix/getdetail_0101_byid/${id}`,
+        );
 
-      setData(await response.data);
+        setData(await response.data);
+      }
+
     } catch (error) {
       console.log('ERROR: ', error);
     }
@@ -128,4 +147,4 @@ const UserProvider = ({children}) => {
   );
 };
 
-export {UserContext, UserProvider};
+export { UserContext, UserProvider };
