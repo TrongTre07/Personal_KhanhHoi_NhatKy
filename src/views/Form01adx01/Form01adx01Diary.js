@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet, TouchableOpacity,ScrollView, Alert } from 'react-native'
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState,useCallback } from 'react'
 import { UserContext } from '../../contexts/UserContext';
-
+import {GenaratePDF, GeneratePDF} from '../ExportPDF';
 import { Table, TableWrapper, Row, Rows, Col } from 'react-native-table-component';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useNetInfo} from '@react-native-community/netinfo';
@@ -11,7 +11,9 @@ const Form01adx01Diary = ({navigation}) => {
 
 
   const [data, setData] = useState([]);
+  
 
+  // console.log('-------------------------------------------', data);
   // console.log('dataInfShip',dataInfShip);
 
   const {getDiaryForm, deleteFormId, dataInfShip} = useContext(UserContext);
@@ -84,6 +86,8 @@ const Form01adx01Diary = ({navigation}) => {
       {cancelable: false},
     );
   };
+  const handleDocumentSelection = useCallback(async () => {
+  }, []);
 
   const elementButton = id => (
     <View style={styles.boxbtn}>
@@ -111,6 +115,7 @@ const Form01adx01Diary = ({navigation}) => {
       </TouchableOpacity>
     </View>
   );
+
 //data
     const selectedData = data?.map((item,index) => ([
       index,

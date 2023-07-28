@@ -92,7 +92,7 @@ const Form01adx01 = ({ route}) => {
         </TouchableOpacity>
         <TouchableOpacity
           style={[styles.actionExportPDF, styles.button]}
-          onPress={handleExportPDF}>
+          onPress={() => {handleGeneratePDF()}}>
           <Text style={styles.actionText}>Xuất File</Text>
         </TouchableOpacity>
       </View>
