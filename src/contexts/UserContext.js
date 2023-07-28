@@ -23,7 +23,6 @@ const UserProvider = ({children}) => {
         await AsyncStorage.setItem('token', response.data);
 
       if (response.data != null) {
-        console.log(response.data);
         setIsLoggedIn(true);
       }
     } catch (error) {
@@ -89,13 +88,11 @@ const UserProvider = ({children}) => {
 
   const getDetailFormId = async id => {
     try {
-      console.log("ID: ", id)
       const response = await instance.get(
         `/api/FormAppendix/getdetail_0101_byid/${id}`,
       );
 
-      console.log('RES: ', response.data);
-      setData(await response.data)
+      setData(await response.data);
     } catch (error) {
       console.log('ERROR: ', error);
     }
