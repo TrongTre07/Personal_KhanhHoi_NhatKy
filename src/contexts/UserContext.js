@@ -64,6 +64,7 @@ const UserProvider = ({children}) => {
       );
       console.log('RES: ', response.data);
       setIsLoading(false);
+      return response.data;
     } catch (error) {
       setIsLoading(false);
       setIsError(true);

@@ -36,6 +36,8 @@ const Form01adx01 = ({ route}) => {
   const netInfo = useNetInfo();
   const navigation = useNavigation();
 
+  const [checkLocalEmpty, setCheckLocalEmpty] = useState();
+
 
   const dateNow = new Date();
 
@@ -61,13 +63,25 @@ const Form01adx01 = ({ route}) => {
 
 
   useEffect(() => {
-    getDetailFormId(id);
-  }, []);
+    if (netInfo.isConnected) 
+      getDetailFormId(id);
+    else
+      getDataLocal();
+  }, [netInfo]);
+
+  const getDataLocal = async () => {
+    const result = await Storage.getItem('form01adx01');
+    setCheckLocalEmpty(result);
+    if (result !== null) {
+      const data = JSON.parse(result);
+      setData(data[0]);
+    }
+  };
 
   const _renderActionView = () => {
     return (
       <View style={styles.action}>
-        {id ? (
+        {id || checkLocalEmpty != null ? (
           <TouchableOpacity
             style={[styles.actionCreate, styles.button]}
             onPress={{}}>
