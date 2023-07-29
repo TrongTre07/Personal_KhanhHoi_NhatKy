@@ -3,7 +3,7 @@ import React, { createContext, useContext, useEffect, useState } from 'react';
 import instance from '../axios/instance';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
-import { ToastAndroid } from 'react-native'
+import { ToastAndroid, Alert } from 'react-native'
 import jwtDecode from 'jwt-decode';
 
 const UserContext = createContext();
@@ -16,7 +16,9 @@ const UserProvider = ({ children }) => {
   const [token, setToken] = useState();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [isError, setIsError] = useState(false);
+  const [isErrorPost, setIsErrorPost] = useState(false);
+  const [isErrorUpdate, setIsErrorUpdate] = useState(false);
+  const [isErrorShip, setIsErrorShip] = useState(false);
   const [initialTitle, setInitialTitle] = useState('');
 
   const login = async (username, password) => {
@@ -25,7 +27,6 @@ const UserProvider = ({ children }) => {
       const payload = { userName_: username, pass_: password };
 
       const response = await instance.post('home/login', payload);
-      console.log(response.data)
 
       if (response.data != null) {
 
@@ -60,12 +61,6 @@ const UserProvider = ({ children }) => {
   useEffect(() => {
     checkLoginStatus();
   }, []);
-
-
-  //
-
-
-
   //
   const postForm = async obj => {
     try {
@@ -75,10 +70,29 @@ const UserProvider = ({ children }) => {
         payload,
       );
       console.log('RES abc: ', response.data);
-      setIsLoading(false);
+      if(response.data == false){
+        setIsErrorPost(true)
+      }else{
+        Alert.alert('Thành công', 'Bạn đã tạo thành công!', [
+          {
+            text: 'OK',
+            onPress: () => {
+              // setIsErrorPost(false);
+            },
+          },
+        ]);
+      }
     } catch (error) {
       setIsLoading(false);
-      setIsError(true);
+      setIsErrorPost(true);
+      Alert.alert('Lỗi', 'Không thể tạo biểu mẫu!', [
+        {
+          text: 'OK',
+          onPress: () => {
+            // setIsErrorPost(false);
+          },
+        },
+      ]);
       console.log('POST ERROR: ', error);
     }
   };
@@ -111,14 +125,17 @@ const UserProvider = ({ children }) => {
 
   const getDetailFormId = async id => {
     try {
+      if (!id) {
+        setInitialTitle('')
+      }
       if (await AsyncStorage.getItem('token')) {
-      const response = await instance.get(
-        `/api/FormAppendix/getdetail_0101_byid/${id}`,
-      );
-      setInitialTitle(response.data.dairy_name);
-      console.log('RES GET: ', response.data);
-      setData(await response.data);
-    }
+        const response = await instance.get(
+          `/api/FormAppendix/getdetail_0101_byid/${id}`,
+        );
+        setInitialTitle(response.data.dairy_name);
+        setData(await response.data);
+      }
+    
     } catch (error) {
       console.log('ERROR: ', error);
     }
@@ -126,13 +143,33 @@ const UserProvider = ({ children }) => {
 
   const updateForm = async obj => {
     try {
+      console.log("OBJ: ", obj)
       const response = await instance.post(
         `/api/FormAppendix/0101/update`,
         obj,
       );
       console.log('RES UPDATE: ', response.data);
+      if(response.data == true){
+        Alert.alert('Thành công', 'Bạn đã cập nhật thành công!', [
+          {
+            text: 'OK',
+            onPress: () => {
+              // setIsErrorPost(false);
+            },
+          },
+        ]);
+      }
+      console.log("FORM: ", obj)
     } catch (error) {
       console.log('ERROR UPDATE: ', error);
+      Alert.alert('Lỗi', 'Không thể cập nhật!', [
+        {
+          text: 'OK',
+          onPress: () => {
+            // setIsErrorPost(false);
+          },
+        },
+      ]);
     }
   };
 
@@ -145,8 +182,12 @@ const UserProvider = ({ children }) => {
     postForm,
     isLoading,
     setIsLoading,
-    isError,
-    setIsError,
+    isErrorPost,
+    setIsErrorPost,
+    isErrorShip,
+    setIsErrorShip,
+    isErrorUpdate,
+    setIsErrorUpdate,
     getDiaryForm,
     deleteFormId,
     dataInfShip,
@@ -154,6 +195,8 @@ const UserProvider = ({ children }) => {
     setData,
     getDetailFormId,
     updateForm,
+    initialTitle,
+    setInitialTitle
   };
 
   return (

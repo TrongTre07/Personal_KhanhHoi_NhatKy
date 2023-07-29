@@ -7,20 +7,20 @@ import {
   Alert,
   ToastAndroid,
 } from 'react-native';
-import React, {useContext, useEffect, useState} from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import HeaderView from './item/HeaderView';
 import TongCucThuySanView from './item/TongCucThuySanView';
 import HoatDongKhaiThacThuySanView from './item/HoatDongKhaiThacThuySanView';
 import HoatDongChuyenTaiView from './item/HoatDongChuyenTaiView';
-import {FormContext} from '../../contexts/FormContext';
+import { FormContext } from '../../contexts/FormContext';
 import Spinner from 'react-native-loading-spinner-overlay';
-import {useIsFocused} from '@react-navigation/native';
-import {UserContext} from '../../contexts/UserContext';
+import { useIsFocused } from '@react-navigation/native';
+import { UserContext } from '../../contexts/UserContext';
 import Storage from '../../utils/storage';
-import {useNetInfo} from '@react-native-community/netinfo';
-import {useNavigation} from '@react-navigation/native';
+import { useNetInfo } from '@react-native-community/netinfo';
+import { useNavigation } from '@react-navigation/native';
 import AlertInputComponent from '../../utils/AlertInputComponent';
-const Form01adx01 = ({route}) => {
+const Form01adx01 = ({ route }) => {
   const {
     thuMua,
     setThuMua,
@@ -35,30 +35,17 @@ const Form01adx01 = ({route}) => {
   const [receivedData, setReceivedData] = useState('');
   const [initialValue, setInitialValue] = useState('');
 
-  const {postForm, updateForm} = useContext(UserContext);
-  const {isLoading, setIsLoading} = useContext(UserContext);
-  const {isError, setIsError} = useContext(UserContext);
-  const {initialTitle, setInitialTitle} = useContext(UserContext)
+  const { postForm, updateForm } = useContext(UserContext);
+  const { isLoading, setIsLoading } = useContext(UserContext);
+  const { isErrorPost, setIsErrorPost, isErrorShip, setIsErrorShip, isErrorUpdate, setIsErrorUpdate } = useContext(UserContext);
+  const { initialTitle, setInitialTitle } = useContext(UserContext)
 
   const netInfo = useNetInfo();
   const navigation = useNavigation();
 
   const dateNow = new Date();
-
-  React.useEffect(() => {
-    if (isError) {
-      Alert.alert('Lỗi', 'Có lỗi xảy ra.', [
-        {
-          text: 'OK',
-          onPress: () => {
-            setIsError(false);
-          },
-        },
-      ]);
-    }
-  }, [isError]);
   const id = route.params?.id;
-  const {getDetailFormId, setData, data} = useContext(UserContext);
+  const { getDetailFormId, setData, data } = useContext(UserContext);
   const isFocus = useIsFocused();
 
   useEffect(() => {
@@ -70,7 +57,7 @@ const Form01adx01 = ({route}) => {
   }, []);
 
   useEffect(() => {
-    console.log('DATA NGHECHINH', data.dairy_name);
+
     if (data.nghechinh) {
       setInitialValue(data.dairy_name);
     }
@@ -85,16 +72,18 @@ const Form01adx01 = ({route}) => {
   };
 
   const handleDataSubmit = value => {
-    // if (thongTinTau.id_tau == '') {
-    //   Alert.alert('Lỗi', 'Bạn phải chọn tàu!', [
-    //     {
-    //       text: 'OK',
-    //       onPress: () => {
-    //         setIsError(false);
-    //       },
-    //     },
-    //   ]);
-    // }
+    console.log("VALUE: ", value)
+    if (value == '') {
+      Alert.alert('Lỗi', 'Bạn phải nhập tiêu đề', [
+        {
+          text: 'OK',
+          onPress: () => {
+            // setIsErrorPost(false);
+          },
+        },
+      ]);
+      return
+    }
 
     if (thongTinTau.id == undefined) {
       //neu la create thi field id khong ton tai
@@ -147,7 +136,6 @@ const Form01adx01 = ({route}) => {
   const handleCreateForm = async (value, string) => {
     let objectPost = handleFormatObject();
     objectPost.dairy_name = value;
-    console.log('OBJ: ', objectPost);
     const isConnect = netInfo.isConnected;
 
     // chưa có mạng thì lưu local
@@ -168,14 +156,32 @@ const Form01adx01 = ({route}) => {
     } else if (string == 'create') {
       console.log('CREATE');
       await postForm(objectPost);
+      
+      if (!thongTinTau.id_tau) {
+        Alert.alert('Lỗi', 'Bạn phải chọn tàu!', [
+          {
+            text: 'OK',
+            onPress: () => {
+              // setIsErrorPost(false);
+            },
+          },
+        ]);
+      }
     } else if (string == 'update') {
       console.log('UPDATED');
       await updateForm(objectPost);
+      if (!thongTinTau.id_tau) {
+        Alert.alert('Lỗi', 'Bạn phải chọn tàu!', [
+          {
+            text: 'OK',
+            onPress: () => {
+              // setIsErrorPost(false);
+            },
+          },
+        ]);
+      }
     }
-    ToastAndroid.show('Tạo thành công', ToastAndroid.SHORT);
-    setTimeout(() => {
-      navigation.goBack();
-    }, 1000);
+
   };
 
   const handleSaveForm = async () => {
@@ -200,7 +206,7 @@ const Form01adx01 = ({route}) => {
   };
   return (
     <ScrollView
-      contentContainerStyle={{flexGrow: 1}}
+      contentContainerStyle={{ flexGrow: 1 }}
       showsVerticalScrollIndicator={false}>
       <HeaderView />
       <TongCucThuySanView />
@@ -216,9 +222,20 @@ const Form01adx01 = ({route}) => {
       <AlertInputComponent
         visible={isPopupVisible}
         onClose={handlePopupClose}
-        onSubmit={handleDataSubmit}
+        onSubmit={value => {
+          if (value == '') {
+            Alert.alert('Lỗi', 'Bạn phải nhập tiêu đề!', [
+              {
+                text: 'OK',
+                onPress: () => {
+                  // setIsErrorPost(false);
+                },
+              },
+            ]);
+          } else handleDataSubmit(value)
+        }}
         initialValue={initialTitle}
-        // Pass the initial value as a prop
+      // Pass the initial value as a prop
       />
     </ScrollView>
   );

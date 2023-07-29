@@ -3,7 +3,7 @@ import { View, Text, TextInput, Button, Modal, StyleSheet } from 'react-native';
 
 const AlertInputComponent = ({ visible, onClose, onSubmit, initialValue, actionPopup }) => {
   const [inputText, setInputText] = useState('');
-  const [action, setAction] = useState('Tạo')
+  const [action, setAction] = useState('Tạo');
 
   useEffect(() => {
     setInputText(initialValue || ''); // Set initial value when the popup appears
@@ -14,12 +14,15 @@ const AlertInputComponent = ({ visible, onClose, onSubmit, initialValue, actionP
   };
 
   const handleSubmit = () => {
-    if (inputText.trim() !== '') {
+    // if (inputText.trim() !== '') {
       onSubmit(inputText); // Send data back to the parent component
-    }
-    setInputText('');
+    // }
+    // setInputText('');
     onClose();
   };
+
+  // Define the dynamic style for the placeholder text based on inputText value
+  const placeholderTextStyle = inputText.trim() === '' ? styles.placeholderRed : styles.placeholderGray;
 
   return (
     <Modal
@@ -36,7 +39,7 @@ const AlertInputComponent = ({ visible, onClose, onSubmit, initialValue, actionP
             onChangeText={handleInputChange}
             style={styles.input}
             placeholder="Biểu mẫu..."
-            placeholderTextColor="#777"
+            placeholderTextColor={placeholderTextStyle.color}
           />
           <View style={styles.buttonContainer}>
             <Button title="Hủy" onPress={onClose} color="#FF6347" />
@@ -80,6 +83,12 @@ const styles = StyleSheet.create({
   buttonContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+  },
+  placeholderRed: {
+    color: 'red',
+  },
+  placeholderGray: {
+    color: '#777',
   },
 });
 
