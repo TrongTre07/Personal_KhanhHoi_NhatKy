@@ -1,20 +1,24 @@
 import { View, Text, StyleSheet, TouchableOpacity,ScrollView, Alert } from 'react-native'
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState,useCallback } from 'react'
 import { UserContext } from '../../contexts/UserContext';
-
+import {ExportPDF} from '../ExportPDF';
 import { Table, TableWrapper, Row, Rows, Col } from 'react-native-table-component';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import {useNetInfo} from '@react-native-community/netinfo';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import DocumentPicker, { types } from 'react-native-document-picker';
+import FileViewer from "react-native-file-viewer";
+import { StatusBar } from 'react-native';
+import { useNetInfo } from '@react-native-community/netinfo';
 import Storage from '../../utils/storage';
-import { useFocusEffect } from '@react-navigation/native';
+
 const Form01adx01Diary = ({navigation}) => {
 
 
-  const [data, setData] = useState([]);
-
+  const [dataDiary, setDataDiary] = useState([]);
+  
+  // console.log('-------------------------------------------', data);
   // console.log('dataInfShip',dataInfShip);
 
-  const {getDiaryForm, deleteFormId, dataInfShip,isLoggedIn,postForm} = useContext(UserContext);
+  const {getDiaryForm, deleteFormId, dataInfShip,isLoggedIn,postForm,getDetailFormId, data} = useContext(UserContext);
 
   const netInfo = useNetInfo();
 
@@ -33,6 +37,8 @@ const Form01adx01Diary = ({navigation}) => {
     }, [netInfo.isConnected]),
   );
 
+
+
   const autoPostForm = async () => {
     const form = await Storage.getItem('form01adx01');
     if (form !== null) {
@@ -48,28 +54,34 @@ const Form01adx01Diary = ({navigation}) => {
   };
 
   const fetchdata = async () => {
-    setData(await getDiaryForm());
-  };
+    setDataDiary(await getDiaryForm());
+   }
+  useEffect( ()=>{
+    fetchdata();
+  },[])
 
-  const getDataLocal = async () => {
-    const result = await Storage.getItem('form01adx01');
-    if (result !== null) {
-      const data = JSON.parse(result);
-      setData(data);
+  //tranh goi ham nhieu lan khi o ben ngoai
+  const [template, setTemplate] = useState(false);
+  const handleGeneratePDF = (id) => {
+     getDetailFormId(id);
+     setTemplate(true);
+  }; 
+
+  useEffect(() => {
+    if(data&&template){
+      ExportPDF(data); 
+     setTemplate(false);
+
     }
-  };
+  }, [data,setTemplate]);
 
-  // nếu có wifi, gọi app lấy danh sách từ server
-  // nếu không có wifi, lấy data từ local
-  useFocusEffect(
-    React.useCallback(() => {
-      if (netInfo.isConnected) fetchdata();
-      else getDataLocal();
-    }, [netInfo.isConnected]),
-  );
+  // const handerleViewPDF = (number) => {
+  //   getDetailFormId(number);
+  //   const id = data.dairy_name;
+  //   navigation.navigate('ViewPDF',{id : id});
+  // };
 
-  //alert delete
-  const handleDelete = id => {
+   const handleDelete = (id) => {
     Alert.alert(
       'Xác nhận xoá',
       'Bạn có chắc chắn muốn xoá dữ liệu này?',
@@ -81,6 +93,7 @@ const Form01adx01Diary = ({navigation}) => {
         {
           text: 'Xoá',
           onPress: async () => {
+            console.log('iiiiiiiiiiiiiiiiiiiiii', id);
             await deleteFormId(id);
             fetchdata();
           },
@@ -89,11 +102,22 @@ const Form01adx01Diary = ({navigation}) => {
       {cancelable: false},
     );
   };
+  const handleDocumentSelection = useCallback(async () => {
 
-  const elementButton = id => (
+    try {
+        const res = await DocumentPicker.pick({
+          type: [DocumentPicker.types.allFiles],
+        });
+        await FileViewer.open(res[0].uri);
+      } catch (e) {
+        console.log('error', e);
+      }
+}, []);
+
+  const elementButton = (id) => (
     <View style={styles.boxbtn}>
-      <TouchableOpacity onPress={() => {}}>
-        <View style={[styles.btn, {backgroundColor: '#99FF33'}]}>
+      <TouchableOpacity onPress={()=>{ navigation.navigate('ViewPDF',{id : id,data: dataDiary});}}>
+      <View style={[styles.btn,{backgroundColor:'#99FF33'}]}>
           <Text style={styles.btnText}>Xem</Text>
         </View>
       </TouchableOpacity>
@@ -103,9 +127,9 @@ const Form01adx01Diary = ({navigation}) => {
         <View style={[styles.btn,{backgroundColor:'#00FFFF'}]}>
           <Text style={styles.btnText}>Sửa</Text>
         </View>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={() => {}}>
-        <View style={[styles.btn, {backgroundColor: '#FF99FF'}]}>
+      </TouchableOpacity>      
+      <TouchableOpacity  onPress={() => { handleGeneratePDF(id)}}>
+        <View style={[styles.btn,{backgroundColor:'#FF99FF'}]}>
           <Text style={styles.btnText}>Tải xuống</Text>
         </View>
       </TouchableOpacity>
@@ -117,7 +141,7 @@ const Form01adx01Diary = ({navigation}) => {
     </View>
   );
 //data
-    const selectedData = data?.map((item,index) => ([
+    const selectedData = dataDiary?.map((item,index) => ([
       index,
       item.dairy_name,
       item.tau_bs,
@@ -129,18 +153,11 @@ const Form01adx01Diary = ({navigation}) => {
 
   //colum
   let state = {
-    tableHead: [
-      'STT',
-      'Tên',
-      'Số tàu',
-      'Thuyền trưởng',
-      'Chuyển biển số',
-      'Ngày tạo',
-      'Sửa đổi lần cuối',
-      'Thao tác',
-    ],
-    tableColum: selectedData,
-  };
+    tableHead: ['STT', 'Tên', 'Số tàu', 'Thuyền trưởng', 'Chuyển biển số', 'Ngày tạo', 'Sửa đổi lần cuối', 'Thao tác'],
+    tableColum: selectedData
+
+  }
+  
 
   return (
     <View style={styles.container}>
