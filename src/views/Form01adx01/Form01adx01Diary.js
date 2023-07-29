@@ -43,10 +43,8 @@ const Form01adx01Diary = ({navigation}) => {
     const form = await Storage.getItem('form01adx01');
     if (form !== null) {
       const data = JSON.parse(form);
-      console.log(data[0]);
       // check response true thi xoa form
       const result = await postForm(data[0]);
-      console.log(result)
       if (result) {
         await Storage.removeItem('form01adx01');
       }
@@ -95,7 +93,7 @@ const Form01adx01Diary = ({navigation}) => {
     React.useCallback(() => {
       if (netInfo.isConnected) fetchdata();
       else getDataLocal();
-    }, [netInfo.isConnected]),
+    }, [netInfo]),
   );
 
    const handleDelete = (id) => {

@@ -82,6 +82,9 @@ const UserProvider = ({ children }) => {
           },
         ]);
       }
+      console.log('RES: ', response.data);
+      setIsLoading(false);
+      return response.data;
     } catch (error) {
       setIsLoading(false);
       setIsErrorPost(true);
@@ -106,8 +109,13 @@ const UserProvider = ({ children }) => {
         //api getShip
         const dataship = await instance.get('api/FormAppendix/getallship');
         setDataInfShip(await dataship.data);
+        await AsyncStorage.setItem('dataInfShip', JSON.stringify(dataship.data))
+
         return response.data;
       }
+    ;
+      
+
     } catch (error) {
       console.log('GET ERROR: ', error);
     }
@@ -196,7 +204,8 @@ const UserProvider = ({ children }) => {
     getDetailFormId,
     updateForm,
     initialTitle,
-    setInitialTitle
+    setInitialTitle,
+    setDataInfShip
   };
 
   return (

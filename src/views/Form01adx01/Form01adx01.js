@@ -44,6 +44,9 @@ const Form01adx01 = ({ route}) => {
   const netInfo = useNetInfo();
   const navigation = useNavigation();
 
+  const [checkLocalEmpty, setCheckLocalEmpty] = useState();
+
+
   const dateNow = new Date();
   const id = route.params?.id;
   const { getDetailFormId, setData, data } = useContext(UserContext);
@@ -54,8 +57,20 @@ const Form01adx01 = ({ route}) => {
   }, [!isFocus]);
 
   useEffect(() => {
-    getDetailFormId(id);
-  }, []);
+    if (netInfo.isConnected) 
+      getDetailFormId(id);
+    else
+      getDataLocal();
+  }, [netInfo]);
+
+  const getDataLocal = async () => {
+    const result = await Storage.getItem('form01adx01');
+    setCheckLocalEmpty(result);
+    if (result !== null) {
+      const data = JSON.parse(result);
+      setData(data[0]);
+    }
+  };
 
   useEffect(() => {
 
@@ -102,10 +117,12 @@ const Form01adx01 = ({ route}) => {
   const _renderActionView = () => {
     return (
       <View style={styles.action}>
-        {id ? (
+        {id || checkLocalEmpty != null ? (
           <TouchableOpacity
             style={[styles.actionCreate, styles.button]}
-            onPress={handleUpdate}>
+            onPress={() => {
+              netInfo.isConnected ? {handleUpdate} : handleUpdateDiary()
+              }}>
             <Text style={styles.actionText}>Cập nhật</Text>
           </TouchableOpacity>
         ) : (
@@ -153,6 +170,7 @@ const Form01adx01 = ({ route}) => {
         const data = [];
         data.push(dataForm);
         await Storage.setItem('form01adx01', JSON.stringify(data));
+        ToastAndroid.show('Tạo thành công', ToastAndroid.SHORT);
       }
     } else if (string == 'create') {
       console.log('CREATE');
@@ -194,6 +212,34 @@ const Form01adx01 = ({ route}) => {
   };
 
  
+  const handleExportPDF = () => {
+    // setIsLoading(true);
+    console.log('DATA: ', handleFormatObject());
+  };
+
+  // check ko có wifi thì update local
+  const handleUpdateDiary = async () => {
+    if (!netInfo.isConnected) {
+      const dataForm = handleFormatObject();
+      // xoá local cũ
+      await Storage.removeItem('form01adx01');
+
+      // lưu local mới
+      const data = [];
+      data.push(dataForm);
+      await Storage.setItem('form01adx01', JSON.stringify(data));
+
+      ToastAndroid.show('Cập nhật thành công', ToastAndroid.SHORT);
+
+      setTimeout(() => {
+        navigation.goBack();
+      }, 1000);
+     
+    } else {
+      // do something
+    }
+  };
+
   const handleFormatObject = () => {
     return {
       ...thongTinTau,
