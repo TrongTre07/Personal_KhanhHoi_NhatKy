@@ -24,7 +24,7 @@ const Form01adx01Diary = ({navigation}) => {
 
   useEffect(()=>{
     if(!isLoggedIn){
-      setData([])
+      setDataDiary([])
     }
   },[isLoggedIn])
 
@@ -80,6 +80,23 @@ const Form01adx01Diary = ({navigation}) => {
   //   const id = data.dairy_name;
   //   navigation.navigate('ViewPDF',{id : id});
   // };
+
+  const getDataLocal = async () => {
+    const result = await Storage.getItem('form01adx01');
+    if (result !== null) {
+      const data = JSON.parse(result);
+      setData(data);
+    }
+  };
+
+  // nếu có wifi, gọi app lấy danh sách từ server
+  // nếu không có wifi, lấy data từ local
+  useFocusEffect(
+    React.useCallback(() => {
+      if (netInfo.isConnected) fetchdata();
+      else getDataLocal();
+    }, [netInfo.isConnected]),
+  );
 
    const handleDelete = (id) => {
     Alert.alert(
