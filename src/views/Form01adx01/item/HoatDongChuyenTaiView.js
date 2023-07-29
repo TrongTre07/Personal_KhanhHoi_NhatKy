@@ -12,8 +12,11 @@ import React, {useContext, useState, useEffect} from 'react';
 import DatePicker from 'react-native-date-picker';
 import {styles} from './itemHoatDongChuyenTai/style.js';
 import CustomDatePicker from './itemTongCucThuySan/CustomDatePicker.js';
-import { dateNowFormat,convertStringToDate } from './itemTongCucThuySan/formatdate.js';
-import { UserContext } from '../../../contexts/UserContext.js';
+import {
+  dateNowFormat,
+  convertStringToDate,
+} from './itemTongCucThuySan/formatdate.js';
+import {UserContext} from '../../../contexts/UserContext.js';
 import {FormContext} from '../../../contexts/FormContext.js';
 
 const HoatDongChuyenTaiView = () => {
@@ -22,7 +25,6 @@ const HoatDongChuyenTaiView = () => {
   const [sumOfWeight, setSumOfWeight] = React.useState(0);
   const {thuMua, setThuMua} = useContext(FormContext);
   const {data} = useContext(UserContext);
-
 
   const [textInput, setTextInput] = React.useState([
     {
@@ -35,14 +37,13 @@ const HoatDongChuyenTaiView = () => {
       daban_ct_khoiluong: '',
     },
   ]);
- 
+
   useEffect(() => {
     if (data.thumua && data.thumua.length > 0) {
-      console.log("DATA: ", data.thumua)
+      setThuMua({thumua: data.thumua});
       setTextInput(data.thumua);
       let newValue = [];
-      
-      
+
       data.thumua.forEach((item, index) => {
         newValue.push(<_renderForm key={index} />);
         setListForm(newValue);
@@ -52,7 +53,6 @@ const HoatDongChuyenTaiView = () => {
         sum += Number(item.daban_ct_khoiluong);
       });
       setSumOfWeight(sum);
-      
     }
   }, [data.thumua]);
 
@@ -65,13 +65,13 @@ const HoatDongChuyenTaiView = () => {
 
   const handleDateChange = (index, date) => {
     const list = [...textInput];
-    list[index].ngaythang = dateNowFormat(date,"date");
+    list[index].ngaythang = dateNowFormat(date, 'date');
     setTextInput(list);
 
-     //handle context
-     const updatedThuMua = {...thuMua};
-     updatedThuMua.thumua[index].ngaythang = dateNowFormat(date,'date');
-     setThuMua(updatedThuMua);
+    //handle context
+    const updatedThuMua = {...thuMua};
+    updatedThuMua.thumua[index].ngaythang = dateNowFormat(date, 'date');
+    setThuMua(updatedThuMua);
   };
 
   const _renderForm = index => {
@@ -81,7 +81,9 @@ const HoatDongChuyenTaiView = () => {
           <Text style={[styles.textValue, styles.flex1]}>STT: {index + 1}</Text>
           <View style={[styles.flexRow, styles.flex1]}>
             <Text style={styles.textValue}>Ngày, tháng: </Text>
-            <Text key={textInput[index].date} style={[styles.textValue, styles.mr8]}>
+            <Text
+              key={textInput[index].ngaythang}
+              style={[styles.textValue, styles.mr8]}>
               {convertStringToDate(textInput[index].ngaythang)}
             </Text>
             <CustomDatePicker
@@ -97,7 +99,7 @@ const HoatDongChuyenTaiView = () => {
             <View style={[styles.flex1, styles.mr16]}>
               <Text style={styles.textValue}>Số đăng ký tàu</Text>
               <TextInput
-              value={textInput[index].tm_ct_bstau}
+                value={textInput[index].tm_ct_bstau}
                 onChangeText={value =>
                   handleInputChangeSoDangKyTau(index, value)
                 }
@@ -107,7 +109,7 @@ const HoatDongChuyenTaiView = () => {
             <View style={[styles.flex1, styles.ml16]}>
               <Text style={styles.textValue}>Số giấy phép khai thác</Text>
               <TextInput
-              value={textInput[index].tm_ct_gpkt}
+                value={textInput[index].tm_ct_gpkt}
                 style={[styles.input]}
                 onChangeText={value =>
                   handleInputChangeSoGiayPhepKhaiThac(index, value)
@@ -123,19 +125,18 @@ const HoatDongChuyenTaiView = () => {
             <View style={[styles.flex1, styles.mr16]}>
               <Text style={styles.textValue}>Vĩ độ</Text>
               <TextInput
-              value={textInput[index].tm_ct_vt_vido}
+                value={textInput[index].tm_ct_vt_vido}
                 style={[styles.input]}
-                keyboardType='numeric'
+                keyboardType="numeric"
                 onChangeText={value => handleInputChangeViDo(index, value)}
               />
             </View>
             <View style={[styles.flex1, styles.ml16]}>
               <Text style={styles.textValue}>Kinh độ</Text>
               <TextInput
-              value={textInput[index].tm_ct_vt_kinhdo}
-
+                value={textInput[index].tm_ct_vt_kinhdo}
                 style={[styles.input]}
-                keyboardType='numeric'
+                keyboardType="numeric"
                 onChangeText={value => handleInputChangeKinhDo(index, value)}
               />
             </View>
@@ -148,7 +149,7 @@ const HoatDongChuyenTaiView = () => {
             <View style={[styles.flex1, styles.mr16]}>
               <Text style={styles.textValue}>Tên loài thủy sản</Text>
               <TextInput
-              value={textInput[index].daban_ct_loai}
+                value={textInput[index].daban_ct_loai}
                 style={[styles.input]}
                 onChangeText={value =>
                   handleInputChangeTenLoaiThuySan(index, value)
@@ -158,12 +159,10 @@ const HoatDongChuyenTaiView = () => {
             <View style={[styles.flex1, styles.ml16]}>
               <Text style={styles.textValue}>Khối lượng (kg)</Text>
               <TextInput
-              value={textInput[index].daban_ct_khoiluong}
+                value={textInput[index].daban_ct_khoiluong}
                 inputMode="numeric"
                 style={[styles.input]}
-                onChangeText={value =>
-                  handleInputChangeKhoiLuong(index, value)
-                }
+                onChangeText={value => handleInputChangeKhoiLuong(index, value)}
               />
             </View>
           </View>
@@ -290,10 +289,10 @@ const HoatDongChuyenTaiView = () => {
     list[index].daban_ct_loai = value;
     setTextInput(list);
 
-     //handle context
-     const updatedThuMua = {...thuMua};
-     updatedThuMua.thumua[index].daban_ct_loai = value;
-     setThuMua(updatedThuMua);
+    //handle context
+    const updatedThuMua = {...thuMua};
+    updatedThuMua.thumua[index].daban_ct_loai = value;
+    setThuMua(updatedThuMua);
   };
 
   const handleInputChangeKhoiLuong = (index, value) => {
@@ -307,11 +306,10 @@ const HoatDongChuyenTaiView = () => {
     });
     setSumOfWeight(sum);
 
-     //handle context
-     const updatedThuMua = {...thuMua};
-     updatedThuMua.thumua[index].daban_ct_khoiluong = value;
-     setThuMua(updatedThuMua);
-     
+    //handle context
+    const updatedThuMua = {...thuMua};
+    updatedThuMua.thumua[index].daban_ct_khoiluong = value;
+    setThuMua(updatedThuMua);
   };
 
   return (

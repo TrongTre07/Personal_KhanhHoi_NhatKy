@@ -17,6 +17,7 @@ const UserProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
+  const [initialTitle, setInitialTitle] = useState('');
 
   const login = async (username, password) => {
     // user: 'abc' pass: '123456'
@@ -100,7 +101,9 @@ const UserProvider = ({ children }) => {
 
   const deleteFormId = async id => {
     try {
-      await instance.post(`api/FormAppendix/0101/del/${id}`);
+      if (id) {
+        await instance.post(`api/FormAppendix/0101/del/${id}`);
+      }
     } catch (error) {
       console.log('Delete ERROR: ', error);
     }
@@ -109,15 +112,27 @@ const UserProvider = ({ children }) => {
   const getDetailFormId = async id => {
     try {
       if (await AsyncStorage.getItem('token')) {
-        const response = await instance.get(
-          `/api/FormAppendix/getdetail_0101_byid/${id}`,
-        );
-
-        setData(await response.data);
-      }
-
+      const response = await instance.get(
+        `/api/FormAppendix/getdetail_0101_byid/${id}`,
+      );
+      setInitialTitle(response.data.dairy_name);
+      console.log('RES GET: ', response.data);
+      setData(await response.data);
+    }
     } catch (error) {
       console.log('ERROR: ', error);
+    }
+  };
+
+  const updateForm = async obj => {
+    try {
+      const response = await instance.post(
+        `/api/FormAppendix/0101/update`,
+        obj,
+      );
+      console.log('RES UPDATE: ', response.data);
+    } catch (error) {
+      console.log('ERROR UPDATE: ', error);
     }
   };
 
@@ -138,6 +153,7 @@ const UserProvider = ({ children }) => {
     data,
     setData,
     getDetailFormId,
+    updateForm,
   };
 
   return (

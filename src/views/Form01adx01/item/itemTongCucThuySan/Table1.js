@@ -1,5 +1,5 @@
 import {View, Text, TextInput, Image, Pressable} from 'react-native';
-import React, {useState, useMemo, useContext} from 'react';
+import React, {useState, useMemo, useContext, useEffect} from 'react';
 import styles from './styles';
 
 import {FormContext} from '../../../../contexts/FormContext';
@@ -11,12 +11,19 @@ import CustomDatePicker from './CustomDatePicker';
 
 import {UserContext} from '../../../../contexts/UserContext';
 
-const Table1 = ({
-}) => {
+const Table1 = ({}) => {
   //data
-  const {dataInfShip,data,setData} = useContext(UserContext);
+  const {dataInfShip, data, setData} = useContext(UserContext);
 
   const {thongTinTau, setThongTinTau} = useContext(FormContext);
+  useEffect(() => {
+    if (data) {
+      const newData = {...data};
+      delete newData.khaithac;
+      delete newData.thumua;
+      setThongTinTau(newData);
+    }
+  }, [data]);
   return (
     <View>
       <View style={[styles.row]}>
