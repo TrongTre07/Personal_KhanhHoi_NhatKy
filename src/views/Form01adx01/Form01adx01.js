@@ -38,6 +38,7 @@ const Form01adx01 = ({route}) => {
   const {postForm, updateForm} = useContext(UserContext);
   const {isLoading, setIsLoading} = useContext(UserContext);
   const {isError, setIsError} = useContext(UserContext);
+  const {initialTitle, setInitialTitle} = useContext(UserContext)
 
   const netInfo = useNetInfo();
   const navigation = useNavigation();
@@ -69,9 +70,9 @@ const Form01adx01 = ({route}) => {
   }, []);
 
   useEffect(() => {
-    console.log('DATA NGHECHINH', data.nghechinh);
+    console.log('DATA NGHECHINH', data.dairy_name);
     if (data.nghechinh) {
-      setInitialValue(data.nghechinh);
+      setInitialValue(data.dairy_name);
     }
   }, [data]);
 
@@ -84,16 +85,17 @@ const Form01adx01 = ({route}) => {
   };
 
   const handleDataSubmit = value => {
-    if (thongTinTau.id_tau == '') {
-      Alert.alert('Lỗi', 'Bạn phải chọn tàu!', [
-        {
-          text: 'OK',
-          onPress: () => {
-            setIsError(false);
-          },
-        },
-      ]);
-    }
+    // if (thongTinTau.id_tau == '') {
+    //   Alert.alert('Lỗi', 'Bạn phải chọn tàu!', [
+    //     {
+    //       text: 'OK',
+    //       onPress: () => {
+    //         setIsError(false);
+    //       },
+    //     },
+    //   ]);
+    // }
+
     if (thongTinTau.id == undefined) {
       //neu la create thi field id khong ton tai
       console.log('CREATE ACTIVATED');
@@ -215,7 +217,7 @@ const Form01adx01 = ({route}) => {
         visible={isPopupVisible}
         onClose={handlePopupClose}
         onSubmit={handleDataSubmit}
-        initialValue={initialValue}
+        initialValue={initialTitle}
         // Pass the initial value as a prop
       />
     </ScrollView>

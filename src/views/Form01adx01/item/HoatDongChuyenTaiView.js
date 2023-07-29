@@ -40,6 +40,7 @@ const HoatDongChuyenTaiView = () => {
 
   useEffect(() => {
     if (data.thumua && data.thumua.length > 0) {
+      setThuMua({thumua: data.thumua});
       setTextInput(data.thumua);
       let newValue = [];
 

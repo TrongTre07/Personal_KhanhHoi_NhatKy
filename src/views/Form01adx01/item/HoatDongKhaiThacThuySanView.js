@@ -52,7 +52,7 @@ const HoatDongKhaiThacThuySanView = ({id}) => {
 
   useEffect(() => {
     if (data.khaithac && data.khaithac.length > 0) {
-
+      setKhaiThac({khaithac: data.khaithac});
       setTextInput(data.khaithac);
       let newValue = [];
 
