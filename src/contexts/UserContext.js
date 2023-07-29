@@ -77,6 +77,7 @@ const UserProvider = ({children}) => {
       setData(await response.data);
       const dataship = await instance.get('api/FormAppendix/getallship');
       setDataInfShip(await dataship.data);
+      await AsyncStorage.setItem('dataInfShip', JSON.stringify(dataship.data));
       return response.data;
     } catch (error) {
       console.log('GET ERROR: ', error);
@@ -122,6 +123,7 @@ const UserProvider = ({children}) => {
     data,
     setData,
     getDetailFormId,
+    setDataInfShip
   };
 
   return (

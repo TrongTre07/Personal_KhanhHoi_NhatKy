@@ -1,5 +1,5 @@
 import {View, Text, TextInput, Image, Pressable} from 'react-native';
-import React, {useState, useMemo, useContext} from 'react';
+import React, {useState, useMemo, useContext, useEffect} from 'react';
 import styles from './styles';
 
 import {FormContext} from '../../../../contexts/FormContext';
@@ -10,11 +10,28 @@ import {dateNowFormat} from './formatdate';
 import CustomDatePicker from './CustomDatePicker';
 
 import {UserContext} from '../../../../contexts/UserContext';
-
+import { useNetInfo } from '@react-native-community/netinfo';
+import Storage from '../../../../utils/storage';
 const Table1 = ({
 }) => {
   //data
-  const {dataInfShip,data,setData} = useContext(UserContext);
+  const {dataInfShip,data,setData, setDataInfShip} = useContext(UserContext);
+  const netInfo = useNetInfo();
+
+  // check ko có wifi thì lấy dataInfShip từ local
+  useEffect(() => {
+    if (!netInfo.isConnected) {
+      getShipInfo();
+    }
+  }, [netInfo.isConnected])
+
+  const getShipInfo = async () => {
+    const result = await Storage.getItem('dataInfShip');
+    if (result !== null) {
+      const dataShip = JSON.parse(result);
+      setDataInfShip(dataShip);
+    }
+  }
 
   const {thongTinTau, setThongTinTau} = useContext(FormContext);
   return (
@@ -62,21 +79,21 @@ const Table1 = ({
               );
               setData({
                 ...data,
-                tau_bs: dataInf.tentau,
-                gpkt_so: dataInf.gpkt,
-                id_tau: dataInf.idShip.toString(),
-                tau_chieudailonnhat: dataInf.chieudailonnhat + '',
-                tau_tongcongsuatmaychinh: dataInf.congsuat + '',
-                gpkt_thoihan: dataInf.gpkt_thoihan,
+                tau_bs: dataInf?.tentau,
+                gpkt_so: dataInf?.gpkt,
+                id_tau: dataInf?.idShip.toString(),
+                tau_chieudailonnhat: dataInf?.chieudailonnhat + '',
+                tau_tongcongsuatmaychinh: dataInf?.congsuat + '',
+                gpkt_thoihan: dataInf?.gpkt_thoihan,
               });
               setThongTinTau({
                 ...thongTinTau,
-                tau_bs: dataInf.tentau,
-                gpkt_so: dataInf.gpkt,
-                id_tau: dataInf.idShip.toString(),
-                tau_chieudailonnhat: dataInf.chieudailonnhat + '',
-                tau_tongcongsuatmaychinh: dataInf.congsuat + '',
-                gpkt_thoihan: dataInf.gpkt_thoihan,
+                tau_bs: dataInf?.tentau,
+                gpkt_so: dataInf?.gpkt,
+                id_tau: dataInf?.idShip.toString(),
+                tau_chieudailonnhat: dataInf?.chieudailonnhat + '',
+                tau_tongcongsuatmaychinh: dataInf?.congsuat + '',
+                gpkt_thoihan: dataInf?.gpkt_thoihan,
               });
             }}>
             <Picker.Item style={styles.text} label="- Chọn tàu -" value="" />

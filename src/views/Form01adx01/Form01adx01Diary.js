@@ -60,7 +60,7 @@ const Form01adx01Diary = ({navigation}) => {
     React.useCallback(() => {
       if (netInfo.isConnected) fetchdata();
       else getDataLocal();
-    }, [netInfo.isConnected]),
+    }, [netInfo]),
   );
 
   //alert delete
