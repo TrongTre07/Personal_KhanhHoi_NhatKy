@@ -19,6 +19,7 @@ import { UserContext } from '../../contexts/UserContext';
 import Storage from '../../utils/storage';
 import { useNetInfo } from '@react-native-community/netinfo';
 import { useNavigation } from '@react-navigation/native';
+import { ExportPDF } from '../ExportPDF';
 const Form01adx01 = ({ route}) => {
   const {
     thuMua,
@@ -92,7 +93,7 @@ const Form01adx01 = ({ route}) => {
         </TouchableOpacity>
         <TouchableOpacity
           style={[styles.actionExportPDF, styles.button]}
-          onPress={() => {handleGeneratePDF()}}>
+          onPress={()=> ExportPDF(handleFormatObject())}>
           <Text style={styles.actionText}>Xuất File</Text>
         </TouchableOpacity>
       </View>
@@ -101,6 +102,9 @@ const Form01adx01 = ({ route}) => {
 
   // const handleCreateForm = () => {
   //   postForm(handleFormatObject());
+  // const handleExportPDF = (data) => {
+  //   ExportPDF(data)
+  // };
   const handleCreateForm = async () => {
 
     const isConnect = netInfo.isConnected;
@@ -138,11 +142,7 @@ const Form01adx01 = ({ route}) => {
     console.log(handleFormatObject());
   };
 
-  const handleExportPDF = () => {
-    // setIsLoading(true);
-    console.log('DATA: ', handleFormatObject());
-  };
-
+ 
   const handleFormatObject = () => {
     return {
       ...thongTinTau,

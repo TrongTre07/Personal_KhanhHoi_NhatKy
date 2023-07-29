@@ -10,6 +10,7 @@ import HeaderScreen from './HeaderScreen';
 import Form01Navigation from './Form01Navigation';
 import Login from '../login/Login';
 import Form02ad02 from '../Form02adx02/Form02ad02';
+import ViewPDF from '../ViewPDF';
 
 const Stack = createStackNavigator();
 
@@ -74,6 +75,15 @@ const AppNavigation = () => {
         }}
         name="login"
         component={Login}>
+      </Stack.Screen>
+
+
+      <Stack.Screen
+        options={{
+          title:''
+        }}
+        name="ViewPDF"
+        component={ViewPDF}>
       </Stack.Screen>
     </Stack.Navigator>
   )

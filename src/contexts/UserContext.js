@@ -73,7 +73,7 @@ const UserProvider = ({children}) => {
   const getDiaryForm = async () => {
     try {
       const response = await instance.get('api/FormAppendix/getall_0101');
-      setData(await response.data);
+
       const dataship = await instance.get('api/FormAppendix/getallship');
       setDataInfShip(await dataship.data);
       return response.data;
@@ -95,7 +95,7 @@ const UserProvider = ({children}) => {
       const response = await instance.get(
         `/api/FormAppendix/getdetail_0101_byid/${id}`,
       );
-
+      console.log('RES: ', response.data);
       setData(await response.data);
     } catch (error) {
       console.log('ERROR: ', error);
