@@ -1,5 +1,5 @@
 // LoginContext.js
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import React, { createContext, useEffect, useState } from 'react';
 import instance from '../axios/instance';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
@@ -20,6 +20,7 @@ const UserProvider = ({ children }) => {
   const [isErrorUpdate, setIsErrorUpdate] = useState(false);
   const [isErrorShip, setIsErrorShip] = useState(false);
   const [initialTitle, setInitialTitle] = useState('');
+  const [goBackAlert, setGoBackAlert] = useState(false);
 
   const login = async (username, password) => {
     // user: 'abc' pass: '123456'
@@ -78,6 +79,8 @@ const UserProvider = ({ children }) => {
             text: 'OK',
             onPress: () => {
               // setIsErrorPost(false);
+              // setIsLoading(false)
+              setGoBackAlert(true);
             },
           },
         ]);
@@ -163,6 +166,7 @@ const UserProvider = ({ children }) => {
             text: 'OK',
             onPress: () => {
               // setIsErrorPost(false);
+              setGoBackAlert(true);
             },
           },
         ]);
@@ -205,7 +209,9 @@ const UserProvider = ({ children }) => {
     updateForm,
     initialTitle,
     setInitialTitle,
-    setDataInfShip
+    setDataInfShip,
+    goBackAlert,
+    setGoBackAlert,
   };
 
   return (

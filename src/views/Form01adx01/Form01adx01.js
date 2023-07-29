@@ -47,9 +47,8 @@ const Form01adx01 = ({ route}) => {
   const [checkLocalEmpty, setCheckLocalEmpty] = useState();
 
 
-  const dateNow = new Date();
   const id = route.params?.id;
-  const { getDetailFormId, setData, data } = useContext(UserContext);
+  const { getDetailFormId, setData, data,goBackAlert,setGoBackAlert } = useContext(UserContext);
   const isFocus = useIsFocused();
 
   useEffect(() => {
@@ -63,6 +62,7 @@ const Form01adx01 = ({ route}) => {
       getDataLocal();
   }, [netInfo]);
 
+  //data local
   const getDataLocal = async () => {
     const result = await Storage.getItem('form01adx01');
     setCheckLocalEmpty(result);
@@ -72,6 +72,15 @@ const Form01adx01 = ({ route}) => {
     }
   };
 
+  //goback
+  useEffect(() => {
+    if (goBackAlert) {
+      navigation.goBack();
+      setGoBackAlert(false);
+    }
+  }, [goBackAlert, navigation, setGoBackAlert]);
+
+  //nghe chinh
   useEffect(() => {
 
     if (data.nghechinh) {
@@ -121,7 +130,7 @@ const Form01adx01 = ({ route}) => {
           <TouchableOpacity
             style={[styles.actionCreate, styles.button]}
             onPress={() => {
-              netInfo.isConnected ? {handleUpdate} : handleUpdateDiary()
+              netInfo.isConnected ? handleUpdate() : handleUpdateDiary()
               }}>
             <Text style={styles.actionText}>Cập nhật</Text>
           </TouchableOpacity>
@@ -132,11 +141,11 @@ const Form01adx01 = ({ route}) => {
             <Text style={styles.actionText}>Tạo</Text>
           </TouchableOpacity>
         )}
-        <TouchableOpacity
+        {/* <TouchableOpacity
           style={[styles.actionSave, styles.button]}
           onPress={handleSaveForm}>
           <Text style={styles.actionTextDark}>Lưu bản nháp</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
         <TouchableOpacity
           style={[styles.actionDownload, styles.button]}
           onPress={handleDownloadForm}>
@@ -171,6 +180,8 @@ const Form01adx01 = ({ route}) => {
         data.push(dataForm);
         await Storage.setItem('form01adx01', JSON.stringify(data));
         ToastAndroid.show('Tạo thành công', ToastAndroid.SHORT);
+        setGoBackAlert(true);
+
       }
     } else if (string == 'create') {
       console.log('CREATE');
@@ -230,11 +241,8 @@ const Form01adx01 = ({ route}) => {
       await Storage.setItem('form01adx01', JSON.stringify(data));
 
       ToastAndroid.show('Cập nhật thành công', ToastAndroid.SHORT);
+      setGoBackAlert(true);
 
-      setTimeout(() => {
-        navigation.goBack();
-      }, 1000);
-     
     } else {
       // do something
     }

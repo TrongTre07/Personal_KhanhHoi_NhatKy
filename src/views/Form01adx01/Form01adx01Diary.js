@@ -18,7 +18,7 @@ const Form01adx01Diary = ({navigation}) => {
   // console.log('-------------------------------------------', data);
   // console.log('dataInfShip',dataInfShip);
 
-  const {getDiaryForm, deleteFormId, dataInfShip,isLoggedIn,postForm,getDetailFormId, data} = useContext(UserContext);
+  const {getDiaryForm, deleteFormId, dataInfShip,isLoggedIn,postForm,getDetailFormId, data,setData} = useContext(UserContext);
 
   const netInfo = useNetInfo();
 
@@ -55,6 +55,7 @@ const Form01adx01Diary = ({navigation}) => {
     setDataDiary(await getDiaryForm());
    }
   useEffect( ()=>{
+    if(netInfo.isConnected)
     fetchdata();
   },[])
 
@@ -83,7 +84,7 @@ const Form01adx01Diary = ({navigation}) => {
     const result = await Storage.getItem('form01adx01');
     if (result !== null) {
       const data = JSON.parse(result);
-      setData(data);
+      setDataDiary(data);
     }
   };
 
@@ -91,7 +92,8 @@ const Form01adx01Diary = ({navigation}) => {
   // nếu không có wifi, lấy data từ local
   useFocusEffect(
     React.useCallback(() => {
-      if (netInfo.isConnected) fetchdata();
+      if (netInfo.isConnected) 
+        fetchdata();
       else getDataLocal();
     }, [netInfo]),
   );
