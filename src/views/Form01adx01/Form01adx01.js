@@ -84,7 +84,9 @@ const Form01adx01 = ({ route}) => {
         {id || checkLocalEmpty != null ? (
           <TouchableOpacity
             style={[styles.actionCreate, styles.button]}
-            onPress={{}}>
+            onPress={() => {
+              netInfo.isConnected ? {} : handleUpdateDiary()
+              }}>
             <Text style={styles.actionText}>Cập nhật</Text>
           </TouchableOpacity>
         ) : (
@@ -156,6 +158,29 @@ const Form01adx01 = ({ route}) => {
   const handleExportPDF = () => {
     // setIsLoading(true);
     console.log('DATA: ', handleFormatObject());
+  };
+
+  // check ko có wifi thì update local
+  const handleUpdateDiary = async () => {
+    if (!netInfo.isConnected) {
+      const dataForm = handleFormatObject();
+      // xoá local cũ
+      await Storage.removeItem('form01adx01');
+
+      // lưu local mới
+      const data = [];
+      data.push(dataForm);
+      await Storage.setItem('form01adx01', JSON.stringify(data));
+
+      ToastAndroid.show('Cập nhật thành công', ToastAndroid.SHORT);
+
+      setTimeout(() => {
+        navigation.goBack();
+      }, 1000);
+     
+    } else {
+      // do something
+    }
   };
 
   const handleFormatObject = () => {
