@@ -218,22 +218,53 @@ const HoatDongChuyenTaiView = () => {
   };
 
   const handleDeleteRow = () => {
+    // const newListForm = [...listForm];
+    // if (newListForm.length > 1) {
+    //   newListForm.pop();
+    //   setListForm(newListForm);
+    //   textInput.pop();
+    //   setTextInput(textInput);
+
+    //   //Delete row at context
+    //   const updatedThuMua = [...thuMua.thumua];
+    //   updatedThuMua.pop();
+
+    //   // Update the state with the new array
+    //   setThuMua(prevState => ({
+    //     ...prevState,
+    //     thumua: updatedThuMua,
+    //   }));
+    // }
+    console.log('DELETE');
     const newListForm = [...listForm];
     if (newListForm.length > 1) {
       newListForm.pop();
       setListForm(newListForm);
-      textInput.pop();
-      setTextInput(textInput);
+      // textInput.pop();
+      // setTextInput(textInput);
 
-      //Delete row at context
-      const updatedThuMua = [...thuMua.thumua];
-      updatedThuMua.pop();
-
-      // Update the state with the new array
-      setThuMua(prevState => ({
-        ...prevState,
-        thumua: updatedThuMua,
-      }));
+      if (data.thumua != undefined) {
+        const updatedThuMua = JSON.parse(JSON.stringify(thuMua.thumua));
+        updatedThuMua[updatedThuMua.length - 1].isdelete = 1;
+        console.log('UPDATED VALUE: ', updatedThuMua);
+        setThuMua({
+          ...thuMua,
+          thumua: updatedThuMua,
+        });
+        const newInput = [...textInput];
+        newInput.pop();
+        setTextInput(newInput);
+      } else {
+        const updatedThuMua = JSON.parse(JSON.stringify(thuMua.thumua));
+        updatedThuMua.pop();
+        setThuMua({
+          ...thuMua,
+          thumua: updatedThuMua,
+        });
+        const newInput = [...textInput];
+        newInput.pop();
+        setTextInput(newInput);
+      }
     }
   };
 

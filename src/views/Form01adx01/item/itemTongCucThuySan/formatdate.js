@@ -65,6 +65,9 @@ export const convertStringToDate = inputString => {
 
 export const convertStringToDateHour = inputString => {
   try {
+    if(inputString===undefined){
+      return ''
+    }
     if (inputString.includes('T')) {
       const [datePart, timePart] = inputString.split('T');
       const [year, month, day] = datePart.split('-');

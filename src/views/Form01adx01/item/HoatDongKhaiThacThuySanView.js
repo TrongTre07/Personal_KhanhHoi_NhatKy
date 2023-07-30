@@ -10,22 +10,23 @@ import {
   View,
   Alert,
 } from 'react-native';
-import React, { useContext, useState, useEffect } from 'react';
-import { FormContext } from '../../../contexts/FormContext';
+import React, {useContext, useState, useEffect} from 'react';
+import {FormContext} from '../../../contexts/FormContext';
 
 import DatePicker from 'react-native-date-picker';
-import { styles } from './itemHoatDongKhaiThacThuySan/styles';
+import {styles} from './itemHoatDongKhaiThacThuySan/styles';
 import CustomDatePicker from './itemHoatDongKhaiThacThuySan/Timepicker';
 import {
   dateNowFormat,
   convertStringToDate,
   convertStringToDateHour,
 } from './itemTongCucThuySan/formatdate';
-import { UserContext } from '../../../contexts/UserContext';
+import {UserContext} from '../../../contexts/UserContext';
 
-const HoatDongKhaiThacThuySanView = ({ id }) => {
-  const { khaiThac, setKhaiThac } = useContext(FormContext);
-  const { data } = useContext(UserContext);
+const HoatDongKhaiThacThuySanView = ({id}) => {
+  const {khaiThac, setKhaiThac} = useContext(FormContext);
+  let counter = 0;
+  const {data} = useContext(UserContext);
   const [listForm, setListForm] = React.useState([]);
 
   const [textInput, setTextInput] = React.useState([
@@ -39,21 +40,20 @@ const HoatDongKhaiThacThuySanView = ({ id }) => {
     },
   ]);
   const [loaiCa, setLoaiCa] = useState([
-    { id: '0', name: '', soLuong: ['0'] },
-    { id: '1', name: '', soLuong: ['0'] },
-    { id: '2', name: '', soLuong: ['0'] },
-    { id: '3', name: '', soLuong: ['0'] },
-    { id: '4', name: '', soLuong: ['0'] },
-    { id: '5', name: '', soLuong: ['0'] },
-    { id: '6', name: '', soLuong: ['0'] },
-    { id: '7', name: '', soLuong: ['0'] },
-    { id: '8', name: '', soLuong: ['0'] },
+    {id: '0', name: '', soLuong: ['0']},
+    {id: '1', name: '', soLuong: ['0']},
+    {id: '2', name: '', soLuong: ['0']},
+    {id: '3', name: '', soLuong: ['0']},
+    {id: '4', name: '', soLuong: ['0']},
+    {id: '5', name: '', soLuong: ['0']},
+    {id: '6', name: '', soLuong: ['0']},
+    {id: '7', name: '', soLuong: ['0']},
+    {id: '8', name: '', soLuong: ['0']},
   ]);
 
   useEffect(() => {
     if (data.khaithac && data.khaithac.length > 0) {
-      console.log("KhaiTHAC: ", data.khaithac)
-      setKhaiThac({ khaithac: data.khaithac });
+      setKhaiThac({khaithac: [...data.khaithac]});
       setTextInput(data.khaithac);
       let newValue = [];
 
@@ -125,7 +125,7 @@ const HoatDongKhaiThacThuySanView = ({ id }) => {
 
   const calculateSumOfEachIndex = () => {
     const totalSumByIndex = Array.from(
-      { length: loaiCa[0].soLuong.length },
+      {length: loaiCa[0].soLuong.length},
       () => 0,
     );
 
@@ -140,7 +140,7 @@ const HoatDongKhaiThacThuySanView = ({ id }) => {
         key={index}
         style={[
           styles.box,
-          index % 2 === 0 ? { backgroundColor: '#9dc5c3' } : null,
+          index % 2 === 0 ? {backgroundColor: '#9dc5c3'} : null,
         ]}>
         <Text style={styles.textTotal}>{`Mẻ ${index + 1}: ${sum} Kg`}</Text>
       </View>
@@ -158,7 +158,7 @@ const HoatDongKhaiThacThuySanView = ({ id }) => {
           key={item.id}
           style={[
             styles.box,
-            item.id % 2 === 0 ? { backgroundColor: '#9dc5c3' } : null,
+            item.id % 2 === 0 ? {backgroundColor: '#9dc5c3'} : null,
           ]}>
           <Text style={styles.textTotal}>{`${item.name}: ${sum} Kg`}</Text>
         </View>
@@ -202,7 +202,7 @@ const HoatDongKhaiThacThuySanView = ({ id }) => {
 
     for (let i = 0; i < listForm.length; i++) {
       inputs.push(
-        <View key={i} style={{ flexDirection: 'row' }}>
+        <View key={i} style={{flexDirection: 'row'}}>
           {_renderInputSpecies(i)}
         </View>,
       );
@@ -213,8 +213,8 @@ const HoatDongKhaiThacThuySanView = ({ id }) => {
   const _renderForm = index => {
     return (
       <View style={styles.form}>
-        <View style={[styles.view1, styles.flexRow, { width: '100%' }]}>
-          <Text style={[styles.textValue, styles.flex1, { fontWeight: 'bold' }]}>
+        <View style={[styles.view1, styles.flexRow, {width: '100%'}]}>
+          <Text style={[styles.textValue, styles.flex1, {fontWeight: 'bold'}]}>
             Mẻ thứ: {index + 1}
           </Text>
         </View>
@@ -237,14 +237,14 @@ const HoatDongKhaiThacThuySanView = ({ id }) => {
                 setTextInput(newInput);
 
                 //set data context time
-                const updatedKhaiThac = { ...khaiThac };
+                const updatedKhaiThac = {...khaiThac};
                 updatedKhaiThac.khaithac[index].thoidiem_tha =
                   dateNowFormat(newDate);
                 setKhaiThac(updatedKhaiThac);
               }}
             />
           </View>
-          <View style={[styles.flexRow, { width: '100%' }]}>
+          <View style={[styles.flexRow, {width: '100%'}]}>
             <View style={[styles.flex1, styles.mr16]}>
               <Text style={styles.textValue}>Vĩ Độ</Text>
               <TextInput
@@ -285,7 +285,7 @@ const HoatDongKhaiThacThuySanView = ({ id }) => {
 
                 //set data context kinh do
 
-                const updatedKhaiThac = { ...khaiThac };
+                const updatedKhaiThac = {...khaiThac};
                 updatedKhaiThac.khaithac[index].thoidiem_thu = dateNowFormat(
                   newDate,
                   'dateHour',
@@ -294,7 +294,7 @@ const HoatDongKhaiThacThuySanView = ({ id }) => {
               }}
             />
           </View>
-          <View style={[styles.flexRow, { width: '100%' }]}>
+          <View style={[styles.flexRow, {width: '100%'}]}>
             <View style={[styles.flex1, styles.mr16]}>
               <Text style={styles.textValue}>Vĩ Độ</Text>
               <TextInput
@@ -336,18 +336,10 @@ const HoatDongKhaiThacThuySanView = ({ id }) => {
   const handleAddRow = () => {
     const newListForm = [...listForm, <_renderForm key={listForm.length} />];
     setListForm(newListForm);
-    textInput.push({
-      thoidiem_tha: dateNowFormat('nullHour'),
-      vido_tha: '',
-      kinhdo_tha: '',
-      thoidiem_thu: dateNowFormat('nullHour'),
-      vido_thu: '',
-      kinhdo_thu: '',
-    });
 
     // Form Context
     const newKhaithacObject = {
-      methu: listForm.length.toString(),
+      methu: (listForm.length + 1).toString(),
       thoidiem_tha: dateNowFormat('nullHour'),
       vido_tha: '',
       kinhdo_tha: '',
@@ -375,22 +367,63 @@ const HoatDongKhaiThacThuySanView = ({ id }) => {
       tongsanluong: '',
     };
 
-    if (data == {}) {
-      const obj = data.khaithac[data.khaithac.length - 2]
-      obj.dairy_id = data.id;
-      obj.isdelete = data.khaithac[data.khaithac.length - 2].isdelete
-      obj.id = parseInt(data.khaithac[data.khaithac.length - 2].id) + 1;
-      console.log("OBJ: ", obj)
-      setKhaiThac(prevState => ({
-        ...prevState,
-        khaithac: [...prevState.khaithac, obj],
-      }));
-    } else {
-
+    if (data.khaithac == undefined) {
+      textInput.push({
+        thoidiem_tha: dateNowFormat('nullHour'),
+        vido_tha: '',
+        kinhdo_tha: '',
+        thoidiem_thu: dateNowFormat('nullHour'),
+        vido_thu: '',
+        kinhdo_thu: '',
+      });
       setKhaiThac(prevState => ({
         ...prevState,
         khaithac: [...prevState.khaithac, newKhaithacObject],
       }));
+    } else {
+      console.log('OBJ Textinput: ', textInput);
+      console.log('DATA EXIST: ', data);
+      //id
+      counter = parseInt(data.khaithac[data.khaithac.length - 1].id);
+      const obj = {
+        methu: (data.khaithac.length + 1).toString(),
+        isdelete: 0,
+        dairy_id: data.id,
+        id: counter + 1,
+        thoidiem_tha: dateNowFormat('nullHour'),
+        vido_tha: '',
+        kinhdo_tha: '',
+        thoidiem_thu: dateNowFormat('nullHour'),
+        vido_thu: '',
+        kinhdo_thu: '',
+        loai_1: khaiThac.khaithac[0].loai_1,
+        loai_2: khaiThac.khaithac[0].loai_2,
+        loai_3: khaiThac.khaithac[0].loai_3,
+        loai_4: khaiThac.khaithac[0].loai_4,
+        loai_5: khaiThac.khaithac[0].loai_5,
+        loai_6: khaiThac.khaithac[0].loai_6,
+        loai_7: khaiThac.khaithac[0].loai_7,
+        loai_8: khaiThac.khaithac[0].loai_8,
+        loai_9: khaiThac.khaithac[0].loai_9,
+        loai_1_kl: '',
+        loai_2_kl: '',
+        loai_3_kl: '',
+        loai_4_kl: '',
+        loai_5_kl: '',
+        loai_6_kl: '',
+        loai_7_kl: '',
+        loai_8_kl: '',
+        loai_9_kl: '',
+        tongsanluong: '',
+      };
+      counter++;
+      const newTextinput = [...textInput];
+      newTextinput.push(obj);
+      setTextInput(newTextinput);
+
+      const newKhaiThac = {...khaiThac};
+      newKhaiThac.khaithac.push(obj);
+      setKhaiThac(newKhaiThac);
     }
 
     const newArray = loaiCa.map(item => ({
@@ -400,7 +433,7 @@ const HoatDongKhaiThacThuySanView = ({ id }) => {
 
     setLoaiCa(newArray);
 
-    setTextInput(textInput);
+    // setTextInput(textInput);
   };
 
   const handleDeleteRow = () => {
@@ -408,29 +441,41 @@ const HoatDongKhaiThacThuySanView = ({ id }) => {
     if (newListForm.length > 1) {
       newListForm.pop();
       setListForm(newListForm);
-      textInput.pop();
-      setTextInput(textInput);
+      // textInput.pop();
+      // setTextInput(textInput);
 
       //delete last value of [loaiCa]
       const updatedLoaiCa = loaiCa.map(item => {
         const updatedSoLuong = item.soLuong.slice(0, -1); // Slice removes the last element
-        return { ...item, soLuong: updatedSoLuong };
+        return {...item, soLuong: updatedSoLuong};
       });
       setLoaiCa(updatedLoaiCa);
 
       //Delete row at context
-      // const updatedKhaithac = [...khaiThac.khaithac];
-      // updatedKhaithac.pop();
-      // // Update the state with the new array
-      // setKhaiThac(prevState => ({
-      //   ...prevState,
-      //   khaithac: updatedKhaithac,
-      // }));
-      const updatedKhaiThac = [...khaiThac.khaithac];
-      updatedKhaiThac[updatedKhaiThac.length - 1].isdelete = 1;
-      setKhaiThac(prev => ({
-        ...prev, khaiThac: updatedKhaiThac
-      }))
+
+      // const updatedKhaiThac = [...khaiThac.khaithac];
+      if (data.khaithac != undefined) {
+        const updatedKhaiThac = JSON.parse(JSON.stringify(khaiThac.khaithac));
+        updatedKhaiThac[updatedKhaiThac.length - 1].isdelete = 1;
+        console.log('UPDATED VALUE: ', updatedKhaiThac);
+        setKhaiThac({
+          ...khaiThac,
+          khaithac: updatedKhaiThac,
+        });
+        const newInput = [...textInput];
+        newInput.pop();
+        setTextInput(newInput);
+      } else {
+        const updatedKhaiThac = JSON.parse(JSON.stringify(khaiThac.khaithac));
+        updatedKhaiThac.pop();
+        setKhaiThac({
+          ...khaiThac,
+          khaithac: updatedKhaiThac,
+        });
+        const newInput = [...textInput];
+        newInput.pop();
+        setTextInput(newInput);
+      }
     }
   };
 
@@ -441,7 +486,7 @@ const HoatDongKhaiThacThuySanView = ({ id }) => {
 
     //set data context vi do
 
-    const updatedKhaiThac = { ...khaiThac };
+    const updatedKhaiThac = {...khaiThac};
     updatedKhaiThac.khaithac[index].vido_tha = value;
     setKhaiThac(updatedKhaiThac);
   };
@@ -453,7 +498,7 @@ const HoatDongKhaiThacThuySanView = ({ id }) => {
 
     //set data context kinh do
 
-    const updatedKhaiThac = { ...khaiThac };
+    const updatedKhaiThac = {...khaiThac};
     updatedKhaiThac.khaithac[index].kinhdo_tha = value;
     setKhaiThac(updatedKhaiThac);
   };
@@ -464,7 +509,7 @@ const HoatDongKhaiThacThuySanView = ({ id }) => {
 
     //set data context kinh do
 
-    const updatedKhaiThac = { ...khaiThac };
+    const updatedKhaiThac = {...khaiThac};
     updatedKhaiThac.khaithac[index].vido_thu = value;
     setKhaiThac(updatedKhaiThac);
   };
@@ -476,7 +521,7 @@ const HoatDongKhaiThacThuySanView = ({ id }) => {
 
     //set data context kinh do
 
-    const updatedKhaiThac = { ...khaiThac };
+    const updatedKhaiThac = {...khaiThac};
     updatedKhaiThac.khaithac[index].kinhdo_thu = value;
     setKhaiThac(updatedKhaiThac);
   };
@@ -492,7 +537,7 @@ const HoatDongKhaiThacThuySanView = ({ id }) => {
 
       //set data context ten ca
 
-      const updatedKhaiThac = { ...khaiThac };
+      const updatedKhaiThac = {...khaiThac};
       updatedKhaiThac.khaithac.forEach(item => {
         const loaica = `loai_${existingItemIndex}`;
         item[loaica] = value; // Use square brackets to set the property
@@ -504,7 +549,7 @@ const HoatDongKhaiThacThuySanView = ({ id }) => {
 
   const handleInputChangeKhoiLuong = (indexRow, indexSpecies, value) => {
     if (isNaN(value)) {
-      Alert.alert('Lỗi', 'Bạn phải nhập số.', [{ text: 'OK' }]);
+      Alert.alert('Lỗi', 'Bạn phải nhập số.', [{text: 'OK'}]);
       return;
     } else if (value == '') {
       // value = '0';
@@ -527,20 +572,21 @@ const HoatDongKhaiThacThuySanView = ({ id }) => {
 
       //set data context so luong
 
-      const updatedKhaiThac = { ...khaiThac };
+      const updatedKhaiThac = {...khaiThac};
+      console.log('BEFORE: ', updatedKhaiThac);
       updatedKhaiThac.khaithac[indexRow][`loai_${existingItemIndex}_kl`] =
         value;
       updatedKhaiThac.khaithac[indexRow].tongsanluong = sum.toString();
-
+      console.log('UPDATE KHAITHAC', updatedKhaiThac);
       setKhaiThac(updatedKhaiThac);
     }
     setLoaiCa(list);
   };
 
   return (
-    <View style={{ flex: 1, backgroundColor: '#fff' }}>
+    <View style={{flex: 1, backgroundColor: '#fff'}}>
       <ScrollView>
-        <Text style={[styles.title, { marginTop: 24 }]}>
+        <Text style={[styles.title, {marginTop: 24}]}>
           I. THÔNG TIN VỀ HOẠT ĐỘNG KHAI THÁC THỦY SẢN
         </Text>
 
@@ -554,28 +600,28 @@ const HoatDongKhaiThacThuySanView = ({ id }) => {
           <Text style={styles.title}>
             Sản lượng các loài thủy sản chủ yếu (Kg)
           </Text>
-          <View style={{ flexDirection: 'row' }}>
+          <View style={{flexDirection: 'row'}}>
             {_renderInputSpeciesName()}
           </View>
           {_renderTableNet()}
 
-          <View style={{ paddingTop: 20 }}>
+          <View style={{paddingTop: 20}}>
             <FlatList
               data={calculateSumOfSoLuongForEachObject()}
-              renderItem={({ item }) => item}
+              renderItem={({item}) => item}
               keyExtractor={(item, index) => index.toString()}
               horizontal={true}
-              style={{ paddingBottom: 10 }}
+              style={{paddingBottom: 10}}
               ItemSeparatorComponent={() => <View style={styles.separator} />}
             />
 
             <FlatList
               data={calculateSumOfEachIndex()}
-              renderItem={({ item }) => item}
+              renderItem={({item}) => item}
               keyExtractor={(item, index) => index.toString()}
               horizontal={true}
               ItemSeparatorComponent={() => <View style={styles.separator} />}
-              style={{ paddingBottom: 10 }}
+              style={{paddingBottom: 10}}
             />
           </View>
         </View>
