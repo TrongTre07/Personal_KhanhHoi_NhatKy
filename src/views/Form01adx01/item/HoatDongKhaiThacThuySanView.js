@@ -25,7 +25,7 @@ import {UserContext} from '../../../contexts/UserContext';
 
 const HoatDongKhaiThacThuySanView = ({id}) => {
   const {khaiThac, setKhaiThac} = useContext(FormContext);
-  let counter = 0;
+
   const {data} = useContext(UserContext);
   const [listForm, setListForm] = React.useState([]);
 
@@ -381,42 +381,9 @@ const HoatDongKhaiThacThuySanView = ({id}) => {
         khaithac: [...prevState.khaithac, newKhaithacObject],
       }));
     } else {
-      console.log('OBJ Textinput: ', textInput);
-      console.log('DATA EXIST: ', data);
-      //id
-      counter = parseInt(data.khaithac[data.khaithac.length - 1].id);
-      const obj = {
-        methu: (data.khaithac.length + 1).toString(),
-        isdelete: 0,
-        dairy_id: data.id,
-        id: counter + 1,
-        thoidiem_tha: dateNowFormat('nullHour'),
-        vido_tha: '',
-        kinhdo_tha: '',
-        thoidiem_thu: dateNowFormat('nullHour'),
-        vido_thu: '',
-        kinhdo_thu: '',
-        loai_1: khaiThac.khaithac[0].loai_1,
-        loai_2: khaiThac.khaithac[0].loai_2,
-        loai_3: khaiThac.khaithac[0].loai_3,
-        loai_4: khaiThac.khaithac[0].loai_4,
-        loai_5: khaiThac.khaithac[0].loai_5,
-        loai_6: khaiThac.khaithac[0].loai_6,
-        loai_7: khaiThac.khaithac[0].loai_7,
-        loai_8: khaiThac.khaithac[0].loai_8,
-        loai_9: khaiThac.khaithac[0].loai_9,
-        loai_1_kl: '',
-        loai_2_kl: '',
-        loai_3_kl: '',
-        loai_4_kl: '',
-        loai_5_kl: '',
-        loai_6_kl: '',
-        loai_7_kl: '',
-        loai_8_kl: '',
-        loai_9_kl: '',
-        tongsanluong: '',
-      };
-      counter++;
+      const obj = newKhaithacObject;
+      obj.methu = (data.khaithac.length + 1).toString();
+
       const newTextinput = [...textInput];
       newTextinput.push(obj);
       setTextInput(newTextinput);
@@ -457,7 +424,7 @@ const HoatDongKhaiThacThuySanView = ({id}) => {
       if (data.khaithac != undefined) {
         const updatedKhaiThac = JSON.parse(JSON.stringify(khaiThac.khaithac));
         updatedKhaiThac[updatedKhaiThac.length - 1].isdelete = 1;
-        console.log('UPDATED VALUE: ', updatedKhaiThac);
+        // console.log('UPDATED VALUE: ', updatedKhaiThac);
         setKhaiThac({
           ...khaiThac,
           khaithac: updatedKhaiThac,
@@ -573,11 +540,11 @@ const HoatDongKhaiThacThuySanView = ({id}) => {
       //set data context so luong
 
       const updatedKhaiThac = {...khaiThac};
-      console.log('BEFORE: ', updatedKhaiThac);
+
       updatedKhaiThac.khaithac[indexRow][`loai_${existingItemIndex}_kl`] =
         value;
       updatedKhaiThac.khaithac[indexRow].tongsanluong = sum.toString();
-      console.log('UPDATE KHAITHAC', updatedKhaiThac);
+
       setKhaiThac(updatedKhaiThac);
     }
     setLoaiCa(list);

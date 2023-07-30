@@ -78,7 +78,7 @@ const HoatDongChuyenTaiView = () => {
     return (
       <View style={styles.form}>
         <View style={[styles.view1, styles.flexRow, {width: '100%'}]}>
-          <Text style={[styles.textValue, styles.flex1]}>STT: {index + 1}</Text>
+          <Text style={[styles.textTotal, styles.flex1]}>STT: {index + 1}</Text>
           <View style={[styles.flexRow, styles.flex1]}>
             <Text style={styles.textValue}>Ngày, tháng: </Text>
             <Text
@@ -188,18 +188,34 @@ const HoatDongChuyenTaiView = () => {
   const handleAddRow = () => {
     const newListForm = [...listForm, <_renderForm key={listForm.length} />];
     setListForm(newListForm);
-    textInput.push({
-      date: dateNowFormat(null),
-      shipRegisterNumber: '',
-      miningLicenseNumbewr: '',
-      latitude: '',
-      longitude: '',
-      speciesName: '',
-      weight: 0,
-    });
-    setTextInput(textInput);
+    // textInput.push({
+    //   date: dateNowFormat(null),
+    //   shipRegisterNumber: '',
+    //   miningLicenseNumbewr: '',
+    //   latitude: '',
+    //   longitude: '',
+    //   speciesName: '',
+    //   weight: 0,
+    // });
+    // setTextInput(textInput);
 
-    // handle data of context
+    // // handle data of context
+    // const newThuMuaObject = {
+    //   ngaythang: dateNowFormat(null),
+    //   tm_ct_bstau: '',
+    //   tm_ct_gpkt: '',
+    //   tm_ct_vt_vido: '',
+    //   tm_ct_vt_kinhdo: '',
+    //   daban_ct_loai: '',
+    //   daban_ct_khoiluong: '',
+    //   tm_ct_thuyentruong: '',
+    // };
+
+    // setThuMua(prevState => ({
+    //   ...prevState,
+    //   thumua: [...prevState.thumua, newThuMuaObject],
+    // }));
+
     const newThuMuaObject = {
       ngaythang: dateNowFormat(null),
       tm_ct_bstau: '',
@@ -211,10 +227,24 @@ const HoatDongChuyenTaiView = () => {
       tm_ct_thuyentruong: '',
     };
 
-    setThuMua(prevState => ({
-      ...prevState,
-      thumua: [...prevState.thumua, newThuMuaObject],
-    }));
+    if (data.thumua == undefined) {
+      textInput.push(newThuMuaObject);
+      setThuMua(prevState => ({
+        ...prevState,
+        thumua: [...prevState.thumua, newThuMuaObject],
+      }));
+    } else {
+      const obj = newThuMuaObject;
+      // obj.methu = (data.khaithac.length + 1).toString();
+
+      const newTextinput = [...textInput];
+      newTextinput.push(obj);
+      setTextInput(newTextinput);
+
+      const newThuMua = {...thuMua};
+      newThuMua.thumua.push(obj);
+      setThuMua(newThuMua);
+    }
   };
 
   const handleDeleteRow = () => {
@@ -235,7 +265,7 @@ const HoatDongChuyenTaiView = () => {
     //     thumua: updatedThuMua,
     //   }));
     // }
-    console.log('DELETE');
+    // console.log('DELETE');
     const newListForm = [...listForm];
     if (newListForm.length > 1) {
       newListForm.pop();
@@ -246,7 +276,7 @@ const HoatDongChuyenTaiView = () => {
       if (data.thumua != undefined) {
         const updatedThuMua = JSON.parse(JSON.stringify(thuMua.thumua));
         updatedThuMua[updatedThuMua.length - 1].isdelete = 1;
-        console.log('UPDATED VALUE: ', updatedThuMua);
+        // console.log('UPDATED VALUE: ', updatedThuMua);
         setThuMua({
           ...thuMua,
           thumua: updatedThuMua,

@@ -7,11 +7,11 @@ import RNHTMLtoPDF from 'react-native-html-to-pdf';
 
 export const ExportPDF = async (duLieu) => {
 
-    console.log('duLieu', duLieu);
-    console.log('duLieu', duLieu?.ngay_di);
-    console.log('duLieu', duLieu?.ngay_ve);
-    console.log('duLieu', duLieu?.ngaynop);
-    console.log('duoe', duLieu?.nghechinh)
+    // console.log('duLieu', duLieu);
+    // console.log('duLieu', duLieu?.ngay_di);
+    // console.log('duLieu', duLieu?.ngay_ve);
+    // console.log('duLieu', duLieu?.ngaynop);
+    // console.log('duoe', duLieu?.nghechinh)
 
     const ngayDiParts = duLieu?.ngay_di.split('-') || "''-''-''";
     const ngayDi = ngayDiParts[2];

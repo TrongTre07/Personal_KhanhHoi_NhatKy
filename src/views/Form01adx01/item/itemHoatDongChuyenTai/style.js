@@ -79,4 +79,9 @@ export const styles = StyleSheet.create({
       paddingBottom: 24,
       paddingTop: 12,
     },
+    textTotal: {
+      fontSize: 20,
+      color: '#000',
+      fontWeight: 'bold',
+    },
   });

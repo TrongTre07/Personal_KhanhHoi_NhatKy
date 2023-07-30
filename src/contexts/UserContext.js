@@ -70,13 +70,12 @@ const UserProvider = ({children}) => {
   //
   const postForm = async obj => {
     try {
-      console.log('OBJ POST: ', obj);
       const payload = obj;
       const response = await instance.post(
         'api/FormAppendix/0101/create',
         payload,
       );
-      
+
       if (response.data == false) {
         setIsErrorPost(true);
       } else {
@@ -149,7 +148,7 @@ const UserProvider = ({children}) => {
         const response = await instance.get(
           `/api/FormAppendix/getdetail_0101_byid/${id}`,
         );
-        console.log('RES GET: ', response.data);
+
         setInitialTitle(response.data.dairy_name);
         setData(await response.data);
       }
@@ -160,12 +159,10 @@ const UserProvider = ({children}) => {
 
   const updateForm = async obj => {
     try {
-      console.log('OBJ UPDATE: ', obj);
       const response = await instance.post(
         `/api/FormAppendix/0101/update`,
         obj,
       );
-      console.log('RES UPDATE: ', response.data);
       if (response.data == true) {
         Alert.alert('Thành công', 'Bạn đã cập nhật thành công!', [
           {
