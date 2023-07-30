@@ -110,7 +110,6 @@ const Form01adx01Diary = ({navigation}) => {
         {
           text: 'Xoá',
           onPress: async () => {
-            console.log('iiiiiiiiiiiiiiiiiiiiii', id);
             await deleteFormId(id);
             fetchdata();
           },

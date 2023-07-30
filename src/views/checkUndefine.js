@@ -1,4 +1,5 @@
 export const checkUndefine = (data) => {
+
     data.cang_di = data.cang_di === undefined ? '' : data.cang_di;
     data.cang_ve = data.cang_ve === undefined ? '' : data.cang_ve;
     data.chuyenbien_so = data.chuyenbien_so === undefined ? '' : data.chuyenbien_so;

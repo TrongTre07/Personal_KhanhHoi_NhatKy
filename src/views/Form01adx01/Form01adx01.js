@@ -148,13 +148,13 @@ const Form01adx01 = ({ route}) => {
         </TouchableOpacity> */}
         <TouchableOpacity
           style={[styles.actionDownload, styles.button]}
-          onPress={handleDownloadForm}>
-          <Text style={styles.actionText}>Tải mẫu</Text>
+          onPress={()=> navigation.navigate('ViewPDF',{id:id,data: handleFormatObject()})}>
+          <Text style={styles.actionText}>Xem mẫu</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={[styles.actionExportPDF, styles.button]}
           onPress={()=> ExportPDF(handleFormatObject())}>
-          <Text style={styles.actionText}>Xuất File</Text>
+          <Text style={styles.actionText}>Tải Mẫu</Text>
         </TouchableOpacity>
       </View>
     );
@@ -218,8 +218,8 @@ const Form01adx01 = ({ route}) => {
     await Storage.removeItem('form01adx01');
   };
 
-  const handleDownloadForm = () => {
-    console.log(handleFormatObject());
+  const handleViewPDFForm = () => {
+      
   };
 
  

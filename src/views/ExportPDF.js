@@ -8,21 +8,49 @@ import { checkUndefine } from './checkUndefine';
 export const ExportPDF = async (data) => {
 
     const duLieu = checkUndefine(data)
+    console.log('dulieu ne',duLieu)
+    let count = 1;
+    let countfirst = 1;
+    const ngayDiParts = duLieu?.ngay_di.split('-');
+    var ngayDi = ngayDiParts[2];
+    if (ngayDi == undefined) {
+        ngayDi = '...';
+    }
+    var thangDi = ngayDiParts[1];
+    if (thangDi == undefined) {
+        thangDi = '...';
+    }
+    var namDi = ngayDiParts[0];
+    if (namDi == undefined) {
+        namDi = '...';
+    }
+    const ngayVeParts = duLieu?.ngay_ve.split('-');
+    var ngayVe = ngayVeParts[2];
+    if (ngayVe == undefined) {
+        ngayVe = '...';
+    }
+    var thangVe = ngayVeParts[1];
+    if (thangVe == undefined) {
+        thangVe = '...';
+    }
+    var namVe = ngayVeParts[0];
+    if (namVe == undefined) {
+        namVe = '...';
+    }
+    const ngayNopParts = duLieu?.ngaynop.split('-');
+    var ngayNop = ngayNopParts[2];
+    if (ngayNop == undefined) {
+        ngayNop = '...';
+    }
+    var thangNop = ngayNopParts[1];
+    if (thangNop == undefined) {
+        thangNop = '...';
+    }
+    var namNop = ngayNopParts[0];
+    if (namNop == undefined) {
+        namNop = '...';
+    }
 
-    const ngayDiParts = duLieu?.ngay_di.split('-') || "''-''-''";
-    const ngayDi = ngayDiParts[2];
-    const thangDi = ngayDiParts[1];
-    const namDi = ngayDiParts[0];
-
-    const ngayVeParts = duLieu?.ngay_ve.split('-') || "''-''-''";
-    const ngayVe = ngayVeParts[2];
-    const thangVe = ngayVeParts[1];
-    const namVe = ngayVeParts[0];
-
-    const ngayNopParts = duLieu?.ngaynop.split('-') || "''-''-''";
-    const ngayNop = ngayNopParts[2];
-    const thangNop = ngayNopParts[1];
-    const namNop = ngayNopParts[0];
 
     const tongkhoiluong = duLieu.khaithac;
     console.log('tongkhoiluong', tongkhoiluong);
@@ -507,7 +535,7 @@ export const ExportPDF = async (data) => {
                         ${duLieu?.khaithac.map(line => `
                         <tr>
                             <td  class="border-table" >
-                                <p style="width: 100%; text-indent: 0pt;text-align: center; padding-top: 10pt;">${line?.methu}</p>
+                                <p style="width: 100%; text-indent: 0pt;text-align: center; padding-top: 10pt;">${count++}</p>
                             </td>
                             <td  class="border-table" style="padding: 2pt;">
                                 <p style=" text-indent: 0pt;text-align: center; word-wrap: break-word;">${line?.thoidiem_tha}</p>
@@ -691,7 +719,7 @@ export const ExportPDF = async (data) => {
             ${duLieu?.thumua.map(line => `
             <tr style="height:24pt">
                 <td style="width:28pt; padding: 5pt"" class="border-table">
-                    <p style="width: 100%;text-align: center; text-indent: 0pt;">${line?.id}</p>
+                    <p style="width: 100%;text-align: center; text-indent: 0pt;">${countfirst++}</p>
                 </td>
                 <td style="width:85pt;padding: 5pt"" class="border-table">
                     <p style="width: 100%;text-align: center; text-indent: 0pt;">${line?.ngaythang}</p>

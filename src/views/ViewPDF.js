@@ -19,9 +19,12 @@ const styles = StyleSheet.create({
 const ViewPDF = ({ route }) => { // Chú ý destructuring của tham số route
   const id = route.params?.id;
   const data = route.params?.data;
-  const name = data.find((item) => item.id === id);
-
-  console.log(name);
+  let name={dairy_name:'filemau'};
+  try {
+    name = data.find((item) => item.id === id);
+  } catch (error) {
+    name={dairy_name:'filemau'};
+  }
 
   const localfile = { uri: `/storage/emulated/0/Android/data/com.khanhhoiapp/files/pdf/${name.dairy_name}.pdf` };  
   return (
