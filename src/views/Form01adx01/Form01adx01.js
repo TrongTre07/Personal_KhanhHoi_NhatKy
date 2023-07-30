@@ -22,6 +22,9 @@ import { useNavigation } from '@react-navigation/native';
 import AlertInputComponent from '../../utils/AlertInputComponent';
 import { ExportPDF } from '../ExportPDF';
 const Form01adx01 = ({ route}) => {
+
+  console.log('render form01');
+
   const {
     thuMua,
     setThuMua,
@@ -38,8 +41,7 @@ const Form01adx01 = ({ route}) => {
 
   const { postForm, updateForm } = useContext(UserContext);
   const { isLoading, setIsLoading } = useContext(UserContext);
-  const { isErrorPost, setIsErrorPost, isErrorShip, setIsErrorShip, isErrorUpdate, setIsErrorUpdate } = useContext(UserContext);
-  const { initialTitle, setInitialTitle } = useContext(UserContext)
+  const { initialTitle,  } = useContext(UserContext)
 
   const netInfo = useNetInfo();
   const navigation = useNavigation();
@@ -49,11 +51,6 @@ const Form01adx01 = ({ route}) => {
 
   const id = route.params?.id;
   const { getDetailFormId, setData, data,goBackAlert,setGoBackAlert } = useContext(UserContext);
-  const isFocus = useIsFocused();
-
-  useEffect(() => {
-    setData({});
-  }, [!isFocus]);
 
   useEffect(() => {
     if (netInfo.isConnected) 
