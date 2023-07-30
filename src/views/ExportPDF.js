@@ -3,15 +3,11 @@ import { Alert, Pressable, StyleSheet, Text, View } from 'react-native';
 import { FormContext } from '../contexts/FormContext';
 import { UserContext } from '../contexts/UserContext';
 import RNHTMLtoPDF from 'react-native-html-to-pdf';
+import { checkUndefine } from './checkUndefine';
 
+export const ExportPDF = async (data) => {
 
-export const ExportPDF = async (duLieu) => {
-
-    // console.log('duLieu', duLieu);
-    // console.log('duLieu', duLieu?.ngay_di);
-    // console.log('duLieu', duLieu?.ngay_ve);
-    // console.log('duLieu', duLieu?.ngaynop);
-    // console.log('duoe', duLieu?.nghechinh)
+    const duLieu = checkUndefine(data)
 
     const ngayDiParts = duLieu?.ngay_di.split('-') || "''-''-''";
     const ngayDi = ngayDiParts[2];
