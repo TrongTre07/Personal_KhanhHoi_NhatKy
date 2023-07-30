@@ -275,7 +275,11 @@ const HoatDongChuyenTaiView = () => {
 
       if (data.thumua != undefined) {
         const updatedThuMua = JSON.parse(JSON.stringify(thuMua.thumua));
-        updatedThuMua[updatedThuMua.length - 1].isdelete = 1;
+        if (updatedThuMua[updatedThuMua.length - 1].isdelete == undefined) {
+          updatedThuMua.pop();
+        } else {
+          updatedThuMua[updatedThuMua.length - 1].isdelete = 1;
+        }
         // console.log('UPDATED VALUE: ', updatedThuMua);
         setThuMua({
           ...thuMua,

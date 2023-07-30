@@ -159,6 +159,7 @@ const UserProvider = ({children}) => {
 
   const updateForm = async obj => {
     try {
+      // console.log("OBJ: ", obj)
       const response = await instance.post(
         `/api/FormAppendix/0101/update`,
         obj,
@@ -174,7 +175,7 @@ const UserProvider = ({children}) => {
           },
         ]);
       }
-      console.log('FORM: ', obj);
+      // console.log('FORM: ', obj);
     } catch (error) {
       console.log('ERROR UPDATE: ', error);
       Alert.alert('Lỗi', 'Không thể cập nhật!', [

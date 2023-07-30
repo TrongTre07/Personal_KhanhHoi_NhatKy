@@ -110,7 +110,7 @@ const HoatDongKhaiThacThuySanView = ({id}) => {
       input.push(
         <View key={i} style={[styles.flex1, styles.mr16]}>
           <TextInput
-            placeholder="Loài"
+            placeholder={!isEditable ? 'Loài' : ''}
             editable={!isEditable}
             style={[styles.input]}
             value={valueLoai}
@@ -177,6 +177,7 @@ const HoatDongKhaiThacThuySanView = ({id}) => {
       }
 
       placeholder = `Mẻ ${index + 1}`;
+      // placeholder = `${index + 1}`;
 
       inputs.push(
         <View key={i} style={[styles.flex1, styles.mr16]}>
@@ -382,7 +383,7 @@ const HoatDongKhaiThacThuySanView = ({id}) => {
       }));
     } else {
       const obj = newKhaithacObject;
-      obj.methu = (data.khaithac.length + 1).toString();
+      // obj.methu = (data.khaithac.length + 1).toString();
 
       const newTextinput = [...textInput];
       newTextinput.push(obj);
@@ -423,8 +424,11 @@ const HoatDongKhaiThacThuySanView = ({id}) => {
       // const updatedKhaiThac = [...khaiThac.khaithac];
       if (data.khaithac != undefined) {
         const updatedKhaiThac = JSON.parse(JSON.stringify(khaiThac.khaithac));
-        updatedKhaiThac[updatedKhaiThac.length - 1].isdelete = 1;
-        // console.log('UPDATED VALUE: ', updatedKhaiThac);
+        if (updatedKhaiThac[updatedKhaiThac.length - 1].isdelete == undefined) {
+          updatedKhaiThac.pop();
+        } else {
+          updatedKhaiThac[updatedKhaiThac.length - 1].isdelete = 1;
+        }
         setKhaiThac({
           ...khaiThac,
           khaithac: updatedKhaiThac,
