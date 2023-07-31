@@ -121,7 +121,6 @@ const UserProvider = ({children}) => {
           'dataInfShip',
           JSON.stringify(dataship.data),
         );
-
         return response.data;
       }
     } catch (error) {

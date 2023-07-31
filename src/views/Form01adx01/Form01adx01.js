@@ -7,29 +7,27 @@ import {
   Alert,
   ToastAndroid,
 } from 'react-native';
-import React, { useContext, useEffect, useState } from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import HeaderView from './item/HeaderView';
 import TongCucThuySanView from './item/TongCucThuySanView';
 import HoatDongKhaiThacThuySanView from './item/HoatDongKhaiThacThuySanView';
 import HoatDongChuyenTaiView from './item/HoatDongChuyenTaiView';
-import { FormContext } from '../../contexts/FormContext';
+import {FormContext} from '../../contexts/FormContext';
 import Spinner from 'react-native-loading-spinner-overlay';
-import { useIsFocused } from '@react-navigation/native';
-import { UserContext } from '../../contexts/UserContext';
+import {useIsFocused} from '@react-navigation/native';
+import {UserContext} from '../../contexts/UserContext';
 import Storage from '../../utils/storage';
-import { useNetInfo } from '@react-native-community/netinfo';
-import { useNavigation } from '@react-navigation/native';
+import {useNetInfo} from '@react-native-community/netinfo';
+import {useNavigation} from '@react-navigation/native';
 import AlertInputComponent from '../../utils/AlertInputComponent';
-import { ExportPDF } from '../ExportPDF';
-const Form01adx01 = ({ route}) => {
-
-  console.log('render form01');
+import {ExportPDF} from '../ExportPDF';
+const Form01adx01 = ({route}) => {
+  // console.log('render form01');
 
   const {
     thuMua,
     setThuMua,
     thongTinTau,
-
     setThongTinTau,
     khaiThac,
     setKhaiThac,
@@ -39,24 +37,22 @@ const Form01adx01 = ({ route}) => {
   const [receivedData, setReceivedData] = useState('');
   const [initialValue, setInitialValue] = useState('');
 
-  const { postForm, updateForm } = useContext(UserContext);
-  const { isLoading, setIsLoading } = useContext(UserContext);
-  const { initialTitle,  } = useContext(UserContext)
+  const {postForm, updateForm} = useContext(UserContext);
+  const {isLoading, setIsLoading} = useContext(UserContext);
+  const {initialTitle} = useContext(UserContext);
 
   const netInfo = useNetInfo();
   const navigation = useNavigation();
 
   const [checkLocalEmpty, setCheckLocalEmpty] = useState();
 
-
   const id = route.params?.id;
-  const { getDetailFormId, setData, data,goBackAlert,setGoBackAlert } = useContext(UserContext);
+  const {getDetailFormId, setData, data, goBackAlert, setGoBackAlert} =
+    useContext(UserContext);
 
   useEffect(() => {
-    if (netInfo.isConnected) 
-      getDetailFormId(id);
-    else
-      getDataLocal();
+    if (netInfo.isConnected) getDetailFormId(id);
+    else getDataLocal();
   }, [netInfo]);
 
   //data local
@@ -79,7 +75,6 @@ const Form01adx01 = ({ route}) => {
 
   //nghe chinh
   useEffect(() => {
-
     if (data.nghechinh) {
       setInitialValue(data.dairy_name);
     }
@@ -94,7 +89,7 @@ const Form01adx01 = ({ route}) => {
   };
 
   const handleDataSubmit = value => {
-    console.log("VALUE: ", value)
+    console.log('VALUE: ', value);
     if (value == '') {
       Alert.alert('Lỗi', 'Bạn phải nhập tiêu đề', [
         {
@@ -104,7 +99,7 @@ const Form01adx01 = ({ route}) => {
           },
         },
       ]);
-      return
+      return;
     }
 
     if (thongTinTau.id == undefined) {
@@ -127,8 +122,8 @@ const Form01adx01 = ({ route}) => {
           <TouchableOpacity
             style={[styles.actionCreate, styles.button]}
             onPress={() => {
-              netInfo.isConnected ? handleUpdate() : handleUpdateDiary()
-              }}>
+              netInfo.isConnected ? handleUpdate() : handleUpdateDiary();
+            }}>
             <Text style={styles.actionText}>Cập nhật</Text>
           </TouchableOpacity>
         ) : (
@@ -145,12 +140,14 @@ const Form01adx01 = ({ route}) => {
         </TouchableOpacity> */}
         <TouchableOpacity
           style={[styles.actionDownload, styles.button]}
-          onPress={()=> navigation.navigate('ViewPDF',{id:id,data: handleFormatObject()})}>
+          onPress={() =>
+            navigation.navigate('ViewPDF', {id: id, data: handleFormatObject()})
+          }>
           <Text style={styles.actionText}>Xem mẫu</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={[styles.actionExportPDF, styles.button]}
-          onPress={()=> ExportPDF(handleFormatObject())}>
+          onPress={() => ExportPDF(handleFormatObject())}>
           <Text style={styles.actionText}>Tải Mẫu</Text>
         </TouchableOpacity>
       </View>
@@ -178,12 +175,11 @@ const Form01adx01 = ({ route}) => {
         await Storage.setItem('form01adx01', JSON.stringify(data));
         ToastAndroid.show('Tạo thành công', ToastAndroid.SHORT);
         setGoBackAlert(true);
-
       }
     } else if (string == 'create') {
       console.log('CREATE');
       await postForm(objectPost);
-      
+
       if (!thongTinTau.id_tau) {
         Alert.alert('Lỗi', 'Bạn phải chọn tàu!', [
           {
@@ -208,18 +204,14 @@ const Form01adx01 = ({ route}) => {
         ]);
       }
     }
-
   };
 
   const handleSaveForm = async () => {
     await Storage.removeItem('form01adx01');
   };
 
-  const handleViewPDFForm = () => {
-      
-  };
+  const handleViewPDFForm = () => {};
 
- 
   const handleExportPDF = () => {
     // setIsLoading(true);
     console.log('DATA: ', handleFormatObject());
@@ -239,7 +231,6 @@ const Form01adx01 = ({ route}) => {
 
       ToastAndroid.show('Cập nhật thành công', ToastAndroid.SHORT);
       setGoBackAlert(true);
-
     } else {
       // do something
     }
@@ -254,7 +245,7 @@ const Form01adx01 = ({ route}) => {
   };
   return (
     <ScrollView
-      contentContainerStyle={{ flexGrow: 1 }}
+      contentContainerStyle={{flexGrow: 1}}
       showsVerticalScrollIndicator={false}>
       <HeaderView />
       <TongCucThuySanView />
@@ -280,10 +271,10 @@ const Form01adx01 = ({ route}) => {
                 },
               },
             ]);
-          } else handleDataSubmit(value)
+          } else handleDataSubmit(value);
         }}
         initialValue={initialTitle}
-      // Pass the initial value as a prop
+        // Pass the initial value as a prop
       />
     </ScrollView>
   );

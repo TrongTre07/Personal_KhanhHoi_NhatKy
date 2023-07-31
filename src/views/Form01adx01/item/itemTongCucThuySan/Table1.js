@@ -120,7 +120,7 @@ const Table1 = ({
             4. Chiều dài lớn nhất của tàu:
           </Text>
           <TextInput
-            editable={false}
+            // editable={false}
             onChangeText={text => {
               setThongTinTau({...thongTinTau, tau_chieudailonnhat: value});
               setData({...data, tau_chieudailonnhat: text});
@@ -135,7 +135,7 @@ const Table1 = ({
             5. Tổng công xuất máy chính:
           </Text>
           <TextInput
-            editable={false}
+            // editable={false}
             onChangeText={text => {
               setThongTinTau({...thongTinTau, tau_tongcongsuatmaychinh: value});
               setData({...data, tau_tongcongsuatmaychinh: text});
@@ -153,7 +153,7 @@ const Table1 = ({
             6. Số giấy phép khai {'\n'} thác thuỷ sản:
           </Text>
           <TextInput
-            editable={false}
+            // editable={false}
             onChangeText={text => {
               setThongTinTau({...thongTinTau, gpkt_so: text});
               setData({...data, gpkt_so: text});
@@ -172,7 +172,7 @@ const Table1 = ({
             }}
             value={data.gpkt_thoihan}
             style={[styles.input, styles.text]}
-            editable={false}
+            // editable={false}
           />
           {/* <Pressable onPress={() => setOpen(true)}>
             <Image style={{ width: 16, height: 16 }} source={require('../../../../assets/images/calendar.png')} />
