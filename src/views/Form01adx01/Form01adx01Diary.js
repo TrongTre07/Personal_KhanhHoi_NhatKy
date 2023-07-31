@@ -73,8 +73,12 @@ const Form01adx01Diary = ({navigation}) => {
   const fetchdata = async () => {
     //sap xep lai danh sach theo thoi gian update
     const rawDiary = await getDiaryForm();
-    await rawDiary.sort(sortListForm);
-    setDataDiary(rawDiary);
+    try {
+      if (rawDiary != undefined) {
+        await rawDiary.sort(sortListForm);
+      }
+      setDataDiary(rawDiary);
+    } catch (error) {}
   };
 
   const sortListForm = (a, b) => {
