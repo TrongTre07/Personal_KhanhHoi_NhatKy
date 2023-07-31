@@ -171,7 +171,17 @@ const Form01adx01 = ({route}) => {
     if (!isConnect) {
       const dataForm = objectPost;
       const result = await Storage.getItem('form01adx01');
-      if (result !== null) {
+      if (!dataForm.id_tau) {
+        Alert.alert('Lỗi', 'Bạn phải chọn tàu!', [
+          {
+            text: 'OK',
+            onPress: () => {
+              // setIsErrorPost(false);
+            },
+          },
+        ]);
+      }
+      else if (result !== null) {
         const data = JSON.parse(result);
         data.push(dataForm);
         await Storage.setItem('form01adx01', JSON.stringify(data));
@@ -187,7 +197,6 @@ const Form01adx01 = ({route}) => {
       }
     } else if (string == 'create') {
       console.log('CREATE');
-      await postForm(objectPost);
 
       if (!thongTinTau.id_tau) {
         Alert.alert('Lỗi', 'Bạn phải chọn tàu!', [
@@ -198,6 +207,8 @@ const Form01adx01 = ({route}) => {
             },
           },
         ]);
+      }else{
+        await postForm(objectPost);
       }
     } else if (string == 'update') {
       console.log('UPDATED');

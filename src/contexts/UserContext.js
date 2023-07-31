@@ -90,7 +90,7 @@ const UserProvider = ({children}) => {
           },
         ]);
       }
-      console.log('RES: ', response.data);
+      console.log('RESs: ', response.data);
       setIsLoading(false);
       return response.data;
     } catch (error) {

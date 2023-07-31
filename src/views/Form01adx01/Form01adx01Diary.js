@@ -6,9 +6,9 @@ import {
   ScrollView,
   Alert,
 } from 'react-native';
-import React, {useContext, useEffect, useState, useCallback} from 'react';
-import {UserContext} from '../../contexts/UserContext';
-import {ExportPDF} from '../ExportPDF';
+import React, { useContext, useEffect, useState, useCallback } from 'react';
+import { UserContext } from '../../contexts/UserContext';
+import { ExportPDF } from '../ExportPDF';
 import {
   Table,
   TableWrapper,
@@ -16,18 +16,18 @@ import {
   Rows,
   Col,
 } from 'react-native-table-component';
-import {useFocusEffect, useNavigation} from '@react-navigation/native';
-import DocumentPicker, {types} from 'react-native-document-picker';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import DocumentPicker, { types } from 'react-native-document-picker';
 import FileViewer from 'react-native-file-viewer';
-import {StatusBar} from 'react-native';
-import {useNetInfo} from '@react-native-community/netinfo';
+import { StatusBar } from 'react-native';
+import { useNetInfo } from '@react-native-community/netinfo';
 import Storage from '../../utils/storage';
 import {
   convertStringToDate,
   convertStringToDateHour,
 } from './item/itemTongCucThuySan/formatdate';
 
-const Form01adx01Diary = ({navigation}) => {
+const Form01adx01Diary = ({ navigation }) => {
   const [dataDiary, setDataDiary] = useState([]);
 
   // console.log('-------------------------------------------', data);
@@ -61,23 +61,40 @@ const Form01adx01Diary = ({navigation}) => {
     }, [netInfo.isConnected]),
   );
 
+  // const autoPostForm = async () => {
+  //   const form = await Storage.getItem('form01adx01');
+  //   if (form !== null) {
+  //     const data = JSON.parse(form);
+
+  //     data.forEach(async item => {
+  //       const result = await postForm(item);
+  //       if (result) {
+  //         // delete item in data
+  //         const index = data.indexOf(item);
+  //         data.splice(index, 1);
+  //         await Storage.setItem('form01adx01', JSON.stringify(data));
+  //         setDataDiary(data);
+  //       }
+  //     });
+  //   };
+  // }
   const autoPostForm = async () => {
     const form = await Storage.getItem('form01adx01');
     if (form !== null) {
-      const data = JSON.parse(form);
-
-      data.forEach(async item => {
+      let data = JSON.parse(form);
+      const newData = [];
+  
+      for (const item of data) {
         const result = await postForm(item);
         if (result) {
-          // delete item in data
-          const index = data.indexOf(item);
-          data.splice(index, 1);
-          await Storage.setItem('form01adx01', JSON.stringify(data));
-          setDataDiary(data);
+        } else {
+          newData.push(item);
         }
-      });
+      }
+      await Storage.setItem('form01adx01', JSON.stringify(newData));
+      setDataDiary(newData);
+    }
   };
-}
 
   const fetchdata = async () => {
     //sap xep lai danh sach theo thoi gian update
@@ -87,7 +104,7 @@ const Form01adx01Diary = ({navigation}) => {
         await rawDiary.sort(sortListForm);
       }
       setDataDiary(rawDiary);
-    } catch (error) {}
+    } catch (error) { }
   };
 
   const sortListForm = (a, b) => {
@@ -156,7 +173,7 @@ const Form01adx01Diary = ({navigation}) => {
           },
         },
       ],
-      {cancelable: false},
+      { cancelable: false },
     );
   };
 
@@ -180,7 +197,7 @@ const Form01adx01Diary = ({navigation}) => {
           },
         },
       ],
-      {cancelable: false},
+      { cancelable: false },
     );
 
     // delete object at index
@@ -198,19 +215,19 @@ const Form01adx01Diary = ({navigation}) => {
     }
   }, []);
 
-  const elementButton = id => (
+  const elementButton = (id, index) => (
     <View style={styles.boxbtn}>
       <TouchableOpacity
         onPress={() => {
-          navigation.navigate('ViewPDF', {id: id, data: dataDiary});
+          navigation.navigate('ViewPDF', { id: id, data: dataDiary });
         }}>
-        <View style={[styles.btn, {backgroundColor: '#99FF33'}]}>
+        <View style={[styles.btn, { backgroundColor: '#99FF33' }]}>
           <Text style={styles.btnText}>Xem</Text>
         </View>
       </TouchableOpacity>
       <TouchableOpacity
-        onPress={() => navigation.navigate('form01adx01', {id: !netInfo.isConnected ? index : id})}>
-        <View style={[styles.btn, {backgroundColor: '#00FFFF'}]}>
+        onPress={() => navigation.navigate('form01adx01', { id: !netInfo.isConnected ? index : id })}>
+        <View style={[styles.btn, { backgroundColor: '#00FFFF' }]}>
           <Text style={styles.btnText}>Sửa</Text>
         </View>
       </TouchableOpacity>
@@ -218,12 +235,12 @@ const Form01adx01Diary = ({navigation}) => {
         onPress={() => {
           handleGeneratePDF(id);
         }}>
-        <View style={[styles.btn, {backgroundColor: '#FF99FF'}]}>
+        <View style={[styles.btn, { backgroundColor: '#FF99FF' }]}>
           <Text style={styles.btnText}>Tải xuống</Text>
         </View>
       </TouchableOpacity>
-      <TouchableOpacity onPress={() => {!netInfo.isConnected ? handleDeleteFormLocal(index) : handleDelete(id)} }>
-        <View style={[styles.btn, {backgroundColor: '#FF3333'}]}>
+      <TouchableOpacity onPress={() => { !netInfo.isConnected ? handleDeleteFormLocal(index) : handleDelete(id) }}>
+        <View style={[styles.btn, { backgroundColor: '#FF3333' }]}>
           <Text style={styles.btnText}>Xoá</Text>
         </View>
       </TouchableOpacity>
@@ -238,7 +255,7 @@ const Form01adx01Diary = ({navigation}) => {
     item.chuyenbien_so,
     convertStringToDateHour(item.date_create),
     convertStringToDateHour(item.date_modified),
-    elementButton(item.id),
+    elementButton(item.id, index),
   ]);
 
   //colum
@@ -259,7 +276,7 @@ const Form01adx01Diary = ({navigation}) => {
   return (
     <View style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
-        <Table borderStyle={{borderWidth: 1}}>
+        <Table borderStyle={{ borderWidth: 1 }}>
           <Row
             data={state.tableHead}
             flexArr={[0.8, 1, 2, 1.5, 1.5, 2, 2, 3.5]}

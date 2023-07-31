@@ -9,10 +9,13 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 import styles from './styles';
 import Storage from '../../utils/storage';
 import { useNetInfo } from '@react-native-community/netinfo';
+import { UserContext } from '../../contexts/UserContext';
+
 const Stack = createStackNavigator();
 const Form01Navigation = () => {
     const navigation = useNavigation();
     const netInfo = useNetInfo();
+
     const {setData} = useContext(UserContext);
     useEffect(()=>{
       setData({})
