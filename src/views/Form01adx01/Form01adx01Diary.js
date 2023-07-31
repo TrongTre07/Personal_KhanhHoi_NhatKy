@@ -114,9 +114,6 @@ const Form01adx01Diary = ({ navigation }) => {
     return dateA - dateB;
   };
 
-  useEffect(() => {
-    if (netInfo.isConnected) fetchdata();
-  }, []);
 
   //tranh goi ham nhieu lan khi o ben ngoai
   const [template, setTemplate] = useState(false);
@@ -159,9 +156,10 @@ const Form01adx01Diary = ({ navigation }) => {
     React.useCallback(() => {
       if (netInfo.isConnected)
         fetchdata();
-      else getDataLocal();
+      else 
+        getDataLocal();
 
-    }, [netInfo]),
+    }, [netInfo.isConnected]),
   );
 
   const handleDelete = id => {

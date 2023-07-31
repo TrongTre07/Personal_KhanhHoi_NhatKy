@@ -1,5 +1,5 @@
 // LoginContext.js
-import React, {createContext, useEffect, useState} from 'react';
+import React, {createContext, useEffect, useState,useMemo} from 'react';
 import instance from '../axios/instance';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useNavigation} from '@react-navigation/native';
@@ -122,6 +122,8 @@ const UserProvider = ({children}) => {
           'dataInfShip',
           JSON.stringify(dataship.data),
         );
+        console.log('GET diary: ');
+
         return response.data;
       }
     } catch (error) {
@@ -189,34 +191,64 @@ const UserProvider = ({children}) => {
     }
   };
 
-  const contextValues = {
-    isLoggedIn,
-    setIsLoggedIn,
-    login,
-    token,
-    setToken,
-    postForm,
-    isLoading,
-    setIsLoading,
-    isErrorPost,
-    setIsErrorPost,
-    isErrorShip,
-    setIsErrorShip,
-    isErrorUpdate,
-    setIsErrorUpdate,
-    getDiaryForm,
-    deleteFormId,
-    dataInfShip,
-    data,
-    setData,
-    getDetailFormId,
-    updateForm,
-    initialTitle,
-    setInitialTitle,
-    setDataInfShip,
-    goBackAlert,
-    setGoBackAlert,
-  };
+  const contextValues = useMemo(
+    () => ({
+      isLoggedIn,
+      setIsLoggedIn,
+      login,
+      token,
+      setToken,
+      postForm,
+      isLoading,
+      setIsLoading,
+      isErrorPost,
+      setIsErrorPost,
+      isErrorShip,
+      setIsErrorShip,
+      isErrorUpdate,
+      setIsErrorUpdate,
+      getDiaryForm,
+      deleteFormId,
+      dataInfShip,
+      data,
+      setData,
+      getDetailFormId,
+      updateForm,
+      initialTitle,
+      setInitialTitle,
+      setDataInfShip,
+      goBackAlert,
+      setGoBackAlert,
+    }),
+    [
+      isLoggedIn,
+      setIsLoggedIn,
+      login,
+      token,
+      setToken,
+      postForm,
+      isLoading,
+      setIsLoading,
+      isErrorPost,
+      setIsErrorPost,
+      isErrorShip,
+      setIsErrorShip,
+      isErrorUpdate,
+      setIsErrorUpdate,
+      getDiaryForm,
+      deleteFormId,
+      dataInfShip,
+      data,
+      setData,
+      getDetailFormId,
+      updateForm,
+      initialTitle,
+      setInitialTitle,
+      setDataInfShip,
+      goBackAlert,
+      setGoBackAlert,
+    ]
+  );
 
   return (
     <UserContext.Provider value={contextValues}>

@@ -3,25 +3,16 @@ import axios from 'axios';
 import Storage from '../utils/storage';
 import DeviceInfo from 'react-native-device-info';
 
-// or ES6+ destructured imports
-
-// import { getUniqueId, getManufacturer } from 'react-native-device-info';
-
-
-
 const instance = axios.create({
   baseURL: 'https://api-bieumau.khanhhoi.net/',
 });
 
-let Clientip;
-
-
 instance.interceptors.request.use(
   async config => {
 
-    Clientip = await DeviceInfo.getIpAddress();
+    const Clientip = await DeviceInfo.getIpAddress();
     console.log('clientip',Clientip)
-    
+      
     const APIKey = await Storage.getItem('token');
     config.headers['Clientip'] = Clientip;
     config.headers['APIKey'] = APIKey;
@@ -29,6 +20,7 @@ instance.interceptors.request.use(
     return config;
   },
   error => {
+    console.log('hehe',error);
     return Promise.reject(error);
   },
 );
