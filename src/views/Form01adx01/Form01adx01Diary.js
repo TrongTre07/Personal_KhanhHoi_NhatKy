@@ -22,6 +22,10 @@ import FileViewer from 'react-native-file-viewer';
 import {StatusBar} from 'react-native';
 import {useNetInfo} from '@react-native-community/netinfo';
 import Storage from '../../utils/storage';
+import {
+  convertStringToDate,
+  convertStringToDateHour,
+} from './item/itemTongCucThuySan/formatdate';
 
 const Form01adx01Diary = ({navigation}) => {
   const [dataDiary, setDataDiary] = useState([]);
@@ -76,12 +80,25 @@ const Form01adx01Diary = ({navigation}) => {
 }
 
   const fetchdata = async () => {
-    setDataDiary(await getDiaryForm());
+    //sap xep lai danh sach theo thoi gian update
+    const rawDiary = await getDiaryForm();
+    try {
+      if (rawDiary != undefined) {
+        await rawDiary.sort(sortListForm);
+      }
+      setDataDiary(rawDiary);
+    } catch (error) {}
   };
-  useEffect( ()=>{
-    if(netInfo.isConnected)
-    fetchdata();
-  },[])
+
+  const sortListForm = (a, b) => {
+    const dateA = new Date(a.date_modified);
+    const dateB = new Date(b.date_modified);
+    return dateA - dateB;
+  };
+
+  useEffect(() => {
+    if (netInfo.isConnected) fetchdata();
+  }, []);
 
   //tranh goi ham nhieu lan khi o ben ngoai
   const [template, setTemplate] = useState(false);
@@ -181,7 +198,7 @@ const Form01adx01Diary = ({navigation}) => {
     }
   }, []);
 
-  const elementButton = (id, index) => (
+  const elementButton = id => (
     <View style={styles.boxbtn}>
       <TouchableOpacity
         onPress={() => {
@@ -219,9 +236,9 @@ const Form01adx01Diary = ({navigation}) => {
     item.tau_bs,
     item.ten_thuyentruong,
     item.chuyenbien_so,
-    item.date_create,
-    item.date_create,
-    elementButton(item.id, index),
+    convertStringToDateHour(item.date_create),
+    convertStringToDateHour(item.date_modified),
+    elementButton(item.id),
   ]);
 
   //colum

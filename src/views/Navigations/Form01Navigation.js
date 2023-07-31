@@ -1,5 +1,6 @@
 import { View, Text, TouchableOpacity, StyleSheet, Image, ToastAndroid } from 'react-native'
-import React from 'react'
+import React, { useContext, useEffect } from 'react';
+
 import Form01adx01 from '../Form01adx01/Form01adx01';
 import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
@@ -12,7 +13,11 @@ const Stack = createStackNavigator();
 const Form01Navigation = () => {
     const navigation = useNavigation();
     const netInfo = useNetInfo();
-
+    const {setData} = useContext(UserContext);
+    useEffect(()=>{
+      setData({})
+    },[])
+  
     const handleNavigateForm01adx01 = async () => {
         navigation.navigate('form01adx01');
     }

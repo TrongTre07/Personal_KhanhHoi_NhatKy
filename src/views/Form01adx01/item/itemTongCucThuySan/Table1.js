@@ -10,12 +10,11 @@ import {dateNowFormat} from './formatdate';
 import CustomDatePicker from './CustomDatePicker';
 
 import {UserContext} from '../../../../contexts/UserContext';
-import { useNetInfo } from '@react-native-community/netinfo';
+import {useNetInfo} from '@react-native-community/netinfo';
 import Storage from '../../../../utils/storage';
-const Table1 = ({
-}) => {
+const Table1 = ({}) => {
   //data
-  const {dataInfShip,data,setData, setDataInfShip} = useContext(UserContext);
+  const {dataInfShip, data, setData, setDataInfShip} = useContext(UserContext);
   const netInfo = useNetInfo();
 
   // check ko có wifi thì lấy dataInfShip từ local
@@ -23,7 +22,7 @@ const Table1 = ({
     if (!netInfo.isConnected) {
       getShipInfo();
     }
-  }, [netInfo.isConnected])
+  }, [netInfo.isConnected]);
 
   const getShipInfo = async () => {
     const result = await Storage.getItem('dataInfShip');
@@ -31,7 +30,7 @@ const Table1 = ({
       const dataShip = JSON.parse(result);
       setDataInfShip(dataShip);
     }
-  }
+  };
 
   const {thongTinTau, setThongTinTau} = useContext(FormContext);
   useEffect(() => {
@@ -81,38 +80,44 @@ const Table1 = ({
             selectedValue={data.tau_bs}
             style={[styles.input]}
             onValueChange={(itemValue, itemIndex) => {
-              //tau_bs và tentau là 1
-              const dataInf = dataInfShip.find(
-                item => itemValue === item.tentau,
-              );
-              setData({
-                ...data,
-                tau_bs: dataInf?.tentau,
-                gpkt_so: dataInf?.gpkt,
-                id_tau: dataInf?.idShip.toString(),
-                tau_chieudailonnhat: dataInf?.chieudailonnhat + '',
-                tau_tongcongsuatmaychinh: dataInf?.congsuat + '',
-                gpkt_thoihan: dataInf?.gpkt_thoihan,
-              });
-              setThongTinTau({
-                ...thongTinTau,
-                tau_bs: dataInf?.tentau,
-                gpkt_so: dataInf?.gpkt,
-                id_tau: dataInf?.idShip.toString(),
-                tau_chieudailonnhat: dataInf?.chieudailonnhat + '',
-                tau_tongcongsuatmaychinh: dataInf?.congsuat + '',
-                gpkt_thoihan: dataInf?.gpkt_thoihan,
-              });
+              if (itemValue) {
+                const dataInf = dataInfShip[itemIndex - 1];
+                setData({
+                  ...data,
+                  tau_bs: dataInf?.tentau,
+                  gpkt_so: dataInf?.gpkt,
+                  id_tau: dataInf?.idShip.toString(),
+                  tau_chieudailonnhat: dataInf?.chieudailonnhat + '',
+                  tau_tongcongsuatmaychinh: dataInf?.congsuat + '',
+                  gpkt_thoihan: dataInf?.gpkt_thoihan,
+                });
+                setThongTinTau({
+                  ...thongTinTau,
+                  tau_bs: dataInf?.tentau,
+                  gpkt_so: dataInf?.gpkt,
+                  id_tau: dataInf?.idShip.toString(),
+                  tau_chieudailonnhat: dataInf?.chieudailonnhat + '',
+                  tau_tongcongsuatmaychinh: dataInf?.congsuat + '',
+                  gpkt_thoihan: dataInf?.gpkt_thoihan,
+                });
+              }
             }}>
-            <Picker.Item style={styles.text} label="- Chọn tàu -" value="" />
-            {dataInfShip.map((value, key) => (
-              <Picker.Item
-                key={key}
-                style={styles.text}
-                label={value.tentau}
-                value={value.tentau}
-              />
-            ))}
+            <Picker.Item
+              enabled={false}
+              style={styles.text}
+              label="- Chọn tàu -"
+              value=""
+            />
+            {dataInfShip.map((value, index) => {
+              return (
+                <Picker.Item
+                  key={index}
+                  style={styles.text}
+                  label={value.tentau}
+                  value={value.tentau}
+                />
+              );
+            })}
           </Picker>
         </View>
         <View style={[styles.row, {width: '33%', height: 'auto'}]}>
@@ -120,7 +125,7 @@ const Table1 = ({
             4. Chiều dài lớn nhất của tàu:
           </Text>
           <TextInput
-            editable={false}
+            // editable={false}
             onChangeText={text => {
               setThongTinTau({...thongTinTau, tau_chieudailonnhat: value});
               setData({...data, tau_chieudailonnhat: text});
@@ -135,7 +140,7 @@ const Table1 = ({
             5. Tổng công xuất máy chính:
           </Text>
           <TextInput
-            editable={false}
+            // editable={false}
             onChangeText={text => {
               setThongTinTau({...thongTinTau, tau_tongcongsuatmaychinh: value});
               setData({...data, tau_tongcongsuatmaychinh: text});
@@ -153,7 +158,7 @@ const Table1 = ({
             6. Số giấy phép khai {'\n'} thác thuỷ sản:
           </Text>
           <TextInput
-            editable={false}
+            // editable={false}
             onChangeText={text => {
               setThongTinTau({...thongTinTau, gpkt_so: text});
               setData({...data, gpkt_so: text});
@@ -168,7 +173,7 @@ const Table1 = ({
           <TextInput
             onChangeText={text => {
               setThongTinTau({...thongTinTau, gpkt_thoihan: text});
-              setData({...data, gpkt_thoihan: text});
+              // setData({...data, gpkt_thoihan: text});
             }}
             value={data.gpkt_thoihan}
             style={[styles.input, styles.text]}
