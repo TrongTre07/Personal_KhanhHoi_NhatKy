@@ -1,32 +1,52 @@
-import { View, Text, StyleSheet, TouchableOpacity,ScrollView, Alert } from 'react-native'
-import React, { useContext, useEffect, useState,useCallback } from 'react'
-import { UserContext } from '../../contexts/UserContext';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  ScrollView,
+  Alert,
+} from 'react-native';
+import React, {useContext, useEffect, useState, useCallback} from 'react';
+import {UserContext} from '../../contexts/UserContext';
 import {ExportPDF} from '../ExportPDF';
-import { Table, TableWrapper, Row, Rows, Col } from 'react-native-table-component';
-import { useFocusEffect, useNavigation } from '@react-navigation/native';
-import DocumentPicker, { types } from 'react-native-document-picker';
-import FileViewer from "react-native-file-viewer";
-import { StatusBar } from 'react-native';
-import { useNetInfo } from '@react-native-community/netinfo';
+import {
+  Table,
+  TableWrapper,
+  Row,
+  Rows,
+  Col,
+} from 'react-native-table-component';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
+import DocumentPicker, {types} from 'react-native-document-picker';
+import FileViewer from 'react-native-file-viewer';
+import {StatusBar} from 'react-native';
+import {useNetInfo} from '@react-native-community/netinfo';
 import Storage from '../../utils/storage';
 
 const Form01adx01Diary = ({navigation}) => {
-
-
   const [dataDiary, setDataDiary] = useState([]);
-  
+
   // console.log('-------------------------------------------', data);
   // console.log('dataInfShip',dataInfShip);
 
-  const {getDiaryForm, deleteFormId, dataInfShip,isLoggedIn,postForm,getDetailFormId, data,setData} = useContext(UserContext);
+  const {
+    getDiaryForm,
+    deleteFormId,
+    dataInfShip,
+    isLoggedIn,
+    postForm,
+    getDetailFormId,
+    data,
+    setData,
+  } = useContext(UserContext);
 
   const netInfo = useNetInfo();
 
-  useEffect(()=>{
-    if(!isLoggedIn){
-      setDataDiary([])
+  useEffect(() => {
+    if (!isLoggedIn) {
+      setDataDiary([]);
     }
-  },[isLoggedIn])
+  }, [isLoggedIn]);
 
   // check neu co wifi thi post file o local len server
   useFocusEffect(
@@ -37,23 +57,27 @@ const Form01adx01Diary = ({navigation}) => {
     }, [netInfo.isConnected]),
   );
 
-
-
   const autoPostForm = async () => {
     const form = await Storage.getItem('form01adx01');
     if (form !== null) {
       const data = JSON.parse(form);
-      // check response true thi xoa form
-      const result = await postForm(data[0]);
-      if (result) {
-        await Storage.removeItem('form01adx01');
-      }
-    }
+
+      data.forEach(async item => {
+        const result = await postForm(item);
+        if (result) {
+          // delete item in data
+          const index = data.indexOf(item);
+          data.splice(index, 1);
+          await Storage.setItem('form01adx01', JSON.stringify(data));
+          setDataDiary(data);
+        }
+      });
   };
+}
 
   const fetchdata = async () => {
     setDataDiary(await getDiaryForm());
-   }
+  };
   useEffect( ()=>{
     if(netInfo.isConnected)
     fetchdata();
@@ -61,18 +85,17 @@ const Form01adx01Diary = ({navigation}) => {
 
   //tranh goi ham nhieu lan khi o ben ngoai
   const [template, setTemplate] = useState(false);
-  const handleGeneratePDF = (id) => {
-     getDetailFormId(id);
-     setTemplate(true);
-  }; 
+  const handleGeneratePDF = id => {
+    getDetailFormId(id);
+    setTemplate(true);
+  };
 
   useEffect(() => {
-    if(data&&template){
-      ExportPDF(data); 
-     setTemplate(false);
-
+    if (data && template) {
+      ExportPDF(data);
+      setTemplate(false);
     }
-  }, [data,setTemplate]);
+  }, [data, setTemplate]);
 
   // const handerleViewPDF = (number) => {
   //   getDetailFormId(number);
@@ -92,13 +115,14 @@ const Form01adx01Diary = ({navigation}) => {
   // nếu không có wifi, lấy data từ local
   useFocusEffect(
     React.useCallback(() => {
-      if (netInfo.isConnected) 
+      if (netInfo.isConnected)
         fetchdata();
       else getDataLocal();
+
     }, [netInfo]),
   );
 
-   const handleDelete = (id) => {
+  const handleDelete = id => {
     Alert.alert(
       'Xác nhận xoá',
       'Bạn có chắc chắn muốn xoá dữ liệu này?',
@@ -118,62 +142,102 @@ const Form01adx01Diary = ({navigation}) => {
       {cancelable: false},
     );
   };
+
+  const handleDeleteFormLocal = index => {
+    Alert.alert(
+      'Xác nhận xoá',
+      'Bạn có chắc chắn muốn xoá dữ liệu này?',
+      [
+        {
+          text: 'Hủy',
+          style: 'cancel',
+        },
+        {
+          text: 'Xoá',
+          onPress: async () => {
+            // delete object at index
+            const newData = [...dataDiary];
+            newData.splice(index, 1);
+            await Storage.setItem('form01adx01', JSON.stringify(newData)); // update lại data vừa xoá
+            setDataDiary(newData);
+          },
+        },
+      ],
+      {cancelable: false},
+    );
+
+    // delete object at index
+    console.log(index);
+  };
+
   const handleDocumentSelection = useCallback(async () => {
-
     try {
-        const res = await DocumentPicker.pick({
-          type: [DocumentPicker.types.allFiles],
-        });
-        await FileViewer.open(res[0].uri);
-      } catch (e) {
-        console.log('error', e);
-      }
-}, []);
+      const res = await DocumentPicker.pick({
+        type: [DocumentPicker.types.allFiles],
+      });
+      await FileViewer.open(res[0].uri);
+    } catch (e) {
+      console.log('error', e);
+    }
+  }, []);
 
-  const elementButton = (id) => (
+  const elementButton = (id, index) => (
     <View style={styles.boxbtn}>
-      <TouchableOpacity onPress={()=>{ navigation.navigate('ViewPDF',{id : id,data: dataDiary});}}>
-      <View style={[styles.btn,{backgroundColor:'#99FF33'}]}>
+      <TouchableOpacity
+        onPress={() => {
+          navigation.navigate('ViewPDF', {id: id, data: dataDiary});
+        }}>
+        <View style={[styles.btn, {backgroundColor: '#99FF33'}]}>
           <Text style={styles.btnText}>Xem</Text>
         </View>
       </TouchableOpacity>
-      <TouchableOpacity 
-          onPress={() => navigation.navigate('form01adx01',{id:id})}
-      >
-        <View style={[styles.btn,{backgroundColor:'#00FFFF'}]}>
+      <TouchableOpacity
+        onPress={() => navigation.navigate('form01adx01', {id: !netInfo.isConnected ? index : id})}>
+        <View style={[styles.btn, {backgroundColor: '#00FFFF'}]}>
           <Text style={styles.btnText}>Sửa</Text>
         </View>
-      </TouchableOpacity>      
-      <TouchableOpacity  onPress={() => { handleGeneratePDF(id)}}>
-        <View style={[styles.btn,{backgroundColor:'#FF99FF'}]}>
+      </TouchableOpacity>
+      <TouchableOpacity
+        onPress={() => {
+          handleGeneratePDF(id);
+        }}>
+        <View style={[styles.btn, {backgroundColor: '#FF99FF'}]}>
           <Text style={styles.btnText}>Tải xuống</Text>
         </View>
       </TouchableOpacity>
-      <TouchableOpacity onPress={() => handleDelete(id)}>
+      <TouchableOpacity onPress={() => {!netInfo.isConnected ? handleDeleteFormLocal(index) : handleDelete(id)} }>
         <View style={[styles.btn, {backgroundColor: '#FF3333'}]}>
           <Text style={styles.btnText}>Xoá</Text>
         </View>
       </TouchableOpacity>
     </View>
   );
-//data
-    const selectedData = dataDiary?.map((item,index) => ([
-      index,
-      item.dairy_name,
-      item.tau_bs,
-      item.ten_thuyentruong,
-      item.chuyenbien_so,
-      item.date_create,
-      item.date_create,elementButton(item.id) ]));
-
+  //data
+  const selectedData = dataDiary?.map((item, index) => [
+    index,
+    item.dairy_name,
+    item.tau_bs,
+    item.ten_thuyentruong,
+    item.chuyenbien_so,
+    item.date_create,
+    item.date_create,
+    elementButton(item.id, index),
+  ]);
 
   //colum
   let state = {
-    tableHead: ['STT', 'Tên', 'Số tàu', 'Thuyền trưởng', 'Chuyển biển số', 'Ngày tạo', 'Sửa đổi lần cuối', 'Thao tác'],
-    tableColum: selectedData
-
-  }
-  
+    tableHead: [
+      'STT',
+      'Tên',
+      'Số tàu',
+      'Thuyền trưởng',
+      'Chuyển biển số',
+      'Ngày tạo',
+      'Sửa đổi lần cuối',
+      'Thao tác',
+    ],
+    tableColum: selectedData,
+  };
 
   return (
     <View style={styles.container}>

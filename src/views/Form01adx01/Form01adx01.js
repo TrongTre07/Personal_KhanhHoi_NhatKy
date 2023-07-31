@@ -46,26 +46,29 @@ const Form01adx01 = ({ route}) => {
   const netInfo = useNetInfo();
   const navigation = useNavigation();
 
-  const [checkLocalEmpty, setCheckLocalEmpty] = useState();
-
-
   const id = route.params?.id;
   const { getDetailFormId, setData, data,goBackAlert,setGoBackAlert } = useContext(UserContext);
 
   useEffect(() => {
-    if (netInfo.isConnected) 
-      getDetailFormId(id);
-    else
-      getDataLocal();
-  }, [netInfo]);
+    if (id != undefined) {
 
-  //data local
+      if (!netInfo.isConnected) 
+        getDetailFormId(id);
+      else
+        getDataLocal();
+    } else {
+      setData({});
+
+    }
+  }, [netInfo, id]);
+
+  // render data local to form
   const getDataLocal = async () => {
     const result = await Storage.getItem('form01adx01');
-    setCheckLocalEmpty(result);
     if (result !== null) {
       const data = JSON.parse(result);
-      setData(data[0]);
+      if (data.length > 0)
+        setData(data[id]);
     }
   };
 
@@ -123,11 +126,11 @@ const Form01adx01 = ({ route}) => {
   const _renderActionView = () => {
     return (
       <View style={styles.action}>
-        {id || checkLocalEmpty != null ? (
+        {id != undefined ? (
           <TouchableOpacity
             style={[styles.actionCreate, styles.button]}
             onPress={() => {
-              netInfo.isConnected ? handleUpdate() : handleUpdateDiary()
+              netInfo.isConnected ? handleUpdate() : handleUpdateDiaryLocal()
               }}>
             <Text style={styles.actionText}>Cập nhật</Text>
           </TouchableOpacity>
@@ -166,19 +169,19 @@ const Form01adx01 = ({ route}) => {
     if (!isConnect) {
       const dataForm = objectPost;
       const result = await Storage.getItem('form01adx01');
-
       if (result !== null) {
-        ToastAndroid.show(
-          'Hiện đang có form chưa được lưu',
-          ToastAndroid.SHORT,
-        );
+        const data = JSON.parse(result);
+        data.push(dataForm);
+        await Storage.setItem('form01adx01', JSON.stringify(data));
+        ToastAndroid.show('Tạo thành công', ToastAndroid.SHORT);
+        setGoBackAlert(true);
       } else {
         const data = [];
         data.push(dataForm);
         await Storage.setItem('form01adx01', JSON.stringify(data));
         ToastAndroid.show('Tạo thành công', ToastAndroid.SHORT);
         setGoBackAlert(true);
-
+        // refresh form
       }
     } else if (string == 'create') {
       console.log('CREATE');
@@ -226,23 +229,22 @@ const Form01adx01 = ({ route}) => {
   };
 
   // check ko có wifi thì update local
-  const handleUpdateDiary = async () => {
-    if (!netInfo.isConnected) {
+  const handleUpdateDiaryLocal = async () => {
       const dataForm = handleFormatObject();
-      // xoá local cũ
-      await Storage.removeItem('form01adx01');
-
-      // lưu local mới
-      const data = [];
-      data.push(dataForm);
-      await Storage.setItem('form01adx01', JSON.stringify(data));
-
+      const result = await Storage.getItem('form01adx01');
+      if (result !== null) {
+        const data = JSON.parse(result);
+        data[id] = dataForm;
+        await Storage.setItem('form01adx01', JSON.stringify(data));
+      }
       ToastAndroid.show('Cập nhật thành công', ToastAndroid.SHORT);
       setGoBackAlert(true);
+  };
 
-    } else {
-      // do something
-    }
+  const handleRefreshForm = () => {
+    setThongTinTau({});
+    setKhaiThac({});
+    setThuMua({});
   };
 
   const handleFormatObject = () => {

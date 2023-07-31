@@ -14,17 +14,7 @@ const Form01Navigation = () => {
     const netInfo = useNetInfo();
 
     const handleNavigateForm01adx01 = async () => {
-      if (!netInfo.isConnected) {
-        const result = await Storage.getItem('form01adx01');
-        console.log(result)
-        if (result == null) {
-          navigation.navigate('form01adx01');
-        } else {
-          ToastAndroid.show('Hiện có nhật ký chưa được lưu, vui lòng kết nối lại internet', ToastAndroid.SHORT);
-        }
-      } else {
         navigation.navigate('form01adx01');
-      }
     }
 
     return (
