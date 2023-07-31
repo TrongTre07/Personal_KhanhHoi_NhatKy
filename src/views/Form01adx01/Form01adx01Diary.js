@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import React, { useContext, useEffect, useState, useCallback } from 'react';
 import { UserContext } from '../../contexts/UserContext';
-import { ExportPDF } from '../ExportPDF';
+import { ExportPDF } from './pdfForm01/ExportPDF';
 import {
   Table,
   TableWrapper,
@@ -26,6 +26,7 @@ import {
   convertStringToDate,
   convertStringToDateHour,
 } from './item/itemTongCucThuySan/formatdate';
+import { PrintfPDF } from './pdfForm01/PrintfPDF';
 
 const Form01adx01Diary = ({ navigation }) => {
   const [dataDiary, setDataDiary] = useState([]);
@@ -131,11 +132,18 @@ const Form01adx01Diary = ({ navigation }) => {
     }
   }, [data, setTemplate]);
 
-  // const handerleViewPDF = (number) => {
-  //   getDetailFormId(number);
-  //   const id = data.dairy_name;
-  //   navigation.navigate('ViewPDF',{id : id});
-  // };
+
+  const [printf, setPrintf] = useState(false);
+  const handerlePrintPDF = (id) => {
+    getDetailFormId(id);
+    setPrintf(true);
+  };
+  useEffect(() => {
+    if (data && printf) {
+      PrintfPDF(data);
+      setPrintf(false);
+    }
+  }, [data, setPrintf]);
 
   const getDataLocal = async () => {
     const result = await Storage.getItem('form01adx01');
@@ -242,6 +250,11 @@ const Form01adx01Diary = ({ navigation }) => {
       <TouchableOpacity onPress={() => { !netInfo.isConnected ? handleDeleteFormLocal(index) : handleDelete(id) }}>
         <View style={[styles.btn, { backgroundColor: '#FF3333' }]}>
           <Text style={styles.btnText}>Xoá</Text>
+        </View>
+      </TouchableOpacity>
+      <TouchableOpacity onPress={() => handerlePrintPDF(id)}>
+        <View style={[styles.btn, {backgroundColor: '#C0C0C0'}]}>
+          <Text style={styles.btnText}>In</Text>
         </View>
       </TouchableOpacity>
     </View>

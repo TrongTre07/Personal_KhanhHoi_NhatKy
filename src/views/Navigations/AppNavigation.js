@@ -10,7 +10,8 @@ import HeaderScreen from './HeaderScreen';
 import Form01Navigation from './Form01Navigation';
 import Login from '../login/Login';
 import Form02ad02 from '../Form02adx02/Form02ad02';
-import ViewPDF from '../ViewPDF';
+import ViewPDF from '../Form01adx01/pdfForm01/ViewPDF';
+
 
 const Stack = createStackNavigator();
 

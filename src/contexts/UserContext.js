@@ -111,6 +111,7 @@ const UserProvider = ({children}) => {
   const getDiaryForm = async () => {
     try {
       if (await AsyncStorage.getItem('token')) {
+        
         const response = await instance.get('api/FormAppendix/getall_0101');
         setData(await response.data);
 

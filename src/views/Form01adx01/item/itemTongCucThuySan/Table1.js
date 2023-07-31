@@ -1,20 +1,20 @@
-import {View, Text, TextInput, Image, Pressable} from 'react-native';
-import React, {useState, useMemo, useContext, useEffect} from 'react';
+import { View, Text, TextInput, Image, Pressable } from 'react-native';
+import React, { useState, useMemo, useContext, useEffect } from 'react';
 import styles from './styles';
 
-import {FormContext} from '../../../../contexts/FormContext';
+import { FormContext } from '../../../../contexts/FormContext';
 
 import DatePicker from 'react-native-date-picker';
-import {Picker} from '@react-native-picker/picker';
-import {dateNowFormat} from './formatdate';
+import { Picker } from '@react-native-picker/picker';
+import { dateNowFormat } from './formatdate';
 import CustomDatePicker from './CustomDatePicker';
 
-import {UserContext} from '../../../../contexts/UserContext';
-import {useNetInfo} from '@react-native-community/netinfo';
+import { UserContext } from '../../../../contexts/UserContext';
+import { useNetInfo } from '@react-native-community/netinfo';
 import Storage from '../../../../utils/storage';
-const Table1 = ({}) => {
+const Table1 = ({ }) => {
   //data
-  const {dataInfShip, data, setData, setDataInfShip} = useContext(UserContext);
+  const { dataInfShip, data, setData, setDataInfShip } = useContext(UserContext);
   const netInfo = useNetInfo();
 
   // check ko có wifi thì lấy dataInfShip từ local
@@ -32,10 +32,10 @@ const Table1 = ({}) => {
     }
   };
 
-  const {thongTinTau, setThongTinTau} = useContext(FormContext);
+  const { thongTinTau, setThongTinTau } = useContext(FormContext);
   useEffect(() => {
     if (data) {
-      const newData = {...data};
+      const newData = { ...data };
       delete newData.khaithac;
       delete newData.thumua;
       setThongTinTau(newData);
@@ -44,24 +44,24 @@ const Table1 = ({}) => {
   return (
     <View>
       <View style={[styles.row]}>
-        <View style={[styles.row, {width: '50%'}]}>
+        <View style={[styles.row, { width: '50%' }]}>
           <Text style={styles.text}>1. Họ và tên chủ tàu:</Text>
           <TextInput
             onChangeText={text => {
-              setThongTinTau({...thongTinTau, ten_chutau: text});
-              setData({...data, ten_chutau: text});
+              setThongTinTau({ ...thongTinTau, ten_chutau: text });
+              setData({ ...data, ten_chutau: text });
             }}
             value={data.ten_chutau}
             style={[styles.input, styles.text]}
           />
           <Text style={styles.text}>;</Text>
         </View>
-        <View style={[styles.row, {width: '50%'}]}>
+        <View style={[styles.row, { width: '50%' }]}>
           <Text style={styles.text}>2. Họ và tên thuyền trưởng:</Text>
           <TextInput
             onChangeText={text => {
-              setThongTinTau({...thongTinTau, ten_thuyentruong: text});
-              setData({...data, ten_thuyentruong: text});
+              setThongTinTau({ ...thongTinTau, ten_thuyentruong: text });
+              setData({ ...data, ten_thuyentruong: text });
             }}
             value={data.ten_thuyentruong}
             style={[styles.input, styles.text]}
@@ -69,11 +69,11 @@ const Table1 = ({}) => {
         </View>
       </View>
 
-      <View style={[styles.row, {height: 'auto'}]}>
-        <View style={[styles.row, {width: '33%', height: 'auto'}]}>
-          <View style={[styles.row, {width: '40%'}]}>
+      <View style={[styles.row, { height: 'auto' }]}>
+        <View style={[styles.row, { width: '33%', height: 'auto' }]}>
+          <View style={[styles.row, { width: '40%' }]}>
             <Text style={[styles.text]}>3. Số đăng ký tàu</Text>
-            <Text style={{color: 'red'}}>*</Text>
+            <Text style={{ color: 'red' }}>*</Text>
             <Text style={[styles.text]}>:</Text>
           </View>
           <Picker
@@ -84,6 +84,7 @@ const Table1 = ({}) => {
                 const dataInf = dataInfShip[itemIndex - 1];
                 setData({
                   ...data,
+                  ten_chutau: dataInf?.chutau,
                   tau_bs: dataInf?.tentau,
                   gpkt_so: dataInf?.gpkt,
                   id_tau: dataInf?.idShip.toString(),
@@ -92,7 +93,8 @@ const Table1 = ({}) => {
                   gpkt_thoihan: dataInf?.gpkt_thoihan,
                 });
                 setThongTinTau({
-                  ...thongTinTau,
+                  ...thongTinTau, 
+                  ten_chutau: dataInf?.chutau,
                   tau_bs: dataInf?.tentau,
                   gpkt_so: dataInf?.gpkt,
                   id_tau: dataInf?.idShip.toString(),
@@ -120,30 +122,30 @@ const Table1 = ({}) => {
             })}
           </Picker>
         </View>
-        <View style={[styles.row, {width: '33%', height: 'auto'}]}>
-          <Text style={[styles.text, {width: '65%'}]}>
+        <View style={[styles.row, { width: '33%', height: 'auto' }]}>
+          <Text style={[styles.text, { width: '65%' }]}>
             4. Chiều dài lớn nhất của tàu:
           </Text>
           <TextInput
             // editable={false}
             onChangeText={text => {
-              setThongTinTau({...thongTinTau, tau_chieudailonnhat: value});
-              setData({...data, tau_chieudailonnhat: text});
+              setThongTinTau({ ...thongTinTau, tau_chieudailonnhat: text });
+              setData({ ...data, tau_chieudailonnhat: text });
             }}
             value={data.tau_chieudailonnhat}
             style={[styles.input, styles.text]}
           />
           <Text style={styles.text}>m; </Text>
         </View>
-        <View style={[styles.row, {width: '34%', height: 'auto'}]}>
-          <Text style={[styles.text, {width: '60%'}]}>
+        <View style={[styles.row, { width: '34%', height: 'auto' }]}>
+          <Text style={[styles.text, { width: '60%' }]}>
             5. Tổng công xuất máy chính:
           </Text>
           <TextInput
             // editable={false}
             onChangeText={text => {
-              setThongTinTau({...thongTinTau, tau_tongcongsuatmaychinh: value});
-              setData({...data, tau_tongcongsuatmaychinh: text});
+              setThongTinTau({ ...thongTinTau, tau_tongcongsuatmaychinh: text });
+              setData({ ...data, tau_tongcongsuatmaychinh: text });
             }}
             value={data.tau_tongcongsuatmaychinh}
             style={[styles.input, styles.text]}
@@ -153,26 +155,26 @@ const Table1 = ({}) => {
       </View>
 
       <View style={[styles.row]}>
-        <View style={[styles.row, {width: '50%'}]}>
+        <View style={[styles.row, { width: '50%' }]}>
           <Text style={styles.text}>
             6. Số giấy phép khai {'\n'} thác thuỷ sản:
           </Text>
           <TextInput
             // editable={false}
             onChangeText={text => {
-              setThongTinTau({...thongTinTau, gpkt_so: text});
-              setData({...data, gpkt_so: text});
+              setThongTinTau({ ...thongTinTau, gpkt_so: text });
+              setData({ ...data, gpkt_so: text });
             }}
             value={data.gpkt_so}
             style={[styles.input, styles.text]}
           />
           <Text style={styles.text}>;</Text>
         </View>
-        <View style={[styles.row, {width: '50%'}]}>
+        <View style={[styles.row, { width: '50%' }]}>
           <Text style={styles.text}>Thời hạn đến:</Text>
           <TextInput
             onChangeText={text => {
-              setThongTinTau({...thongTinTau, gpkt_thoihan: text});
+              setThongTinTau({ ...thongTinTau, gpkt_thoihan: text });
               // setData({...data, gpkt_thoihan: text});
             }}
             value={data.gpkt_thoihan}
@@ -184,7 +186,7 @@ const Table1 = ({}) => {
           </Pressable> */}
           <CustomDatePicker
             onDateChange={date => {
-              setThongTinTau({...thongTinTau, gpkt_thoihan: date});
+              setThongTinTau({ ...thongTinTau, gpkt_thoihan: date });
               setData({
                 ...data,
                 gpkt_thoihan: dateNowFormat(date, 'string'),
@@ -195,24 +197,24 @@ const Table1 = ({}) => {
       </View>
 
       <View style={[styles.row]}>
-        <View style={[styles.row, {width: '50%'}]}>
+        <View style={[styles.row, { width: '50%' }]}>
           <Text style={styles.text}>7. Ngề phụ 1:</Text>
           <TextInput
             onChangeText={text => {
-              setThongTinTau({...thongTinTau, nghephu1: text});
-              setData({...data, nghephu1: text});
+              setThongTinTau({ ...thongTinTau, nghephu1: text });
+              setData({ ...data, nghephu1: text });
             }}
             value={data.nghephu1}
             style={[styles.input, styles.text]}
           />
           <Text style={styles.text}>;</Text>
         </View>
-        <View style={[styles.row, {width: '50%'}]}>
+        <View style={[styles.row, { width: '50%' }]}>
           <Text style={styles.text}>8. Nghề phụ 2:</Text>
           <TextInput
             onChangeText={text => {
-              setThongTinTau({...thongTinTau, nghephu2: text});
-              setData({...data, nghephu2: text});
+              setThongTinTau({ ...thongTinTau, nghephu2: text });
+              setData({ ...data, nghephu2: text });
             }}
             value={data.nghephu2}
             style={[styles.input, styles.text]}
