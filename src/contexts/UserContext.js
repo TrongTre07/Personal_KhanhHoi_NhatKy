@@ -5,6 +5,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useNavigation} from '@react-navigation/native';
 import {ToastAndroid, Alert} from 'react-native';
 import jwtDecode from 'jwt-decode';
+import Storage from '../utils/storage';
 
 const UserContext = createContext();
 
@@ -30,7 +31,7 @@ const UserProvider = ({children}) => {
       const response = await instance.post('home/login', payload);
 
       if (response.data != null) {
-        await AsyncStorage.setItem('token', response.data);
+        await Storage.setItem('token', response.data);
         setIsLoggedIn(true);
         ToastAndroid.show('Đăng nhập thành công.', ToastAndroid.SHORT);
       } else {
@@ -53,7 +54,7 @@ const UserProvider = ({children}) => {
   const checkLoginStatus = async () => {
     try {
       // có token thì true ko thì false
-      const userToken = await AsyncStorage.getItem('token');
+      const userToken = await Storage.getItem('token');
       if (userToken) {
         setIsLoggedIn(true);
       } else {
@@ -110,7 +111,7 @@ const UserProvider = ({children}) => {
 
   const getDiaryForm = async () => {
     try {
-      if (await AsyncStorage.getItem('token')) {
+      if (await Storage.getItem('token')) {
         
         const response = await instance.get('api/FormAppendix/getall_0101');
         setData(await response.data);
@@ -118,7 +119,7 @@ const UserProvider = ({children}) => {
         //api getShip
         const dataship = await instance.get('api/FormAppendix/getallship');
         setDataInfShip(await dataship.data);
-        await AsyncStorage.setItem(
+        await Storage.setItem(
           'dataInfShip',
           JSON.stringify(dataship.data),
         );
@@ -127,7 +128,17 @@ const UserProvider = ({children}) => {
         return response.data;
       }
     } catch (error) {
-      console.log('GET ERROR: ', error);
+      if(error.response.status===401){
+        Alert.alert('Đã hết phiên đăng nhập!','Vui lòng đăng nhập lại', [
+          {
+            text: 'ok',
+            onPress: () => {
+              setIsLoggedIn(false);
+              Storage.removeItem('token');
+            },
+          },
+        ]);
+      }
     }
   };
 
@@ -146,7 +157,7 @@ const UserProvider = ({children}) => {
       if (!id) {
         setInitialTitle('');
       }
-      if (await AsyncStorage.getItem('token')) {
+      if (await Storage.getItem('token')) {
         const response = await instance.get(
           `/api/FormAppendix/getdetail_0101_byid/${id}`,
         );

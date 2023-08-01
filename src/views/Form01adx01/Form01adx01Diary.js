@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   ScrollView,
   Alert,
+  RefreshControl,
 } from 'react-native';
 import React, { useContext, useEffect, useState, useCallback } from 'react';
 import { UserContext } from '../../contexts/UserContext';
@@ -46,6 +47,7 @@ const Form01adx01Diary = ({ navigation }) => {
   } = useContext(UserContext);
 
   const netInfo = useNetInfo();
+  const [refreshing, setRefreshing] = React.useState(false);
 
   useEffect(() => {
     if (!isLoggedIn) {
@@ -99,12 +101,14 @@ const Form01adx01Diary = ({ navigation }) => {
 
   const fetchdata = async () => {
     //sap xep lai danh sach theo thoi gian update
+    setRefreshing(true);
     const rawDiary = await getDiaryForm();
     try {
       if (rawDiary != undefined) {
         await rawDiary.sort(sortListForm);
       }
       setDataDiary(rawDiary);
+      setRefreshing(false);
     } catch (error) { }
   };
 
@@ -129,12 +133,13 @@ const Form01adx01Diary = ({ navigation }) => {
     }
   }, [data, setTemplate]);
 
-
+// dùng useEffect data để in
   const [printf, setPrintf] = useState(false);
   const handerlePrintPDF = (id) => {
     getDetailFormId(id);
     setPrintf(true);
   };
+
   useEffect(() => {
     if (data && printf) {
       PrintfPDF(data);
@@ -155,9 +160,9 @@ const Form01adx01Diary = ({ navigation }) => {
   useFocusEffect(
     React.useCallback(() => {
       if (netInfo.isConnected)
-        fetchdata();
+         fetchdata();
       else 
-        getDataLocal();
+         getDataLocal();
 
     }, [netInfo.isConnected]),
   );
@@ -209,17 +214,6 @@ const Form01adx01Diary = ({ navigation }) => {
     // delete object at index
     console.log(index);
   };
-
-  const handleDocumentSelection = useCallback(async () => {
-    try {
-      const res = await DocumentPicker.pick({
-        type: [DocumentPicker.types.allFiles],
-      });
-      await FileViewer.open(res[0].uri);
-    } catch (e) {
-      console.log('error', e);
-    }
-  }, []);
 
   const elementButton = (id, index) => (
     <View style={styles.boxbtn}>
@@ -286,7 +280,13 @@ const Form01adx01Diary = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <ScrollView showsVerticalScrollIndicator={false}>
+      <ScrollView 
+        
+        // onRefresh={fetchdata}
+        showsVerticalScrollIndicator={false}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={()=>fetchdata()} />
+        }>
         <Table borderStyle={{ borderWidth: 1 }}>
           <Row
             data={state.tableHead}

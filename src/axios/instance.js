@@ -6,14 +6,11 @@ import DeviceInfo from 'react-native-device-info';
 const instance = axios.create({
   baseURL: 'https://api-bieumau.khanhhoi.net/',
 });
-
 instance.interceptors.request.use(
   async config => {
-
-    const Clientip = await DeviceInfo.getIpAddress();
-    console.log('clientip',Clientip)
-      
     const APIKey = await Storage.getItem('token');
+    const Clientip = await DeviceInfo.getIpAddress();
+
     config.headers['Clientip'] = Clientip;
     config.headers['APIKey'] = APIKey;
 

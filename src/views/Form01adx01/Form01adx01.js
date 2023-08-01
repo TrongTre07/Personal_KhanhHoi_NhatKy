@@ -21,7 +21,7 @@ import Storage from '../../utils/storage';
 import {useNetInfo} from '@react-native-community/netinfo';
 import {useNavigation} from '@react-navigation/native';
 import AlertInputComponent from '../../utils/AlertInputComponent';
-import { ExportPDF } from '../ExportPDF';
+import { ExportPDF } from './pdfForm01/ExportPDF';
 import { dateNowFormat } from './item/itemTongCucThuySan/formatdate';
 const Form01adx01 = ({ route}) => {
 
@@ -213,6 +213,10 @@ const Form01adx01 = ({ route}) => {
           },
         ]);
       }else{
+        setThongTinTau({});
+        setThuMua({});
+        setKhaiThac({});
+
         await postForm(objectPost);
       }
     } else if (string == 'update') {
