@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   Alert,
   ToastAndroid,
+  BackHandler,
 } from 'react-native';
 import React, {useContext, useEffect, useState} from 'react';
 import HeaderView from './item/HeaderView';
@@ -20,10 +21,14 @@ import Storage from '../../utils/storage';
 import {useNetInfo} from '@react-native-community/netinfo';
 import {useNavigation} from '@react-navigation/native';
 import AlertInputComponent from '../../utils/AlertInputComponent';
-import {ExportPDF} from './pdfForm01/ExportPDF';
-const Form01adx01 = ({route}) => {
-  // console.log('render form01');
+import { ExportPDF } from '../ExportPDF';
+import { dateNowFormat } from './item/itemTongCucThuySan/formatdate';
+const Form01adx01 = ({ route}) => {
 
+   useEffect(() => {
+    
+    console.log('id: ', id)
+  }, [id]);
   const {
     thuMua,
     setThuMua,
@@ -53,15 +58,15 @@ const Form01adx01 = ({route}) => {
   useEffect(() => {
     if (id != undefined) {
 
-      if (!netInfo.isConnected) 
+      if (netInfo.isConnected) 
         getDetailFormId(id);
       else
         getDataLocal();
     } else {
+      // refresh form01adx01
       setData({});
-
     }
-  }, [netInfo, id]);
+  }, [netInfo, id, setData]);
 
   // render data local to form
   const getDataLocal = async () => {
@@ -193,7 +198,7 @@ const Form01adx01 = ({route}) => {
         await Storage.setItem('form01adx01', JSON.stringify(data));
         ToastAndroid.show('Tạo thành công', ToastAndroid.SHORT);
         setGoBackAlert(true);
-        // refresh form
+        
       }
     } else if (string == 'create') {
       console.log('CREATE');
@@ -247,14 +252,25 @@ const Form01adx01 = ({route}) => {
         await Storage.setItem('form01adx01', JSON.stringify(data));
       }
       ToastAndroid.show('Cập nhật thành công', ToastAndroid.SHORT);
+      setData({});
       setGoBackAlert(true);
   };
 
-  const handleRefreshForm = () => {
-    setThongTinTau({});
-    setKhaiThac({});
-    setThuMua({});
-  };
+  React.useEffect(() => {
+    const backAction = () => {
+      setData({});
+      navigation.goBack();
+      return true;
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      backAction,
+    );
+
+    return () => backHandler.remove();
+  }, []);
+
 
   const handleFormatObject = () => {
     return {
