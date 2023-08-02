@@ -97,14 +97,15 @@ const UserProvider = ({children}) => {
     } catch (error) {
       setIsLoading(false);
       setIsErrorPost(true);
-      Alert.alert('Lỗi', 'Không thể tạo biểu mẫu!', [
-        {
-          text: 'OK',
-          onPress: () => {
-            // setIsErrorPost(false);
-          },
-        },
-      ]);
+      ToastAndroid.show('Lỗi, vui lòng vào ứng dụng lại!', ToastAndroid.SHORT);
+      // Alert.alert('Lỗi', 'Không thể tạo biểu mẫu!', [
+      //   {
+      //     text: 'OK',
+      //     onPress: () => {
+      //       // setIsErrorPost(false);
+      //     },
+      //   },
+      // ]);
       console.log('POST ERROR: ', error);
     }
   };

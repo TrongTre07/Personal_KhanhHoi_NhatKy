@@ -20,11 +20,6 @@ const TongCucThuySanView = () => {
     setData(updatedThongTinTau);
   };
 
-  // useEffect(() => {
-  //   if (data) {
-
-  //   }
-  // }, [data]);F
 
   return (
     <View style={styles.container}>

@@ -115,7 +115,6 @@ const HoatDongKhaiThacThuySanView = ({id}) => {
             },
           ],
         });
-        // setLoaiCa([]);
       }
     } catch (error) {
       console.log('ERROR: ', error);
