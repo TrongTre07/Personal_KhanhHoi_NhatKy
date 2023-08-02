@@ -99,6 +99,17 @@ const UserProvider = ({children}) => {
       setIsLoading(false);
       setIsErrorPost(true);
       // ToastAndroid.show('Lỗi, vui lòng vào ứng dụng lại!', ToastAndroid.SHORT);
+      if(error.response.status===401){
+        Alert.alert('Đã hết phiên đăng nhập!','Vui lòng đăng nhập lại', [
+          {
+            text: 'ok',
+            onPress: () => {
+              setIsLoggedIn(false);
+              Storage.removeItem('token');
+            },
+          },
+        ]);
+      }else 
       Alert.alert('Lỗi', 'vui lòng vào ứng dụng lại!', [
         {
           text: 'OK',
@@ -151,6 +162,17 @@ const UserProvider = ({children}) => {
         await instance.post(`api/FormAppendix/0101/del/${id}`);
       }
     } catch (error) {
+      if(error.response.status===401){
+        Alert.alert('Đã hết phiên đăng nhập!','Vui lòng đăng nhập lại', [
+          {
+            text: 'ok',
+            onPress: () => {
+              setIsLoggedIn(false);
+              Storage.removeItem('token');
+            },
+          },
+        ]);
+      }
       console.log('Delete ERROR: ', error);
     }
   };
@@ -169,6 +191,17 @@ const UserProvider = ({children}) => {
         setData(await response.data);
       }
     } catch (error) {
+      if(error.response.status===401){
+        Alert.alert('Đã hết phiên đăng nhập!','Vui lòng đăng nhập lại', [
+          {
+            text: 'ok',
+            onPress: () => {
+              setIsLoggedIn(false);
+              Storage.removeItem('token');
+            },
+          },
+        ]);
+      }
       console.log('ERROR: ', error);
     }
   };
@@ -194,6 +227,17 @@ const UserProvider = ({children}) => {
       // console.log('FORM: ', obj);
     } catch (error) {
       console.log('ERROR UPDATE: ', error);
+      if(error.response.status===401){
+        Alert.alert('Đã hết phiên đăng nhập!','Vui lòng đăng nhập lại', [
+          {
+            text: 'ok',
+            onPress: () => {
+              setIsLoggedIn(false);
+              Storage.removeItem('token');
+            },
+          },
+        ]);
+      }else
       Alert.alert('Lỗi', 'Không thể cập nhật!', [
         {
           text: 'OK',
