@@ -31,7 +31,7 @@ const Table2 = ({}) => {
               setThongTinTau({...thongTinTau, ncau_chieudaivangcau: text});
               setData({...data, ncau_chieudaivangcau: text});
             }}
-            value={data.ncau_chieudaivangcau}
+            value={data?.ncau_chieudaivangcau}
           />
           <Text style={styles.text}>m;</Text>
         </View>
@@ -44,7 +44,7 @@ const Table2 = ({}) => {
               setThongTinTau({...thongTinTau, ncau_soluoicau: text});
               setData({...data, ncau_soluoicau: text});
             }}
-            value={data.ncau_soluoicau}
+            value={data?.ncau_soluoicau}
           />
           <Text style={styles.text}>lưỡi</Text>
         </View>
@@ -62,7 +62,7 @@ const Table2 = ({}) => {
               setThongTinTau({...thongTinTau, nluoivay_chieudailuoi: text});
               setData({...data, nluoivay_chieudailuoi: text});
             }}
-            value={data.nluoivay_chieudailuoi}
+            value={data?.nluoivay_chieudailuoi}
           />
           <Text style={styles.text}>m;</Text>
         </View>
@@ -75,7 +75,7 @@ const Table2 = ({}) => {
               setThongTinTau({...thongTinTau, nluoivay_chieucaoluoi: text});
               setData({...data, nluoivay_chieucaoluoi: text});
             }}
-            value={data.nluoivay_chieucaoluoi}
+            value={data?.nluoivay_chieucaoluoi}
           />
           <Text style={styles.text}>m</Text>
         </View>
@@ -91,7 +91,7 @@ const Table2 = ({}) => {
               setThongTinTau({...thongTinTau, nluoichup_chuvimiengluoi: text});
               setData({...data, nluoichup_chuvimiengluoi: text});
             }}
-            value={data.nluoichup_chuvimiengluoi}
+            value={data?.nluoichup_chuvimiengluoi}
           />
           <Text style={styles.text}>m;</Text>
         </View>
@@ -104,7 +104,7 @@ const Table2 = ({}) => {
               setThongTinTau({...thongTinTau, nluoichup_chieucaoluoi: text});
               setData({...data, nluoichup_chieucaoluoi: text});
             }}
-            value={data.nluoichup_chieudailuoi}
+            value={data?.nluoichup_chieudailuoi}
           />
           <Text style={styles.text}>m</Text>
         </View>
@@ -125,7 +125,7 @@ const Table2 = ({}) => {
               });
               setData({...data, nluoikeo_chieudaigiengphao: text});
             }}
-            value={data.nluoikeo_chieudaigiengphao}
+            value={data?.nluoikeo_chieudaigiengphao}
           />
           <Text style={styles.text}>m;</Text>
         </View>
@@ -141,7 +141,7 @@ const Table2 = ({}) => {
               });
               setData({...data, nluoikeo_chieudaitoanboluoi: text});
             }}
-            value={data.nluoikeo_chieudaitoanboluoi}
+            value={data?.nluoikeo_chieudaitoanboluoi}
           />
           <Text style={styles.text}>m</Text>
         </View>
@@ -155,7 +155,7 @@ const Table2 = ({}) => {
               setThongTinTau({...thongTinTau, nkhac: text});
               setData({...data, nkhac: text});
             }}
-            value={data.nkhac}
+            value={data?.nkhac}
             style={[styles.input, styles.text]}
           />
         </View>

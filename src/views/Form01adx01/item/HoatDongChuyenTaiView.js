@@ -430,9 +430,12 @@ const HoatDongChuyenTaiView = () => {
 
       let sum = 0;
       list.forEach(item => {
-        // if (item.isdelete != undefined || item.isdelete == 0) {
+        if (item.isdelete == undefined || item.isdelete == 0) {
+          if(item.daban_ct_khoiluong == '' || item.daban_ct_khoiluong == undefined){
+            sum+=0
+          }
         sum += Number(item.daban_ct_khoiluong);
-        // }
+        }
       });
       setSumOfWeight(sum);
 

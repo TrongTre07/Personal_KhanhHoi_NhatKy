@@ -51,7 +51,7 @@ const Table1 = ({ }) => {
               setThongTinTau({ ...thongTinTau, ten_chutau: text });
               setData({ ...data, ten_chutau: text });
             }}
-            value={data.ten_chutau}
+            value={data?.ten_chutau}
             style={[styles.input, styles.text]}
           />
           <Text style={styles.text}>;</Text>
@@ -63,7 +63,7 @@ const Table1 = ({ }) => {
               setThongTinTau({ ...thongTinTau, ten_thuyentruong: text });
               setData({ ...data, ten_thuyentruong: text });
             }}
-            value={data.ten_thuyentruong}
+            value={data?.ten_thuyentruong}
             style={[styles.input, styles.text]}
           />
         </View>
@@ -77,7 +77,7 @@ const Table1 = ({ }) => {
             <Text style={[styles.text]}>:</Text>
           </View>
           <Picker
-            selectedValue={data.tau_bs}
+            selectedValue={data?.tau_bs}
             style={[styles.input]}
             onValueChange={(itemValue, itemIndex) => {
               if (itemValue) {
@@ -132,7 +132,7 @@ const Table1 = ({ }) => {
               setThongTinTau({ ...thongTinTau, tau_chieudailonnhat: text });
               setData({ ...data, tau_chieudailonnhat: text });
             }}
-            value={data.tau_chieudailonnhat}
+            value={data?.tau_chieudailonnhat}
             style={[styles.input, styles.text]}
           />
           <Text style={styles.text}>m; </Text>
@@ -147,7 +147,7 @@ const Table1 = ({ }) => {
               setThongTinTau({ ...thongTinTau, tau_tongcongsuatmaychinh: text });
               setData({ ...data, tau_tongcongsuatmaychinh: text });
             }}
-            value={data.tau_tongcongsuatmaychinh}
+            value={data?.tau_tongcongsuatmaychinh}
             style={[styles.input, styles.text]}
           />
           <Text style={styles.text}>CV</Text>
@@ -165,7 +165,7 @@ const Table1 = ({ }) => {
               setThongTinTau({ ...thongTinTau, gpkt_so: text });
               setData({ ...data, gpkt_so: text });
             }}
-            value={data.gpkt_so}
+            value={data?.gpkt_so}
             style={[styles.input, styles.text]}
           />
           <Text style={styles.text}>;</Text>
@@ -204,7 +204,7 @@ const Table1 = ({ }) => {
               setThongTinTau({ ...thongTinTau, nghephu1: text });
               setData({ ...data, nghephu1: text });
             }}
-            value={data.nghephu1}
+            value={data?.nghephu1}
             style={[styles.input, styles.text]}
           />
           <Text style={styles.text}>;</Text>
@@ -216,7 +216,7 @@ const Table1 = ({ }) => {
               setThongTinTau({ ...thongTinTau, nghephu2: text });
               setData({ ...data, nghephu2: text });
             }}
-            value={data.nghephu2}
+            value={data?.nghephu2}
             style={[styles.input, styles.text]}
           />
         </View>

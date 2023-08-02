@@ -6,6 +6,7 @@ import {useNavigation} from '@react-navigation/native';
 import {ToastAndroid, Alert} from 'react-native';
 import jwtDecode from 'jwt-decode';
 import Storage from '../utils/storage';
+import RNRestart from 'react-native-restart';
 
 const UserContext = createContext();
 
@@ -97,15 +98,16 @@ const UserProvider = ({children}) => {
     } catch (error) {
       setIsLoading(false);
       setIsErrorPost(true);
-      ToastAndroid.show('Lỗi, vui lòng vào ứng dụng lại!', ToastAndroid.SHORT);
-      // Alert.alert('Lỗi', 'Không thể tạo biểu mẫu!', [
-      //   {
-      //     text: 'OK',
-      //     onPress: () => {
-      //       // setIsErrorPost(false);
-      //     },
-      //   },
-      // ]);
+      // ToastAndroid.show('Lỗi, vui lòng vào ứng dụng lại!', ToastAndroid.SHORT);
+      Alert.alert('Lỗi', 'vui lòng vào ứng dụng lại!', [
+        {
+          text: 'OK',
+          onPress: () => {
+            RNRestart.restart();
+            // setIsErrorPost(false);
+          },
+        },
+      ]);
       console.log('POST ERROR: ', error);
     }
   };

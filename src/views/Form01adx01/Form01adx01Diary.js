@@ -28,7 +28,6 @@ import {
   convertStringToDateHour,
 } from './item/itemTongCucThuySan/formatdate';
 import { PrintfPDF } from './pdfForm01/PrintfPDF';
-
 const Form01adx01Diary = ({ navigation }) => {
   const [dataDiary, setDataDiary] = useState([]);
 

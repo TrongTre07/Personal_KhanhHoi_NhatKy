@@ -33,7 +33,7 @@ const TongCucThuySanView = () => {
           </Text>
           <TextInput
             style={styles.input}
-            value={data.nghechinh}
+            value={data?.nghechinh}
             onChangeText={handleNgheChinh}
           />
           <Text style={[styles.txtHeader, {fontWeight: '400'}]}>{')'}</Text>

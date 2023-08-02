@@ -64,7 +64,7 @@ const Table3 = ({
                 setThongTinTau({...thongTinTau, chuyenbien_so: text});
                 setData({...data, chuyenbien_so: text});
               }}
-              value={data.chuyenbien_so}
+              value={data?.chuyenbien_so}
             />
           </View>
         </View>
@@ -78,7 +78,7 @@ const Table3 = ({
                   setThongTinTau({...thongTinTau, cang_di: text});
                   setData({...data, cang_di: text});
                 }}
-                value={data.cang_di}
+                value={data?.cang_di}
               />
             </View>
             <View style={[styles.row, {width: '50%'}]}>
@@ -89,10 +89,10 @@ const Table3 = ({
                   setThongTinTau({...thongTinTau, ngay_di: text});
                   setData({...data, ngay_di: text});
                 }}
-                value={convertStringToDate(data.ngay_di)}
+                value={convertStringToDate(data?.ngay_di)}
               />
               <CustomDatePicker
-                value={data.ngay_di}
+                value={data?.ngay_di}
                 onDateChange={date => handleDateChange('departurePort', date)}
               />
             </View>
@@ -116,7 +116,7 @@ const Table3 = ({
                   setThongTinTau({...thongTinTau, cang_ve: text});
                   setData({...data, cang_ve: text});
                 }}
-                value={data.cang_ve}
+                value={data?.cang_ve}
               />
             </View>
             <View style={[styles.row, {width: '50%'}]}>
@@ -127,10 +127,10 @@ const Table3 = ({
                   setThongTinTau({...thongTinTau, ngay_ve: text});
                   setData({...data, ngay_ve: text});
                 }}
-                value={convertStringToDate(data.ngay_ve)}
+                value={convertStringToDate(data?.ngay_ve)}
               />
               <CustomDatePicker
-                value={data.ngay_ve}
+                value={data?.ngay_ve}
                 onDateChange={date => handleDateChange('arrivalPort', date)}
               />
             </View>
@@ -153,10 +153,10 @@ const Table3 = ({
                   setThongTinTau({...thongTinTau, ngaynop: text});
                   setData({...data, ngaynop: text});
                 }}
-                value={convertStringToDate(data.ngaynop)}
+                value={convertStringToDate(data?.ngaynop)}
               />
               <CustomDatePicker
-                value={data.ngaynop}
+                value={data?.ngaynop}
                 onDateChange={date => handleDateChange('diary', date)}
               />
             </View>
@@ -169,7 +169,7 @@ const Table3 = ({
 
                   setData({...data, vaoso_so: text});
                 }}
-                value={data.vaoso_so}
+                value={data?.vaoso_so}
               />
             </View>
           </View>
