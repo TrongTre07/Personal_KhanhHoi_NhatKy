@@ -324,7 +324,7 @@ const HoatDongKhaiThacThuySanView = ({id}) => {
                   {convertStringToDateHour(textInput[index].thoidiem_tha)}
                 </Text>
                 <CustomDatePicker
-                  value={textInput[index].thoidiem_tha}
+                  value={convertStringToDateHour(textInput[index].thoidiem_tha)}
                   onDateChange={newDate => {
                     const newInput = [...textInput];
                     newInput[index].thoidiem_tha = dateNowFormat(
@@ -336,7 +336,7 @@ const HoatDongKhaiThacThuySanView = ({id}) => {
                     //set data context time
                     const updatedKhaiThac = {...khaiThac};
                     updatedKhaiThac.khaithac[index].thoidiem_tha =
-                      dateNowFormat(newDate);
+                      dateNowFormat(newDate,'dateHour');
                     setKhaiThac(updatedKhaiThac);
                   }}
                 />
@@ -735,7 +735,7 @@ const HoatDongKhaiThacThuySanView = ({id}) => {
         </Text>
 
         {listForm.map((item, index) => (
-          <React.Fragment key={index}>{_renderForm(index)}</React.Fragment>
+          <View key={index}>{_renderForm(index)}</View>
         ))}
         {_renderActionView()}
 
@@ -744,10 +744,19 @@ const HoatDongKhaiThacThuySanView = ({id}) => {
           <Text style={styles.title}>
             Sản lượng các loài thủy sản chủ yếu (Kg)
           </Text>
-          <View style={{flexDirection: 'row'}}>
-            {_renderInputSpeciesName()}
-          </View>
-          {_renderTableNet()}
+          <ScrollView
+            horizontal={true}
+            showsHorizontalScrollIndicator={false}
+          >
+            <View>
+              <View style={{flexDirection: 'row'}}>
+                {_renderInputSpeciesName()}
+              </View>
+              {_renderTableNet()}
+            </View>
+          </ScrollView>
+
+
 
           <View style={{paddingTop: 20}}>
             <FlatList

@@ -34,7 +34,7 @@ export const styles = StyleSheet.create({
   },
 
   flex1: {
-    flex: 1,
+    width:150
   },
 
   ml16: {
@@ -122,7 +122,7 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   separator: {
-    width: 10,
+    width: 16,
   },
   box: {
     borderRadius: 5,
