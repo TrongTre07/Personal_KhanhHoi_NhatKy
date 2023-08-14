@@ -18,13 +18,9 @@ import {
   Col,
 } from 'react-native-table-component';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
-import DocumentPicker, { types } from 'react-native-document-picker';
-import FileViewer from 'react-native-file-viewer';
-import { StatusBar } from 'react-native';
 import { useNetInfo } from '@react-native-community/netinfo';
 import Storage from '../../utils/storage';
 import {
-  convertStringToDate,
   convertStringToDateHour,
 } from './item/itemTongCucThuySan/formatdate';
 import { PrintfPDF } from './pdfForm01/PrintfPDF';
@@ -48,6 +44,8 @@ const Form01adx01Diary = ({ navigation }) => {
   const netInfo = useNetInfo();
   const [refreshing, setRefreshing] = React.useState(false);
 
+  
+
   useEffect(() => {
     if (!isLoggedIn) {
       setDataDiary([]);
@@ -63,23 +61,7 @@ const Form01adx01Diary = ({ navigation }) => {
     }, [netInfo.isConnected]),
   );
 
-  // const autoPostForm = async () => {
-  //   const form = await Storage.getItem('form01adx01');
-  //   if (form !== null) {
-  //     const data = JSON.parse(form);
 
-  //     data.forEach(async item => {
-  //       const result = await postForm(item);
-  //       if (result) {
-  //         // delete item in data
-  //         const index = data.indexOf(item);
-  //         data.splice(index, 1);
-  //         await Storage.setItem('form01adx01', JSON.stringify(data));
-  //         setDataDiary(data);
-  //       }
-  //     });
-  //   };
-  // }
   const autoPostForm = async () => {
     const form = await Storage.getItem('form01adx01');
     if (form !== null) {
@@ -217,6 +199,7 @@ const Form01adx01Diary = ({ navigation }) => {
   const elementButton = (id, index) => (
     <View style={styles.boxbtn}>
       <TouchableOpacity
+        // disabled={true}
         onPress={() => {
           navigation.navigate('ViewPDF', { id: id, data: dataDiary });
         }}>

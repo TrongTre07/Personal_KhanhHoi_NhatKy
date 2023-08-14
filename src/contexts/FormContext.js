@@ -1,14 +1,10 @@
 import React, {createContext, useState} from 'react';
 
 export const FormContext = createContext();
-import CustomDatePicker from '../views/Form01adx01/item/itemTongCucThuySan/CustomDatePicker';
 import {dateNowFormat} from '../views/Form01adx01/item/itemTongCucThuySan/formatdate'
 export const FormProvider = ({children}) => {
 
 
-  const dateNow = new Date();
-
-  const [user, setUser] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const [thongTinTau, setThongTinTau] = useState({

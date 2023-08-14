@@ -11,7 +11,6 @@ import RNRestart from 'react-native-restart';
 const UserContext = createContext();
 
 const UserProvider = ({children}) => {
-  // const navigation = useNavigation();
 
   const [data, setData] = useState([]);
   const [dataInfShip, setDataInfShip] = useState([]);
@@ -19,13 +18,11 @@ const UserProvider = ({children}) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isErrorPost, setIsErrorPost] = useState(false);
-  const [isErrorUpdate, setIsErrorUpdate] = useState(false);
-  const [isErrorShip, setIsErrorShip] = useState(false);
   const [initialTitle, setInitialTitle] = useState('');
   const [goBackAlert, setGoBackAlert] = useState(false);
 
   const login = async (username, password) => {
-    // user: 'abc' pass: '123456'
+
     try {
       const payload = {userName_: username, pass_: password};
 
@@ -66,10 +63,13 @@ const UserProvider = ({children}) => {
     }
   };
 
+  //gọi check login lần đầu
   useEffect(() => {
     checkLoginStatus();
   }, []);
-  //
+  
+
+  //tạo form
   const postForm = async obj => {
     try {
       const payload = obj;
@@ -85,8 +85,6 @@ const UserProvider = ({children}) => {
           {
             text: 'OK',
             onPress: () => {
-              // setIsErrorPost(false);
-              // setIsLoading(false)
               setGoBackAlert(true);
             },
           },
@@ -98,31 +96,24 @@ const UserProvider = ({children}) => {
     } catch (error) {
       setIsLoading(false);
       setIsErrorPost(true);
-      // ToastAndroid.show('Lỗi, vui lòng vào ứng dụng lại!', ToastAndroid.SHORT);
+
       if(error.response.status===401){
-        Alert.alert('Đã hết phiên đăng nhập!','Vui lòng đăng nhập lại', [
+        getAlert401();
+      }else 
+        Alert.alert('Lỗi', 'vui lòng vào ứng dụng lại!', [
           {
-            text: 'ok',
+            text: 'OK',
             onPress: () => {
-              setIsLoggedIn(false);
-              Storage.removeItem('token');
+              RNRestart.restart();
+              // setIsErrorPost(false);
             },
           },
         ]);
-      }else 
-      Alert.alert('Lỗi', 'vui lòng vào ứng dụng lại!', [
-        {
-          text: 'OK',
-          onPress: () => {
-            RNRestart.restart();
-            // setIsErrorPost(false);
-          },
-        },
-      ]);
       console.log('POST ERROR: ', error);
     }
   };
 
+  //getDi
   const getDiaryForm = async () => {
     try {
       if (await Storage.getItem('token')) {
@@ -143,15 +134,7 @@ const UserProvider = ({children}) => {
       }
     } catch (error) {
       if(error.response.status===401){
-        Alert.alert('Đã hết phiên đăng nhập!','Vui lòng đăng nhập lại', [
-          {
-            text: 'ok',
-            onPress: () => {
-              setIsLoggedIn(false);
-              Storage.removeItem('token');
-            },
-          },
-        ]);
+        getAlert401();
       }
     }
   };
@@ -163,15 +146,7 @@ const UserProvider = ({children}) => {
       }
     } catch (error) {
       if(error.response.status===401){
-        Alert.alert('Đã hết phiên đăng nhập!','Vui lòng đăng nhập lại', [
-          {
-            text: 'ok',
-            onPress: () => {
-              setIsLoggedIn(false);
-              Storage.removeItem('token');
-            },
-          },
-        ]);
+        getAlert401();
       }
       console.log('Delete ERROR: ', error);
     }
@@ -192,15 +167,7 @@ const UserProvider = ({children}) => {
       }
     } catch (error) {
       if(error.response.status===401){
-        Alert.alert('Đã hết phiên đăng nhập!','Vui lòng đăng nhập lại', [
-          {
-            text: 'ok',
-            onPress: () => {
-              setIsLoggedIn(false);
-              Storage.removeItem('token');
-            },
-          },
-        ]);
+        getAlert401();
       }
       console.log('ERROR: ', error);
     }
@@ -228,15 +195,7 @@ const UserProvider = ({children}) => {
     } catch (error) {
       console.log('ERROR UPDATE: ', error);
       if(error.response.status===401){
-        Alert.alert('Đã hết phiên đăng nhập!','Vui lòng đăng nhập lại', [
-          {
-            text: 'ok',
-            onPress: () => {
-              setIsLoggedIn(false);
-              Storage.removeItem('token');
-            },
-          },
-        ]);
+        getAlert401();
       }else
       Alert.alert('Lỗi', 'Không thể cập nhật!', [
         {
@@ -248,6 +207,18 @@ const UserProvider = ({children}) => {
       ]);
     }
   };
+
+  const getAlert401 = ()=>{
+    Alert.alert('Đã hết phiên đăng nhập!','Vui lòng đăng nhập lại', [
+      {
+        text: 'ok',
+        onPress: () => {
+          setIsLoggedIn(false);
+          Storage.removeItem('token');
+        },
+      },
+    ]);
+   }
 
   const contextValues = useMemo(
     () => ({
@@ -261,10 +232,6 @@ const UserProvider = ({children}) => {
       setIsLoading,
       isErrorPost,
       setIsErrorPost,
-      isErrorShip,
-      setIsErrorShip,
-      isErrorUpdate,
-      setIsErrorUpdate,
       getDiaryForm,
       deleteFormId,
       dataInfShip,
@@ -289,10 +256,6 @@ const UserProvider = ({children}) => {
       setIsLoading,
       isErrorPost,
       setIsErrorPost,
-      isErrorShip,
-      setIsErrorShip,
-      isErrorUpdate,
-      setIsErrorUpdate,
       getDiaryForm,
       deleteFormId,
       dataInfShip,
@@ -314,5 +277,7 @@ const UserProvider = ({children}) => {
     </UserContext.Provider>
   );
 };
+
+
 
 export {UserContext, UserProvider};

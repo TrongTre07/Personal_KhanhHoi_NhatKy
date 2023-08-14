@@ -1,10 +1,7 @@
 import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native'
 import React from 'react'
-import Form01adx01 from '../Form01adx01/Form01adx01';
 import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
-import Menu from '../Home/Menu';
-import Form01adx01Diary from '../Form01adx01/Form01adx01Diary';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import HeaderScreen from './HeaderScreen';
 import Form01Navigation from './Form01Navigation';
@@ -56,7 +53,6 @@ const MainNavigation = () => {
 }
 
 const AppNavigation = () => {
-  const navigation = useNavigation();
 
   return (
     <Stack.Navigator

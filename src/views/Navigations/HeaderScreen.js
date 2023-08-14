@@ -33,8 +33,6 @@ const HeaderScreen = () => {
     return (
         <View style={{ flexDirection: 'row', justifyContent:'space-between',width:'100%',alignItems:'center'}}>
             <Image style={{width:170,height:100,resizeMode:'contain' }} source={require('../../img/logo-khanhhoi.png')} />
-            
-                {/* Nút Drawer sẽ mở menu khi người dùng nhấp vào */}
                 {isLoggedIn?
             <TouchableOpacity onPress={()=>handleLogOut()}>
 

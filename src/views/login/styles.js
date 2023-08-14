@@ -14,7 +14,6 @@ const styles = StyleSheet.create({
         marginBottom: 16,
         padding: '10%',
         flexDirection: 'column',
-        alignItems: 'center',
         borderRadius: 8,
         shadowColor: 'black',
         shadowOpacity: 0.2,
@@ -28,6 +27,7 @@ const styles = StyleSheet.create({
         fontWeight: '500',
         fontSize: 24,
         marginBottom: 24,
+        textAlign: 'center',
     },
     input: {
         width: '100%',
@@ -46,7 +46,18 @@ const styles = StyleSheet.create({
     button: {
         backgroundColor: '#0033FF',
         justifyContent: 'center'
-    }
+    },
+
+    checkboxContainer: {
+        flexDirection: 'row',
+        marginBottom: 16,
+        alignItems: 'center',
+    },
+
+    label: {
+        color: '#000',
+        fontSize: 14,
+    },
 });
 
 

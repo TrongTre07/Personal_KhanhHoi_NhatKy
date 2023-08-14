@@ -5,11 +5,9 @@ import Form01adx01 from '../Form01adx01/Form01adx01';
 import {createStackNavigator} from '@react-navigation/stack';
 import {NavigationContainer, useNavigation} from '@react-navigation/native';
 import Form01adx01Diary from '../Form01adx01/Form01adx01Diary';
-import {createDrawerNavigator} from '@react-navigation/drawer';
 import styles from './styles';
 import Storage from '../../utils/storage';
 import {useNetInfo} from '@react-native-community/netinfo';
-import {HeaderBackButton} from '@react-navigation/stack';
 import {UserContext} from '../../contexts/UserContext';
 import Icon from 'react-native-vector-icons/AntDesign';
 
@@ -58,11 +56,11 @@ const Form01Navigation = () => {
                   <Text style={[styles.btnText, {color: '#fff'}]}>Tạo</Text>
                 </View>
               </TouchableOpacity>
-              {/* <TouchableOpacity style={{}} onPress={() => Storage.setItem('token','kH1diaZdjtBBvQWsqQb+lXKkzdsHZy38TDO4eMChYlQ=x')}>
+              <TouchableOpacity style={{}} onPress={() => Storage.setItem('token','kH1diaZdjtBBvQWsqQb+lXKkzdsHZy38TDO4eMChYlQ=x')}>
                 <View style={[styles.btn, { backgroundColor: '#33CC00' }]}>
                   <Text style={[styles.btnText, { color: '#fff' }]}>token</Text>
                 </View>
-              </TouchableOpacity> */}
+              </TouchableOpacity>
             </View>
           ),
         }}

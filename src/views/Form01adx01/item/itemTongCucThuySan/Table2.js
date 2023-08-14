@@ -103,8 +103,9 @@ const Table2 = ({}) => {
             onChangeText={text => {
               setThongTinTau({...thongTinTau, nluoichup_chieucaoluoi: text});
               setData({...data, nluoichup_chieucaoluoi: text});
+              console.log(data.nl);
             }}
-            value={data?.nluoichup_chieudailuoi}
+            value={data?.nluoichup_chieucaoluoi}
           />
           <Text style={styles.text}>m</Text>
         </View>
