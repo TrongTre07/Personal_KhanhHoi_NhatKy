@@ -6,6 +6,7 @@ import {
   ScrollView,
   Alert,
   RefreshControl,
+  ToastAndroid,
 } from 'react-native';
 import React, { useContext, useEffect, useState, useCallback } from 'react';
 import { UserContext } from '../../contexts/UserContext';
@@ -26,9 +27,6 @@ import {
 import { PrintfPDF } from './pdfForm01/PrintfPDF';
 const Form01adx01Diary = ({ navigation }) => {
   const [dataDiary, setDataDiary] = useState([]);
-
-  // console.log('-------------------------------------------', data);
-  // console.log('dataInfShip',dataInfShip);
 
   const {
     getDiaryForm,
@@ -202,8 +200,6 @@ const Form01adx01Diary = ({ navigation }) => {
       { cancelable: false },
     );
 
-    // delete object at index
-    console.log(index);
   };
 
   const elementButton = (id, index) => (
@@ -211,6 +207,10 @@ const Form01adx01Diary = ({ navigation }) => {
       <TouchableOpacity
         // disabled={true}
         onPress={() => {
+          if(!netInfo.isConnected){
+            ToastAndroid.show('Vui lòng kết nối internet.', ToastAndroid.SHORT);
+            return; 
+          }
           navigation.navigate('ViewPDF', { id: id, data: dataDiary });
         }}>
         <View style={[styles.btn, { backgroundColor: '#99FF33' }]}>
@@ -225,6 +225,10 @@ const Form01adx01Diary = ({ navigation }) => {
       </TouchableOpacity>
       <TouchableOpacity
         onPress={() => {
+          if(!netInfo.isConnected){
+            ToastAndroid.show('Vui lòng kết nối internet.', ToastAndroid.SHORT);
+            return; 
+          }
           handleGeneratePDF(id);
         }}>
         <View style={[styles.btn, { backgroundColor: '#FF99FF' }]}>
@@ -236,7 +240,13 @@ const Form01adx01Diary = ({ navigation }) => {
           <Text style={styles.btnText}>Xoá</Text>
         </View>
       </TouchableOpacity>
-      <TouchableOpacity onPress={() => handerlePrintPDF(id)}>
+      <TouchableOpacity onPress={() =>{
+          if(!netInfo.isConnected){
+            ToastAndroid.show('Vui lòng kết nối internet.', ToastAndroid.SHORT);
+            return; 
+          }
+          handerlePrintPDF(id)
+      } }>
         <View style={[styles.btn, {backgroundColor: '#C0C0C0'}]}>
           <Text style={styles.btnText}>In</Text>
         </View>

@@ -96,7 +96,6 @@ const Form01adx01 = ({ route }) => {
   };
 
   const handleDataSubmit = value => {
-    console.log('VALUE: ', value);
     if (value == '') {
       Alert.alert('Lỗi', 'Bạn phải nhập tiêu đề', [
         {
@@ -142,8 +141,10 @@ const Form01adx01 = ({ route }) => {
         )}
         <TouchableOpacity
           style={[styles.actionDownload, styles.button]}
-          onPress={() =>
+          onPress={() =>{
             navigation.navigate('ViewPDF', { id: id, data: handleFormatObject() })
+          }
+
           }>
           <Text style={styles.actionText}>Xem mẫu</Text>
         </TouchableOpacity>

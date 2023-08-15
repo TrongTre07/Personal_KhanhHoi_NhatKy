@@ -11,7 +11,6 @@ import { UserContext } from '../contexts/UserContext';
 
 export const PrintfPDF = async (data) => { 
     const duLieu = checkUndefine(data)
-    console.log('dulieu ne', duLieu)
     let count = 1;
     let countfirst = 1;
     
@@ -56,7 +55,6 @@ export const PrintfPDF = async (data) => {
     }
 
     const tongkhoiluong = duLieu.khaithac;
-    console.log('tongkhoiluong', tongkhoiluong);
 
     const totalByType = {};
     for (let i = 1; i <= 9; i++) {
@@ -64,12 +62,8 @@ export const PrintfPDF = async (data) => {
         totalByType[typeKey] = tongkhoiluong.reduce((total, item) => total + parseInt(item[typeKey] || 0), 0);
     }
     const tongsanluong = Object.values(totalByType).reduce((total, item) => total + parseInt(item || 0), 0);
-    console.log('Total by type:', totalByType);
-    console.log('Tổng sản lượng:', tongsanluong);
 
-    console.log('duLieu', duLieu?.thumua);
     const tongThuMua = duLieu?.thumua.reduce((total, item) => total + parseInt(item?.daban_ct_khoiluong || 0), 0);
-    console.log('tongThuMua', tongThuMua);
     try {
         const html_content = `
         <!DOCTYPE html

@@ -90,7 +90,6 @@ const UserProvider = ({children}) => {
           },
         ]);
       }
-      console.log('RESs: ', response.data);
       setIsLoading(false);
       return response.data;
     } catch (error) {
@@ -128,7 +127,6 @@ const UserProvider = ({children}) => {
           'dataInfShip',
           JSON.stringify(dataship.data),
         );
-        console.log('GET diary: ');
 
         return response.data;
       }
@@ -175,7 +173,6 @@ const UserProvider = ({children}) => {
 
   const updateForm = async obj => {
     try {
-      // console.log("OBJ: ", obj)
       const response = await instance.post(
         `/api/FormAppendix/0101/update`,
         obj,
@@ -191,7 +188,6 @@ const UserProvider = ({children}) => {
           },
         ]);
       }
-      // console.log('FORM: ', obj);
     } catch (error) {
       console.log('ERROR UPDATE: ', error);
       if(error.response.status===401){

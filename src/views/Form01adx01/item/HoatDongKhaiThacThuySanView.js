@@ -14,7 +14,6 @@ import {
 import React, {useContext, useState, useEffect} from 'react';
 import {FormContext} from '../../../contexts/FormContext';
 
-import DatePicker from 'react-native-date-picker';
 import {styles} from './itemHoatDongKhaiThacThuySan/styles';
 import CustomDatePicker from './itemHoatDongKhaiThacThuySan/Timepicker';
 import {
@@ -120,7 +119,7 @@ const HoatDongKhaiThacThuySanView = ({id}) => {
       console.log('ERROR: ', error);
       ToastAndroid.show('Lỗi', ToastAndroid.SHORT);
     }
-  }, [data.khaithac]);
+  }, [data?.khaithac]);
 
   React.useEffect(() => {
     if (listForm.length === 0) {

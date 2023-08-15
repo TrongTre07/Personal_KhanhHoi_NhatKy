@@ -10,7 +10,6 @@ import {
   ToastAndroid
 } from 'react-native';
 import React, {useContext, useState, useEffect} from 'react';
-import DatePicker from 'react-native-date-picker';
 import {styles} from './itemHoatDongChuyenTai/style.js';
 import CustomDatePicker from './itemTongCucThuySan/CustomDatePicker.js';
 import {

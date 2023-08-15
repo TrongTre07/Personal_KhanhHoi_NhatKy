@@ -1,33 +1,66 @@
-import React, { useContext } from 'react';
-import { View, StyleSheet } from 'react-native';
+import React, { useContext, useState, useEffect } from 'react';
+import { View, StyleSheet, Text } from 'react-native';
 import Pdf from 'react-native-pdf';
+import RNFS from 'react-native-fs';
 
-import { UserContext } from '../contexts/UserContext';
+import { UserContext } from '../../../contexts/UserContext';
 
+const ViewPDF = ({ route }) => {
 
+  const { data } = useContext(UserContext);
 
-const ViewPDF = ({ route }) => { // Chú ý destructuring của tham số route
   const id = route.params?.id;
-  const data = route.params?.data;
-  let name={dairy_name:'filemau'};
+  const data2 = route.params?.data;
+  let name;
   try {
-    name = data.find((item) => item.id === id);
+    name = data2?.find((item) => item?.id === id);
+    
+    if(!name.dairy_name){
+      name = { dairy_name: 'filemau' };
+
+    }
   } catch (error) {
-    name={dairy_name:'filemau'};
+    if(data.dairy_name){
+      name=data
+    }else
+
+    name = { dairy_name: 'filemau' };
   }
 
-  const localfile = { uri: `/storage/emulated/0/Android/data/com.khanhhoiapp/files/pdf/${name.dairy_name}.pdf` };  
+  const [fileExists, setFileExists] = useState(false);
+  const localfile = { uri: `/storage/emulated/0/Android/data/com.khanhhoiapp/files/pdf/${name?.dairy_name}.pdf` };
+
+  useEffect(() => {
+    checkFileExists();
+  }, []);
+
+  const checkFileExists = async () => {
+    try {
+      const exists = await RNFS.exists(localfile.uri);
+      setFileExists(exists);
+    } catch (error) {
+      console.log(error);
+      setFileExists(false);
+    }
+  };
+
+  if (!fileExists) {
+    return (
+      <View style={styles.container}>
+        <Text style={styles.messageText}>Bạn phải tải trước mới xem được.</Text>
+      </View>
+    );
+  }
+
   return (
     <View style={styles.container}>
-      <Pdf
-        source={localfile}
-        style={styles.pdf}
-      />
+      <Pdf source={localfile} style={styles.pdf} />
     </View>
   );
 };
 
 export default ViewPDF;
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -37,5 +70,9 @@ const styles = StyleSheet.create({
   pdf: {
     flex: 1,
     width: '100%',
+  },
+  messageText: {
+    fontSize: 16,
+    color: 'red',
   },
 });
