@@ -104,7 +104,17 @@ const Form01adx01Diary = ({ navigation }) => {
   const [template, setTemplate] = useState(false);
   const handleGeneratePDF = id => {
     getDetailFormId(id);
-    setTemplate(true);
+    
+    if (netInfo.isConnected) {
+      setTemplate(true);
+    } else {
+      // Handle PDF generation locally without internet
+      const formIndex = dataDiary.findIndex(item => item.id === id);
+      if (formIndex !== -1) {
+        const formData = dataDiary[formIndex];
+        ExportPDF(formData); // Assuming ExportPDF generates the PDF
+      }
+    }
   };
 
   useEffect(() => {

@@ -6,7 +6,7 @@ import RNHTMLtoPDF from 'react-native-html-to-pdf';
 import { checkUndefine } from './checkUndefine';
 
 export const ExportPDF = async (data) => {
-
+    
     const duLieu = checkUndefine(data)
     console.log('dulieu ne', duLieu)
     let count = 1;
