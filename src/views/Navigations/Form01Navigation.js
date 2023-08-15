@@ -56,11 +56,11 @@ const Form01Navigation = () => {
                   <Text style={[styles.btnText, {color: '#fff'}]}>Tạo</Text>
                 </View>
               </TouchableOpacity>
-              <TouchableOpacity style={{}} onPress={() => Storage.setItem('token','kH1diaZdjtBBvQWsqQb+lXKkzdsHZy38TDO4eMChYlQ=x')}>
+              {/* <TouchableOpacity style={{}} onPress={() => Storage.setItem('token','kH1diaZdjtBBvQWsqQb+lXKkzdsHZy38TDO4eMChYlQ=x')}>
                 <View style={[styles.btn, { backgroundColor: '#33CC00' }]}>
                   <Text style={[styles.btnText, { color: '#fff' }]}>token</Text>
                 </View>
-              </TouchableOpacity>
+              </TouchableOpacity> */}
             </View>
           ),
         }}
