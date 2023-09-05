@@ -207,7 +207,7 @@ const Table1 = ({ }) => {
           10. Ngư trường khai thác chính:
         </Text>
       </View>
-      <View style={[styles.row, { height: 'auto', flexDirection: 'row', justifyContent: 'space-between', }]}>
+      <View style={[styles.row, { height: 'auto', flexDirection: 'row', justifyContent: 'space-between', flexWrap: 'wrap',}]}>
         <View style={{ flexDirection: 'row',alignItems:'center' }}>
           <Text style={[styles.text, { flexDirection: 'row' }]}>
             Vịnh Bắc Bộ
@@ -248,8 +248,7 @@ const Table1 = ({ }) => {
             tintColors={{ true: 'gray', false: 'gray' }}
           />
         </View>
-      </View>
-      <View style={{ flexDirection: 'row',alignItems:'center',justifyContent:'flex-start' }}>
+        <View style={{ flexDirection: 'row',alignItems:'center',justifyContent:'flex-start' }}>
           <Text style={[styles.text, { flexDirection: 'row' }]}>
             Giữa Biển Đông
           </Text>
@@ -259,6 +258,7 @@ const Table1 = ({ }) => {
             tintColors={{ true: 'gray', false: 'gray' }}
           />
         </View>
+      </View>
 
         <View style={[styles.row, { height: 'auto' }]}>
           <Text style={[styles.text,]}>
