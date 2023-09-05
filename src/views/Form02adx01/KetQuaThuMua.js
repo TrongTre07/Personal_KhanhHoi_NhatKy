@@ -248,7 +248,7 @@ const KetQuaThuMua = () => {
         key={index}
         onPress={() => handleChonItem(index)}
         style={[
-          {flexDirection: 'row'},
+          {flexDirection: 'row', backgroundColor:'white'},
           isSelected && {backgroundColor: 'lightblue'}, // Change the background color as needed
         ]}>
         <Text style={styles.textTT}>{index + 1}</Text>
@@ -329,7 +329,7 @@ const KetQuaThuMua = () => {
   };
 
   return (
-    <View style={{flex: 1}}>
+    <View style={{flex: 1, backgroundColor:'white'}}>
       <Text
         style={{
           fontWeight: 'bold',
@@ -492,6 +492,7 @@ export default KetQuaThuMua;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: 'white',
   },
   btnThemDong: {
     backgroundColor: '#3b82f6',

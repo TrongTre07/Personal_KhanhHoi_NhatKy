@@ -39,8 +39,8 @@ const App = () => {
     <UserProvider>
       <FormProvider>
         <View style={styles.container}>
-          <KetQuaThuMua />
-          {/* <AppNav /> */}
+          {/* <Form02ad01/> */}
+          <AppNav />
         </View>
       </FormProvider>
     </UserProvider>
