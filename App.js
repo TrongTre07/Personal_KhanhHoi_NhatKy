@@ -8,7 +8,8 @@ import 'react-native-gesture-handler';
 
 import {FormProvider} from './src/contexts/FormContext';
 import AppNavigation from './src/views/Navigations/AppNavigation';
-
+import Form02ad01 from './src/views/Form02adx01/Form02adx01';
+import TongCucThuySanView from './src/views/Form02adx01/item/TongCucThuySanView';
 const AppNav = () => {
   const {isLoggedIn,setIsLoggedIn} = useContext(UserContext);
   // if(AsyncStorage.getItem('token'))
@@ -19,7 +20,7 @@ const AppNav = () => {
   return (
   <NavigationContainer>
     <AppNavigation/>
-</NavigationContainer>)
+  </NavigationContainer>)
 }
 
 const App = () => {
@@ -39,6 +40,7 @@ const App = () => {
         <View style={styles.container}>
           {/* <MyScreen /> */}
           <AppNav/>
+          {/* <TongCucThuySanView/> */}
         </View>
       </FormProvider>
     </UserProvider>

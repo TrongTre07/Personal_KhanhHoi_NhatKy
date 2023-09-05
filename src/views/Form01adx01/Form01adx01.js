@@ -23,10 +23,7 @@ import AlertInputComponent from '../../utils/AlertInputComponent';
 import { ExportPDF } from './pdfForm01/ExportPDF';
 const Form01adx01 = ({ route }) => {
 
-  useEffect(() => {
 
-    console.log('id: ', id)
-  }, [id]);
   const {
     thuMua,
     setThuMua,
@@ -51,6 +48,11 @@ const Form01adx01 = ({ route }) => {
 
   const id = route.params?.id;
 
+  useEffect(() => {
+
+    console.log('id: ', id)
+  }, [id]);
+  
   useEffect(() => {
     if (id != undefined) {
       if (netInfo.isConnected)

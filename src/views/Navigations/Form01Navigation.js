@@ -26,7 +26,7 @@ const Form01Navigation = () => {
     return (
       <TouchableOpacity
         onPress={() => {
-          navigation.goBack();
+          navigation.pop();
           setData({});
         }}>
         <Icon name="arrowleft" size={20} color="#000" />
