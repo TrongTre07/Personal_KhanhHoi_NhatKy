@@ -8,7 +8,7 @@ import {
   Pressable,
   Alert,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import CustomDatePicker from '../others/CustomDatePicker';
 
 const widthTT = 60;
@@ -22,7 +22,7 @@ const widthTongKhoiLuongTong =
 
 const KetQuaThuMua = () => {
   const [selectedItemIndex, setSelectedItemIndex] = useState(-1);
-  const [inputValue, setInputValue] = useState('');
+  useEffect(() => {}, [thumua]);
   const [thumua, setThumua] = useState([
     {
       id: 6,
@@ -194,7 +194,6 @@ const KetQuaThuMua = () => {
       }
       return item;
     });
-    console.log('THUAMUA: ', updatedThumua);
     setThumua(updatedThumua);
   };
 
@@ -275,12 +274,12 @@ const KetQuaThuMua = () => {
         <TextInput
           keyboardType="numeric"
           style={styles.inputToaDo}
-          defaultValue={item.tm_ct_vt_vido}
+          value={item.tm_ct_vt_vido}
           onChangeText={text => handleChangeViDo(text, item.id)}></TextInput>
         <TextInput
           keyboardType="numeric"
           style={styles.inputToaDo}
-          defaultValue={item.tm_ct_vt_kinhdo}
+          value={item.tm_ct_vt_kinhdo}
           onChangeText={text => handleChangeKinhDo(text, item.id)}></TextInput>
         <TextInput
           keyboardType="numeric"
@@ -432,12 +431,20 @@ const KetQuaThuMua = () => {
               </View>
               <Text style={styles.textTongKhoiLuong}>Tổng khối lượng (kg)</Text>
             </View>
-            <View style={{flexDirection: 'column'}}>
+            {/* <View style={{flexDirection: 'column'}}>
               {thumua.map((item, index) => (
-                <KetQuaThuMuaItem item={item} index={index} key={index} />
+                <View key={item.id}>
+                  <KetQuaThuMuaItem item={item} index={index} key={index} />
+                </View>
               ))}
-            </View>
-
+            </View> */}
+            <FlatList
+              data={thumua}
+              renderItem={({item, index}) => (
+                <KetQuaThuMuaItem item={item} index={index} key={index} />
+              )}
+              keyExtractor={item => item.id}
+            />
             <View style={{flexDirection: 'row', height: 50}}>
               <Text style={styles.textTongKhoiLuongTong}>Tổng khối lượng</Text>
               <Text style={styles.textKhoiLuongTong}>
