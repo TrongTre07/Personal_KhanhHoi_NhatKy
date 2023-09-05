@@ -9,6 +9,7 @@ import {
   Alert,
 } from 'react-native';
 import React, {useState} from 'react';
+import CustomDatePicker from '../others/CustomDatePicker';
 
 const widthTT = 60;
 const widthSoDkTauca = 200;
@@ -162,23 +163,38 @@ const KetQuaThuMua = () => {
     setThumua(updatedThumua);
   };
 
-  const handleChangeKhoiLuongLoai = (text, id, loai) => {
+  const handleChangeKhoiLuongLoai = (khoiluong, id, loai) => {
     const updatedThumua = thumua.map(item => {
       if (item.id === id) {
-        // Calculate the new tongsanluong by adding the value of loai to the existing tongsanluong
+        if (loai == 'loai_1_kl') {
+          item.loai_1_kl = khoiluong;
+        } else if (loai == 'loai_2_kl') {
+          item.loai_2_kl = khoiluong;
+        } else if (loai == 'loai_3_kl') {
+          item.loai_3_kl = khoiluong;
+        } else if (loai == 'loai_4_kl') {
+          item.loai_4_kl = khoiluong;
+        } else if (loai == 'loai_5_kl') {
+          item.loai_5_kl = khoiluong;
+        } else if (loai == 'loai_6_kl') {
+          item.loai_6_kl = khoiluong;
+        }
         const newTongSanLuong =
-          (parseFloat(item.tongsanluong) || 0) + (parseFloat(text) || 0);
-
-        // Update the item with the new values
+          (parseInt(item.loai_1_kl) || 0) +
+          (parseInt(item.loai_2_kl) || 0) +
+          (parseInt(item.loai_3_kl) || 0) +
+          (parseInt(item.loai_4_kl) || 0) +
+          (parseInt(item.loai_5_kl) || 0) +
+          (parseInt(item.loai_6_kl) || 0);
         return {
           ...item,
-          [loai]: text,
-          tongsanluong: newTongSanLuong.toString(), // Convert back to string if needed
+          [loai]: khoiluong,
+          tongsanluong: newTongSanLuong.toString(),
         };
       }
       return item;
     });
-
+    console.log('THUAMUA: ', updatedThumua);
     setThumua(updatedThumua);
   };
 
@@ -188,6 +204,27 @@ const KetQuaThuMua = () => {
         ...item,
         [loai]: text,
       };
+    });
+    setThumua(updatedThumua);
+  };
+
+  const handleChangeDate = (date, id) => {
+    const updatedThumua = thumua.map(item => {
+      if (item.id === id) {
+        return {...item, ngaythang: date};
+        // return {...item, ngaythang: moment(date).format('YYYY-MM-DD')};
+      }
+      return item;
+    });
+    setThumua(updatedThumua);
+  };
+
+  const handleChangeSoDkTau = (soDk, id) => {
+    const updatedThumua = thumua.map(item => {
+      if (item.id === id) {
+        return {...item, tau_bs: soDk};
+      }
+      return item;
     });
     setThumua(updatedThumua);
   };
@@ -219,11 +256,22 @@ const KetQuaThuMua = () => {
         <TextInput
           keyboardType="numeric"
           style={styles.textSoDkTauCa}
-          value={item.ngaythang}></TextInput>
-        <TextInput
-          keyboardType="numeric"
-          style={styles.textNgayThang}
-          value={item.ngaythang}></TextInput>
+          value={item.tau_bs}
+          onChangeText={text => handleChangeSoDkTau(text, item.id)}></TextInput>
+        <View
+          style={[
+            styles.inputNgay,
+            {
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+            },
+          ]}>
+          <TextInput value={item.ngaythang.toString()} />
+          <CustomDatePicker
+            onDateChange={date => handleChangeDate(date, item.id)}
+          />
+        </View>
         <TextInput
           keyboardType="numeric"
           style={styles.inputToaDo}
@@ -278,61 +326,20 @@ const KetQuaThuMua = () => {
           }></TextInput>
         <Text style={styles.textTongKhoiLuong}>{item.tongsanluong}</Text>
       </Pressable>
-
-      //   <View
-      //     style={[
-      //       {flexDirection: 'row'},
-      //       isSelected && {backgroundColor: 'lightblue'}, // Change the background color as needed
-      //     ]}>
-      //     <Text style={styles.textTT}>{item.id}</Text>
-      //     <TextInput
-      //       keyboardType="numeric"
-      //       style={styles.textSoDkTauCa}
-      //       value={item.ngaythang}></TextInput>
-      //     <TextInput
-      //       keyboardType="numeric"
-      //       style={styles.textNgayThang}
-      //       value={item.ngaythang}></TextInput>
-      //     <TextInput
-      //       keyboardType="numeric"
-      //       style={styles.inputToaDo}
-      //       value={item.tm_ct_vt_vido}></TextInput>
-      //     <TextInput
-      //       keyboardType="numeric"
-      //       style={styles.inputToaDo}
-      //       value={item.tm_ct_vt_kinhdo}></TextInput>
-      //     <TextInput
-      //       keyboardType="numeric"
-      //       style={styles.inputKhoiLuongLoai}
-      //       value={item.loai_1_kl}></TextInput>
-      //     <TextInput
-      //       keyboardType="numeric"
-      //       style={styles.inputKhoiLuongLoai}
-      //       value={item.loai_2_kl}></TextInput>
-      //     <TextInput
-      //       keyboardType="numeric"
-      //       style={styles.inputKhoiLuongLoai}
-      //       value={item.loai_3_kl}></TextInput>
-      //     <TextInput
-      //       keyboardType="numeric"
-      //       style={styles.inputKhoiLuongLoai}
-      //       value={item.loai_4_kl}></TextInput>
-      //     <TextInput
-      //       keyboardType="numeric"
-      //       style={styles.inputKhoiLuongLoai}
-      //       value={item.loai_5_kl}></TextInput>
-      //     <TextInput
-      //       keyboardType="numeric"
-      //       style={styles.inputKhoiLuongLoai}
-      //       value={item.loai_6_kl}></TextInput>
-      //     <Text style={styles.textTongKhoiLuong}>{item.tongsanluong}</Text>
-      //   </View>
     );
   };
 
   return (
     <View style={{flex: 1}}>
-      <Text>A. KẾT QUẢ THU MUA, CHUYỂN TẢI CẢU CHUYẾN BIỂN</Text>
+      <Text
+        style={{
+          fontWeight: 'bold',
+          fontSize: 22,
+          lineHeight: 28,
+          color: 'black',
+        }}>
+        A. KẾT QUẢ THU MUA, CHUYỂN TẢI CẢU CHUYẾN BIỂN
+      </Text>
       <ScrollView>
         <ScrollView horizontal={true} style={{}}>
           <View style={{flexDirection: 'column'}}>
@@ -502,13 +509,13 @@ const styles = StyleSheet.create({
     margin: 10,
   },
   text: {
-    fontWeight: '300',
+    fontWeight: '400',
     fontSize: 23,
     lineHeight: 25,
     borderColor: 'blue',
     borderWidth: 0.2,
     color: 'black',
-    textAlign: 'center', // Center text horizontally
+    textAlign: 'center',
     textAlignVertical: 'center',
   },
   textBtn: {
@@ -519,7 +526,7 @@ const styles = StyleSheet.create({
     color: 'white',
   },
   textKhoiLuong: {
-    fontWeight: '300',
+    fontWeight: '400',
     fontSize: 23,
     lineHeight: 25,
     borderColor: 'blue',
@@ -531,7 +538,7 @@ const styles = StyleSheet.create({
     textAlignVertical: 'center',
   },
   textKhoiLuongTong: {
-    fontWeight: '300',
+    fontWeight: '400',
     fontSize: 23,
     lineHeight: 25,
     borderColor: 'blue',
@@ -543,7 +550,7 @@ const styles = StyleSheet.create({
     textAlignVertical: 'center',
   },
   textKhoiLuongThuySanDaMua: {
-    fontWeight: '300',
+    fontWeight: '400',
     fontSize: 23,
     lineHeight: 25,
     borderColor: 'blue',
@@ -555,7 +562,7 @@ const styles = StyleSheet.create({
     textAlignVertical: 'center',
   },
   textViTriThuMua: {
-    fontWeight: '300',
+    fontWeight: '400',
     fontSize: 23,
     lineHeight: 25,
     borderColor: 'blue',
@@ -567,7 +574,7 @@ const styles = StyleSheet.create({
     textAlignVertical: 'center',
   },
   textToaDo: {
-    fontWeight: '300',
+    fontWeight: '400',
     fontSize: 23,
     lineHeight: 25,
     borderColor: 'blue',
@@ -579,7 +586,7 @@ const styles = StyleSheet.create({
     textAlignVertical: 'center',
   },
   textNgayThang: {
-    fontWeight: '300',
+    fontWeight: '400',
     fontSize: 23,
     lineHeight: 25,
     borderColor: 'blue',
@@ -590,7 +597,7 @@ const styles = StyleSheet.create({
     textAlignVertical: 'center',
   },
   textTT: {
-    fontWeight: '300',
+    fontWeight: '400',
     fontSize: 23,
     lineHeight: 25,
     borderColor: 'blue',
@@ -601,7 +608,7 @@ const styles = StyleSheet.create({
     textAlignVertical: 'center',
   },
   textSoDkTauCa: {
-    fontWeight: '300',
+    fontWeight: '400',
     fontSize: 23,
     lineHeight: 25,
     borderColor: 'blue',
@@ -612,7 +619,7 @@ const styles = StyleSheet.create({
     textAlignVertical: 'center',
   },
   textTongKhoiLuong: {
-    fontWeight: '300',
+    fontWeight: '400',
     fontSize: 23,
     lineHeight: 25,
     borderColor: 'blue',
@@ -623,7 +630,7 @@ const styles = StyleSheet.create({
     textAlignVertical: 'center',
   },
   textTongKhoiLuongTong: {
-    fontWeight: '300',
+    fontWeight: '400',
     fontSize: 23,
     lineHeight: 25,
     borderColor: 'blue',
@@ -638,6 +645,7 @@ const styles = StyleSheet.create({
     fontSize: 23,
     lineHeight: 25,
     backgroundColor: 'white',
+    color: 'black',
     width: 100,
     borderWidth: 0.2,
     borderColor: 'blue',
@@ -649,6 +657,7 @@ const styles = StyleSheet.create({
     fontSize: 23,
     lineHeight: 25,
     backgroundColor: 'white',
+    color: 'black',
     width: widthToaDo,
     borderWidth: 0.2,
     borderColor: 'blue',
@@ -660,7 +669,20 @@ const styles = StyleSheet.create({
     fontSize: 23,
     lineHeight: 25,
     backgroundColor: 'white',
+    color: 'black',
     width: widthLoai,
+    borderWidth: 0.2,
+    borderColor: 'blue',
+    textAlign: 'center',
+    textAlignVertical: 'center',
+  },
+  inputNgay: {
+    fontWeight: '300',
+    fontSize: 23,
+    lineHeight: 25,
+    backgroundColor: 'white',
+    color: 'black',
+    width: widthSoDkTauca,
     borderWidth: 0.2,
     borderColor: 'blue',
     textAlign: 'center',
