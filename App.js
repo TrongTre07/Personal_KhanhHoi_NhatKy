@@ -11,7 +11,7 @@ import KetQuaThuMua from './src/views/Form02adx01/KetQuaThuMua';
 
 import Form02ad01 from './src/views/Form02adx01/Form02adx01';
 import TongCucThuySanView from './src/views/Form02adx01/item/TongCucThuySanView';
-import ThongTinChungVeCacTau from './src/views/Form03adx01/item/ThongTinChungVeCacTau';
+import ThongTinVeCacTau from './src/views/Form02adx01/item/ThongTinVeCacTau';
 const AppNav = () => {
   const {isLoggedIn, setIsLoggedIn} = useContext(UserContext);
   // if(AsyncStorage.getItem('token'))
@@ -40,7 +40,7 @@ const App = () => {
     <UserProvider>
       <FormProvider>
         <View style={styles.container}>
-          <ThongTinChungVeCacTau/>
+          <ThongTinVeCacTau/>
           {/* <AppNav /> */}
         </View>
       </FormProvider>

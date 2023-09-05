@@ -2,7 +2,6 @@ import { View, Text, TextInput, Image, Pressable } from 'react-native';
 import React, { useState, useMemo, useContext, useEffect } from 'react';
 import styles from './styles';
 
-
 import DatePicker from 'react-native-date-picker';
 import { Picker } from '@react-native-picker/picker';
 import { dateNowFormat } from '../../../others/formatdate';
