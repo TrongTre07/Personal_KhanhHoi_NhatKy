@@ -6,8 +6,10 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 import HeaderScreen from './HeaderScreen';
 import Form01Navigation from './Form01Navigation';
 import Login from '../login/Login';
-import Form02ad02 from '../Form02adx02/Form02ad02';
+import Form02adx01 from '../Form02adx01/Form02adx01';
+import Form02adx01Navigation from './Form02adx01Navigation';
 import ViewPDF from '../Form01adx01/pdfForm01/ViewPDF';
+import Form03adx01Navigation from './Form03adx01Navigation';
 
 
 const Stack = createStackNavigator();
@@ -16,7 +18,7 @@ const Drawer = createDrawerNavigator();
 
 const MainNavigation = () => {
   return (
-    <Drawer.Navigator>
+    <Drawer.Navigator backBehavior="history">
       <Drawer.Screen
         name="Form01Navigation"
         component={Form01Navigation}
@@ -28,21 +30,21 @@ const MainNavigation = () => {
         }}
       />
       <Drawer.Screen
-        name="2"
-        component={Form02ad02}
+        name="Form02adx01Navigation"
+        component={Form02adx01Navigation}
         options={{
           drawerType: 'front',
-          headerTitle: () => <Image style={{ width: 200, height: 100, resizeMode: 'contain' }} source={require('../../img/logo-khanhhoi.png')} />,
+          headerTitle: HeaderScreen,
           title: "Nhật ký thu mua, chuyển tải thủy sản",
 
         }}
       />
       <Drawer.Screen
         name="3"
-        component={Form02ad02}
+        component={Form03adx01Navigation}
         options={{
           drawerType: 'front',
-          headerTitle: () => <Image style={{ width: 200, height: 100, resizeMode: 'contain' }} source={require('../../img/logo-khanhhoi.png')} />,
+          headerTitle: HeaderScreen,
           title: "Báo cáo khai thác thuỷ sản",
 
         }}

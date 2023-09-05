@@ -13,6 +13,8 @@ const UserContext = createContext();
 const UserProvider = ({children}) => {
 
   const [data, setData] = useState([]);
+  const [data0201, setData0201] = useState([]);
+  const [data0301, setData0301] = useState([]);
   const [dataInfShip, setDataInfShip] = useState([]);
   const [token, setToken] = useState();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -68,7 +70,7 @@ const UserProvider = ({children}) => {
     checkLoginStatus();
   }, []);
   
-
+  //form 0101
   //tạo form
   const postForm = async obj => {
     try {
@@ -118,7 +120,7 @@ const UserProvider = ({children}) => {
       if (await Storage.getItem('token')) {
         
         const response = await instance.get('api/FormAppendix/getall_0101');
-        setData(await response.data);
+        // setData(await response.data);
 
         //api getShip
         const dataship = await instance.get('api/FormAppendix/getallship');
@@ -203,7 +205,115 @@ const UserProvider = ({children}) => {
       ]);
     }
   };
+  //end
 
+  //form 0201
+  //get diary form
+  const getDiaryForm0201 = async () => {
+    try {
+      if (await Storage.getItem('token')) {
+        
+        const response = await instance.get('api/FormAppendix/getall_0201');
+        return response.data;
+      }
+    } catch (error) {
+      if(error.response.status===401){
+        getAlert401();
+      }
+    }
+  };
+
+  //delete form 
+  const deleteForm0201Id = async id => {
+    try {
+      if (id) {
+        await instance.post(`api/FormAppendix/0201/del/${id}`);
+      }
+    } catch (error) {
+      if(error.response.status===401){
+        getAlert401();
+      }
+      console.log('Delete ERROR: ', error);
+    }
+  };
+
+  //get form theo id
+  const getDetailForm0201Id = async id => {
+    try {
+      if (!id) {
+        setInitialTitle('');
+      }
+      if (await Storage.getItem('token')&&id) {
+        const response = await instance.get(
+          `/api/FormAppendix/get_detail_0201_by_id/${id}`,
+        );
+
+        setInitialTitle(response.data.dairy_name);
+        setData0201(await response.data);
+      }
+    } catch (error) {
+      if(error.response.status===401){
+        getAlert401();
+      }
+      console.log('ERROR: ', error);
+    }
+  };
+  //end
+
+//form 0301
+  //get diary form
+  const getDiaryForm0301 = async () => {
+    try {
+      if (await Storage.getItem('token')) {
+        
+        const response = await instance.get('api/FormAppendix/0301/getall');
+        return response.data;
+      }
+    } catch (error) {
+      if(error.response.status===401){
+        getAlert401();
+      }
+    }
+  };
+
+  //delete form 
+  const deleteForm0301Id = async id => {
+    try {
+      if (id) {
+        await instance.post(`api/FormAppendix/0301/del/${id}`);
+      }
+    } catch (error) {
+      if(error.response.status===401){
+        getAlert401();
+      }
+      console.log('Delete ERROR: ', error);
+    }
+  };
+
+  //get form theo id
+  const getDetailForm0301Id = async id => {
+    try {
+      if (!id) {
+        setInitialTitle('');
+      }
+      if (await Storage.getItem('token')&&id) {
+        const response = await instance.get(
+          `/api/FormAppendix/0301/getbyid/${id}`,
+        );
+
+        setInitialTitle(response.data.dairy_name);
+        setData0201(await response.data);
+      }
+    } catch (error) {
+      if(error.response.status===401){
+        getAlert401();
+      }
+      console.log('ERROR: ', error);
+    }
+  };
+  //end
+  
+  //check token
   const getAlert401 = ()=>{
     Alert.alert('Đã hết phiên đăng nhập!','Vui lòng đăng nhập lại', [
       {
@@ -240,6 +350,18 @@ const UserProvider = ({children}) => {
       setDataInfShip,
       goBackAlert,
       setGoBackAlert,
+
+      getDiaryForm0201,
+      deleteForm0201Id,
+      getDetailForm0201Id,
+      data0201,
+      setData0201,
+
+      getDiaryForm0301,
+      deleteForm0301Id,
+      getDetailForm0301Id,
+      data0301,
+      setData0301,
     }),
     [
       isLoggedIn,
@@ -264,6 +386,18 @@ const UserProvider = ({children}) => {
       setDataInfShip,
       goBackAlert,
       setGoBackAlert,
+
+      getDiaryForm0201,
+      deleteForm0201Id,
+      getDetailForm0201Id,
+      data0201,
+      setData0201,
+
+      getDiaryForm0301,
+      deleteForm0301Id,
+      getDetailForm0301Id,
+      data0301,
+      setData0301,
     ]
   );
 

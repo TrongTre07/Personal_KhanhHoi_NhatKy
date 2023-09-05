@@ -9,6 +9,8 @@ import {FormProvider} from './src/contexts/FormContext';
 import AppNavigation from './src/views/Navigations/AppNavigation';
 import KetQuaThuMua from './src/views/Form02adx02/KetQuaThuMua';
 
+import Form02ad01 from './src/views/Form02adx01/Form02adx01';
+import TongCucThuySanView from './src/views/Form02adx01/item/TongCucThuySanView';
 const AppNav = () => {
   const {isLoggedIn, setIsLoggedIn} = useContext(UserContext);
   // if(AsyncStorage.getItem('token'))
