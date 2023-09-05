@@ -6,6 +6,7 @@ import {useNetInfo} from '@react-native-community/netinfo';
 import {ScrollView} from 'react-native-gesture-handler';
 import KetQuaThuMua from './KetQuaThuMua';
 import ThongTinVeCacTau from './item/ThongTinVeCacTau';
+import ThongTinChiTietHoatDong from './item/B_ThongTinVeTauCa/ThongTinChiTietHoatDong';
 const Form02ad01 = ({route}) => {
   const {
     getDetailForm0201Id,
@@ -34,6 +35,7 @@ const Form02ad01 = ({route}) => {
       <TongCucThuySanView />
       <KetQuaThuMua />
       <ThongTinVeCacTau/>
+      <ThongTinChiTietHoatDong/>
     </ScrollView>
   );
 };

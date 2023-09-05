@@ -22,9 +22,7 @@ const widthTongKhoiLuongTong =
   widthToaDo * 2 + widthTT + widthSoDkTauca + widthThoiGian;
 
 const KetQuaThuMua = () => {
-  console.log('KetQuaThuMua');
   const [selectedItemIndex, setSelectedItemIndex] = useState(-1);
-  // useEffect(() => {}, [thumua]);
 
   const [thumua, setThumua] = useState([
     {
@@ -242,24 +240,23 @@ const KetQuaThuMua = () => {
 
     return total;
   };
-  const KetQuaThuMuaItem = ({ item, index }) => {
+  const KetQuaThuMuaItem = ({item, index}) => {
     const isSelected = selectedItemIndex === index;
-  
+
     return (
       <Pressable
         key={index}
         onPress={() => handleChonItem(index)}
         style={[
-          { flexDirection: 'row', backgroundColor: 'white' },
-          isSelected && { backgroundColor: 'lightblue' },
-        ]}
-      >
+          {flexDirection: 'row', backgroundColor: 'white'},
+          isSelected && {backgroundColor: 'lightblue'},
+        ]}>
         <Text style={styles.textTT}>{index + 1}</Text>
         <TextInput
           keyboardType="numeric"
           style={styles.textSoDkTauCa}
           value={item.tau_bs}
-          onChangeText={(text) => handleChangeSoDkTau(text, item.id)}
+          onChangeText={text => handleChangeSoDkTau(text, item.id)}
         />
         <View
           style={[
@@ -269,162 +266,79 @@ const KetQuaThuMua = () => {
               justifyContent: 'space-between',
               alignItems: 'center',
             },
-          ]}
-        >
+          ]}>
           <TextInput
             value={item.ngaythang.toString()}
-            onChangeText={(text) => handleChangeDate(text, item.id)}
+            onChangeText={text => handleChangeDate(text, item.id)}
           />
-          <CustomDatePicker onDateChange={(date) => handleChangeDate(date, item.id)} />
+          <CustomDatePicker
+            onDateChange={date => handleChangeDate(date, item.id)}
+          />
         </View>
         <TextInput
           keyboardType="numeric"
           style={styles.inputToaDo}
           value={item.tm_ct_vt_vido}
-          onChangeText={(text) => handleChangeViDo(text, item.id)}
+          onChangeText={text => handleChangeViDo(text, item.id)}
         />
         <TextInput
           keyboardType="numeric"
           style={styles.inputToaDo}
           value={item.tm_ct_vt_kinhdo}
-          onChangeText={(text) => handleChangeKinhDo(text, item.id)}
+          onChangeText={text => handleChangeKinhDo(text, item.id)}
         />
         <TextInput
           keyboardType="numeric"
           style={styles.inputKhoiLuongLoai}
           value={item.loai_1_kl}
-          onChangeText={(text) => handleChangeKhoiLuongLoai(text, item.id, 'loai_1_kl')}
+          onChangeText={text =>
+            handleChangeKhoiLuongLoai(text, item.id, 'loai_1_kl')
+          }
         />
         <TextInput
           keyboardType="numeric"
           style={styles.inputKhoiLuongLoai}
           value={item.loai_2_kl}
-          onChangeText={(text) => handleChangeKhoiLuongLoai(text, item.id, 'loai_2_kl')}
+          onChangeText={text =>
+            handleChangeKhoiLuongLoai(text, item.id, 'loai_2_kl')
+          }
         />
         <TextInput
           keyboardType="numeric"
           style={styles.inputKhoiLuongLoai}
           value={item.loai_3_kl}
-          onChangeText={(text) => handleChangeKhoiLuongLoai(text, item.id, 'loai_3_kl')}
+          onChangeText={text =>
+            handleChangeKhoiLuongLoai(text, item.id, 'loai_3_kl')
+          }
         />
         <TextInput
           keyboardType="numeric"
           style={styles.inputKhoiLuongLoai}
           value={item.loai_4_kl}
-          onChangeText={(text) => handleChangeKhoiLuongLoai(text, item.id, 'loai_4_kl')}
+          onChangeText={text =>
+            handleChangeKhoiLuongLoai(text, item.id, 'loai_4_kl')
+          }
         />
         <TextInput
           keyboardType="numeric"
           style={styles.inputKhoiLuongLoai}
           value={item.loai_5_kl}
-          onChangeText={(text) => handleChangeKhoiLuongLoai(text, item.id, 'loai_5_kl')}
+          onChangeText={text =>
+            handleChangeKhoiLuongLoai(text, item.id, 'loai_5_kl')
+          }
         />
         <TextInput
           keyboardType="numeric"
           style={styles.inputKhoiLuongLoai}
           value={item.loai_6_kl}
-          onChangeText={(text) => handleChangeKhoiLuongLoai(text, item.id, 'loai_6_kl')}
+          onChangeText={text =>
+            handleChangeKhoiLuongLoai(text, item.id, 'loai_6_kl')
+          }
         />
         <Text style={styles.textTongKhoiLuong}>{item.tongsanluong}</Text>
       </Pressable>
     );
   };
-  
-
-  // const KetQuaThuMuaItem = ({item, index}) => {
-  //   const isSelected = selectedItemIndex === index;
-
-  //   return (
-  //     <View>
-  //       <Pressable
-  //         key={index}
-  //         onPress={() => handleChonItem(index)}
-  //         style={[
-  //           {flexDirection: 'row', backgroundColor: 'white'},
-  //           isSelected && {backgroundColor: 'lightblue'}, // Change the background color as needed
-  //         ]}>
-  //         <Text style={styles.textTT}>{index + 1}</Text>
-  //         <TextInput
-  //           keyboardType="numeric"
-  //           style={styles.textSoDkTauCa}
-  //           value={item.tau_bs}
-  //           onChangeText={text =>
-  //             handleChangeSoDkTau(text, item.id)
-  //           }></TextInput>
-  //         <View
-  //           style={[
-  //             styles.inputNgay,
-  //             {
-  //               flexDirection: 'row',
-  //               justifyContent: 'space-between',
-  //               alignItems: 'center',
-  //             },
-  //           ]}>
-  //           <TextInput value={item.ngaythang.toString()} />
-  //           <CustomDatePicker
-  //             onDateChange={date => handleChangeDate(date, item.id)}
-  //           />
-  //         </View>
-  //         <TextInput
-  //           keyboardType="numeric"
-  //           style={styles.inputToaDo}
-  //           value={item.tm_ct_vt_vido}
-  //           key={`${index}`}
-  //           onChangeText={text => handleChangeViDo(text, item.id)}></TextInput>
-  //         <TextInput
-  //           keyboardType="numeric"
-  //           style={styles.inputToaDo}
-  //           value={item.tm_ct_vt_kinhdo}
-  //           onChangeText={text =>
-  //             handleChangeKinhDo(text, item.id)
-  //           }></TextInput>
-  //         <TextInput
-  //           keyboardType="numeric"
-  //           style={styles.inputKhoiLuongLoai}
-  //           value={item.loai_1_kl}
-  //           onChangeText={text =>
-  //             handleChangeKhoiLuongLoai(text, item.id, 'loai_1_kl')
-  //           }></TextInput>
-  //         <TextInput
-  //           keyboardType="numeric"
-  //           style={styles.inputKhoiLuongLoai}
-  //           value={item.loai_2_kl}
-  //           onChangeText={text =>
-  //             handleChangeKhoiLuongLoai(text, item.id, 'loai_2_kl')
-  //           }></TextInput>
-  //         <TextInput
-  //           keyboardType="numeric"
-  //           style={styles.inputKhoiLuongLoai}
-  //           value={item.loai_3_kl}
-  //           onChangeText={text =>
-  //             handleChangeKhoiLuongLoai(text, item.id, 'loai_3_kl')
-  //           }></TextInput>
-  //         <TextInput
-  //           keyboardType="numeric"
-  //           style={styles.inputKhoiLuongLoai}
-  //           value={item.loai_4_kl}
-  //           onChangeText={text =>
-  //             handleChangeKhoiLuongLoai(text, item.id, 'loai_4_kl')
-  //           }></TextInput>
-  //         <TextInput
-  //           keyboardType="numeric"
-  //           style={styles.inputKhoiLuongLoai}
-  //           value={item.loai_5_kl}
-  //           onChangeText={text =>
-  //             handleChangeKhoiLuongLoai(text, item.id, 'loai_5_kl')
-  //           }></TextInput>
-  //         <TextInput
-  //           keyboardType="numeric"
-  //           style={styles.inputKhoiLuongLoai}
-  //           value={item.loai_6_kl}
-  //           onChangeText={text =>
-  //             handleChangeKhoiLuongLoai(text, item.id, 'loai_6_kl')
-  //           }></TextInput>
-  //         <Text style={styles.textTongKhoiLuong}>{item.tongsanluong}</Text>
-  //       </Pressable>
-  //     </View>
-  //   );
-  // };
 
   return (
     <View style={{flex: 1, backgroundColor: 'white'}}>
@@ -434,6 +348,7 @@ const KetQuaThuMua = () => {
           fontSize: 22,
           lineHeight: 28,
           color: 'black',
+          marginVertical: 15,
         }}>
         A. KẾT QUẢ THU MUA, CHUYỂN TẢI CẢU CHUYẾN BIỂN
       </Text>
@@ -618,7 +533,7 @@ const styles = StyleSheet.create({
     fontSize: 23,
     lineHeight: 25,
     borderColor: '#0099FF',
-    borderWidth: 0.,
+    borderWidth: 0,
     color: 'black',
     textAlign: 'center',
     textAlignVertical: 'center',

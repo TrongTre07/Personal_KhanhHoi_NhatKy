@@ -124,13 +124,14 @@ const ThongTinVeCacTau = () => {
   };
 
   return (
-    <View style={{flexDirection: 'column'}}>
+    <View style={{flexDirection: 'column', backgroundColor:'white'}}>
       <Text
         style={{
           fontWeight: 'bold',
           fontSize: 22,
           lineHeight: 28,
           color: 'black',
+          marginVertical: 15
         }}>
         B. THÔNG TIN VỀ CÁC TÀU ĐÃ ĐƯỢC THU MUA, CHUYỂN TẢI *
       </Text>
