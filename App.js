@@ -5,46 +5,46 @@ import {UserContext, UserProvider} from './src/contexts/UserContext';
 import {NavigationContainer} from '@react-navigation/native';
 import 'react-native-gesture-handler';
 
-
 import {FormProvider} from './src/contexts/FormContext';
 import AppNavigation from './src/views/Navigations/AppNavigation';
+import KetQuaThuMua from './src/views/Form02adx01/KetQuaThuMua';
+
 import Form02ad01 from './src/views/Form02adx01/Form02adx01';
 import TongCucThuySanView from './src/views/Form02adx01/item/TongCucThuySanView';
 const AppNav = () => {
-  const {isLoggedIn,setIsLoggedIn} = useContext(UserContext);
+  const {isLoggedIn, setIsLoggedIn} = useContext(UserContext);
   // if(AsyncStorage.getItem('token'))
   //   setIsLoggedIn(true)
   // else
   // setIsLoggedIn(false)
 
   return (
-  <NavigationContainer>
-    <AppNavigation/>
-  </NavigationContainer>)
-}
+    <NavigationContainer>
+      <AppNavigation />
+    </NavigationContainer>
+  );
+};
 
 const App = () => {
-
   return (
-  //   <UserProvider>
-  //   <FormProvider>
-  //     <View style={styles.container}>
-  //       {/* <AppNav /> */}
-  //       <PDF/>
-  //     </View>
-  //   </FormProvider>
-  // </UserProvider>
- 
+    //   <UserProvider>
+    //   <FormProvider>
+    //     <View style={styles.container}>
+    //       {/* <AppNav /> */}
+    //       <PDF/>
+    //     </View>
+    //   </FormProvider>
+    // </UserProvider>
+
     <UserProvider>
       <FormProvider>
         <View style={styles.container}>
-          {/* <MyScreen /> */}
-          <AppNav/>
-          {/* <TongCucThuySanView/> */}
+          <KetQuaThuMua />
+          {/* <AppNav /> */}
         </View>
       </FormProvider>
     </UserProvider>
-   );
+  );
 };
 
 export default App;
