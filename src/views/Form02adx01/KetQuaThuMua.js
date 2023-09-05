@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import CustomDatePicker from '../others/CustomDatePicker';
+import moment from 'moment';
 
 const widthTT = 60;
 const widthSoDkTauca = 200;
@@ -21,8 +22,10 @@ const widthTongKhoiLuongTong =
   widthToaDo * 2 + widthTT + widthSoDkTauca + widthThoiGian;
 
 const KetQuaThuMua = () => {
+  console.log('KetQuaThuMua');
   const [selectedItemIndex, setSelectedItemIndex] = useState(-1);
-  useEffect(() => {}, [thumua]);
+  // useEffect(() => {}, [thumua]);
+
   const [thumua, setThumua] = useState([
     {
       id: 6,
@@ -210,8 +213,8 @@ const KetQuaThuMua = () => {
   const handleChangeDate = (date, id) => {
     const updatedThumua = thumua.map(item => {
       if (item.id === id) {
-        return {...item, ngaythang: date};
-        // return {...item, ngaythang: moment(date).format('YYYY-MM-DD')};
+        // return {...item, ngaythang: date};
+        return {...item, ngaythang: moment(date).format('YYYY-MM-DD')};
       }
       return item;
     });
@@ -535,9 +538,7 @@ const KetQuaThuMua = () => {
             </View> */}
             <FlatList
               data={thumua}
-              renderItem={({item, index}) => (
-                <KetQuaThuMuaItem item={item} index={index} key={index} />
-              )}
+              renderItem={KetQuaThuMuaItem}
               keyExtractor={item => item.id}
             />
             <View style={{flexDirection: 'row', height: 50}}>
@@ -598,6 +599,7 @@ const styles = StyleSheet.create({
     height: 50,
     borderWidth: 0.1,
     borderRadius: 10,
+
     margin: 10,
   },
   btnXoaDong: {
@@ -615,8 +617,8 @@ const styles = StyleSheet.create({
     fontWeight: '400',
     fontSize: 23,
     lineHeight: 25,
-    borderColor: 'blue',
-    borderWidth: 0.2,
+    borderColor: '#0099FF',
+    borderWidth: 0.,
     color: 'black',
     textAlign: 'center',
     textAlignVertical: 'center',
@@ -632,8 +634,8 @@ const styles = StyleSheet.create({
     fontWeight: '400',
     fontSize: 23,
     lineHeight: 25,
-    borderColor: 'blue',
-    borderWidth: 0.2,
+    borderColor: '#0099FF',
+    borderWidth: 0.6,
     width: widthLoai,
     height: 40,
     color: 'black',
@@ -644,8 +646,8 @@ const styles = StyleSheet.create({
     fontWeight: '400',
     fontSize: 23,
     lineHeight: 25,
-    borderColor: 'blue',
-    borderWidth: 0.2,
+    borderColor: '#0099FF',
+    borderWidth: 0.6,
     width: widthLoai,
     height: 50,
     color: 'black',
@@ -656,8 +658,8 @@ const styles = StyleSheet.create({
     fontWeight: '400',
     fontSize: 23,
     lineHeight: 25,
-    borderColor: 'blue',
-    borderWidth: 0.2,
+    borderColor: '#0099FF',
+    borderWidth: 0.6,
     width: 600,
     height: 40,
     color: 'black',
@@ -668,8 +670,8 @@ const styles = StyleSheet.create({
     fontWeight: '400',
     fontSize: 23,
     lineHeight: 25,
-    borderColor: 'blue',
-    borderWidth: 0.2,
+    borderColor: '#0099FF',
+    borderWidth: 0.6,
     width: 300,
     height: 80,
     color: 'black',
@@ -680,8 +682,8 @@ const styles = StyleSheet.create({
     fontWeight: '400',
     fontSize: 23,
     lineHeight: 25,
-    borderColor: 'blue',
-    borderWidth: 0.2,
+    borderColor: '#0099FF',
+    borderWidth: 0.6,
     width: widthToaDo,
     height: 50,
     color: 'black',
@@ -692,8 +694,8 @@ const styles = StyleSheet.create({
     fontWeight: '400',
     fontSize: 23,
     lineHeight: 25,
-    borderColor: 'blue',
-    borderWidth: 0.2,
+    borderColor: '#0099FF',
+    borderWidth: 0.6,
     width: widthSoDkTauca,
     color: 'black',
     textAlign: 'center', // Center text horizontally
@@ -703,8 +705,8 @@ const styles = StyleSheet.create({
     fontWeight: '400',
     fontSize: 23,
     lineHeight: 25,
-    borderColor: 'blue',
-    borderWidth: 0.2,
+    borderColor: '#0099FF',
+    borderWidth: 0.6,
     width: widthTT,
     color: 'black',
     textAlign: 'center', // Center text horizontally
@@ -714,8 +716,8 @@ const styles = StyleSheet.create({
     fontWeight: '400',
     fontSize: 23,
     lineHeight: 25,
-    borderColor: 'blue',
-    borderWidth: 0.2,
+    borderColor: '#0099FF',
+    borderWidth: 0.6,
     width: widthSoDkTauca,
     color: 'black',
     textAlign: 'center', // Center text horizontally
@@ -725,8 +727,8 @@ const styles = StyleSheet.create({
     fontWeight: '400',
     fontSize: 23,
     lineHeight: 25,
-    borderColor: 'blue',
-    borderWidth: 0.2,
+    borderColor: '#0099FF',
+    borderWidth: 0.6,
     width: widthTongKhoiLuong,
     color: 'black',
     textAlign: 'center', // Center text horizontally
@@ -736,8 +738,8 @@ const styles = StyleSheet.create({
     fontWeight: '400',
     fontSize: 23,
     lineHeight: 25,
-    borderColor: 'blue',
-    borderWidth: 0.2,
+    borderColor: '#0099FF',
+    borderWidth: 1,
     width: widthTongKhoiLuongTong,
     color: 'black',
     textAlign: 'center', // Center text horizontally
@@ -750,8 +752,8 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     color: 'black',
     width: 100,
-    borderWidth: 0.2,
-    borderColor: 'blue',
+    borderWidth: 0.6,
+    borderColor: '#0099FF',
     textAlign: 'center',
     textAlignVertical: 'center',
   },
@@ -762,8 +764,8 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     color: 'black',
     width: widthToaDo,
-    borderWidth: 0.2,
-    borderColor: 'blue',
+    borderWidth: 0.6,
+    borderColor: '#0099FF',
     textAlign: 'center',
     textAlignVertical: 'center',
   },
@@ -774,8 +776,8 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     color: 'black',
     width: widthLoai,
-    borderWidth: 0.2,
-    borderColor: 'blue',
+    borderWidth: 0.6,
+    borderColor: '#0099FF',
     textAlign: 'center',
     textAlignVertical: 'center',
   },
@@ -786,8 +788,8 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     color: 'black',
     width: widthSoDkTauca,
-    borderWidth: 0.2,
-    borderColor: 'blue',
+    borderWidth: 0.6,
+    borderColor: '#0099FF',
     textAlign: 'center',
     textAlignVertical: 'center',
   },
