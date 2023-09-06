@@ -8,9 +8,11 @@ import {
   Pressable,
   Alert,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import CustomDatePicker from '../../../others/CustomDatePicker';
 import moment from 'moment';
+import {useEffect} from 'react';
+import { UserContext } from '../../../../contexts/UserContext';
 
 const widthTT = 60;
 const widthSoDkTauca = 200;
@@ -20,8 +22,146 @@ const widthLoai = 100;
 const widthTongKhoiLuong = 200;
 const widthTongKhoiLuongTong = widthToaDo * 4 + widthTT + widthThoiGian * 2;
 
-const ThongTinChiTietHoatDong = () => {
+const ThongTinChiTietHoatDong = ({selectedItem}) => {
   const [selectedItemIndex, setSelectedItemIndex] = useState(-1);
+  const {data0201, setData0201} = useContext(UserContext)
+  const sampleData = {
+    id: 0,
+    dairy_name: 'aaa',
+    ten_chutau: 'nguyen bv',
+    ten_thuyentruong: '',
+    id_tau: '1',
+    tau_bs: 'HC-1234-TS1',
+    tau_chieudailonnhat: '12',
+    tau_tongcongsuatmaychinh: '12',
+    gpkt_so: 'HAGPKT',
+    gpkt_thoihan: '12/2/2022',
+    chuyenbien_so: '',
+    cang_di: '',
+    ngay_di: '2023-09-06T00:00:00',
+    cang_ve: '',
+    ngay_ve: '2023-09-06T00:00:00',
+    ngaynop: '2023-09-06T00:00:00',
+    vaoso_so: '',
+    date_create: '2023-09-06T10:43:45',
+    thumua: [
+      {
+        id: 0,
+        dairy_id: 0,
+        ngaythang: '2023-09-06',
+        id_tau: '',
+        tau_bs: '',
+        tm_ct_vt_vido: '',
+        tm_ct_vt_kinhdo: '',
+        loai_1: '',
+        loai_2: '',
+        loai_3: '',
+        loai_4: '',
+        loai_5: '',
+        loai_6: '',
+        loai_1_kl: '',
+        loai_2_kl: '',
+        loai_3_kl: '',
+        loai_4_kl: '',
+        loai_5_kl: '',
+        loai_6_kl: '',
+        tongsanluong: '',
+      },
+    ],
+    thongtintaudc_thumua: [
+      {
+        id: 0,
+        dairy_id: 0,
+        id_tau: '',
+        tau_bs: '',
+        tau_chieudailonnhat: '',
+        tau_tongcongsuatmaychinh: '',
+        gpkt_so: '',
+        gpkt_thoihan: '0001-01-01T00:00:00',
+        nghekt: '',
+        cang_di: '',
+        ngay_di: '2023-09-06T00:00:00',
+        tg_khaithac_tungay: '2023-09-06T00:00:00',
+        tg_khaithac_denngay: '2023-09-06T00:00:00',
+        thongtinhoatdong: [
+          {
+            id: 0,
+            dairy_id: 0,
+            methu: '1',
+            thoidiem_tha: '2023-09-06T08:35',
+            vido_tha: '',
+            kinhdo_tha: '',
+            thoidiem_thu: '2023-09-06T08:35',
+            vido_thu: '',
+            kinhdo_thu: '',
+            loai_1: '',
+            loai_2: '',
+            loai_3: '',
+            loai_4: '',
+            loai_5: '',
+            loai_6: '',
+            loai_1_kl: '',
+            loai_2_kl: '',
+            loai_3_kl: '',
+            loai_4_kl: '',
+            loai_5_kl: '',
+            loai_6_kl: '',
+            tongsanluong: '',
+          },
+          {
+            id: 0,
+            dairy_id: 0,
+            methu: '2',
+            thoidiem_tha: '2023-09-06T10:43',
+            vido_tha: '',
+            kinhdo_tha: '',
+            thoidiem_thu: '2023-09-06T10:43',
+            vido_thu: '',
+            kinhdo_thu: '',
+            loai_1: '',
+            loai_2: '',
+            loai_3: '',
+            loai_4: '',
+            loai_5: '',
+            loai_6: '',
+            loai_1_kl: '',
+            loai_2_kl: '',
+            loai_3_kl: '',
+            loai_4_kl: '',
+            loai_5_kl: '',
+            loai_6_kl: '',
+            tongsanluong: '',
+          },
+          {
+            id: 0,
+            dairy_id: 0,
+            methu: '3',
+            thoidiem_tha: '2023-09-06T10:43',
+            vido_tha: '',
+            kinhdo_tha: '',
+            thoidiem_thu: '2023-09-06T10:43',
+            vido_thu: '',
+            kinhdo_thu: '',
+            loai_1: '',
+            loai_2: '',
+            loai_3: '',
+            loai_4: '',
+            loai_5: '',
+            loai_6: '',
+            loai_1_kl: '',
+            loai_2_kl: '',
+            loai_3_kl: '',
+            loai_4_kl: '',
+            loai_5_kl: '',
+            loai_6_kl: '',
+            tongsanluong: '',
+          },
+        ],
+        selected: true,
+      },
+    ],
+    isdraft: false,
+  };
 
   const [thongTinHoatDong, setThongTinHoatDong] = useState([
     {
@@ -48,31 +188,42 @@ const ThongTinChiTietHoatDong = () => {
       loai_6_kl: '',
       tongsanluong: '',
     },
-    {
-      id: 2,
-      dairy_id: 0,
-      methu: '2',
-      thoidiem_tha: '2023-09-05T09:33',
-      vido_tha: '',
-      kinhdo_tha: '',
-      thoidiem_thu: '2023-09-05T09:33',
-      vido_thu: '',
-      kinhdo_thu: '',
-      loai_1: '',
-      loai_2: '',
-      loai_3: '',
-      loai_4: '',
-      loai_5: '',
-      loai_6: '',
-      loai_1_kl: '',
-      loai_2_kl: '',
-      loai_3_kl: '',
-      loai_4_kl: '',
-      loai_5_kl: '',
-      loai_6_kl: '',
-      tongsanluong: '',
-    },
   ]);
+  useEffect(() => {
+    if (selectedItem != undefined) {
+      // console.log(sampleData.thongtintaudc_thumua[selectedItem])
+      setThongTinHoatDong(
+        data0201.thongtintaudc_thumua[selectedItem].thongtinhoatdong,
+      );
+    } else {
+      setThongTinHoatDong([
+        {
+          id: 0,
+          dairy_id: 0,
+          methu: '1',
+          thoidiem_tha: '2023-09-05T09:33',
+          vido_tha: '',
+          kinhdo_tha: '',
+          thoidiem_thu: '2023-09-05T09:33',
+          vido_thu: '',
+          kinhdo_thu: '',
+          loai_1: '',
+          loai_2: '',
+          loai_3: '',
+          loai_4: '',
+          loai_5: '',
+          loai_6: '',
+          loai_1_kl: '',
+          loai_2_kl: '',
+          loai_3_kl: '',
+          loai_4_kl: '',
+          loai_5_kl: '',
+          loai_6_kl: '',
+          tongsanluong: '',
+        },
+      ]);
+    }
+  }, [selectedItem]);
 
   const handleThemDong = () => {
     const objectAdd = {
@@ -108,7 +259,7 @@ const ThongTinChiTietHoatDong = () => {
     const itemToRemove = thongTinHoatDong[selectedItemIndex];
 
     if (itemToRemove) {
-      const updated = thongTinHoatDong.filter(
+      const updated = thongTinHoatDong?.filter(
         item => item.id !== itemToRemove.id,
       );
       setThongTinHoatDong(updated);
@@ -122,7 +273,7 @@ const ThongTinChiTietHoatDong = () => {
   };
 
   const handleChangeViDoTha = (text, id) => {
-    const updatedThongTinHoatDong = thongTinHoatDong.map(item => {
+    const updatedThongTinHoatDong = thongTinHoatDong?.map(item => {
       if (item.id === id) {
         return {...item, vido_tha: text};
       }
@@ -132,7 +283,7 @@ const ThongTinChiTietHoatDong = () => {
   };
 
   const handleChangeKinhDoTha = (text, id) => {
-    const updatedThongTinHoatDong = thongTinHoatDong.map(item => {
+    const updatedThongTinHoatDong = thongTinHoatDong?.map(item => {
       if (item.id === id) {
         return {...item, kinhdo_tha: text};
       }
@@ -142,7 +293,7 @@ const ThongTinChiTietHoatDong = () => {
   };
 
   const handleChangeViDoThu = (text, id) => {
-    const updatedThongTinHoatDong = thongTinHoatDong.map(item => {
+    const updatedThongTinHoatDong = thongTinHoatDong?.map(item => {
       if (item.id === id) {
         return {...item, vido_thu: text};
       }
@@ -152,7 +303,7 @@ const ThongTinChiTietHoatDong = () => {
   };
 
   const handleChangeKinhDoThu = (text, id) => {
-    const updatedThongTinHoatDong = thongTinHoatDong.map(item => {
+    const updatedThongTinHoatDong = thongTinHoatDong?.map(item => {
       if (item.id === id) {
         return {...item, kinhdo_thu: text};
       }
@@ -162,7 +313,7 @@ const ThongTinChiTietHoatDong = () => {
   };
 
   const handleChangeKhoiLuongLoai = (khoiluong, id, loai) => {
-    const updatedThongTinHoatDong = thongTinHoatDong.map(item => {
+    const updatedThongTinHoatDong = thongTinHoatDong?.map(item => {
       if (item.id === id) {
         if (loai == 'loai_1_kl') {
           item.loai_1_kl = khoiluong;
@@ -196,7 +347,7 @@ const ThongTinChiTietHoatDong = () => {
   };
 
   const handleChangeLoai = (text, loai) => {
-    const updatedThongTinHoatDong = thongTinHoatDong.map(item => {
+    const updatedThongTinHoatDong = thongTinHoatDong?.map(item => {
       return {
         ...item,
         [loai]: text,
@@ -206,10 +357,10 @@ const ThongTinChiTietHoatDong = () => {
   };
 
   const handleChangeDateTha = (date, id) => {
-    const updatedThongTinHoatDong = thongTinHoatDong.map(item => {
+    const updatedThongTinHoatDong = thongTinHoatDong?.map(item => {
       if (item.id === id) {
         // return {...item, ngaythang: date};
-        return {...item, ngaythang: moment(date).format('YYYY-MM-DD')};
+        return {...item, thoidiem_tha: moment(date).format('YYYY-MM-DD')};
       }
       return item;
     });
@@ -217,10 +368,10 @@ const ThongTinChiTietHoatDong = () => {
   };
 
   const handleChangeDateThu = (date, id) => {
-    const updatedThongTinHoatDong = thongTinHoatDong.map(item => {
+    const updatedThongTinHoatDong = thongTinHoatDong?.map(item => {
       if (item.id === id) {
         // return {...item, ngaythang: date};
-        return {...item, ngaythang: moment(date).format('YYYY-MM-DD')};
+        return {...item, thoidiem_thu: moment(date).format()};
       }
       return item;
     });
@@ -230,7 +381,7 @@ const ThongTinChiTietHoatDong = () => {
   const calculateTongKhoiLuong = fieldName => {
     let total = 0;
 
-    thongTinHoatDong.forEach(item => {
+    thongTinHoatDong?.forEach(item => {
       if (item[fieldName]) {
         total += parseFloat(item[fieldName]); // Convert to float to ensure proper addition
       }
@@ -261,7 +412,7 @@ const ThongTinChiTietHoatDong = () => {
             },
           ]}>
           <TextInput
-            style={styles.text}
+            style={styles.textDate}
             value={item.thoidiem_tha.toString()}
             onChangeText={text => handleChangeDateTha(text, item.id)}
           />
@@ -291,7 +442,7 @@ const ThongTinChiTietHoatDong = () => {
             },
           ]}>
           <TextInput
-            style={styles.text}
+            style={styles.textDate}
             value={item.thoidiem_thu.toString()}
             onChangeText={text => handleChangeDateThu(text, item.id)}
           />
@@ -418,7 +569,7 @@ const ThongTinChiTietHoatDong = () => {
                     <Text style={styles.textKhoiLuong}>Loài</Text>
                     <TextInput
                       style={styles.inputKhoiLuong}
-                      value={thongTinHoatDong[0].loai_1}
+                      value={thongTinHoatDong[0]?.loai_1}
                       onChangeText={text =>
                         handleChangeLoai(text, 'loai_1')
                       }></TextInput>
@@ -526,6 +677,17 @@ const ThongTinChiTietHoatDong = () => {
             <Text style={styles.textBtn}>Xóa dòng</Text>
           </Pressable>
         </View>
+
+        <View>
+          <Text style={styles.note}>Ghi chú:</Text>
+          <Text style={styles.contentNote}>
+            * Trong số nhật ký thu mua, chuyển tải có nhiều mục B, mỗi mục ghi
+            đầy đủ thông tin của một tàu khai thác thủy sản đã bán sản phẩm cho
+            tàu thu mua chuyển tải; chỉ sao chép các thông tin từ Sổ nhật ký
+            khai thác thủy sản đối với các hoạt động khai thác liên quan đến sản
+            phẩm thủy sản đã thu mua, chuyển tải.
+          </Text>
+        </View>
       </ScrollView>
     </View>
   );
@@ -547,7 +709,6 @@ const styles = StyleSheet.create({
     height: 50,
     borderWidth: 0.1,
     borderRadius: 10,
-
     margin: 10,
   },
   btnXoaDong: {
@@ -561,9 +722,33 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     margin: 10,
   },
+  note: {
+    fontWeight: '400',
+    fontSize: 23,
+    lineHeight: 25,
+    borderColor: '#0099FF',
+    color: 'black',
+  },
+  contentNote: {
+    fontWeight: '400',
+    fontSize: 16,
+    lineHeight: 25,
+    borderColor: '#0099FF',
+    color: 'black',
+  },
   text: {
     fontWeight: '400',
     fontSize: 23,
+    lineHeight: 25,
+    borderColor: '#0099FF',
+    borderWidth: 0,
+    color: 'black',
+    textAlign: 'center',
+    textAlignVertical: 'center',
+  },
+  textDate: {
+    fontWeight: '400',
+    fontSize: 18,
     lineHeight: 25,
     borderColor: '#0099FF',
     borderWidth: 0,

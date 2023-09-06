@@ -3,105 +3,90 @@ import React, {useState} from 'react';
 import {ScrollView} from 'react-native';
 import Table3 from './itemTongCucThuySan/Table3';
 import Table1 from './itemThongTinChungVeTauCa/Table1';
+import ThongTinChiTietHoatDong from './B_ThongTinVeTauCa/ThongTinChiTietHoatDong';
+import {useContext} from 'react';
+import {UserContext} from '../../../contexts/UserContext';
 
 const ThongTinVeCacTau = () => {
   const [pressedItem, setPressedItem] = useState();
 
-  const [thongTinHoatDong, setThongTinHoatDong] = useState([
-    {
-      id: 0,
-      dairy_id: 0,
-      methu: '1',
-      thoidiem_tha: '2023-09-05T09:33',
-      vido_tha: '',
-      kinhdo_tha: '',
-      thoidiem_thu: '2023-09-05T09:33',
-      vido_thu: '',
-      kinhdo_thu: '',
-      loai_1: '',
-      loai_2: '',
-      loai_3: '',
-      loai_4: '',
-      loai_5: '',
-      loai_6: '',
-      loai_1_kl: '',
-      loai_2_kl: '',
-      loai_3_kl: '',
-      loai_4_kl: '',
-      loai_5_kl: '',
-      loai_6_kl: '',
-      tongsanluong: '',
-    },
-    {
-      id: 1,
-      dairy_id: 0,
-      methu: '1',
-      thoidiem_tha: '2023-09-05T09:33',
-      vido_tha: '',
-      kinhdo_tha: '',
-      thoidiem_thu: '2023-09-05T09:33',
-      vido_thu: '',
-      kinhdo_thu: '',
-      loai_1: '',
-      loai_2: '',
-      loai_3: '',
-      loai_4: '',
-      loai_5: '',
-      loai_6: '',
-      loai_1_kl: '',
-      loai_2_kl: '',
-      loai_3_kl: '',
-      loai_4_kl: '',
-      loai_5_kl: '',
-      loai_6_kl: '',
-      tongsanluong: '',
-    },
-  ]);
+  const {data0201, setData0201} = useContext(UserContext);
 
   const handleItemPress = id => {
-    console.log('ID: ', id);
-    // Check if the item is already pressed
-    if (id === pressedItem) {
-    } else {
-      // If it's not pressed, set it as the pressed item
+    if (id !== pressedItem) {
       setPressedItem(id);
     }
   };
 
   const handleDeleteButton = id => {
-    const updatedThongTinHoatDong = thongTinHoatDong.filter(
-      item => item.id !== id,
+    const updatedData0201 = {...data0201};
+
+    const indexToDelete = updatedData0201.thongtintaudc_thumua.findIndex(
+      item => item.id === id,
     );
-    setThongTinHoatDong(updatedThongTinHoatDong);
+
+    if (indexToDelete !== -1) {
+      updatedData0201.thongtintaudc_thumua.splice(indexToDelete, 1);
+      console.log('DEL', updatedData0201);
+      setData0201(updatedData0201);
+    } else {
+      console.log('Item not found for deletion.');
+    }
   };
 
   const handleAddButton = () => {
+    const lastId = data0201.thongtintaudc_thumua.reduce((maxId, item) => {
+      return item.id > maxId ? item.id : maxId;
+    }, -1);
+
+    const newId = lastId + 1;
+
     const obj = {
-      id: thongTinHoatDong.length + 1,
+      id: newId,
       dairy_id: 0,
-      methu: '1',
-      thoidiem_tha: '2023-09-05T09:33',
-      vido_tha: '',
-      kinhdo_tha: '',
-      thoidiem_thu: '2023-09-05T09:33',
-      vido_thu: '',
-      kinhdo_thu: '',
-      loai_1: '',
-      loai_2: '',
-      loai_3: '',
-      loai_4: '',
-      loai_5: '',
-      loai_6: '',
-      loai_1_kl: '',
-      loai_2_kl: '',
-      loai_3_kl: '',
-      loai_4_kl: '',
-      loai_5_kl: '',
-      loai_6_kl: '',
-      tongsanluong: '',
+      id_tau: '',
+      tau_bs: '',
+      tau_chieudailonnhat: '',
+      tau_tongcongsuatmaychinh: '',
+      gpkt_so: '',
+      gpkt_thoihan: '0001-01-01T00:00:00',
+      nghekt: '',
+      cang_di: '',
+      ngay_di: '2023-09-06T00:00:00',
+      tg_khaithac_tungay: '2023-09-06T00:00:00',
+      tg_khaithac_denngay: '2023-09-06T00:00:00',
+      thongtinhoatdong: [
+        {
+          id: 0,
+          dairy_id: 0,
+          methu: '1',
+          thoidiem_tha: '2023-09-06T08:35',
+          vido_tha: '',
+          kinhdo_tha: '',
+          thoidiem_thu: '2023-09-06T08:35',
+          vido_thu: '',
+          kinhdo_thu: '',
+          loai_1: '',
+          loai_2: '',
+          loai_3: '',
+          loai_4: '',
+          loai_5: '',
+          loai_6: '',
+          loai_1_kl: '',
+          loai_2_kl: '',
+          loai_3_kl: '',
+          loai_4_kl: '',
+          loai_5_kl: '',
+          loai_6_kl: '',
+          tongsanluong: '',
+        },
+      ],
     };
-    const newArray = [...thongTinHoatDong, obj];
-    setThongTinHoatDong(newArray);
+
+    const newArray = {...data0201};
+    newArray.thongtintaudc_thumua.push(obj);
+    console.log('NEW: ', newArray);
+    setData0201(newArray);
   };
 
   const renderButton = (item, index) => {
@@ -124,14 +109,14 @@ const ThongTinVeCacTau = () => {
   };
 
   return (
-    <View style={{flexDirection: 'column', backgroundColor:'white'}}>
+    <View style={{flexDirection: 'column', backgroundColor: 'white'}}>
       <Text
         style={{
           fontWeight: 'bold',
           fontSize: 22,
           lineHeight: 28,
           color: 'black',
-          marginVertical: 15
+          marginVertical: 15,
         }}>
         B. THÔNG TIN VỀ CÁC TÀU ĐÃ ĐƯỢC THU MUA, CHUYỂN TẢI *
       </Text>
@@ -143,17 +128,18 @@ const ThongTinVeCacTau = () => {
             alignItems: 'center',
           }}>
           <FlatList
-            data={thongTinHoatDong}
+            data={data0201.thongtintaudc_thumua}
             horizontal={true}
             showsHorizontalScrollIndicator={false}
             renderItem={({item, index}) => renderButton(item, index)}
-            keyExtractor={item => item.id.toString()}
+            keyExtractor={(item, index) => index.toString()}
           />
           <TouchableOpacity onPress={handleAddButton} style={styles.container}>
             <Text style={styles.plus}>+</Text>
           </TouchableOpacity>
         </View>
-        <Table1 />
+        <Table1 selectedItem={pressedItem} />
+        <ThongTinChiTietHoatDong selectedItem={pressedItem} />
       </ScrollView>
     </View>
   );

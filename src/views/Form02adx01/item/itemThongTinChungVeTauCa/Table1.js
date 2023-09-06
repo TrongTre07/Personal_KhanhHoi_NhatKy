@@ -12,10 +12,10 @@ import {useNetInfo} from '@react-native-community/netinfo';
 import Storage from '../../../../utils/storage';
 
 import moment from 'moment';
-const Table1 = ({}) => {
-  //data
-  const {dataInfShip, setData0201, data0201, setDataInfShip} =
-    useContext(UserContext);
+const Table1 = ({selectedItem}) => {
+  console.log("SELECTED INDEX: ", selectedItem)
+  const {data0201, setData0201} = useContext(UserContext)
+
   const netInfo = useNetInfo();
 
   // check ko có wifi thì lấy dataInfShip từ local
@@ -33,6 +33,59 @@ const Table1 = ({}) => {
     }
   };
 
+  const [itemSelected, setItemSelected] = useState();
+  useEffect(() => {
+    
+    if (selectedItem != undefined) {
+      setItemSelected(data0201.thongtintaudc_thumua[selectedItem]);
+    } else {
+      setItemSelected([
+        {
+          cang_di: '',
+          dairy_id: 0,
+          gpkt_so: '',
+          gpkt_thoihan: '0001-01-01T00:00:00',
+          id: 0,
+          id_tau: '',
+          ngay_di: '2023-09-06T00:00:00',
+          nghekt: 'eeeeeeeddddd',
+          selected: true,
+          tau_bs: 'aaaaaaaa',
+          tau_chieudailonnhat: '',
+          tau_tongcongsuatmaychinh: '',
+          tg_khaithac_denngay: '2023-09-06T00:00:00',
+          tg_khaithac_tungay: '2023-09-06T00:00:00',
+          thongtinhoatdong: [
+            {
+              dairy_id: 0,
+              id: 0,
+              kinhdo_tha: '',
+              kinhdo_thu: '',
+              loai_1: '',
+              loai_1_kl: '',
+              loai_2: '',
+              loai_2_kl: '',
+              loai_3: '',
+              loai_3_kl: '',
+              loai_4: '',
+              loai_4_kl: '',
+              loai_5: '',
+              loai_5_kl: '',
+              loai_6: '',
+              loai_6_kl: '',
+              methu: '1',
+              thoidiem_tha: '2023-09-06T08:35',
+              thoidiem_thu: '2023-09-06T08:35',
+              tongsanluong: '',
+              vido_tha: '',
+              vido_thu: '',
+            },
+          ],
+        },
+      ]);
+    }
+  }, [selectedItem]);
+
   return (
     <View style={styles.container}>
       <View style={[styles.row]}>
@@ -42,7 +95,7 @@ const Table1 = ({}) => {
             onChangeText={text => {
               setData0201({...data0201, ten_chutau: text});
             }}
-            value={data0201?.ten_chutau}
+            value={itemSelected?.tau_bs}
             style={[styles.input, styles.text]}
           />
           <Text style={styles.text}>;</Text>
@@ -53,7 +106,7 @@ const Table1 = ({}) => {
             onChangeText={text => {
               setData0201({...data0201, ten_thuyentruong: text});
             }}
-            value={data0201?.ten_thuyentruong}
+            value={itemSelected?.tau_chieudailonnhat}
             style={[styles.input, styles.text]}
           />
           <Text style={styles.text}>m</Text>
@@ -65,7 +118,7 @@ const Table1 = ({}) => {
           onChangeText={text => {
             setData0201({...data0201, ten_thuyentruong: text});
           }}
-          value={data0201?.ten_thuyentruong}
+          value={itemSelected?.tau_tongcongsuatmaychinh}
           style={[styles.input, styles.text]}
         />
         <Text style={styles.text}>CV</Text>
@@ -78,7 +131,7 @@ const Table1 = ({}) => {
             onChangeText={text => {
               setData0201({...data0201, ten_chutau: text});
             }}
-            value={data0201?.ten_chutau}
+            value={itemSelected?.gpkt_so}
             style={[styles.input, styles.text]}
           />
           <Text style={styles.text}>;</Text>
@@ -89,7 +142,7 @@ const Table1 = ({}) => {
             onChangeText={text => {
               // setData0201({...data, gpkt_thoihan: text});
             }}
-            value={data0201.gpkt_thoihan}
+            value={itemSelected?.gpkt_thoihan}
             style={[styles.input, styles.text]}
             // editable={false}
           />
@@ -114,7 +167,7 @@ const Table1 = ({}) => {
           onChangeText={text => {
             setData0201({...data0201, gpkt_so: text});
           }}
-          value={data0201?.gpkt_so}
+          value={itemSelected?.nghekt}
           style={[styles.input, styles.text]}
         />
         <Text style={styles.text}>;</Text>
@@ -127,7 +180,7 @@ const Table1 = ({}) => {
             onChangeText={text => {
               setData0201({...data0201, gpkt_so: text});
             }}
-            value={data0201?.gpkt_so}
+            value={itemSelected?.cang_di}
             style={[styles.input, styles.text]}
           />
           <Text style={styles.text}>;</Text>
@@ -138,7 +191,7 @@ const Table1 = ({}) => {
             onChangeText={text => {
               // setData0201({...data, gpkt_thoihan: text});
             }}
-            value={data0201.gpkt_thoihan}
+            value={itemSelected?.ngay_di}
             style={[styles.input, styles.text]}
             // editable={false}
           />
@@ -166,7 +219,7 @@ const Table1 = ({}) => {
             onChangeText={text => {
               // setData0201({...data, gpkt_thoihan: text});
             }}
-            value={data0201.gpkt_thoihan}
+            value={itemSelected?.tg_khaithac_tungay}
             style={[styles.input, styles.text]}
             // editable={false}
           />
@@ -185,7 +238,7 @@ const Table1 = ({}) => {
             onChangeText={text => {
               // setData0201({...data, gpkt_thoihan: text});
             }}
-            value={data0201.gpkt_thoihan}
+            value={itemSelected?.tg_khaithac_denngay}
             style={[styles.input, styles.text]}
             // editable={false}
           />
