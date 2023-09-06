@@ -8,7 +8,7 @@ import {useContext} from 'react';
 import {UserContext} from '../../../contexts/UserContext';
 
 const ThongTinVeCacTau = () => {
-  const [pressedItem, setPressedItem] = useState();
+  const [pressedItem, setPressedItem] = useState(0);
 
   const {data0201, setData0201} = useContext(UserContext);
 
@@ -85,7 +85,6 @@ const ThongTinVeCacTau = () => {
 
     const newArray = {...data0201};
     newArray.thongtintaudc_thumua.push(obj);
-    console.log('NEW: ', newArray);
     setData0201(newArray);
   };
 

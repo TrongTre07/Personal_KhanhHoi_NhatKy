@@ -47,6 +47,7 @@
     "react-native-table-component": "sturmenta/react-native-table-component#e1582aaba92b7e070c31c98b116eea9c23e17f6d",
     "react-native-vector-icons": "^10.0.0",
     "react-native-webview": "^13.3.0",
+    "uuid": "^9.0.0",
     "yarn": "^1.22.19"
   },
   "devDependencies": {

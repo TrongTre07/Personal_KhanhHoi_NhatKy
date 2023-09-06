@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import {View, Pressable, Image} from 'react-native';
 import DatePicker from 'react-native-date-picker';
 
-const CustomDatePicker = ({value, onDateChange}) => {
+const CustomDateTimePicker = ({value, onDateChange}) => {
   const [open, setOpen] = useState(false);
   const [dateValue, setDateValue] = useState(new Date());
 
@@ -20,7 +20,7 @@ const CustomDatePicker = ({value, onDateChange}) => {
       {open && (
         <DatePicker
           modal
-          mode="date"
+          mode="datetime"
           open={open}
           date={dateValue}
           onConfirm={date => {
@@ -41,4 +41,4 @@ const CustomDatePicker = ({value, onDateChange}) => {
   );
 };
 
-export default CustomDatePicker;
+export default CustomDateTimePicker;

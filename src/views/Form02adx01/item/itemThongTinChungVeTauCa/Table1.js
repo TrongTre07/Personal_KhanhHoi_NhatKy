@@ -13,8 +13,8 @@ import Storage from '../../../../utils/storage';
 
 import moment from 'moment';
 const Table1 = ({selectedItem}) => {
-  console.log("SELECTED INDEX: ", selectedItem)
-  const {data0201, setData0201} = useContext(UserContext)
+  console.log('SELECTED INDEX: ', selectedItem);
+  const {data0201, setData0201} = useContext(UserContext);
 
   const netInfo = useNetInfo();
 
@@ -35,7 +35,6 @@ const Table1 = ({selectedItem}) => {
 
   const [itemSelected, setItemSelected] = useState();
   useEffect(() => {
-    
     if (selectedItem != undefined) {
       setItemSelected(data0201.thongtintaudc_thumua[selectedItem]);
     } else {
@@ -142,7 +141,9 @@ const Table1 = ({selectedItem}) => {
             onChangeText={text => {
               // setData0201({...data, gpkt_thoihan: text});
             }}
-            value={itemSelected?.gpkt_thoihan}
+            value={moment(itemSelected?.gpkt_thoihan)
+              .subtract(10, 'days')
+              .calendar()}
             style={[styles.input, styles.text]}
             // editable={false}
           />
@@ -191,7 +192,7 @@ const Table1 = ({selectedItem}) => {
             onChangeText={text => {
               // setData0201({...data, gpkt_thoihan: text});
             }}
-            value={itemSelected?.ngay_di}
+            value={moment(itemSelected?.ngay_di).subtract(10, 'days').calendar()}
             style={[styles.input, styles.text]}
             // editable={false}
           />
@@ -219,7 +220,7 @@ const Table1 = ({selectedItem}) => {
             onChangeText={text => {
               // setData0201({...data, gpkt_thoihan: text});
             }}
-            value={itemSelected?.tg_khaithac_tungay}
+            value={moment(itemSelected?.tg_khaithac_tungay).subtract(10, 'days').calendar()}
             style={[styles.input, styles.text]}
             // editable={false}
           />
@@ -238,7 +239,7 @@ const Table1 = ({selectedItem}) => {
             onChangeText={text => {
               // setData0201({...data, gpkt_thoihan: text});
             }}
-            value={itemSelected?.tg_khaithac_denngay}
+            value={moment(itemSelected?.tg_khaithac_denngay).subtract(10, 'days').calendar()}
             style={[styles.input, styles.text]}
             // editable={false}
           />

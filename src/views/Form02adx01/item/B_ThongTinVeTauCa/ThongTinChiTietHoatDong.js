@@ -12,7 +12,9 @@ import React, {useContext, useState} from 'react';
 import CustomDatePicker from '../../../others/CustomDatePicker';
 import moment from 'moment';
 import {useEffect} from 'react';
-import { UserContext } from '../../../../contexts/UserContext';
+import {UserContext} from '../../../../contexts/UserContext';
+import CustomDateTimePicker from '../../../others/CustomDateTimePicker';
+import {v4 as uuidv4} from 'uuid';
 
 const widthTT = 60;
 const widthSoDkTauca = 200;
@@ -23,213 +25,29 @@ const widthTongKhoiLuong = 200;
 const widthTongKhoiLuongTong = widthToaDo * 4 + widthTT + widthThoiGian * 2;
 
 const ThongTinChiTietHoatDong = ({selectedItem}) => {
+  if (selectedItem == undefined) {
+    selectedItem = 0;
+  }else{
+    
+  }
   const [selectedItemIndex, setSelectedItemIndex] = useState(-1);
-  const {data0201, setData0201} = useContext(UserContext)
-  const sampleData = {
-    id: 0,
-    dairy_name: 'aaa',
-    ten_chutau: 'nguyen bv',
-    ten_thuyentruong: '',
-    id_tau: '1',
-    tau_bs: 'HC-1234-TS1',
-    tau_chieudailonnhat: '12',
-    tau_tongcongsuatmaychinh: '12',
-    gpkt_so: 'HAGPKT',
-    gpkt_thoihan: '12/2/2022',
-    chuyenbien_so: '',
-    cang_di: '',
-    ngay_di: '2023-09-06T00:00:00',
-    cang_ve: '',
-    ngay_ve: '2023-09-06T00:00:00',
-    ngaynop: '2023-09-06T00:00:00',
-    vaoso_so: '',
-    date_create: '2023-09-06T10:43:45',
-    thumua: [
-      {
-        id: 0,
-        dairy_id: 0,
-        ngaythang: '2023-09-06',
-        id_tau: '',
-        tau_bs: '',
-        tm_ct_vt_vido: '',
-        tm_ct_vt_kinhdo: '',
-        loai_1: '',
-        loai_2: '',
-        loai_3: '',
-        loai_4: '',
-        loai_5: '',
-        loai_6: '',
-        loai_1_kl: '',
-        loai_2_kl: '',
-        loai_3_kl: '',
-        loai_4_kl: '',
-        loai_5_kl: '',
-        loai_6_kl: '',
-        tongsanluong: '',
-      },
-    ],
-    thongtintaudc_thumua: [
-      {
-        id: 0,
-        dairy_id: 0,
-        id_tau: '',
-        tau_bs: '',
-        tau_chieudailonnhat: '',
-        tau_tongcongsuatmaychinh: '',
-        gpkt_so: '',
-        gpkt_thoihan: '0001-01-01T00:00:00',
-        nghekt: '',
-        cang_di: '',
-        ngay_di: '2023-09-06T00:00:00',
-        tg_khaithac_tungay: '2023-09-06T00:00:00',
-        tg_khaithac_denngay: '2023-09-06T00:00:00',
-        thongtinhoatdong: [
-          {
-            id: 0,
-            dairy_id: 0,
-            methu: '1',
-            thoidiem_tha: '2023-09-06T08:35',
-            vido_tha: '',
-            kinhdo_tha: '',
-            thoidiem_thu: '2023-09-06T08:35',
-            vido_thu: '',
-            kinhdo_thu: '',
-            loai_1: '',
-            loai_2: '',
-            loai_3: '',
-            loai_4: '',
-            loai_5: '',
-            loai_6: '',
-            loai_1_kl: '',
-            loai_2_kl: '',
-            loai_3_kl: '',
-            loai_4_kl: '',
-            loai_5_kl: '',
-            loai_6_kl: '',
-            tongsanluong: '',
-          },
-          {
-            id: 0,
-            dairy_id: 0,
-            methu: '2',
-            thoidiem_tha: '2023-09-06T10:43',
-            vido_tha: '',
-            kinhdo_tha: '',
-            thoidiem_thu: '2023-09-06T10:43',
-            vido_thu: '',
-            kinhdo_thu: '',
-            loai_1: '',
-            loai_2: '',
-            loai_3: '',
-            loai_4: '',
-            loai_5: '',
-            loai_6: '',
-            loai_1_kl: '',
-            loai_2_kl: '',
-            loai_3_kl: '',
-            loai_4_kl: '',
-            loai_5_kl: '',
-            loai_6_kl: '',
-            tongsanluong: '',
-          },
-          {
-            id: 0,
-            dairy_id: 0,
-            methu: '3',
-            thoidiem_tha: '2023-09-06T10:43',
-            vido_tha: '',
-            kinhdo_tha: '',
-            thoidiem_thu: '2023-09-06T10:43',
-            vido_thu: '',
-            kinhdo_thu: '',
-            loai_1: '',
-            loai_2: '',
-            loai_3: '',
-            loai_4: '',
-            loai_5: '',
-            loai_6: '',
-            loai_1_kl: '',
-            loai_2_kl: '',
-            loai_3_kl: '',
-            loai_4_kl: '',
-            loai_5_kl: '',
-            loai_6_kl: '',
-            tongsanluong: '',
-          },
-        ],
-        selected: true,
-      },
-    ],
-    isdraft: false,
-  };
+  const {data0201, setData0201} = useContext(UserContext);
+  console.log(JSON.stringify(data0201, null, 2));
+  const lastItem =
+    data0201.thongtintaudc_thumua[selectedItem].thongtinhoatdong[
+      data0201.thongtintaudc_thumua[selectedItem].thongtinhoatdong.length - 1
+    ];
 
-  const [thongTinHoatDong, setThongTinHoatDong] = useState([
-    {
-      id: 0,
-      dairy_id: 0,
-      methu: '1',
-      thoidiem_tha: '2023-09-05T09:33',
-      vido_tha: '',
-      kinhdo_tha: '',
-      thoidiem_thu: '2023-09-05T09:33',
-      vido_thu: '',
-      kinhdo_thu: '',
-      loai_1: '',
-      loai_2: '',
-      loai_3: '',
-      loai_4: '',
-      loai_5: '',
-      loai_6: '',
-      loai_1_kl: '',
-      loai_2_kl: '',
-      loai_3_kl: '',
-      loai_4_kl: '',
-      loai_5_kl: '',
-      loai_6_kl: '',
-      tongsanluong: '',
-    },
-  ]);
-  useEffect(() => {
-    if (selectedItem != undefined) {
-      // console.log(sampleData.thongtintaudc_thumua[selectedItem])
-      setThongTinHoatDong(
-        data0201.thongtintaudc_thumua[selectedItem].thongtinhoatdong,
-      );
-    } else {
-      setThongTinHoatDong([
-        {
-          id: 0,
-          dairy_id: 0,
-          methu: '1',
-          thoidiem_tha: '2023-09-05T09:33',
-          vido_tha: '',
-          kinhdo_tha: '',
-          thoidiem_thu: '2023-09-05T09:33',
-          vido_thu: '',
-          kinhdo_thu: '',
-          loai_1: '',
-          loai_2: '',
-          loai_3: '',
-          loai_4: '',
-          loai_5: '',
-          loai_6: '',
-          loai_1_kl: '',
-          loai_2_kl: '',
-          loai_3_kl: '',
-          loai_4_kl: '',
-          loai_5_kl: '',
-          loai_6_kl: '',
-          tongsanluong: '',
-        },
-      ]);
-    }
-  }, [selectedItem]);
+  let uniqueId = lastItem.id + 1;
 
   const handleThemDong = () => {
     const objectAdd = {
-      id: 0,
+      id: uniqueId,
       dairy_id: 0,
-      methu: '1',
+      methu:
+        data0201.thongtintaudc_thumua[
+          selectedItem
+        ].thongtinhoatdong.length.toString(),
       thoidiem_tha: '2023-09-05T09:33',
       vido_tha: '',
       kinhdo_tha: '',
@@ -251,20 +69,37 @@ const ThongTinChiTietHoatDong = ({selectedItem}) => {
       tongsanluong: '',
     };
 
-    const updatedThongTinHoatDong = thongTinHoatDong.concat(objectAdd);
-    setThongTinHoatDong(updatedThongTinHoatDong);
+    const updatedData0201 = {...data0201};
+
+    if (updatedData0201.thongtintaudc_thumua[selectedItem]) {
+      updatedData0201.thongtintaudc_thumua[selectedItem].thongtinhoatdong.push(
+        objectAdd,
+      );
+    }
+    setData0201(updatedData0201);
   };
 
   const handleXoaDong = () => {
-    const itemToRemove = thongTinHoatDong[selectedItemIndex];
+    if (
+      data0201 &&
+      data0201.thongtintaudc_thumua &&
+      data0201.thongtintaudc_thumua[selectedItem]
+    ) {
+      const itemToRemove =
+        data0201.thongtintaudc_thumua[selectedItem].thongtinhoatdong[
+          selectedItemIndex
+        ];
 
-    if (itemToRemove) {
-      const updated = thongTinHoatDong?.filter(
-        item => item.id !== itemToRemove.id,
-      );
-      setThongTinHoatDong(updated);
-    } else {
-      Alert.alert('Cần chọn dòng', '', [{text: 'OK'}]);
+      if (itemToRemove) {
+        const updatedData0201 = {...data0201};
+        updatedData0201.thongtintaudc_thumua[selectedItem].thongtinhoatdong =
+          updatedData0201.thongtintaudc_thumua[
+            selectedItem
+          ].thongtinhoatdong.filter(item => item.id !== itemToRemove.id);
+        setData0201(updatedData0201);
+      } else {
+        Alert.alert('Cần chọn dòng', '', [{text: 'OK'}]);
+      }
     }
   };
 
@@ -273,61 +108,103 @@ const ThongTinChiTietHoatDong = ({selectedItem}) => {
   };
 
   const handleChangeViDoTha = (text, id) => {
-    const updatedThongTinHoatDong = thongTinHoatDong?.map(item => {
-      if (item.id === id) {
-        return {...item, vido_tha: text};
-      }
-      return item;
-    });
-    setThongTinHoatDong(updatedThongTinHoatDong);
+    const updatedData0201 = {...data0201};
+
+    if (updatedData0201.thongtintaudc_thumua[selectedItem]) {
+      updatedData0201.thongtintaudc_thumua[selectedItem].thongtinhoatdong =
+        updatedData0201.thongtintaudc_thumua[selectedItem].thongtinhoatdong.map(
+          item => {
+            if (item.id === id) {
+              return {...item, vido_tha: text};
+            }
+            return item;
+          },
+        );
+    }
+
+    setData0201(updatedData0201);
   };
 
   const handleChangeKinhDoTha = (text, id) => {
-    const updatedThongTinHoatDong = thongTinHoatDong?.map(item => {
-      if (item.id === id) {
-        return {...item, kinhdo_tha: text};
-      }
-      return item;
-    });
-    setThongTinHoatDong(updatedThongTinHoatDong);
+    const updatedData0201 = {...data0201};
+
+    if (updatedData0201.thongtintaudc_thumua[selectedItem]) {
+      updatedData0201.thongtintaudc_thumua[selectedItem].thongtinhoatdong =
+        updatedData0201.thongtintaudc_thumua[selectedItem].thongtinhoatdong.map(
+          item => {
+            if (item.id === id) {
+              return {...item, kinhdo_tha: text};
+            }
+            return item;
+          },
+        );
+    }
+
+    setData0201(updatedData0201);
   };
 
   const handleChangeViDoThu = (text, id) => {
-    const updatedThongTinHoatDong = thongTinHoatDong?.map(item => {
-      if (item.id === id) {
-        return {...item, vido_thu: text};
-      }
-      return item;
-    });
-    setThongTinHoatDong(updatedThongTinHoatDong);
+    const updatedData0201 = {...data0201};
+
+    if (updatedData0201.thongtintaudc_thumua[selectedItem]) {
+      updatedData0201.thongtintaudc_thumua[selectedItem].thongtinhoatdong =
+        updatedData0201.thongtintaudc_thumua[selectedItem].thongtinhoatdong.map(
+          item => {
+            if (item.id === id) {
+              return {...item, vido_thu: text};
+            }
+            return item;
+          },
+        );
+    }
+
+    setData0201(updatedData0201);
   };
 
   const handleChangeKinhDoThu = (text, id) => {
-    const updatedThongTinHoatDong = thongTinHoatDong?.map(item => {
-      if (item.id === id) {
-        return {...item, kinhdo_thu: text};
-      }
-      return item;
-    });
-    setThongTinHoatDong(updatedThongTinHoatDong);
+    const updatedData0201 = {...data0201};
+
+    if (updatedData0201.thongtintaudc_thumua[selectedItem]) {
+      updatedData0201.thongtintaudc_thumua[selectedItem].thongtinhoatdong =
+        updatedData0201.thongtintaudc_thumua[selectedItem].thongtinhoatdong.map(
+          item => {
+            if (item.id === id) {
+              return {...item, kinhdo_thu: text};
+            }
+            return item;
+          },
+        );
+    }
+
+    setData0201(updatedData0201);
   };
 
   const handleChangeKhoiLuongLoai = (khoiluong, id, loai) => {
-    const updatedThongTinHoatDong = thongTinHoatDong?.map(item => {
-      if (item.id === id) {
-        if (loai == 'loai_1_kl') {
+    if (
+      data0201 &&
+      data0201.thongtintaudc_thumua &&
+      data0201.thongtintaudc_thumua[selectedItem]
+    ) {
+      const updatedData0201 = {...data0201};
+      const item = updatedData0201.thongtintaudc_thumua[
+        selectedItem
+      ].thongtinhoatdong.find(item => item.id === id);
+
+      if (item) {
+        if (loai === 'loai_1_kl') {
           item.loai_1_kl = khoiluong;
-        } else if (loai == 'loai_2_kl') {
+        } else if (loai === 'loai_2_kl') {
           item.loai_2_kl = khoiluong;
-        } else if (loai == 'loai_3_kl') {
+        } else if (loai === 'loai_3_kl') {
           item.loai_3_kl = khoiluong;
-        } else if (loai == 'loai_4_kl') {
+        } else if (loai === 'loai_4_kl') {
           item.loai_4_kl = khoiluong;
-        } else if (loai == 'loai_5_kl') {
+        } else if (loai === 'loai_5_kl') {
           item.loai_5_kl = khoiluong;
-        } else if (loai == 'loai_6_kl') {
+        } else if (loai === 'loai_6_kl') {
           item.loai_6_kl = khoiluong;
         }
+
         const newTongSanLuong =
           (parseInt(item.loai_1_kl) || 0) +
           (parseInt(item.loai_2_kl) || 0) +
@@ -335,57 +212,94 @@ const ThongTinChiTietHoatDong = ({selectedItem}) => {
           (parseInt(item.loai_4_kl) || 0) +
           (parseInt(item.loai_5_kl) || 0) +
           (parseInt(item.loai_6_kl) || 0);
-        return {
-          ...item,
-          [loai]: khoiluong,
-          tongsanluong: newTongSanLuong.toString(),
-        };
+
+        item.tongsanluong = newTongSanLuong.toString();
+
+        setData0201(updatedData0201);
       }
-      return item;
-    });
-    setThongTinHoatDong(updatedThongTinHoatDong);
+    }
   };
 
   const handleChangeLoai = (text, loai) => {
-    const updatedThongTinHoatDong = thongTinHoatDong?.map(item => {
-      return {
-        ...item,
-        [loai]: text,
-      };
-    });
-    setThongTinHoatDong(updatedThongTinHoatDong);
+    const updatedData0201 = {...data0201};
+
+    if (updatedData0201.thongtintaudc_thumua[selectedItem]) {
+      updatedData0201.thongtintaudc_thumua[selectedItem].thongtinhoatdong =
+        updatedData0201.thongtintaudc_thumua[selectedItem].thongtinhoatdong.map(
+          item => {
+            return {
+              ...item,
+              [loai]: text,
+            };
+          },
+        );
+    }
+
+    setData0201(updatedData0201);
   };
 
   const handleChangeDateTha = (date, id) => {
-    const updatedThongTinHoatDong = thongTinHoatDong?.map(item => {
-      if (item.id === id) {
-        // return {...item, ngaythang: date};
-        return {...item, thoidiem_tha: moment(date).format('YYYY-MM-DD')};
-      }
-      return item;
-    });
-    setThongTinHoatDong(updatedThongTinHoatDong);
+    const updatedData0201 = {...data0201};
+
+    if (updatedData0201.thongtintaudc_thumua[selectedItem]) {
+      updatedData0201.thongtintaudc_thumua[selectedItem].thongtinhoatdong =
+        updatedData0201.thongtintaudc_thumua[selectedItem].thongtinhoatdong.map(
+          item => {
+            if (item.id === id) {
+              return {
+                ...item,
+                thoidiem_tha: moment(date).format('DD/MM/YYYY hh:mm A'),
+              };
+            }
+            return item;
+          },
+        );
+    }
+
+    setData0201(updatedData0201);
+  };
+  const handleChangeDateThu = (date, id) => {
+    const updatedData0201 = {...data0201};
+
+    if (updatedData0201.thongtintaudc_thumua[selectedItem]) {
+      updatedData0201.thongtintaudc_thumua[selectedItem].thongtinhoatdong =
+        updatedData0201.thongtintaudc_thumua[selectedItem].thongtinhoatdong.map(
+          item => {
+            if (item.id === id) {
+              return {
+                ...item,
+                thoidiem_thu: moment(date).format('DD/MM/YYYY hh:mm A'),
+              };
+            }
+            return item;
+          },
+        );
+    }
+
+    setData0201(updatedData0201);
   };
 
-  const handleChangeDateThu = (date, id) => {
-    const updatedThongTinHoatDong = thongTinHoatDong?.map(item => {
-      if (item.id === id) {
-        // return {...item, ngaythang: date};
-        return {...item, thoidiem_thu: moment(date).format()};
-      }
-      return item;
-    });
-    setThongTinHoatDong(updatedThongTinHoatDong);
-  };
+  // const handleChangeDateThu = (date, id) => {
+  //   const updatedThongTinHoatDong = thongTinHoatDong?.map(item => {
+  //     if (item.id === id) {
+  //       // return {...item, ngaythang: date};
+  //       return {...item, thoidiem_thu: moment(date).format('DD/MM/YYYY hh:mm A')};
+  //     }
+  //     return item;
+  //   });
+  //   setThongTinHoatDong(updatedThongTinHoatDong);
+  // };
 
   const calculateTongKhoiLuong = fieldName => {
     let total = 0;
 
-    thongTinHoatDong?.forEach(item => {
-      if (item[fieldName]) {
-        total += parseFloat(item[fieldName]); // Convert to float to ensure proper addition
-      }
-    });
+    data0201.thongtintaudc_thumua[selectedItem].thongtinhoatdong?.forEach(
+      item => {
+        if (item[fieldName]) {
+          total += parseFloat(item[fieldName]); // Convert to float to ensure proper addition
+        }
+      },
+    );
 
     return total;
   };
@@ -413,10 +327,10 @@ const ThongTinChiTietHoatDong = ({selectedItem}) => {
           ]}>
           <TextInput
             style={styles.textDate}
-            value={item.thoidiem_tha.toString()}
+            value={moment(item.thoidiem_tha).format('DD/MM/YYYY hh:mm A')}
             onChangeText={text => handleChangeDateTha(text, item.id)}
           />
-          <CustomDatePicker
+          <CustomDateTimePicker
             onDateChange={date => handleChangeDateTha(date, item.id)}
           />
         </View>
@@ -443,10 +357,10 @@ const ThongTinChiTietHoatDong = ({selectedItem}) => {
           ]}>
           <TextInput
             style={styles.textDate}
-            value={item.thoidiem_thu.toString()}
+            value={moment(item.thoidiem_thu).format('DD/MM/YYYY hh:mm A')}
             onChangeText={text => handleChangeDateThu(text, item.id)}
           />
-          <CustomDatePicker
+          <CustomDateTimePicker
             onDateChange={date => handleChangeDateThu(date, item.id)}
           />
         </View>
@@ -569,7 +483,10 @@ const ThongTinChiTietHoatDong = ({selectedItem}) => {
                     <Text style={styles.textKhoiLuong}>Loài</Text>
                     <TextInput
                       style={styles.inputKhoiLuong}
-                      value={thongTinHoatDong[0]?.loai_1}
+                      value={
+                        data0201.thongtintaudc_thumua[selectedItem]
+                          .thongtinhoatdong[0]?.loai_1
+                      }
                       onChangeText={text =>
                         handleChangeLoai(text, 'loai_1')
                       }></TextInput>
@@ -579,7 +496,10 @@ const ThongTinChiTietHoatDong = ({selectedItem}) => {
                     <Text style={styles.textKhoiLuong}>Loài</Text>
                     <TextInput
                       style={styles.inputKhoiLuong}
-                      value={thongTinHoatDong[0].loai_2}
+                      value={
+                        data0201.thongtintaudc_thumua[selectedItem]
+                          .thongtinhoatdong[0]?.loai_2
+                      }
                       onChangeText={text =>
                         handleChangeLoai(text, 'loai_2')
                       }></TextInput>
@@ -589,7 +509,10 @@ const ThongTinChiTietHoatDong = ({selectedItem}) => {
                     <Text style={styles.textKhoiLuong}>Loài</Text>
                     <TextInput
                       style={styles.inputKhoiLuong}
-                      value={thongTinHoatDong[0].loai_3}
+                      value={
+                        data0201.thongtintaudc_thumua[selectedItem]
+                          .thongtinhoatdong[0]?.loai_3
+                      }
                       onChangeText={text =>
                         handleChangeLoai(text, 'loai_3')
                       }></TextInput>
@@ -599,7 +522,10 @@ const ThongTinChiTietHoatDong = ({selectedItem}) => {
                     <Text style={styles.textKhoiLuong}>Loài</Text>
                     <TextInput
                       style={styles.inputKhoiLuong}
-                      value={thongTinHoatDong[0].loai_4}
+                      value={
+                        data0201.thongtintaudc_thumua[selectedItem]
+                          .thongtinhoatdong[0]?.loai_4
+                      }
                       onChangeText={text =>
                         handleChangeLoai(text, 'loai_4')
                       }></TextInput>
@@ -609,7 +535,10 @@ const ThongTinChiTietHoatDong = ({selectedItem}) => {
                     <Text style={styles.textKhoiLuong}>Loài</Text>
                     <TextInput
                       style={styles.inputKhoiLuong}
-                      value={thongTinHoatDong[0].loai_5}
+                      value={
+                        data0201.thongtintaudc_thumua[selectedItem]
+                          .thongtinhoatdong[0]?.loai_5
+                      }
                       onChangeText={text =>
                         handleChangeLoai(text, 'loai_5')
                       }></TextInput>
@@ -619,7 +548,10 @@ const ThongTinChiTietHoatDong = ({selectedItem}) => {
                     <Text style={styles.textKhoiLuong}>Loài</Text>
                     <TextInput
                       style={styles.inputKhoiLuong}
-                      value={thongTinHoatDong[0].loai_6}
+                      value={
+                        data0201.thongtintaudc_thumua[selectedItem]
+                          .thongtinhoatdong[0]?.loai_6
+                      }
                       onChangeText={text =>
                         handleChangeLoai(text, 'loai_6')
                       }></TextInput>
@@ -636,7 +568,9 @@ const ThongTinChiTietHoatDong = ({selectedItem}) => {
                 ))}
               </View> */}
             <FlatList
-              data={thongTinHoatDong}
+              data={
+                data0201.thongtintaudc_thumua[selectedItem].thongtinhoatdong
+              }
               renderItem={ThongTinHoatDongItem}
               keyExtractor={item => item.id}
             />

@@ -1,9 +1,9 @@
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, View, ScrollView} from 'react-native';
 import React, {useEffect, useContext} from 'react';
 import TongCucThuySanView from './item/TongCucThuySanView';
 import {UserContext} from '../../contexts/UserContext';
 import {useNetInfo} from '@react-native-community/netinfo';
-import {ScrollView} from 'react-native-gesture-handler';
+
 import KetQuaThuMua from './KetQuaThuMua';
 import ThongTinVeCacTau from './item/ThongTinVeCacTau';
 import ThongTinChiTietHoatDong from './item/B_ThongTinVeTauCa/ThongTinChiTietHoatDong';
@@ -17,7 +17,7 @@ const Form02ad01 = ({route}) => {
   } = useContext(UserContext);
   const netInfo = useNetInfo();
 
-  const id = route.params?.id;
+  const id = route?.params?.id;
 
   useEffect(() => {
     console.log('id: ', id);
@@ -34,8 +34,7 @@ const Form02ad01 = ({route}) => {
     <ScrollView>
       <TongCucThuySanView />
       <KetQuaThuMua />
-      <ThongTinVeCacTau/>
-      <ThongTinChiTietHoatDong/>
+      {/* <ThongTinVeCacTau /> */}
     </ScrollView>
   );
 };

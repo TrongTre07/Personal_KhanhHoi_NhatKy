@@ -11,6 +11,8 @@ import {
 import React, {useEffect, useState} from 'react';
 import CustomDatePicker from '../others/CustomDatePicker';
 import moment from 'moment';
+import {useContext} from 'react';
+import {UserContext} from '../../contexts/UserContext';
 
 const widthTT = 60;
 const widthSoDkTauca = 200;
@@ -23,7 +25,7 @@ const widthTongKhoiLuongTong =
 
 const KetQuaThuMua = () => {
   const [selectedItemIndex, setSelectedItemIndex] = useState(-1);
-
+  const {data0201, setData0201} = useContext(UserContext);
   const [thumua, setThumua] = useState([
     {
       id: 6,
@@ -125,7 +127,6 @@ const KetQuaThuMua = () => {
 
     // Add objectAdd to the thumua array
     const updatedThumua = thumua.concat(objectAdd);
-    // Set the updated array as the new thumua state
     setThumua(updatedThumua); // Assuming you have a state variable for thumua
   };
 
@@ -263,12 +264,13 @@ const KetQuaThuMua = () => {
             styles.inputNgay,
             {
               flexDirection: 'row',
-              justifyContent: 'space-between',
+              justifyContent: 'space-around',
               alignItems: 'center',
             },
           ]}>
           <TextInput
-            value={item.ngaythang.toString()}
+            style={styles.textDate}
+            value={moment(item.ngaythang.toString()).format('DD/MM/YYYY')}
             onChangeText={text => handleChangeDate(text, item.id)}
           />
           <CustomDatePicker
@@ -658,6 +660,16 @@ const styles = StyleSheet.create({
     width: widthTongKhoiLuongTong,
     color: 'black',
     textAlign: 'center', // Center text horizontally
+    textAlignVertical: 'center',
+  },
+  textDate: {
+    fontWeight: '400',
+    fontSize: 18,
+    lineHeight: 25,
+    borderColor: '#0099FF',
+    borderWidth: 0,
+    color: 'black',
+    textAlign: 'center',
     textAlignVertical: 'center',
   },
   inputKhoiLuong: {
