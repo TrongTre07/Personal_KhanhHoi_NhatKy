@@ -26,6 +26,9 @@ const widthTongKhoiLuongTong =
 const KetQuaThuMua = () => {
   const [selectedItemIndex, setSelectedItemIndex] = useState(-1);
   const {data0201, setData0201} = useContext(UserContext);
+  let lastItem = data0201.thumua[data0201.thumua.length - 1];
+  let uniqueId = lastItem.id + 1;
+
   const [thumua, setThumua] = useState([
     {
       id: 6,
@@ -103,9 +106,9 @@ const KetQuaThuMua = () => {
 
   const handleThemDong = () => {
     const objectAdd = {
-      id: thumua.length,
+      id: uniqueId,
       dairy_id: 0,
-      ngaythang: '2023-09-04',
+      ngaythang: moment().format("DD/MM/YYYY"),
       id_tau: '',
       tau_bs: '',
       tm_ct_vt_vido: '',
@@ -126,16 +129,29 @@ const KetQuaThuMua = () => {
     };
 
     // Add objectAdd to the thumua array
-    const updatedThumua = thumua.concat(objectAdd);
-    setThumua(updatedThumua); // Assuming you have a state variable for thumua
+    const updatedData0201 = {...data0201};
+
+    if (updatedData0201.thumua) {
+      updatedData0201.thumua.push(objectAdd);
+    }
+
+    setData0201(updatedData0201);
   };
 
   const handleXoaDong = () => {
-    const itemToRemove = thumua[selectedItemIndex];
+    const itemToRemove = data0201.thumua[selectedItemIndex];
 
     if (itemToRemove) {
-      const updated = thumua.filter(item => item.id !== itemToRemove.id);
-      setThumua(updated);
+      const updatedThumua = data0201.thumua.filter(
+        item => item.id !== itemToRemove.id,
+      );
+
+      const updatedData0201 = {
+        ...data0201,
+        thumua: updatedThumua,
+      };
+
+      setData0201(updatedData0201);
     } else {
       Alert.alert('Cần chọn dòng', '', [{text: 'OK'}]);
     }
@@ -270,7 +286,7 @@ const KetQuaThuMua = () => {
           ]}>
           <TextInput
             style={styles.textDate}
-            value={moment(item.ngaythang.toString()).format('DD/MM/YYYY')}
+            value={moment(item.ngaythang).format('DD/MM/YYYY')}
             onChangeText={text => handleChangeDate(text, item.id)}
           />
           <CustomDatePicker
@@ -454,7 +470,7 @@ const KetQuaThuMua = () => {
               ))}
             </View> */}
             <FlatList
-              data={thumua}
+              data={data0201.thumua}
               renderItem={KetQuaThuMuaItem}
               keyExtractor={item => item.id}
             />

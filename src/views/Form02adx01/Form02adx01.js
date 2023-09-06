@@ -27,7 +27,7 @@ const Form02ad01 = ({route}) => {
       // else
       // getDataLocal();
     } else {
-      setData0201({});
+      // setData0201({});
     }
   }, [netInfo, id]);
   return (
