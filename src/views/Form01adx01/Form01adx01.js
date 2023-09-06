@@ -20,6 +20,7 @@ import Storage from '../../utils/storage';
 import { useNetInfo } from '@react-native-community/netinfo';
 import { useNavigation } from '@react-navigation/native';
 import AlertInputComponent from '../../utils/AlertInputComponent';
+import uploadFile from '../../axios/uploadFile';
 import { ExportPDF } from './pdfForm01/ExportPDF';
 const Form01adx01 = ({ route }) => {
 
@@ -144,7 +145,12 @@ const Form01adx01 = ({ route }) => {
         <TouchableOpacity
           style={[styles.actionDownload, styles.button]}
           onPress={() =>{
-            navigation.navigate('ViewPDF', { id: id, data: handleFormatObject() })
+            let dataFix = handleFormatObject();
+            dataFix.dairy_name = 'filemau';
+            ExportPDF(dataFix);
+            setTimeout(() => {
+              navigation.navigate('ViewPDF')
+            }, 1000);
           }
 
           }>
@@ -152,8 +158,25 @@ const Form01adx01 = ({ route }) => {
         </TouchableOpacity>
         <TouchableOpacity
           style={[styles.actionExportPDF, styles.button]}
-          onPress={() => ExportPDF(handleFormatObject())}>
-          <Text style={styles.actionText}>Tải Mẫu</Text>
+          onPress={() => {
+            if(!netInfo.isConnected){
+              ToastAndroid.show('Vui lòng kết nối internet.', ToastAndroid.SHORT);
+              return;
+            }
+            let dataFix = handleFormatObject();
+            dataFix.dairy_name = 'filemau';
+            ExportPDF(dataFix);
+
+            setTimeout(() => {
+              uploadFile(`/storage/emulated/0/Android/data/com.khanhhoiapp/files/pdf/filemau.pdf`);
+            }, 3000);
+          }
+            //data
+
+          }
+          
+        >
+          <Text style={styles.actionText}>Xuất File</Text>
         </TouchableOpacity>
       </View>
     );

@@ -22,6 +22,7 @@ const UserProvider = ({children}) => {
   const [isErrorPost, setIsErrorPost] = useState(false);
   const [initialTitle, setInitialTitle] = useState('');
   const [goBackAlert, setGoBackAlert] = useState(false);
+  const [checkViewPDF,setCheckViewPDF] = useState(false);
 
   const login = async (username, password) => {
 
@@ -328,6 +329,8 @@ const UserProvider = ({children}) => {
 
   const contextValues = useMemo(
     () => ({
+      checkViewPDF,
+      setCheckViewPDF,
       isLoggedIn,
       setIsLoggedIn,
       login,
@@ -364,6 +367,8 @@ const UserProvider = ({children}) => {
       setData0301,
     }),
     [
+      checkViewPDF,
+      setCheckViewPDF,
       isLoggedIn,
       setIsLoggedIn,
       login,

@@ -7,28 +7,28 @@ import { UserContext } from '../../../contexts/UserContext';
 
 const ViewPDF = ({ route }) => {
 
-  const { data } = useContext(UserContext);
+  // const { data } = useContext(UserContext);
 
-  const id = route.params?.id;
-  const data2 = route.params?.data;
-  let name;
-  try {
-    name = data2?.find((item) => item?.id === id);
+  // const id = route.params?.id;
+  // const data2 = route.params?.data;
+  // let name;
+  // try {
+  //   name = data2?.find((item) => item?.id === id);
     
-    if(!name.dairy_name){
-      name = { dairy_name: 'filemau' };
+  //   if(!name.dairy_name){
+  //     name = { dairy_name: 'filemau' };
 
-    }
-  } catch (error) {
-    if(data.dairy_name){
-      name=data
-    }else
+  //   }
+  // } catch (error) {
+  //   if(data.dairy_name){
+  //     name=data
+  //   }else
 
-    name = { dairy_name: 'filemau' };
-  }
+  //   name = { dairy_name: 'filemau' };
+  // }
 
   const [fileExists, setFileExists] = useState(false);
-  const localfile = { uri: `/storage/emulated/0/Android/data/com.khanhhoiapp/files/pdf/${name?.dairy_name}.pdf` };
+  const localfile = { uri: `/storage/emulated/0/Android/data/com.khanhhoiapp/files/pdf/filemau.pdf` };
 
   useEffect(() => {
     checkFileExists();

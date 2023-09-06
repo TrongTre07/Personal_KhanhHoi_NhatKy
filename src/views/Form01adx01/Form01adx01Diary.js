@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import React, { useContext, useEffect, useState, useCallback } from 'react';
 import { UserContext } from '../../contexts/UserContext';
-import { ExportPDF } from './pdfForm01/ExportPDF';
+import  {ExportPDF}  from './pdfForm01/ExportPDF';
 import {
   Table,
   TableWrapper,
@@ -37,6 +37,8 @@ const Form01adx01Diary = ({ navigation }) => {
     getDetailFormId,
     data,
     setData,
+    checkViewPDF,
+    setCheckViewPDF,
   } = useContext(UserContext);
 
   const netInfo = useNetInfo();
@@ -112,15 +114,36 @@ const Form01adx01Diary = ({ navigation }) => {
         const formData = dataDiary[formIndex];
         ExportPDF(formData); // Assuming ExportPDF generates the PDF
       }
-    }
+    }  
   };
-
+  // let checkForm=false;
+  const [checkForm, setCheckForm] = useState(false);
   useEffect(() => {
     if (data && template) {
-      ExportPDF(data);
+      let dataTemp = data;
+      if(checkForm==true){
+        console.log('dataTemp: ', dataTemp);
+
+        dataTemp= {...data, dairy_name: 'filemau'};
+        setCheckForm(false);
+        setTimeout(() => {
+          navigation.navigate('ViewPDF');
+        }, 2000);
+      }
+      ExportPDF(dataTemp);
       setTemplate(false);
+
     }
+    // checkForm=false;
   }, [data, setTemplate]);
+
+  // useEffect(() => {
+  //   if(checkViewPDF){
+  //     setCheckViewPDF(false);
+
+  //   }
+  // }, [checkViewPDF]);
+
 
 // dùng useEffect data để in
   const [printf, setPrintf] = useState(false);
@@ -211,7 +234,8 @@ const Form01adx01Diary = ({ navigation }) => {
             ToastAndroid.show('Vui lòng kết nối internet.', ToastAndroid.SHORT);
             return; 
           }
-          navigation.navigate('ViewPDF', { id: id, data: dataDiary });
+          setCheckForm(true);
+          handleGeneratePDF(id);
         }}>
         <View style={[styles.btn, { backgroundColor: '#99FF33' }]}>
           <Text style={styles.btnText}>Xem</Text>

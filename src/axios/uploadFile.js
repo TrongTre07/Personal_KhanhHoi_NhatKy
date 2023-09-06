@@ -1,45 +1,53 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
-import Storage from '../utils/storage';
-import DeviceInfo from 'react-native-device-info';
+import RNFS from 'react-native-fs'; // Import thư viện RNFS
 
-// const uploadFile = axios.create({
-//   baseURL: 'https://api-bieumau.khanhhoi.net/',
-// });
-// instance.interceptors.request.use(
-//   async config => {
-//     const APIKey = await Storage.getItem('token');
-//     const Clientip = await DeviceInfo.getIpAddress();
+const uploadFile = async (filePath) => {
+    try {
+      const formData = new FormData();
+  
+      // Đọc tệp PDF
+    //   const fileData = await RNFS.readFile(filePath, 'base64'); 
 
-//     config.headers['Clientip'] = Clientip;
-//     config.headers['APIKey'] = APIKey;
-
-//     return config;
-//   },
-//   error => {
-//     return Promise.reject(error);
-//   },
-// );
-const uploadFile = async (file) => {
-    try{
-        const baseURL= 'https://filecloud.khanhhoi.net/Img/uploadForm';
-        const APIKey = await Storage.getItem('token');
-        const Clientip = await DeviceInfo.getIpAddress();
-        const formData = new FormData();
-        formData.append('file', file);
+      // Tạo đối tượng file để thêm vào biểu mẫu
+      const file = {
+        uri: 'file:'+filePath, // Dữ liệu của tệp đã đọc
+        name: 'filemau.pdf', // Tên tệp trên server
+        type: 'application/pdf', // Loại tệp
+      };
+  
+      formData.append('_dataFile', file); // Đặt tên của trường biểu mẫu là '_dataFile'
+  
+      const baseURL = 'https://filecloud.khanhhoi.net/Img/uploadForm';
+  
+    //   // Thực hiện yêu cầu POST bằng fetch
+    //   fetch(baseURL, {
+    //     method: 'POST',
+    //     headers: {
+    //       'Content-Type': 'multipart/form-data',
+    //     },
+    //     body: formData,
+    //   })
+    //     .then((response) => response.json())
+    //     .then((responseJson) => {
+    //       console.log(responseJson);
+    //     })
+    //     .catch((error) => {
+    //       console.error('Error:', error);
+    //     });
         const config = {
             headers: {
                 'Content-Type': 'multipart/form-data',
-                'APIKey': APIKey,
-                'Clientip': Clientip,
-            }
-        };
 
-        return await axios.post(baseURL, formData, config);
-    }catch(error){
-        console.log(error);
+            },
+          };
+      
+        const response = await axios.post(baseURL, formData, config);
+        console.log(response.data);
+  
+    } catch (error) {
+      console.log('error', error.message);
     }
-    
-}
+  };
+  
 
 export default uploadFile;
