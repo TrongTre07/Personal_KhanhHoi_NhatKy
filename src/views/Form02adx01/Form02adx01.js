@@ -1,4 +1,11 @@
-import {StyleSheet, Text, View, ScrollView} from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  ScrollView,
+  TouchableOpacity,
+  Alert,
+} from 'react-native';
 import React, {useEffect, useContext} from 'react';
 import TongCucThuySanView from './item/TongCucThuySanView';
 import {UserContext} from '../../contexts/UserContext';
@@ -7,15 +14,122 @@ import {useNetInfo} from '@react-native-community/netinfo';
 import KetQuaThuMua from './KetQuaThuMua';
 import ThongTinVeCacTau from './item/ThongTinVeCacTau';
 import ThongTinChiTietHoatDong from './item/B_ThongTinVeTauCa/ThongTinChiTietHoatDong';
+import HeaderView from './item/HeaderView';
+import AlertInputComponent from '../../utils/AlertInputComponent';
+import Spinner from 'react-native-loading-spinner-overlay';
+import {useState} from 'react';
 const Form02ad01 = ({route}) => {
+  const [isPopupVisible, setPopupVisible] = useState(false);
+  const [initialValue, setInitialValue] = useState('');
+  const {isLoading} = useContext(UserContext);
+  const {initialTitle} = useContext(UserContext);
   const {
     getDetailForm0201Id,
     setData0201,
     data0201,
     goBackAlert,
     setGoBackAlert,
+    postForm0201,
+    updateForm0201,
   } = useContext(UserContext);
   const netInfo = useNetInfo();
+
+  const handleTriggerButtonClick = () => {
+    setPopupVisible(true);
+  };
+
+  const handlePopupClose = () => {
+    setPopupVisible(false);
+  };
+
+  const handleDataSubmit = value => {
+    if (value == '') {
+      Alert.alert('Lỗi', 'Bạn phải nhập tiêu đề', [
+        {
+          text: 'OK',
+          onPress: () => {
+            // setIsErrorPost(false);
+          },
+        },
+      ]);
+      return;
+    }
+
+    handleCreateForm(value, 'create');
+
+    // if (thongTinTau.id == undefined) {
+    //   //neu la create thi field id khong ton tai
+    //   console.log('CREATE ACTIVATED');
+    //   handleCreateForm(value, 'create');
+    // } else {
+    //   console.log('UPDATE ACTIVATED');
+    //   handleCreateForm(value, 'update');
+    // }
+  };
+  const handleUpdate = () => {
+    setPopupVisible(true);
+  };
+
+  const handleCreateForm = async (value, string) => {
+    let objectPost = {...data0201};
+    objectPost.dairy_name = value;
+  console.log(JSON.stringify(objectPost, null, 2));
+
+    const isConnect = netInfo.isConnected;
+
+    // chưa có mạng thì lưu local
+    if (!isConnect) {
+      const dataForm = objectPost;
+      const result = await Storage.getItem('form01adx01');
+      if (!dataForm.id_tau) {
+        Alert.alert('Lỗi', 'Bạn phải chọn tàu!', [
+          {
+            text: 'OK',
+            onPress: () => {
+              // setIsErrorPost(false);
+            },
+          },
+        ]);
+      } else if (result !== null) {
+        const data = JSON.parse(result);
+        data.push(dataForm);
+        await Storage.setItem('form01adx01', JSON.stringify(data));
+        ToastAndroid.show('Tạo thành công', ToastAndroid.SHORT);
+        setGoBackAlert(true);
+      } else {
+        const data = [];
+        data.push(dataForm);
+        await Storage.setItem('form01adx01', JSON.stringify(data));
+        ToastAndroid.show('Tạo thành công', ToastAndroid.SHORT);
+        setGoBackAlert(true);
+      }
+    } else if (string == 'create') {
+      if (!data0201.id_tau) {
+        Alert.alert('Lỗi', 'Bạn phải chọn tàu!', [
+          {
+            text: 'OK',
+            onPress: () => {
+              // setIsErrorPost(false);
+            },
+          },
+        ]);
+      } else {
+        await postForm0201(objectPost);
+      }
+    } else if (string == 'update') {
+      await updateForm0201(objectPost);
+      if (!data0201.id_tau) {
+        Alert.alert('Lỗi', 'Bạn phải chọn tàu!', [
+          {
+            text: 'OK',
+            onPress: () => {
+              // setIsErrorPost(false);
+            },
+          },
+        ]);
+      }
+    }
+  };
 
   const id = route?.params?.id;
 
@@ -30,15 +144,123 @@ const Form02ad01 = ({route}) => {
       // setData0201({});
     }
   }, [netInfo, id]);
+
+  const _renderActionView = () => {
+    return (
+      <View style={styles.action}>
+        {id != undefined ? (
+          <TouchableOpacity
+            style={[styles.actionCreate, styles.button]}
+            onPress={() => {
+              netInfo.isConnected ? handleUpdate() : handleUpdateDiaryLocal();
+            }}>
+            <Text style={styles.actionText}>Cập nhật</Text>
+          </TouchableOpacity>
+        ) : (
+          <TouchableOpacity
+            style={[styles.actionCreate, styles.button]}
+            onPress={handleTriggerButtonClick}>
+            <Text style={styles.actionText}>Tạo</Text>
+          </TouchableOpacity>
+        )}
+        <TouchableOpacity
+          style={[styles.actionDownload, styles.button]}
+          onPress={() => {
+            navigation.navigate('ViewPDF', {
+              id: id,
+              data: handleFormatObject(),
+            });
+          }}>
+          <Text style={styles.actionText}>Xem mẫu</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={[styles.actionExportPDF, styles.button]}
+          onPress={() => ExportPDF(handleFormatObject())}>
+          <Text style={styles.actionText}>Tải Mẫu</Text>
+        </TouchableOpacity>
+      </View>
+    );
+  };
+
   return (
     <ScrollView>
+      <HeaderView />
       <TongCucThuySanView />
       <KetQuaThuMua />
-      {/* <ThongTinVeCacTau /> */}
+      <ThongTinVeCacTau />
+      {_renderActionView()}
+      <Spinner
+        visible={isLoading}
+        textContent={'Đang tải...'}
+        color="blue"
+        textStyle={styles.spinnerText}
+      />
+      <AlertInputComponent
+        visible={isPopupVisible}
+        onClose={handlePopupClose}
+        onSubmit={value => {
+          if (value == '') {
+            Alert.alert('Lỗi', 'Bạn phải nhập tiêu đề!', [
+              {
+                text: 'OK',
+                onPress: () => {
+                  // setIsErrorPost(false);
+                },
+              },
+            ]);
+          } else handleDataSubmit(value);
+        }}
+        initialValue={initialTitle}
+      />
     </ScrollView>
   );
 };
 
 export default Form02ad01;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  button: {
+    borderRadius: 5,
+    padding: 10,
+    marginRight: 8,
+  },
+
+  action: {
+    flexDirection: 'row',
+    marginVertical: 12,
+  },
+
+  actionText: {
+    color: 'white',
+    fontSize: 18,
+  },
+
+  actionTextDark: {
+    color: 'black',
+    fontSize: 18,
+  },
+
+  actionCreate: {
+    backgroundColor: '#4CAF50',
+    marginRight: 10,
+  },
+
+  actionSave: {
+    backgroundColor: '#e5e7eb',
+    marginRight: 10,
+  },
+
+  actionDownload: {
+    backgroundColor: '#3b82f6',
+    marginRight: 10,
+  },
+  actionExportPDF: {
+    backgroundColor: '#FF9800',
+    marginRight: 10,
+  },
+});

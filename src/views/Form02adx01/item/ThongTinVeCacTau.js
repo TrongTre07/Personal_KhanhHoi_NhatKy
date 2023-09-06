@@ -27,7 +27,6 @@ const ThongTinVeCacTau = () => {
 
     if (indexToDelete !== -1) {
       updatedData0201.thongtintaudc_thumua.splice(indexToDelete, 1);
-      console.log('DEL', updatedData0201);
       setData0201(updatedData0201);
     } else {
       console.log('Item not found for deletion.');
@@ -43,7 +42,7 @@ const ThongTinVeCacTau = () => {
 
     const obj = {
       id: newId,
-      dairy_id: 0,
+      // dairy_id: data0201.id,
       id_tau: '',
       tau_bs: '',
       tau_chieudailonnhat: '',
@@ -52,18 +51,18 @@ const ThongTinVeCacTau = () => {
       gpkt_thoihan: '0001-01-01T00:00:00',
       nghekt: '',
       cang_di: '',
-      ngay_di: '2023-09-06T00:00:00',
-      tg_khaithac_tungay: '2023-09-06T00:00:00',
-      tg_khaithac_denngay: '2023-09-06T00:00:00',
+      ngay_di: new Date(),
+      tg_khaithac_tungay: new Date(),
+      tg_khaithac_denngay: new Date(),
       thongtinhoatdong: [
         {
           id: 0,
-          dairy_id: 0,
+          // dairy_id: 0,
           methu: '1',
-          thoidiem_tha: '2023-09-06T08:35',
+          thoidiem_tha: new Date(),
           vido_tha: '',
           kinhdo_tha: '',
-          thoidiem_thu: '2023-09-06T08:35',
+          thoidiem_thu: new Date(),
           vido_thu: '',
           kinhdo_thu: '',
           loai_1: '',

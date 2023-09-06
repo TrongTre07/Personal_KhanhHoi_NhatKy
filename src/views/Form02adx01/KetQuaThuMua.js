@@ -29,86 +29,11 @@ const KetQuaThuMua = () => {
   let lastItem = data0201.thumua[data0201.thumua.length - 1];
   let uniqueId = lastItem.id + 1;
 
-  const [thumua, setThumua] = useState([
-    {
-      id: 6,
-      dairy_id: 1,
-      ngaythang: '2023-08-23',
-      id_tau: '0',
-      tau_bs: 'abc',
-      tm_ct_vt_vido: '12',
-      tm_ct_vt_kinhdo: '106',
-      loai_1: 'ca',
-      loai_2: 'tom',
-      loai_3: '',
-      loai_4: '',
-      loai_5: '',
-      loai_6: '',
-      loai_1_kl: '23',
-      loai_2_kl: '123',
-      loai_3_kl: '',
-      loai_4_kl: '',
-      loai_5_kl: '',
-      loai_6_kl: '',
-      tongsanluong: '146',
-      who_create: 0,
-      isdelete: 0,
-    },
-    {
-      id: 7,
-      dairy_id: 1,
-      ngaythang: '2023-08-26',
-      id_tau: '0',
-      tau_bs: '',
-      tm_ct_vt_vido: '',
-      tm_ct_vt_kinhdo: '',
-      loai_1: 'ca',
-      loai_2: 'tom',
-      loai_3: '',
-      loai_4: '',
-      loai_5: '',
-      loai_6: '',
-      loai_1_kl: '',
-      loai_2_kl: '',
-      loai_3_kl: '',
-      loai_4_kl: '',
-      loai_5_kl: '',
-      loai_6_kl: '',
-      tongsanluong: '',
-      who_create: 0,
-      isdelete: 0,
-    },
-    {
-      id: 111,
-      dairy_id: 1,
-      ngaythang: '2023-08-26',
-      id_tau: '0',
-      tau_bs: '',
-      tm_ct_vt_vido: '',
-      tm_ct_vt_kinhdo: '',
-      loai_1: 'ca',
-      loai_2: 'tom',
-      loai_3: '',
-      loai_4: '',
-      loai_5: '',
-      loai_6: '',
-      loai_1_kl: '',
-      loai_2_kl: '',
-      loai_3_kl: '',
-      loai_4_kl: '',
-      loai_5_kl: '',
-      loai_6_kl: '',
-      tongsanluong: '',
-      who_create: 0,
-      isdelete: 0,
-    },
-  ]);
-
   const handleThemDong = () => {
     const objectAdd = {
       id: uniqueId,
-      dairy_id: 0,
-      ngaythang: moment().format("DD/MM/YYYY"),
+      dairy_id: data0201.id,
+      ngaythang: new Date(),
       id_tau: '',
       tau_bs: '',
       tm_ct_vt_vido: '',
@@ -162,41 +87,54 @@ const KetQuaThuMua = () => {
   };
 
   const handleChangeViDo = (text, id) => {
-    const updatedThumua = thumua.map(item => {
+    const updatedData0201 = {...data0201};
+
+    updatedData0201.thumua = updatedData0201.thumua.map(item => {
       if (item.id === id) {
         return {...item, tm_ct_vt_vido: text};
       }
       return item;
     });
-    setThumua(updatedThumua);
+
+    setData0201(updatedData0201);
   };
 
   const handleChangeKinhDo = (text, id) => {
-    const updatedThumua = thumua.map(item => {
+    const updatedData0201 = {...data0201};
+
+    updatedData0201.thumua = updatedData0201.thumua.map(item => {
       if (item.id === id) {
         return {...item, tm_ct_vt_kinhdo: text};
       }
       return item;
     });
-    setThumua(updatedThumua);
+
+    setData0201(updatedData0201);
   };
 
   const handleChangeKhoiLuongLoai = (khoiluong, id, loai) => {
-    const updatedThumua = thumua.map(item => {
+    // Create a copy of data0201
+    const updatedData0201 = {...data0201};
+
+    // Map over the thumua array inside data0201 and update the relevant item
+    updatedData0201.thumua = updatedData0201.thumua.map(item => {
       if (item.id === id) {
-        if (loai == 'loai_1_kl') {
+        // Update the specific property based on 'loai'
+        if (loai === 'loai_1_kl') {
           item.loai_1_kl = khoiluong;
-        } else if (loai == 'loai_2_kl') {
+        } else if (loai === 'loai_2_kl') {
           item.loai_2_kl = khoiluong;
-        } else if (loai == 'loai_3_kl') {
+        } else if (loai === 'loai_3_kl') {
           item.loai_3_kl = khoiluong;
-        } else if (loai == 'loai_4_kl') {
+        } else if (loai === 'loai_4_kl') {
           item.loai_4_kl = khoiluong;
-        } else if (loai == 'loai_5_kl') {
+        } else if (loai === 'loai_5_kl') {
           item.loai_5_kl = khoiluong;
-        } else if (loai == 'loai_6_kl') {
+        } else if (loai === 'loai_6_kl') {
           item.loai_6_kl = khoiluong;
         }
+
+        // Calculate the new total sanluong
         const newTongSanLuong =
           (parseInt(item.loai_1_kl) || 0) +
           (parseInt(item.loai_2_kl) || 0) +
@@ -204,52 +142,67 @@ const KetQuaThuMua = () => {
           (parseInt(item.loai_4_kl) || 0) +
           (parseInt(item.loai_5_kl) || 0) +
           (parseInt(item.loai_6_kl) || 0);
-        return {
-          ...item,
-          [loai]: khoiluong,
-          tongsanluong: newTongSanLuong.toString(),
-        };
+
+        // Update the 'tongsanluong' property
+        item.tongsanluong = newTongSanLuong.toString();
+
+        return item;
       }
       return item;
     });
-    setThumua(updatedThumua);
-  };
 
+    // Update data0201 with the modified thumua
+    setData0201(updatedData0201);
+  };
   const handleChangeLoai = (text, loai) => {
-    const updatedThumua = thumua.map(item => {
-      return {
-        ...item,
-        [loai]: text,
-      };
-    });
-    setThumua(updatedThumua);
+    const updatedData0201 = {...data0201};
+
+    updatedData0201.thumua = updatedData0201.thumua.map(item => ({
+      ...item,
+      [loai]: text,
+    }));
+
+    // Update data0201 with the modified thumua
+    setData0201(updatedData0201);
   };
 
   const handleChangeDate = (date, id) => {
-    const updatedThumua = thumua.map(item => {
+    // Create a copy of data0201
+    const updatedData0201 = {...data0201};
+
+    // Map over the thumua array inside data0201 and update the relevant property
+    updatedData0201.thumua = updatedData0201.thumua.map(item => {
       if (item.id === id) {
-        // return {...item, ngaythang: date};
+        // Update the specific property
         return {...item, ngaythang: moment(date).format('YYYY-MM-DD')};
       }
       return item;
     });
-    setThumua(updatedThumua);
+
+    // Update data0201 with the modified thumua
+    setData0201(updatedData0201);
   };
 
   const handleChangeSoDkTau = (soDk, id) => {
-    const updatedThumua = thumua.map(item => {
+    // Create a copy of data0201
+    const updatedData0201 = {...data0201};
+
+    // Map over the thumua array inside data0201 and update the relevant property
+    updatedData0201.thumua = updatedData0201.thumua.map(item => {
       if (item.id === id) {
         return {...item, tau_bs: soDk};
       }
       return item;
     });
-    setThumua(updatedThumua);
+
+    // Update data0201 with the modified thumua
+    setData0201(updatedData0201);
   };
 
   const calculateTongKhoiLuong = fieldName => {
     let total = 0;
 
-    thumua.forEach(item => {
+    data0201.thumua.forEach(item => {
       if (item[fieldName]) {
         total += parseFloat(item[fieldName]); // Convert to float to ensure proper addition
       }
@@ -257,6 +210,7 @@ const KetQuaThuMua = () => {
 
     return total;
   };
+
   const KetQuaThuMuaItem = ({item, index}) => {
     const isSelected = selectedItemIndex === index;
 
@@ -403,7 +357,7 @@ const KetQuaThuMua = () => {
                     <Text style={styles.textKhoiLuong}>Loài</Text>
                     <TextInput
                       style={styles.inputKhoiLuong}
-                      value={thumua[0].loai_1}
+                      value={data0201.thumua[0].loai_1}
                       onChangeText={text =>
                         handleChangeLoai(text, 'loai_1')
                       }></TextInput>
@@ -413,7 +367,7 @@ const KetQuaThuMua = () => {
                     <Text style={styles.textKhoiLuong}>Loài</Text>
                     <TextInput
                       style={styles.inputKhoiLuong}
-                      value={thumua[0].loai_2}
+                      value={data0201.thumua[0].loai_2}
                       onChangeText={text =>
                         handleChangeLoai(text, 'loai_2')
                       }></TextInput>
@@ -423,7 +377,7 @@ const KetQuaThuMua = () => {
                     <Text style={styles.textKhoiLuong}>Loài</Text>
                     <TextInput
                       style={styles.inputKhoiLuong}
-                      value={thumua[0].loai_3}
+                      value={data0201.thumua[0].loai_3}
                       onChangeText={text =>
                         handleChangeLoai(text, 'loai_3')
                       }></TextInput>
@@ -433,7 +387,7 @@ const KetQuaThuMua = () => {
                     <Text style={styles.textKhoiLuong}>Loài</Text>
                     <TextInput
                       style={styles.inputKhoiLuong}
-                      value={thumua[0].loai_4}
+                      value={data0201.thumua[0].loai_4}
                       onChangeText={text =>
                         handleChangeLoai(text, 'loai_4')
                       }></TextInput>
@@ -443,7 +397,7 @@ const KetQuaThuMua = () => {
                     <Text style={styles.textKhoiLuong}>Loài</Text>
                     <TextInput
                       style={styles.inputKhoiLuong}
-                      value={thumua[0].loai_5}
+                      value={data0201.thumua[0].loai_5}
                       onChangeText={text =>
                         handleChangeLoai(text, 'loai_5')
                       }></TextInput>
@@ -453,7 +407,7 @@ const KetQuaThuMua = () => {
                     <Text style={styles.textKhoiLuong}>Loài</Text>
                     <TextInput
                       style={styles.inputKhoiLuong}
-                      value={thumua[0].loai_6}
+                      value={data0201.thumua[0].loai_6}
                       onChangeText={text =>
                         handleChangeLoai(text, 'loai_6')
                       }></TextInput>

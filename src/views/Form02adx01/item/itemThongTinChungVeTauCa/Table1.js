@@ -13,8 +13,8 @@ import Storage from '../../../../utils/storage';
 
 import moment from 'moment';
 const Table1 = ({selectedItem}) => {
-  console.log('SELECTED INDEX: ', selectedItem);
-  const {data0201, setData0201} = useContext(UserContext);
+  const {data0201, setData0201, dataInfShip, setDataInfShip} =
+    useContext(UserContext);
 
   const netInfo = useNetInfo();
 
@@ -141,9 +141,7 @@ const Table1 = ({selectedItem}) => {
             onChangeText={text => {
               // setData0201({...data, gpkt_thoihan: text});
             }}
-            value={moment(itemSelected?.gpkt_thoihan)
-              .subtract(10, 'days')
-              .calendar()}
+            value={itemSelected?.gpkt_thoihan}
             style={[styles.input, styles.text]}
             // editable={false}
           />
@@ -192,7 +190,7 @@ const Table1 = ({selectedItem}) => {
             onChangeText={text => {
               // setData0201({...data, gpkt_thoihan: text});
             }}
-            value={moment(itemSelected?.ngay_di).subtract(10, 'days').calendar()}
+            value={itemSelected?.ngay_di}
             style={[styles.input, styles.text]}
             // editable={false}
           />
@@ -203,7 +201,7 @@ const Table1 = ({selectedItem}) => {
             onDateChange={date => {
               setData0201({
                 ...data0201,
-                gpkt_thoihan: moment(date).format('DD/MM/YYYY'),
+                tg_khaithac_denngay: moment(date).format('DD/MM/YYYY'),
               });
             }}
           />
@@ -220,7 +218,9 @@ const Table1 = ({selectedItem}) => {
             onChangeText={text => {
               // setData0201({...data, gpkt_thoihan: text});
             }}
-            value={moment(itemSelected?.tg_khaithac_tungay).subtract(10, 'days').calendar()}
+            value={moment(itemSelected?.tg_khaithac_tungay)
+              .subtract(10, 'days')
+              .calendar()}
             style={[styles.input, styles.text]}
             // editable={false}
           />
@@ -239,7 +239,9 @@ const Table1 = ({selectedItem}) => {
             onChangeText={text => {
               // setData0201({...data, gpkt_thoihan: text});
             }}
-            value={moment(itemSelected?.tg_khaithac_denngay).subtract(10, 'days').calendar()}
+            value={moment(itemSelected?.tg_khaithac_denngay)
+              .subtract(10, 'days')
+              .calendar()}
             style={[styles.input, styles.text]}
             // editable={false}
           />

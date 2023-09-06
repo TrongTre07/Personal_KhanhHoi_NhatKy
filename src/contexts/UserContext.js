@@ -13,29 +13,29 @@ const UserContext = createContext();
 const UserProvider = ({children}) => {
   const [data, setData] = useState([]);
   const [data0201, setData0201] = useState({
-    id: 0,
-    dairy_name: 'ddddd',
-    ten_chutau: 'nguyen bv',
+    // id: 0,
+    dairy_name: '',
+    ten_chutau: '',
     ten_thuyentruong: '',
-    id_tau: '4',
-    tau_bs: 'TC-1234-TS',
-    tau_chieudailonnhat: '1',
-    tau_tongcongsuatmaychinh: '12',
-    gpkt_so: 'HAGPKT',
-    gpkt_thoihan: '12/2/2022',
+    id_tau: '',
+    tau_bs: '',
+    tau_chieudailonnhat: '',
+    tau_tongcongsuatmaychinh: '',
+    gpkt_so: '',
+    gpkt_thoihan: '',
     chuyenbien_so: '',
     cang_di: '',
-    ngay_di: '2023-09-06T00:00:00',
+    ngay_di: new Date(),
     cang_ve: '',
-    ngay_ve: '2023-09-06T00:00:00',
-    ngaynop: '2023-09-06T00:00:00',
+    ngay_ve: new Date(),
+    ngaynop: new Date(),
     vaoso_so: '',
-    date_create: '2023-09-06T12:01:54',
+    date_create: new Date(),
     thumua: [
       {
         id: 0,
-        dairy_id: 0,
-        ngaythang: '2023-09-06',
+        // dairy_id: data0201.id,
+        ngaythang: new Date(),
         id_tau: '',
         tau_bs: '',
         tm_ct_vt_vido: '',
@@ -57,28 +57,28 @@ const UserProvider = ({children}) => {
     ],
     thongtintaudc_thumua: [
       {
-        id: '5e7c3de7-5e6e-4c88-b083-f788ff139dca',
-        dairy_id: 0,
+        id: 0,
+        // dairy_id: 0,
         id_tau: '',
         tau_bs: '',
         tau_chieudailonnhat: '',
         tau_tongcongsuatmaychinh: '',
         gpkt_so: '',
-        gpkt_thoihan: '0001-01-01T00:00:00',
+        gpkt_thoihan: '',
         nghekt: '',
         cang_di: '',
-        ngay_di: '2023-09-06T00:00:00',
-        tg_khaithac_tungay: '2023-09-06T00:00:00',
-        tg_khaithac_denngay: '2023-09-06T00:00:00',
+        ngay_di: '',
+        tg_khaithac_tungay: new Date(),
+        tg_khaithac_denngay: new Date(),
         thongtinhoatdong: [
           {
             id: 0,
-            dairy_id: 0,
+            // dairy_id: data0201.id,
             methu: '1',
-            thoidiem_tha: '2023-09-06T12:01',
+            thoidiem_tha: new Date(),
             vido_tha: '',
             kinhdo_tha: '',
-            thoidiem_thu: '2023-09-06T12:01',
+            thoidiem_thu: new Date(),
             vido_thu: '',
             kinhdo_thu: '',
             loai_1: '',
@@ -97,119 +97,11 @@ const UserProvider = ({children}) => {
           },
         ],
         selected: false,
-      },
-      {
-        id: '3ee3d2a8-e61a-41bf-b554-40bc1356f0c8',
-        dairy_id: 0,
-        id_tau: '',
-        tau_bs: '',
-        tau_chieudailonnhat: '',
-        tau_tongcongsuatmaychinh: '',
-        gpkt_so: '',
-        gpkt_thoihan: '0001-01-01T00:00:00',
-        nghekt: '2222222222',
-        cang_di: '',
-        ngay_di: '2023-09-06T00:00:00',
-        tg_khaithac_tungay: '2023-09-06T00:00:00',
-        tg_khaithac_denngay: '2023-09-06T00:00:00',
-        thongtinhoatdong: [
-          {
-            id: 0,
-            dairy_id: 0,
-            methu: '1',
-            thoidiem_tha: '2023-09-06T12:01',
-            vido_tha: '',
-            kinhdo_tha: '',
-            thoidiem_thu: '2023-09-06T12:01',
-            vido_thu: '',
-            kinhdo_thu: '',
-            loai_1: '',
-            loai_2: '',
-            loai_3: '',
-            loai_4: '',
-            loai_5: '',
-            loai_6: '',
-            loai_1_kl: '',
-            loai_2_kl: '',
-            loai_3_kl: '',
-            loai_4_kl: '',
-            loai_5_kl: '',
-            loai_6_kl: '',
-            tongsanluong: '',
-          },
-          {
-            id: 1,
-            dairy_id: 0,
-            methu: '2',
-            thoidiem_tha: '2023-09-06T12:01',
-            vido_tha: '',
-            kinhdo_tha: '',
-            thoidiem_thu: '2023-09-06T12:01',
-            vido_thu: '',
-            kinhdo_thu: '',
-            loai_1: '',
-            loai_2: '',
-            loai_3: '',
-            loai_4: '',
-            loai_5: '',
-            loai_6: '',
-            loai_1_kl: '',
-            loai_2_kl: '',
-            loai_3_kl: '',
-            loai_4_kl: '',
-            loai_5_kl: '',
-            loai_6_kl: '',
-            tongsanluong: '',
-          },
-        ],
-        selected: false,
-      },
-      {
-        id: 'f45e7ae3-fef4-4c0b-8b2f-80fa8e0dea7f',
-        dairy_id: 0,
-        id_tau: '',
-        tau_bs: '',
-        tau_chieudailonnhat: '',
-        tau_tongcongsuatmaychinh: '',
-        gpkt_so: '',
-        gpkt_thoihan: '0001-01-01T00:00:00',
-        nghekt: '1111111111',
-        cang_di: '',
-        ngay_di: '2023-09-06T00:00:00',
-        tg_khaithac_tungay: '2023-09-06T00:00:00',
-        tg_khaithac_denngay: '2023-09-06T00:00:00',
-        thongtinhoatdong: [
-          {
-            id: 0,
-            dairy_id: 0,
-            methu: '1',
-            thoidiem_tha: '2023-09-06T12:01',
-            vido_tha: '',
-            kinhdo_tha: '',
-            thoidiem_thu: '2023-09-06T12:01',
-            vido_thu: '',
-            kinhdo_thu: '',
-            loai_1: '',
-            loai_2: '',
-            loai_3: '',
-            loai_4: '',
-            loai_5: '',
-            loai_6: '',
-            loai_1_kl: '',
-            loai_2_kl: '',
-            loai_3_kl: '',
-            loai_4_kl: '',
-            loai_5_kl: '',
-            loai_6_kl: '',
-            tongsanluong: '',
-          },
-        ],
-        selected: true,
       },
     ],
     isdraft: false,
   });
-  // const [data0201, setData0201] = useState({
+
   //   id: 0,
   //   dairy_name: 'ddddd',
   //   ten_chutau: 'nguyen bv',
@@ -644,6 +536,44 @@ const UserProvider = ({children}) => {
       console.log('ERROR: ', error);
     }
   };
+
+  const postForm0201 = async obj => {
+    try {
+      const response = await instance.post('api/FormAppendix/0201/create', obj);
+
+      if (response.data == false) {
+        setIsErrorPost(true);
+      } else {
+        Alert.alert('Thành công', 'Bạn đã tạo thành công!', [
+          {
+            text: 'OK',
+            onPress: () => {
+              setGoBackAlert(true);
+            },
+          },
+        ]);
+      }
+      setIsLoading(false);
+      return response.data;
+    } catch (error) {
+      setIsLoading(false);
+      setIsErrorPost(true);
+
+      if (error.response.status === 401) {
+        getAlert401();
+      } else
+        Alert.alert('Lỗi', 'vui lòng vào ứng dụng lại!', [
+          {
+            text: 'OK',
+            onPress: () => {
+              RNRestart.restart();
+              // setIsErrorPost(false);
+            },
+          },
+        ]);
+      console.log('POST ERROR: ', error);
+    }
+  };
   //end
 
   //form 0301
@@ -719,6 +649,7 @@ const UserProvider = ({children}) => {
       token,
       setToken,
       postForm,
+      postForm0201,
       isLoading,
       setIsLoading,
       isErrorPost,
@@ -755,6 +686,7 @@ const UserProvider = ({children}) => {
       token,
       setToken,
       postForm,
+      postForm0201,
       isLoading,
       setIsLoading,
       isErrorPost,

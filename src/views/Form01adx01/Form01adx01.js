@@ -8,22 +8,20 @@ import {
   ToastAndroid,
   BackHandler,
 } from 'react-native';
-import React, { useContext, useEffect, useState } from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import HeaderView from './item/HeaderView';
 import TongCucThuySanView from './item/TongCucThuySanView';
 import HoatDongKhaiThacThuySanView from './item/HoatDongKhaiThacThuySanView';
 import HoatDongChuyenTaiView from './item/HoatDongChuyenTaiView';
-import { FormContext } from '../../contexts/FormContext';
+import {FormContext} from '../../contexts/FormContext';
 import Spinner from 'react-native-loading-spinner-overlay';
-import { UserContext } from '../../contexts/UserContext';
+import {UserContext} from '../../contexts/UserContext';
 import Storage from '../../utils/storage';
-import { useNetInfo } from '@react-native-community/netinfo';
-import { useNavigation } from '@react-navigation/native';
+import {useNetInfo} from '@react-native-community/netinfo';
+import {useNavigation} from '@react-navigation/native';
 import AlertInputComponent from '../../utils/AlertInputComponent';
-import { ExportPDF } from './pdfForm01/ExportPDF';
-const Form01adx01 = ({ route }) => {
-
-
+import {ExportPDF} from './pdfForm01/ExportPDF';
+const Form01adx01 = ({route}) => {
   const {
     thuMua,
     setThuMua,
@@ -36,29 +34,25 @@ const Form01adx01 = ({ route }) => {
   const [isPopupVisible, setPopupVisible] = useState(false);
   const [initialValue, setInitialValue] = useState('');
 
-  const { postForm, updateForm } = useContext(UserContext);
-  const { isLoading } = useContext(UserContext);
-  const { initialTitle } = useContext(UserContext);
-  const { getDetailFormId, setData, data, goBackAlert, setGoBackAlert } = useContext(UserContext);
-
+  const {postForm, updateForm} = useContext(UserContext);
+  const {isLoading} = useContext(UserContext);
+  const {initialTitle} = useContext(UserContext);
+  const {getDetailFormId, setData, data, goBackAlert, setGoBackAlert} =
+    useContext(UserContext);
 
   const netInfo = useNetInfo();
   const navigation = useNavigation();
 
-
   const id = route.params?.id;
 
   useEffect(() => {
-
-    console.log('id: ', id)
+    console.log('id: ', id);
   }, [id]);
-  
+
   useEffect(() => {
     if (id != undefined) {
-      if (netInfo.isConnected)
-        getDetailFormId(id);
-      else
-        getDataLocal();
+      if (netInfo.isConnected) getDetailFormId(id);
+      else getDataLocal();
     } else {
       setData({});
     }
@@ -69,8 +63,7 @@ const Form01adx01 = ({ route }) => {
     const result = await Storage.getItem('form01adx01');
     if (result !== null) {
       const data = JSON.parse(result);
-      if (data.length > 0)
-        setData(data[id]);
+      if (data.length > 0) setData(data[id]);
     }
   };
 
@@ -130,7 +123,7 @@ const Form01adx01 = ({ route }) => {
           <TouchableOpacity
             style={[styles.actionCreate, styles.button]}
             onPress={() => {
-              netInfo.isConnected ? handleUpdate() : handleUpdateDiaryLocal()
+              netInfo.isConnected ? handleUpdate() : handleUpdateDiaryLocal();
             }}>
             <Text style={styles.actionText}>Cập nhật</Text>
           </TouchableOpacity>
@@ -143,11 +136,12 @@ const Form01adx01 = ({ route }) => {
         )}
         <TouchableOpacity
           style={[styles.actionDownload, styles.button]}
-          onPress={() =>{
-            navigation.navigate('ViewPDF', { id: id, data: handleFormatObject() })
-          }
-
-          }>
+          onPress={() => {
+            navigation.navigate('ViewPDF', {
+              id: id,
+              data: handleFormatObject(),
+            });
+          }}>
           <Text style={styles.actionText}>Xem mẫu</Text>
         </TouchableOpacity>
         <TouchableOpacity
@@ -177,8 +171,7 @@ const Form01adx01 = ({ route }) => {
             },
           },
         ]);
-      }
-      else if (result !== null) {
+      } else if (result !== null) {
         const data = JSON.parse(result);
         data.push(dataForm);
         await Storage.setItem('form01adx01', JSON.stringify(data));
@@ -190,7 +183,6 @@ const Form01adx01 = ({ route }) => {
         await Storage.setItem('form01adx01', JSON.stringify(data));
         ToastAndroid.show('Tạo thành công', ToastAndroid.SHORT);
         setGoBackAlert(true);
-
       }
     } else if (string == 'create') {
       console.log('CREATE');
@@ -227,8 +219,6 @@ const Form01adx01 = ({ route }) => {
     }
   };
 
-
-
   // check ko có wifi thì update local
   const handleUpdateDiaryLocal = async () => {
     const dataForm = handleFormatObject();
@@ -258,7 +248,6 @@ const Form01adx01 = ({ route }) => {
     return () => backHandler.remove();
   }, []);
 
-
   const handleFormatObject = () => {
     return {
       ...thongTinTau,
@@ -268,7 +257,7 @@ const Form01adx01 = ({ route }) => {
   };
   return (
     <ScrollView
-      contentContainerStyle={{ flexGrow: 1 }}
+      contentContainerStyle={{flexGrow: 1}}
       showsVerticalScrollIndicator={false}>
       <HeaderView />
       <TongCucThuySanView />

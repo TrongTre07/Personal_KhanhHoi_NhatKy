@@ -25,14 +25,12 @@ const widthTongKhoiLuong = 200;
 const widthTongKhoiLuongTong = widthToaDo * 4 + widthTT + widthThoiGian * 2;
 
 const ThongTinChiTietHoatDong = ({selectedItem}) => {
-  if (selectedItem == undefined) {
-    selectedItem = 0;
-  }else{
-    
-  }
   const [selectedItemIndex, setSelectedItemIndex] = useState(-1);
   const {data0201, setData0201} = useContext(UserContext);
-  console.log(JSON.stringify(data0201, null, 2));
+  // console.log(JSON.stringify(data0201, null, 2));
+  if (selectedItem >= data0201.thongtintaudc_thumua.length) {
+    selectedItem--;
+  }
   const lastItem =
     data0201.thongtintaudc_thumua[selectedItem].thongtinhoatdong[
       data0201.thongtintaudc_thumua[selectedItem].thongtinhoatdong.length - 1
@@ -43,15 +41,15 @@ const ThongTinChiTietHoatDong = ({selectedItem}) => {
   const handleThemDong = () => {
     const objectAdd = {
       id: uniqueId,
-      dairy_id: 0,
+      dairy_id: data0201.id,
       methu:
         data0201.thongtintaudc_thumua[
           selectedItem
         ].thongtinhoatdong.length.toString(),
-      thoidiem_tha: '2023-09-05T09:33',
+      thoidiem_tha: new Date(),
       vido_tha: '',
       kinhdo_tha: '',
-      thoidiem_thu: '2023-09-05T09:33',
+      thoidiem_thu: new Date(),
       vido_thu: '',
       kinhdo_thu: '',
       loai_1: '',
