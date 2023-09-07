@@ -13,6 +13,10 @@ import Storage from '../../../../utils/storage';
 
 import moment from 'moment';
 const Table1 = ({selectedItem}) => {
+  const moment = require('moment');
+  const currentDate = moment();
+  const formattedDate = currentDate.format('YYYY-MM-DDTHH:mm:ss');
+
   const {data0201, setData0201, dataInfShip, setDataInfShip} =
     useContext(UserContext);
 
@@ -41,23 +45,23 @@ const Table1 = ({selectedItem}) => {
       setItemSelected([
         {
           cang_di: '',
-          dairy_id: 0,
+          // dairy_id: 0,
           gpkt_so: '',
-          gpkt_thoihan: '0001-01-01T00:00:00',
+          gpkt_thoihan: formattedDate,
           id: 0,
           id_tau: '',
-          ngay_di: '2023-09-06T00:00:00',
-          nghekt: 'eeeeeeeddddd',
+          ngay_di: formattedDate,
+          nghekt: '',
           selected: true,
-          tau_bs: 'aaaaaaaa',
+          tau_bs: '',
           tau_chieudailonnhat: '',
           tau_tongcongsuatmaychinh: '',
-          tg_khaithac_denngay: '2023-09-06T00:00:00',
-          tg_khaithac_tungay: '2023-09-06T00:00:00',
+          tg_khaithac_denngay: formattedDate,
+          tg_khaithac_tungay: formattedDate,
           thongtinhoatdong: [
             {
-              dairy_id: 0,
-              id: 0,
+              // dairy_id: 0,
+              // id: 0,
               kinhdo_tha: '',
               kinhdo_thu: '',
               loai_1: '',
@@ -73,8 +77,8 @@ const Table1 = ({selectedItem}) => {
               loai_6: '',
               loai_6_kl: '',
               methu: '1',
-              thoidiem_tha: '2023-09-06T08:35',
-              thoidiem_thu: '2023-09-06T08:35',
+              thoidiem_tha: formattedDate,
+              thoidiem_thu: formattedDate,
               tongsanluong: '',
               vido_tha: '',
               vido_thu: '',
@@ -85,6 +89,71 @@ const Table1 = ({selectedItem}) => {
     }
   }, [selectedItem]);
 
+  const handleTauBsChange = text => {
+    const newData0201 = {...data0201};
+
+    newData0201.thongtintaudc_thumua[selectedItem].tau_bs = text;
+
+    setData0201(newData0201);
+  };
+
+  const handleChangeChieuDaiLonNhat = text => {
+    const newData0201 = {...data0201};
+
+    newData0201.thongtintaudc_thumua[selectedItem].tau_chieudailonnhat = text;
+
+    setData0201(newData0201);
+  };
+
+  const handleChangeTongCongSuatMayChinh = text => {
+    const newData0201 = {...data0201};
+    newData0201.thongtintaudc_thumua[selectedItem].tau_tongcongsuatmaychinh =
+      text;
+    setData0201(newData0201);
+  };
+
+  const handleChangeSoGiayPhepKhaiThac = text => {
+    const newData0201 = {...data0201};
+    newData0201.thongtintaudc_thumua[selectedItem].gpkt_so = text;
+    setData0201(newData0201);
+  };
+
+  const handleChangeThoiHan = text => {
+    const newData0201 = {...data0201};
+    newData0201.thongtintaudc_thumua[selectedItem].gpkt_thoihan = text;
+    setData0201(newData0201);
+  };
+
+  const handleChangeNgheKhaiThac = text => {
+    const newData0201 = {...data0201};
+    newData0201.thongtintaudc_thumua[selectedItem].nghekt = text;
+    setData0201(newData0201);
+  };
+
+  const handleChangeCangDi = text => {
+    const newData0201 = {...data0201};
+    newData0201.thongtintaudc_thumua[selectedItem].cang_di = text;
+    setData0201(newData0201);
+  };
+
+  const handleChangeNgayDi = text => {
+    const newData0201 = {...data0201};
+    newData0201.thongtintaudc_thumua[selectedItem].ngay_di = text;
+    setData0201(newData0201);
+  };
+
+  const handleChangeKhaiThacTuNgay = text => {
+    const newData0201 = {...data0201};
+    newData0201.thongtintaudc_thumua[selectedItem].tg_khaithac_tungay = text;
+    setData0201(newData0201);
+  };
+
+  const handleChangeKhaiThacDenNgay = text => {
+    const newData0201 = {...data0201};
+    newData0201.thongtintaudc_thumua[selectedItem].tg_khaithac_denngay = text;
+    setData0201(newData0201);
+  };
+
   return (
     <View style={styles.container}>
       <View style={[styles.row]}>
@@ -92,7 +161,7 @@ const Table1 = ({selectedItem}) => {
           <Text style={styles.text}>1. Số đăng ký tàu:</Text>
           <TextInput
             onChangeText={text => {
-              setData0201({...data0201, ten_chutau: text});
+              handleTauBsChange(text);
             }}
             value={itemSelected?.tau_bs}
             style={[styles.input, styles.text]}
@@ -103,8 +172,9 @@ const Table1 = ({selectedItem}) => {
           <Text style={styles.text}>2. Chiều dài lớn nhất của tàu:</Text>
           <TextInput
             onChangeText={text => {
-              setData0201({...data0201, ten_thuyentruong: text});
+              handleChangeChieuDaiLonNhat(text);
             }}
+            keyboardType="numeric"
             value={itemSelected?.tau_chieudailonnhat}
             style={[styles.input, styles.text]}
           />
@@ -115,7 +185,7 @@ const Table1 = ({selectedItem}) => {
         <Text style={styles.text}>3. Tổng công suất máy chính:</Text>
         <TextInput
           onChangeText={text => {
-            setData0201({...data0201, ten_thuyentruong: text});
+            handleChangeTongCongSuatMayChinh(text);
           }}
           value={itemSelected?.tau_tongcongsuatmaychinh}
           style={[styles.input, styles.text]}
@@ -128,7 +198,7 @@ const Table1 = ({selectedItem}) => {
           <Text style={styles.text}>4. Số giấy phép khai thác thủy sản:</Text>
           <TextInput
             onChangeText={text => {
-              setData0201({...data0201, ten_chutau: text});
+              handleChangeSoGiayPhepKhaiThac(text);
             }}
             value={itemSelected?.gpkt_so}
             style={[styles.input, styles.text]}
@@ -139,21 +209,16 @@ const Table1 = ({selectedItem}) => {
           <Text style={styles.text}>Thời hạn đến:</Text>
           <TextInput
             onChangeText={text => {
-              // setData0201({...data, gpkt_thoihan: text});
+              handleChangeThoiHan(text);
             }}
-            value={itemSelected?.gpkt_thoihan}
+            value={moment(itemSelected?.gpkt_thoihan).format('DD/MM/YYYY')}
             style={[styles.input, styles.text]}
             // editable={false}
           />
-          {/* <Pressable onPress={() => setOpen(true)}>
-            <Image style={{ width: 16, height: 16 }} source={require('../../../../assets/images/calendar.png')} />
-          </Pressable> */}
+
           <CustomDatePicker
             onDateChange={date => {
-              setData0201({
-                ...data0201,
-                gpkt_thoihan: moment(date).format('DD/MM/YYYY'),
-              });
+              handleChangeThoiHan(date);
             }}
           />
         </View>
@@ -164,7 +229,7 @@ const Table1 = ({selectedItem}) => {
         <TextInput
           // editable={false}
           onChangeText={text => {
-            setData0201({...data0201, gpkt_so: text});
+            handleChangeNgheKhaiThac(text);
           }}
           value={itemSelected?.nghekt}
           style={[styles.input, styles.text]}
@@ -177,7 +242,7 @@ const Table1 = ({selectedItem}) => {
           <TextInput
             // editable={false}
             onChangeText={text => {
-              setData0201({...data0201, gpkt_so: text});
+              handleChangeCangDi(text);
             }}
             value={itemSelected?.cang_di}
             style={[styles.input, styles.text]}
@@ -188,21 +253,14 @@ const Table1 = ({selectedItem}) => {
           <Text style={styles.text}>Thời gian đi:</Text>
           <TextInput
             onChangeText={text => {
-              // setData0201({...data, gpkt_thoihan: text});
+              handleChangeNgayDi(text);
             }}
-            value={itemSelected?.ngay_di}
+            value={moment(itemSelected?.ngay_di).format('DD/MM/YYYY')}
             style={[styles.input, styles.text]}
-            // editable={false}
           />
-          {/* <Pressable onPress={() => setOpen(true)}>
-            <Image style={{ width: 16, height: 16 }} source={require('../../../../assets/images/calendar.png')} />
-          </Pressable> */}
           <CustomDatePicker
             onDateChange={date => {
-              setData0201({
-                ...data0201,
-                tg_khaithac_denngay: moment(date).format('DD/MM/YYYY'),
-              });
+              handleChangeNgayDi(date);
             }}
           />
         </View>
@@ -216,20 +274,17 @@ const Table1 = ({selectedItem}) => {
           <Text style={styles.text}>Từ ngày:</Text>
           <TextInput
             onChangeText={text => {
-              // setData0201({...data, gpkt_thoihan: text});
+              handleChangeKhaiThacTuNgay(text);
             }}
-            value={moment(itemSelected?.tg_khaithac_tungay)
-              .subtract(10, 'days')
-              .calendar()}
+            value={moment(itemSelected?.tg_khaithac_tungay).format(
+              'DD/MM/YYYY',
+            )}
             style={[styles.input, styles.text]}
             // editable={false}
           />
           <CustomDatePicker
             onDateChange={date => {
-              setData0201({
-                ...data0201,
-                gpkt_thoihan: moment(date).format('DD/MM/YYYY'),
-              });
+              handleChangeKhaiThacTuNgay(date);
             }}
           />
         </View>
@@ -237,20 +292,17 @@ const Table1 = ({selectedItem}) => {
           <Text style={styles.text}> Đến ngày:</Text>
           <TextInput
             onChangeText={text => {
-              // setData0201({...data, gpkt_thoihan: text});
+              handleChangeKhaiThacDenNgay(text);
             }}
-            value={moment(itemSelected?.tg_khaithac_denngay)
-              .subtract(10, 'days')
-              .calendar()}
+            value={moment(itemSelected?.tg_khaithac_denngay).format(
+              'DD/MM/YYYY',
+            )}
             style={[styles.input, styles.text]}
             // editable={false}
           />
           <CustomDatePicker
             onDateChange={date => {
-              setData0201({
-                ...data0201,
-                gpkt_thoihan: moment(date).format('DD/MM/YYYY'),
-              });
+              handleChangeKhaiThacDenNgay(date);
             }}
           />
         </View>

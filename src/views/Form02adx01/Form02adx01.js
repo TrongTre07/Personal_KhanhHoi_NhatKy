@@ -18,7 +18,10 @@ import HeaderView from './item/HeaderView';
 import AlertInputComponent from '../../utils/AlertInputComponent';
 import Spinner from 'react-native-loading-spinner-overlay';
 import {useState} from 'react';
+import Storage from '../../utils/storage';
+import { useNavigation } from '@react-navigation/native';
 const Form02ad01 = ({route}) => {
+  const navigation = useNavigation();
   const [isPopupVisible, setPopupVisible] = useState(false);
   const [initialValue, setInitialValue] = useState('');
   const {isLoading} = useContext(UserContext);
@@ -42,45 +45,37 @@ const Form02ad01 = ({route}) => {
     setPopupVisible(false);
   };
 
-  const handleDataSubmit = value => {
-    if (value == '') {
-      Alert.alert('Lỗi', 'Bạn phải nhập tiêu đề', [
-        {
-          text: 'OK',
-          onPress: () => {
-            // setIsErrorPost(false);
-          },
-        },
-      ]);
-      return;
+  useEffect(() => {
+    if (goBackAlert) {
+      navigation.pop();
+      setGoBackAlert(false);
     }
+  }, [goBackAlert, navigation, setGoBackAlert]);
 
-    handleCreateForm(value, 'create');
-
-    // if (thongTinTau.id == undefined) {
-    //   //neu la create thi field id khong ton tai
-    //   console.log('CREATE ACTIVATED');
-    //   handleCreateForm(value, 'create');
-    // } else {
-    //   console.log('UPDATE ACTIVATED');
-    //   handleCreateForm(value, 'update');
-    // }
+  const handleDataSubmit = tieuDe => {
+    if (data0201.id == undefined) {
+      //neu la create thi field id khong ton tai
+      handleCreateForm(tieuDe, 'create');
+    } else {
+      handleCreateForm(tieuDe, 'update');
+    }
   };
   const handleUpdate = () => {
     setPopupVisible(true);
   };
 
-  const handleCreateForm = async (value, string) => {
+  const handleCreateForm = async (tieuDe, string) => {
     let objectPost = {...data0201};
-    objectPost.dairy_name = value;
-  console.log(JSON.stringify(objectPost, null, 2));
+    objectPost.dairy_name = tieuDe;
+
+    console.log(JSON.stringify(objectPost, null, 2));
 
     const isConnect = netInfo.isConnected;
 
     // chưa có mạng thì lưu local
     if (!isConnect) {
       const dataForm = objectPost;
-      const result = await Storage.getItem('form01adx01');
+      const result = await Storage.getItem('form02adx01');
       if (!dataForm.id_tau) {
         Alert.alert('Lỗi', 'Bạn phải chọn tàu!', [
           {
@@ -93,13 +88,13 @@ const Form02ad01 = ({route}) => {
       } else if (result !== null) {
         const data = JSON.parse(result);
         data.push(dataForm);
-        await Storage.setItem('form01adx01', JSON.stringify(data));
+        await Storage.setItem('form02adx01', JSON.stringify(data));
         ToastAndroid.show('Tạo thành công', ToastAndroid.SHORT);
         setGoBackAlert(true);
       } else {
         const data = [];
         data.push(dataForm);
-        await Storage.setItem('form01adx01', JSON.stringify(data));
+        await Storage.setItem('form02adx01', JSON.stringify(data));
         ToastAndroid.show('Tạo thành công', ToastAndroid.SHORT);
         setGoBackAlert(true);
       }
@@ -138,12 +133,20 @@ const Form02ad01 = ({route}) => {
 
     if (id != undefined) {
       if (netInfo.isConnected) getDetailForm0201Id(id);
-      // else
-      // getDataLocal();
+      else getDataLocal();
     } else {
       // setData0201({});
     }
   }, [netInfo, id]);
+
+  // render data local to form
+  const getDataLocal = async () => {
+    const result = await Storage.getItem('form02adx01');
+    if (result !== null) {
+      const data = JSON.parse(result);
+      if (data.length > 0) setData(data[id]);
+    }
+  };
 
   const _renderActionView = () => {
     return (
@@ -198,8 +201,8 @@ const Form02ad01 = ({route}) => {
       <AlertInputComponent
         visible={isPopupVisible}
         onClose={handlePopupClose}
-        onSubmit={value => {
-          if (value == '') {
+        onSubmit={tieuDe => {
+          if (tieuDe == '') {
             Alert.alert('Lỗi', 'Bạn phải nhập tiêu đề!', [
               {
                 text: 'OK',
@@ -208,7 +211,7 @@ const Form02ad01 = ({route}) => {
                 },
               },
             ]);
-          } else handleDataSubmit(value);
+          } else handleDataSubmit(tieuDe);
         }}
         initialValue={initialTitle}
       />

@@ -8,6 +8,11 @@ import {useContext} from 'react';
 import {UserContext} from '../../../contexts/UserContext';
 
 const ThongTinVeCacTau = () => {
+
+  const moment = require('moment');
+  const currentDate = moment();
+  const formattedDate = currentDate.format('YYYY-MM-DDTHH:mm:ss');
+
   const [pressedItem, setPressedItem] = useState(0);
 
   const {data0201, setData0201} = useContext(UserContext);
@@ -48,21 +53,21 @@ const ThongTinVeCacTau = () => {
       tau_chieudailonnhat: '',
       tau_tongcongsuatmaychinh: '',
       gpkt_so: '',
-      gpkt_thoihan: '0001-01-01T00:00:00',
+      gpkt_thoihan: formattedDate,
       nghekt: '',
       cang_di: '',
-      ngay_di: new Date(),
-      tg_khaithac_tungay: new Date(),
-      tg_khaithac_denngay: new Date(),
+      ngay_di: formattedDate,
+      tg_khaithac_tungay: formattedDate,
+      tg_khaithac_denngay: formattedDate,
       thongtinhoatdong: [
         {
           id: 0,
           // dairy_id: 0,
           methu: '1',
-          thoidiem_tha: new Date(),
+          thoidiem_tha: formattedDate,
           vido_tha: '',
           kinhdo_tha: '',
-          thoidiem_thu: new Date(),
+          thoidiem_thu: formattedDate,
           vido_thu: '',
           kinhdo_thu: '',
           loai_1: '',

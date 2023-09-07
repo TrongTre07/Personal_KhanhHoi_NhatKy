@@ -28,12 +28,15 @@ const KetQuaThuMua = () => {
   const {data0201, setData0201} = useContext(UserContext);
   let lastItem = data0201.thumua[data0201.thumua.length - 1];
   let uniqueId = lastItem.id + 1;
+  const moment = require('moment');
+  const currentDate = moment();
+  const formattedDate = currentDate.format('YYYY-MM-DDTHH:mm:ss');
 
   const handleThemDong = () => {
     const objectAdd = {
       id: uniqueId,
-      dairy_id: data0201.id,
-      ngaythang: new Date(),
+      // dairy_id: data0201.id,
+      ngaythang: formattedDate,
       id_tau: '',
       tau_bs: '',
       tm_ct_vt_vido: '',
@@ -56,6 +59,11 @@ const KetQuaThuMua = () => {
     // Add objectAdd to the thumua array
     const updatedData0201 = {...data0201};
 
+    //create se khong co field isdelete, get ve de update thi se co field isdelete
+    if (updatedData0201.thumua[0].isdelete != undefined) {
+      //trong scope nay la update
+      objectAdd.isdelete = 0;
+    }
     if (updatedData0201.thumua) {
       updatedData0201.thumua.push(objectAdd);
     }

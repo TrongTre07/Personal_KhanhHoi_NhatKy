@@ -10,15 +10,19 @@ import Storage from '../../utils/storage';
 import {useNetInfo} from '@react-native-community/netinfo';
 import {UserContext} from '../../contexts/UserContext';
 import Icon from 'react-native-vector-icons/AntDesign';
+import data0201Empty from '../Form02adx01/models/data0201';
 
 const Stack = createStackNavigator();
 const Form02adx01Navigation = () => {
+
+  const {data0201, setData0201, } = useContext(UserContext);
   const navigation = useNavigation();
   const netInfo = useNetInfo();
 
   const {setData} = React.useContext(UserContext);
 
   const handleNavigateForm02adx01 = async () => {
+    setData0201(data0201Empty)
     navigation.navigate('form02adx01');
   };
 

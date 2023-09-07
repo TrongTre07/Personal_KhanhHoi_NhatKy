@@ -25,6 +25,11 @@ const widthTongKhoiLuong = 200;
 const widthTongKhoiLuongTong = widthToaDo * 4 + widthTT + widthThoiGian * 2;
 
 const ThongTinChiTietHoatDong = ({selectedItem}) => {
+
+  const moment = require('moment');
+  const currentDate = moment();
+  const formattedDate = currentDate.format('YYYY-MM-DDTHH:mm:ss');
+
   const [selectedItemIndex, setSelectedItemIndex] = useState(-1);
   const {data0201, setData0201} = useContext(UserContext);
   // console.log(JSON.stringify(data0201, null, 2));
@@ -41,15 +46,15 @@ const ThongTinChiTietHoatDong = ({selectedItem}) => {
   const handleThemDong = () => {
     const objectAdd = {
       id: uniqueId,
-      dairy_id: data0201.id,
+      // dairy_id: data0201.id,
       methu:
         data0201.thongtintaudc_thumua[
           selectedItem
         ].thongtinhoatdong.length.toString(),
-      thoidiem_tha: new Date(),
+      thoidiem_tha: formattedDate,
       vido_tha: '',
       kinhdo_tha: '',
-      thoidiem_thu: new Date(),
+      thoidiem_thu: formattedDate,
       vido_thu: '',
       kinhdo_thu: '',
       loai_1: '',
@@ -246,7 +251,7 @@ const ThongTinChiTietHoatDong = ({selectedItem}) => {
             if (item.id === id) {
               return {
                 ...item,
-                thoidiem_tha: moment(date).format('DD/MM/YYYY hh:mm A'),
+                thoidiem_tha: date,
               };
             }
             return item;
@@ -266,7 +271,7 @@ const ThongTinChiTietHoatDong = ({selectedItem}) => {
             if (item.id === id) {
               return {
                 ...item,
-                thoidiem_thu: moment(date).format('DD/MM/YYYY hh:mm A'),
+                thoidiem_thu: date,
               };
             }
             return item;

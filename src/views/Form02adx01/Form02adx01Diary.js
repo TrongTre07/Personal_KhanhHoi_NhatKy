@@ -8,9 +8,9 @@ import {
   RefreshControl,
   ToastAndroid,
 } from 'react-native';
-import React, { useContext, useEffect, useState, useCallback } from 'react';
-import { UserContext } from '../../contexts/UserContext';
-import { ExportPDF } from './pdfForm01/ExportPDF';
+import React, {useContext, useEffect, useState, useCallback} from 'react';
+import {UserContext} from '../../contexts/UserContext';
+import {ExportPDF} from './pdfForm01/ExportPDF';
 import {
   Table,
   TableWrapper,
@@ -18,26 +18,19 @@ import {
   Rows,
   Col,
 } from 'react-native-table-component';
-import { useFocusEffect, useNavigation } from '@react-navigation/native';
-import { useNetInfo } from '@react-native-community/netinfo';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
+import {useNetInfo} from '@react-native-community/netinfo';
 import Storage from '../../utils/storage';
-import {
-  convertStringToDateHour,
-} from '../others/formatdate';
+import {convertStringToDateHour} from '../others/formatdate';
 // import { PrintfPDF } from './pdfForm01/PrintfPDF';
-const Form02adx01Diary = ({ navigation }) => {
+const Form02adx01Diary = ({navigation}) => {
   const [dataDiary, setDataDiary] = useState([]);
 
-  const {
-    getDiaryForm0201,
-    deleteForm0201Id,
-    isLoggedIn,
-  } = useContext(UserContext);
+  const {getDiaryForm0201, deleteForm0201Id, isLoggedIn} =
+    useContext(UserContext);
 
   const netInfo = useNetInfo();
   const [refreshing, setRefreshing] = React.useState(false);
-
-  
 
   useEffect(() => {
     if (!isLoggedIn) {
@@ -55,7 +48,7 @@ const Form02adx01Diary = ({ navigation }) => {
       }
       setDataDiary(rawDiary);
       setRefreshing(false);
-    } catch (error) { }
+    } catch (error) {}
   };
 
   const sortListForm = (a, b) => {
@@ -63,45 +56,6 @@ const Form02adx01Diary = ({ navigation }) => {
     const dateB = new Date(b.date_modified);
     return dateA - dateB;
   };
-
-
-  //tranh goi ham nhieu lan khi o ben ngoai
-  // const [template, setTemplate] = useState(false);
-  // const handleGeneratePDF = id => {
-  //   getDetailFormId(id);
-    
-  //   if (netInfo.isConnected) {
-  //     setTemplate(true);
-  //   } else {
-  //     // Handle PDF generation locally without internet
-  //     const formIndex = dataDiary.findIndex(item => item.id === id);
-  //     if (formIndex !== -1) {
-  //       const formData = dataDiary[formIndex];
-  //       ExportPDF(formData); // Assuming ExportPDF generates the PDF
-  //     }
-  //   }
-  // };
-
-//   useEffect(() => {
-//     if (data && template) {
-//       ExportPDF(data);
-//       setTemplate(false);
-//     }
-//   }, [data, setTemplate]);
-
-// // dùng useEffect data để in
-//   const [printf, setPrintf] = useState(false);
-//   const handerlePrintPDF = (id) => {
-//     getDetailFormId(id);
-//     setPrintf(true);
-//   };
-
-//   useEffect(() => {
-//     if (data && printf) {
-//       PrintfPDF(data);
-//       setPrintf(false);
-//     }
-//   }, [data, setPrintf]);
 
   const getDataLocal = async () => {
     const result = await Storage.getItem('form02adx01');
@@ -115,11 +69,8 @@ const Form02adx01Diary = ({ navigation }) => {
   // nếu không có wifi, lấy data từ local
   useFocusEffect(
     useCallback(() => {
-      if (netInfo.isConnected)
-         fetchdata();
-      else 
-         getDataLocal();
-
+      if (netInfo.isConnected) fetchdata();
+      else getDataLocal();
     }, [netInfo.isConnected]),
   );
 
@@ -140,7 +91,7 @@ const Form02adx01Diary = ({ navigation }) => {
           },
         },
       ],
-      { cancelable: false },
+      {cancelable: false},
     );
   };
 
@@ -165,67 +116,74 @@ const Form02adx01Diary = ({ navigation }) => {
           },
         },
       ],
-      { cancelable: false },
+      {cancelable: false},
     );
-
   };
 
   //btn
   const elementButton = (id, index) => (
     <View style={styles.boxbtn}>
-
       <TouchableOpacity
         // disabled={true}
         onPress={() => {
-          if(!netInfo.isConnected){
+          if (!netInfo.isConnected) {
             ToastAndroid.show('Vui lòng kết nối internet.', ToastAndroid.SHORT);
-            return; 
+            return;
           }
-          navigation.navigate('ViewPDF', { id: id, data: dataDiary });
+          navigation.navigate('ViewPDF', {id: id, data: dataDiary});
         }}>
-        <View style={[styles.btn, { backgroundColor: '#99FF33' }]}>
+        <View style={[styles.btn, {backgroundColor: '#99FF33'}]}>
           <Text style={styles.btnText}>Xem</Text>
         </View>
       </TouchableOpacity>
 
       <TouchableOpacity
-        onPress={() => navigation.navigate('form02adx01', { id: !netInfo.isConnected ? index : id })}>
-        <View style={[styles.btn, { backgroundColor: '#00FFFF' }]}>
+        onPress={() =>
+          navigation.navigate('form02adx01', {
+            id: !netInfo.isConnected ? index : id,
+          })
+        }>
+        <View style={[styles.btn, {backgroundColor: '#00FFFF'}]}>
           <Text style={styles.btnText}>Sửa</Text>
         </View>
       </TouchableOpacity>
 
       <TouchableOpacity
         onPress={() => {
-          if(!netInfo.isConnected){
+          if (!netInfo.isConnected) {
             ToastAndroid.show('Vui lòng kết nối internet.', ToastAndroid.SHORT);
-            return; 
+            return;
           }
           handleGeneratePDF(id);
         }}>
-        <View style={[styles.btn, { backgroundColor: '#FF99FF' }]}>
+        <View style={[styles.btn, {backgroundColor: '#FF99FF'}]}>
           <Text style={styles.btnText}>Tải xuống</Text>
         </View>
       </TouchableOpacity>
 
-      <TouchableOpacity onPress={() => { !netInfo.isConnected ? handleDeleteFormLocal(index) : handleDelete(id) }}>
-        <View style={[styles.btn, { backgroundColor: '#FF3333' }]}>
+      <TouchableOpacity
+        onPress={() => {
+          !netInfo.isConnected
+            ? handleDeleteFormLocal(index)
+            : handleDelete(id);
+        }}>
+        <View style={[styles.btn, {backgroundColor: '#FF3333'}]}>
           <Text style={styles.btnText}>Xoá</Text>
         </View>
       </TouchableOpacity>
 
-      <TouchableOpacity onPress={() =>{
-          if(!netInfo.isConnected){
+      <TouchableOpacity
+        onPress={() => {
+          if (!netInfo.isConnected) {
             ToastAndroid.show('Vui lòng kết nối internet.', ToastAndroid.SHORT);
-            return; 
+            return;
           }
-          handerlePrintPDF(id)
-      } }>
+          handerlePrintPDF(id);
+        }}>
         <View style={[styles.btn, {backgroundColor: '#C0C0C0'}]}>
           <Text style={styles.btnText}>In</Text>
         </View>
       </TouchableOpacity>
-      
     </View>
   );
   //data
@@ -257,14 +215,16 @@ const Form02adx01Diary = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <ScrollView 
-        
+      <ScrollView
         // onRefresh={fetchdata}
         showsVerticalScrollIndicator={false}
         refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={()=>fetchdata()} />
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={() => fetchdata()}
+          />
         }>
-        <Table borderStyle={{ borderWidth: 1,width:100 }}>
+        <Table borderStyle={{borderWidth: 1, width: 100}}>
           <Row
             data={state.tableHead}
             flexArr={[0.8, 1, 2, 1.5, 1.5, 2, 2, 3.5]}
@@ -307,7 +267,7 @@ const styles = StyleSheet.create({
   text: {
     textAlign: 'center',
     padding: 3,
-    fontSize: 12, 
+    fontSize: 12,
     color: '#000',
   },
   textHead: {
