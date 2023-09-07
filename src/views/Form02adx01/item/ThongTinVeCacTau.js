@@ -8,7 +8,6 @@ import {useContext} from 'react';
 import {UserContext} from '../../../contexts/UserContext';
 
 const ThongTinVeCacTau = () => {
-
   const moment = require('moment');
   const currentDate = moment();
   const formattedDate = currentDate.format('YYYY-MM-DDTHH:mm:ss');
@@ -23,18 +22,50 @@ const ThongTinVeCacTau = () => {
     }
   };
 
-  const handleDeleteButton = id => {
-    const updatedData0201 = {...data0201};
+  // const handleDeleteButton = id => {
+  //   const updatedData0201 = {...data0201};
 
-    const indexToDelete = updatedData0201.thongtintaudc_thumua.findIndex(
-      item => item.id === id,
-    );
+  //   const indexToDelete = updatedData0201.thongtintaudc_thumua.findIndex(
+  //     item => item.id === id,
+  //   );
 
-    if (indexToDelete !== -1) {
-      updatedData0201.thongtintaudc_thumua.splice(indexToDelete, 1);
-      setData0201(updatedData0201);
+  //   if (indexToDelete !== -1) {
+  //     updatedData0201.thongtintaudc_thumua.splice(indexToDelete, 1);
+  //     setData0201(updatedData0201);
+  //   } else {
+  //     console.log('Item not found for deletion.');
+  //   }
+  // };
+
+  const handleDeleteButton = () => {
+    const itemToRemove = data0201.thongtintaudc_thumua[pressedItem];
+
+    if (itemToRemove) {
+      if (itemToRemove.hasOwnProperty('isdelete')) {
+        itemToRemove.isdelete = 1;
+        // Update data0201 with the modified itemToRemove
+        const updatedData0201 = {
+          ...data0201,
+          thongtintaudc_thumua: data0201.thongtintaudc_thumua.map(item =>
+            item.id === itemToRemove.id ? itemToRemove : item,
+          ),
+        };
+        setData0201(updatedData0201);
+      } else {
+        // Item doesn't have isdelete field, remove it by filtering
+        const updatedThumua = data0201.thongtintaudc_thumua.filter(
+          item => item.id !== itemToRemove.id,
+        );
+
+        const updatedData0201 = {
+          ...data0201,
+          thongtintaudc_thumua: updatedThumua,
+        };
+
+        setData0201(updatedData0201);
+      }
     } else {
-      console.log('Item not found for deletion.');
+      Alert.alert('Cần chọn dòng', '', [{text: 'OK'}]);
     }
   };
 
@@ -94,6 +125,15 @@ const ThongTinVeCacTau = () => {
 
   const renderButton = (item, index) => {
     const isPressed = index === pressedItem;
+
+    let checkIsDeleted;
+    if (item.isdelete == 1) {
+      checkIsDeleted = true;
+    }
+    if (checkIsDeleted) {
+      return null;
+    }
+
     return (
       <TouchableOpacity
         style={[

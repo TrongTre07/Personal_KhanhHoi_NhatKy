@@ -42,7 +42,7 @@ const App = () => {
     <UserProvider>
       <FormProvider>
         <View style={styles.container}>
-          {/* <Form02ad01 /> */}
+          {/* <ThongTinChiTietHoatDong /> */}
           <AppNav />
         </View>
       </FormProvider>

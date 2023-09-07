@@ -25,7 +25,6 @@ const widthTongKhoiLuong = 200;
 const widthTongKhoiLuongTong = widthToaDo * 4 + widthTT + widthThoiGian * 2;
 
 const ThongTinChiTietHoatDong = ({selectedItem}) => {
-
   const moment = require('moment');
   const currentDate = moment();
   const formattedDate = currentDate.format('YYYY-MM-DDTHH:mm:ss');
@@ -563,13 +562,7 @@ const ThongTinChiTietHoatDong = ({selectedItem}) => {
               </View>
               <Text style={styles.textTongKhoiLuong}>Tổng khối lượng (kg)</Text>
             </View>
-            {/* <View style={{flexDirection: 'column'}}>
-                {thumua.map((item, index) => (
-                  <View key={item.id}>
-                    <KetQuaThuMuaItem item={item} index={index} key={index} />
-                  </View>
-                ))}
-              </View> */}
+
             <FlatList
               data={
                 data0201.thongtintaudc_thumua[selectedItem].thongtinhoatdong

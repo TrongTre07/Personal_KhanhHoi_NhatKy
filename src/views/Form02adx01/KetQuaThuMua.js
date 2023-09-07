@@ -35,7 +35,6 @@ const KetQuaThuMua = () => {
   const handleThemDong = () => {
     const objectAdd = {
       id: uniqueId,
-      // dairy_id: data0201.id,
       ngaythang: formattedDate,
       id_tau: '',
       tau_bs: '',
@@ -60,10 +59,10 @@ const KetQuaThuMua = () => {
     const updatedData0201 = {...data0201};
 
     //create se khong co field isdelete, get ve de update thi se co field isdelete
-    if (updatedData0201.thumua[0].isdelete != undefined) {
-      //trong scope nay la update
-      objectAdd.isdelete = 0;
-    }
+    // if (updatedData0201.thumua[0].isdelete != undefined) {
+    //   //trong scope nay la update
+    //   objectAdd.id = 0;
+    // }
     if (updatedData0201.thumua) {
       updatedData0201.thumua.push(objectAdd);
     }
@@ -75,22 +74,36 @@ const KetQuaThuMua = () => {
     const itemToRemove = data0201.thumua[selectedItemIndex];
 
     if (itemToRemove) {
-      const updatedThumua = data0201.thumua.filter(
-        item => item.id !== itemToRemove.id,
-      );
+      if (itemToRemove.hasOwnProperty('isdelete')) {
+        itemToRemove.isdelete = 1;
+        // Update data0201 with the modified itemToRemove
+        const updatedData0201 = {
+          ...data0201,
+          thumua: data0201.thumua.map(item =>
+            item.id === itemToRemove.id ? itemToRemove : item,
+          ),
+        };
+        setData0201(updatedData0201);
+      } else {
+        // Item doesn't have isdelete field, remove it by filtering
+        const updatedThumua = data0201.thumua.filter(
+          item => item.id !== itemToRemove.id,
+        );
 
-      const updatedData0201 = {
-        ...data0201,
-        thumua: updatedThumua,
-      };
+        const updatedData0201 = {
+          ...data0201,
+          thumua: updatedThumua,
+        };
 
-      setData0201(updatedData0201);
+        setData0201(updatedData0201);
+      }
     } else {
       Alert.alert('Cần chọn dòng', '', [{text: 'OK'}]);
     }
   };
 
   const handleChonItem = index => {
+    console.log('index; ', index);
     setSelectedItemIndex(index);
   };
 
@@ -126,7 +139,7 @@ const KetQuaThuMua = () => {
 
     // Map over the thumua array inside data0201 and update the relevant item
     updatedData0201.thumua = updatedData0201.thumua.map(item => {
-      if (item.id === id) {
+      if (item.id === id && item.isdelete != 1) {
         // Update the specific property based on 'loai'
         if (loai === 'loai_1_kl') {
           item.loai_1_kl = khoiluong;
@@ -211,7 +224,7 @@ const KetQuaThuMua = () => {
     let total = 0;
 
     data0201.thumua.forEach(item => {
-      if (item[fieldName]) {
+      if (item[fieldName] && item.isdelete != 1) {
         total += parseFloat(item[fieldName]); // Convert to float to ensure proper addition
       }
     });
@@ -221,7 +234,13 @@ const KetQuaThuMua = () => {
 
   const KetQuaThuMuaItem = ({item, index}) => {
     const isSelected = selectedItemIndex === index;
-
+    let checkIsDeleted;
+    if (item.isdelete == 1) {
+      checkIsDeleted = true;
+    }
+    if (checkIsDeleted) {
+      return null;
+    }
     return (
       <Pressable
         key={index}
@@ -247,6 +266,7 @@ const KetQuaThuMua = () => {
             },
           ]}>
           <TextInput
+            keyboardType="numeric"
             style={styles.textDate}
             value={moment(item.ngaythang).format('DD/MM/YYYY')}
             onChangeText={text => handleChangeDate(text, item.id)}

@@ -19,7 +19,7 @@ import AlertInputComponent from '../../utils/AlertInputComponent';
 import Spinner from 'react-native-loading-spinner-overlay';
 import {useState} from 'react';
 import Storage from '../../utils/storage';
-import { useNavigation } from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 const Form02ad01 = ({route}) => {
   const navigation = useNavigation();
   const [isPopupVisible, setPopupVisible] = useState(false);
@@ -68,7 +68,7 @@ const Form02ad01 = ({route}) => {
     let objectPost = {...data0201};
     objectPost.dairy_name = tieuDe;
 
-    console.log(JSON.stringify(objectPost, null, 2));
+    // console.log(JSON.stringify(objectPost, null, 2));
 
     const isConnect = netInfo.isConnected;
 
@@ -112,7 +112,7 @@ const Form02ad01 = ({route}) => {
         await postForm0201(objectPost);
       }
     } else if (string == 'update') {
-      await updateForm0201(objectPost);
+      await updateForm0201(modifyThongTinTauDCThumua(objectPost));
       if (!data0201.id_tau) {
         Alert.alert('Lỗi', 'Bạn phải chọn tàu!', [
           {
@@ -129,7 +129,7 @@ const Form02ad01 = ({route}) => {
   const id = route?.params?.id;
 
   useEffect(() => {
-    console.log('id: ', id);
+    // console.log('id: ', id);
 
     if (id != undefined) {
       if (netInfo.isConnected) getDetailForm0201Id(id);
@@ -146,6 +146,75 @@ const Form02ad01 = ({route}) => {
       const data = JSON.parse(result);
       if (data.length > 0) setData(data[id]);
     }
+  };
+
+  // const modifyThongTinTauDCThumua = (data0201) =>{
+  //   const modifiedThumua = data0201.thumua.map(item => {
+  //     if (!item.hasOwnProperty('isdelete')) {
+  //       // Item has isdelete field, update id to 0
+  //       return {...item, id: 0};
+  //     }
+  //     return item;
+  //   });
+
+  //   // Update data0201 with the modified thongtintaudc_thumua array
+  //   const updatedData0201 = {
+  //     ...data0201,
+  //     thumua: modifiedThumua,
+  //   };
+
+  //   console.log('MODIFY:', JSON.stringify(updatedData0201, null, 2));
+
+  //   return updatedData0201;
+  // }
+
+  const modifyThongTinTauDCThumua = data0201 => {
+    // Modify thumua array
+    const modifiedThumua = data0201.thumua.map(item => {
+      if (item.hasOwnProperty('isdelete') && item.isdelete === 1) {
+        // Item has isdelete field with a value of 1, update id to 0
+        return {...item, id: 0};
+      }
+      return item;
+    });
+
+    // Modify thongtintaudc_thumua array
+    const modifiedThongTinTauDCThumua = data0201.thongtintaudc_thumua.map(
+      item => {
+        if (item.hasOwnProperty('isdelete') && item.isdelete === 1) {
+          // Item has isdelete field with a value of 1, update id to 0
+          return {...item, id: 0};
+        }
+        // Check and modify thongtinhoatdong array if it exists
+        if (item.thongtinhoatdong && Array.isArray(item.thongtinhoatdong)) {
+          const modifiedThongTinHoatDong = item.thongtinhoatdong.map(
+            subItem => {
+              if (
+                subItem.hasOwnProperty('isdelete') &&
+                subItem.isdelete === 1
+              ) {
+                // Sub-item has isdelete field with a value of 1, update id to 0
+                return {...subItem, id: 0};
+              }
+              return subItem;
+            },
+          );
+          return {...item, thongtinhoatdong: modifiedThongTinHoatDong};
+        }
+        return item;
+      },
+    );
+
+    // Update data0201 with the modified thumua and thongtintaudc_thumua arrays
+    const updatedData0201 = {
+      ...data0201,
+      thumua: modifiedThumua,
+      thongtintaudc_thumua: modifiedThongTinTauDCThumua,
+    };
+
+    console.log('MODIFY:', JSON.stringify(updatedData0201, null, 2));
+
+    return updatedData0201;
   };
 
   const _renderActionView = () => {
