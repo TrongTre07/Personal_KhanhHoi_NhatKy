@@ -259,6 +259,44 @@ const UserProvider = ({children}) => {
       console.log('ERROR: ', error);
     }
   };
+
+  const postForm0201 = async obj => {
+    try {
+      const response = await instance.post('api/FormAppendix/0201/create', obj);
+
+      if (response.data == false) {
+        setIsErrorPost(true);
+      } else {
+        Alert.alert('Thành công', 'Bạn đã tạo thành công!', [
+          {
+            text: 'OK',
+            onPress: () => {
+              setGoBackAlert(true);
+            },
+          },
+        ]);
+      }
+      setIsLoading(false);
+      return response.data;
+    } catch (error) {
+      setIsLoading(false);
+      setIsErrorPost(true);
+
+      if (error.response.status === 401) {
+        getAlert401();
+      } else
+        Alert.alert('Lỗi', 'vui lòng vào ứng dụng lại!', [
+          {
+            text: 'OK',
+            onPress: () => {
+              RNRestart.restart();
+              // setIsErrorPost(false);
+            },
+          },
+        ]);
+      console.log('POST ERROR: ', error);
+    }
+  };
   //end
 
 //form 0301
@@ -357,6 +395,7 @@ const UserProvider = ({children}) => {
       getDiaryForm0201,
       deleteForm0201Id,
       getDetailForm0201Id,
+      postForm0201,
       data0201,
       setData0201,
 
@@ -395,6 +434,7 @@ const UserProvider = ({children}) => {
       getDiaryForm0201,
       deleteForm0201Id,
       getDetailForm0201Id,
+      postForm0201,
       data0201,
       setData0201,
 
@@ -403,6 +443,7 @@ const UserProvider = ({children}) => {
       getDetailForm0301Id,
       data0301,
       setData0301,
+      
     ]
   );
 

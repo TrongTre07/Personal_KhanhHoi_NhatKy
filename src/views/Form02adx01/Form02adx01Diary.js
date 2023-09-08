@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import React, { useContext, useEffect, useState, useCallback } from 'react';
 import { UserContext } from '../../contexts/UserContext';
-import { ExportPDF } from './pdfForm01/ExportPDF';
+import  {ExportPDF}  from './pdfForm0201/ExportPDF';
 import {
   Table,
   TableWrapper,
@@ -21,17 +21,22 @@ import {
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { useNetInfo } from '@react-native-community/netinfo';
 import Storage from '../../utils/storage';
-import {
-  convertStringToDateHour,
-} from '../others/formatdate';
-// import { PrintfPDF } from './pdfForm01/PrintfPDF';
+import { PrintfPDF } from './pdfForm0201/PrintfPDF';
+import moment from 'moment';
 const Form02adx01Diary = ({ navigation }) => {
   const [dataDiary, setDataDiary] = useState([]);
 
   const {
     getDiaryForm0201,
     deleteForm0201Id,
+    dataInfShip,
     isLoggedIn,
+    postForm0201,
+    getDetailForm0201Id,
+    data0201,
+    setData0201,
+    checkViewPDF,
+    setCheckViewPDF,
   } = useContext(UserContext);
 
   const netInfo = useNetInfo();
@@ -44,6 +49,34 @@ const Form02adx01Diary = ({ navigation }) => {
       setDataDiary([]);
     }
   }, [isLoggedIn]);
+
+  // check neu co wifi thi post file o local len server
+  useFocusEffect(
+    React.useCallback(() => {
+      if (netInfo.isConnected) {
+        autoPostForm();
+      }
+    }, [netInfo.isConnected]),
+  );
+
+
+  const autoPostForm = async () => {
+    const form = await Storage.getItem('form02adx01');
+    if (form !== null) {
+      let data = JSON.parse(form);
+      const newData = [];
+  
+      for (const item of data) {
+        const result = await postForm0201(item);
+        if (result) {
+        } else {
+          newData.push(item);
+        }
+      }
+      await Storage.setItem('form02adx01', JSON.stringify(newData));
+      setDataDiary(newData);
+    }
+  };
 
   const fetchdata = async () => {
     //sap xep lai danh sach theo thoi gian update
@@ -66,42 +99,64 @@ const Form02adx01Diary = ({ navigation }) => {
 
 
   //tranh goi ham nhieu lan khi o ben ngoai
-  // const [template, setTemplate] = useState(false);
-  // const handleGeneratePDF = id => {
-  //   getDetailFormId(id);
+  const [template, setTemplate] = useState(false);
+  const handleGeneratePDF = id => {
+    getDetailForm0201Id(id);
     
-  //   if (netInfo.isConnected) {
-  //     setTemplate(true);
-  //   } else {
-  //     // Handle PDF generation locally without internet
-  //     const formIndex = dataDiary.findIndex(item => item.id === id);
-  //     if (formIndex !== -1) {
-  //       const formData = dataDiary[formIndex];
-  //       ExportPDF(formData); // Assuming ExportPDF generates the PDF
-  //     }
+    if (netInfo.isConnected) {
+      setTemplate(true);
+    } else {
+      // Handle PDF generation locally without internet
+      const formIndex = dataDiary.findIndex(item => item.id === id);
+      if (formIndex !== -1) {
+        const formData = dataDiary[formIndex];
+        ExportPDF(formData); // Assuming ExportPDF generates the PDF
+      }
+    }  
+  };
+  // let checkForm=false;
+  const [checkForm, setCheckForm] = useState(false);
+  useEffect(() => {
+    if (data0201 && template) {
+      let dataTemp = data0201;
+      if(checkForm==true){
+        console.log('dataTemp: ', dataTemp);
+
+        dataTemp= {...data0201, dairy_name: 'filemau'};
+        setCheckForm(false);
+        setTimeout(() => {
+          navigation.navigate('ViewPDF');
+        }, 2000);
+      }
+      ExportPDF(dataTemp);
+      setTemplate(false);
+
+    }
+    // checkForm=false;
+  }, [data0201, setTemplate]);
+
+  // useEffect(() => {
+  //   if(checkViewPDF){
+  //     setCheckViewPDF(false);
+
   //   }
-  // };
+  // }, [checkViewPDF]);
 
-//   useEffect(() => {
-//     if (data && template) {
-//       ExportPDF(data);
-//       setTemplate(false);
-//     }
-//   }, [data, setTemplate]);
 
-// // dùng useEffect data để in
-//   const [printf, setPrintf] = useState(false);
-//   const handerlePrintPDF = (id) => {
-//     getDetailFormId(id);
-//     setPrintf(true);
-//   };
+// dùng useEffect data để in
+  const [printf, setPrintf] = useState(false);
+  const handerlePrintPDF = (id) => {
+    getDetailForm0201Id(id);
+    setPrintf(true);
+  };
 
-//   useEffect(() => {
-//     if (data && printf) {
-//       PrintfPDF(data);
-//       setPrintf(false);
-//     }
-//   }, [data, setPrintf]);
+  useEffect(() => {
+    console.log('data0201: ', data0201);
+    if (data0201 && printf) {
+      PrintfPDF(data0201);
+      setPrintf(false);
+    }
+  }, [data0201, setPrintf]);
 
   const getDataLocal = async () => {
     const result = await Storage.getItem('form02adx01');
@@ -114,7 +169,7 @@ const Form02adx01Diary = ({ navigation }) => {
   // nếu có wifi, gọi app lấy danh sách từ server
   // nếu không có wifi, lấy data từ local
   useFocusEffect(
-    useCallback(() => {
+    React.useCallback(() => {
       if (netInfo.isConnected)
          fetchdata();
       else 
@@ -144,7 +199,6 @@ const Form02adx01Diary = ({ navigation }) => {
     );
   };
 
-  //delete
   const handleDeleteFormLocal = index => {
     Alert.alert(
       'Xác nhận xoá',
@@ -170,10 +224,8 @@ const Form02adx01Diary = ({ navigation }) => {
 
   };
 
-  //btn
   const elementButton = (id, index) => (
     <View style={styles.boxbtn}>
-
       <TouchableOpacity
         // disabled={true}
         onPress={() => {
@@ -181,20 +233,19 @@ const Form02adx01Diary = ({ navigation }) => {
             ToastAndroid.show('Vui lòng kết nối internet.', ToastAndroid.SHORT);
             return; 
           }
-          navigation.navigate('ViewPDF', { id: id, data: dataDiary });
+          setCheckForm(true);
+          handleGeneratePDF(id);
         }}>
         <View style={[styles.btn, { backgroundColor: '#99FF33' }]}>
           <Text style={styles.btnText}>Xem</Text>
         </View>
       </TouchableOpacity>
-
       <TouchableOpacity
         onPress={() => navigation.navigate('form02adx01', { id: !netInfo.isConnected ? index : id })}>
         <View style={[styles.btn, { backgroundColor: '#00FFFF' }]}>
           <Text style={styles.btnText}>Sửa</Text>
         </View>
       </TouchableOpacity>
-
       <TouchableOpacity
         onPress={() => {
           if(!netInfo.isConnected){
@@ -207,13 +258,11 @@ const Form02adx01Diary = ({ navigation }) => {
           <Text style={styles.btnText}>Tải xuống</Text>
         </View>
       </TouchableOpacity>
-
       <TouchableOpacity onPress={() => { !netInfo.isConnected ? handleDeleteFormLocal(index) : handleDelete(id) }}>
         <View style={[styles.btn, { backgroundColor: '#FF3333' }]}>
           <Text style={styles.btnText}>Xoá</Text>
         </View>
       </TouchableOpacity>
-
       <TouchableOpacity onPress={() =>{
           if(!netInfo.isConnected){
             ToastAndroid.show('Vui lòng kết nối internet.', ToastAndroid.SHORT);
@@ -225,7 +274,6 @@ const Form02adx01Diary = ({ navigation }) => {
           <Text style={styles.btnText}>In</Text>
         </View>
       </TouchableOpacity>
-      
     </View>
   );
   //data
@@ -235,8 +283,8 @@ const Form02adx01Diary = ({ navigation }) => {
     item.tau_bs,
     item.ten_thuyentruong,
     item.chuyenbien_so,
-    convertStringToDateHour(item.date_create),
-    convertStringToDateHour(item.date_modified),
+    !item.date_create?'':moment(item.date_create).format('DD/MM/YYYY HH:mm'),
+    !item.date_modified?'':moment(item.date_modified).format('DD/MM/YYYY HH:mm'),
     elementButton(item.id, index),
   ]);
 
@@ -264,7 +312,7 @@ const Form02adx01Diary = ({ navigation }) => {
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={()=>fetchdata()} />
         }>
-        <Table borderStyle={{ borderWidth: 1,width:100 }}>
+        <Table borderStyle={{ borderWidth: 1 }}>
           <Row
             data={state.tableHead}
             flexArr={[0.8, 1, 2, 1.5, 1.5, 2, 2, 3.5]}
@@ -307,14 +355,14 @@ const styles = StyleSheet.create({
   text: {
     textAlign: 'center',
     padding: 3,
-    fontSize: 12, 
+    fontSize: 11,
     color: '#000',
   },
   textHead: {
     textAlign: 'center',
     alignSelf: 'center',
     padding: 3,
-    fontSize: 14,
+    fontSize: 13,
     color: '#fff',
     fontWeight: '600',
   },
