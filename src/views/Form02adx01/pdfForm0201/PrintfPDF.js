@@ -1,12 +1,7 @@
 import React, { useContext } from 'react';
 import { View, StyleSheet,Alert } from 'react-native';
 import Pdf from 'react-native-pdf';
-import RNHTMLtoPDF from 'react-native-html-to-pdf';
 import RNPrint from 'react-native-print';
-import { checkUndefine } from './checkUndefine';
-
-import { UserContext } from '../contexts/UserContext';
-
 
 import moment from 'moment';
 import vi from "moment/locale/vi";
@@ -14,8 +9,6 @@ export const PrintfPDF = async (data) => {
     // const duLieu = checkUndefine(data)
     const duLieu= data;
     // console.log('duLieu: ', duLieu);
-    let count = 1;
-    let countfirst = 1;
     moment.updateLocale("vi",vi);
 
     let totalByType = [0,0,0,0,0,0];
