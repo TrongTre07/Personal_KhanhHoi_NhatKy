@@ -235,6 +235,7 @@ const UserProvider = ({children}) => {
   //get form theo id
   const getDetailForm0201Id = async id => {
     try {
+      setIsLoading(true);
       if (!id) {
         setInitialTitle('');
       }
@@ -245,6 +246,7 @@ const UserProvider = ({children}) => {
 
         setInitialTitle(response.data.dairy_name);
         setData0201(await response.data);
+        setIsLoading(false);
       }
     } catch (error) {
       if (error.response.status === 401) {
@@ -256,6 +258,7 @@ const UserProvider = ({children}) => {
 
   const postForm0201 = async obj => {
     try {
+      setIsLoading(true);
       const response = await instance.post('api/FormAppendix/0201/create', obj);
 
       if (response.data == false) {

@@ -1,4 +1,11 @@
-import {StyleSheet, Text, View, TouchableOpacity, FlatList} from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  FlatList,
+  Alert,
+} from 'react-native';
 import React, {useState} from 'react';
 import {ScrollView} from 'react-native';
 import Table3 from './itemTongCucThuySan/Table3';
@@ -38,7 +45,23 @@ const ThongTinVeCacTau = () => {
   // };
 
   const handleDeleteButton = indexDuocChon => {
+    let lastObject = data0201.thongtintaudc_thumua.length;
+    if (lastObject == 1) {
+      Alert.alert('Không thể xóa hết thông tin', '', [{text: 'OK'}]);
+      return;
+    }
+
+    data0201.thongtintaudc_thumua.map(item => {
+      if (item.hasOwnProperty('isdelete') && item.isdelete == 1) {
+        lastObject -= 1;
+      }
+    });
+    if (lastObject == 1) {
+      Alert.alert('Không thể xóa hết thông tin', '', [{text: 'OK'}]);
+      return;
+    }
     const itemToRemove = data0201.thongtintaudc_thumua[indexDuocChon];
+
     if (itemToRemove) {
       if (itemToRemove.hasOwnProperty('isdelete')) {
         itemToRemove.isdelete = 1;
@@ -62,6 +85,10 @@ const ThongTinVeCacTau = () => {
         };
 
         setData0201(updatedData0201);
+      }
+      if (pressedItem != 0) {
+        const pressedItemDelete = pressedItem;
+        setPressedItem(pressedItemDelete - 1);
       }
     } else {
       Alert.alert('Cần chọn dòng', '', [{text: 'OK'}]);
@@ -123,12 +150,26 @@ const ThongTinVeCacTau = () => {
   };
 
   const renderButton = (item, index) => {
-    const isPressed = index === pressedItem;
+    let countIsDelete = 0;
+    const rootIndex = index;
 
     let checkIsDeleted;
     if (item.isdelete == 1) {
       checkIsDeleted = true;
+    } else {
+      for (i = 0; i <= index; i++) {
+        if (
+          data0201.thongtintaudc_thumua[i].isdelete &&
+          data0201.thongtintaudc_thumua[i].isdelete == 1
+        ) {
+          countIsDelete++;
+        }
+      }
+      index -= countIsDelete;
     }
+
+    const isPressed = rootIndex === pressedItem;
+
     if (checkIsDeleted) {
       return null;
     }
@@ -139,10 +180,10 @@ const ThongTinVeCacTau = () => {
           styles.container,
           isPressed ? {backgroundColor: '#0ea5e9'} : {backgroundColor: 'grey'},
         ]}
-        onPress={() => handleItemPress(index)}>
+        onPress={() => handleItemPress(rootIndex)}>
         <Text style={styles.text}>{`B.${index + 1}`}</Text>
         <TouchableOpacity
-          onPress={() => handleDeleteButton(index)}
+          onPress={() => handleDeleteButton(rootIndex)}
           style={styles.circle}>
           <Text style={styles.minus}>-</Text>
         </TouchableOpacity>

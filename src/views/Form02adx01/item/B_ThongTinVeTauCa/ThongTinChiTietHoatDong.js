@@ -81,6 +81,23 @@ const ThongTinChiTietHoatDong = ({selectedItem}) => {
   };
 
   const handleXoaDong = () => {
+    let lastObject =
+      data0201.thongtintaudc_thumua[selectedItem].thongtinhoatdong.length;
+    if (lastObject == 1) {
+      Alert.alert('Không thể xóa hết thông tin', '', [{text: 'OK'}]);
+      return;
+    }
+
+    data0201.thongtintaudc_thumua[selectedItem].thongtinhoatdong.map(item => {
+      if (item.hasOwnProperty('isdelete') && item.isdelete == 1) {
+        lastObject -= 1;
+      }
+    });
+    if (lastObject == 1) {
+      Alert.alert('Không thể xóa hết thông tin', '', [{text: 'OK'}]);
+      return;
+    }
+
     if (
       data0201 &&
       data0201.thongtintaudc_thumua &&
@@ -322,11 +339,27 @@ const ThongTinChiTietHoatDong = ({selectedItem}) => {
     return total;
   };
   const ThongTinHoatDongItem = ({item, index}) => {
-    const isSelected = selectedItemIndex === index;
+    const rootIndex = index;
+    let countIsDelete = 0;
+
     let checkIsDeleted;
     if (item.isdelete == 1) {
       checkIsDeleted = true;
+    } else {
+      for (i = 0; i <= index; i++) {
+        if (
+          data0201.thongtintaudc_thumua[selectedItem].thongtinhoatdong[i]
+            .isdelete &&
+          data0201.thongtintaudc_thumua[selectedItem].thongtinhoatdong[i]
+            .isdelete == 1
+        ) {
+          countIsDelete++;
+        }
+      }
+      index -= countIsDelete;
     }
+    const isSelected = selectedItemIndex === rootIndex;
+
     if (checkIsDeleted) {
       return null;
     }
@@ -334,7 +367,7 @@ const ThongTinChiTietHoatDong = ({selectedItem}) => {
     return (
       <Pressable
         key={index}
-        onPress={() => handleChonItem(index)}
+        onPress={() => handleChonItem(rootIndex)}
         style={[
           {flexDirection: 'row', backgroundColor: 'white'},
           isSelected && {backgroundColor: 'lightblue'},

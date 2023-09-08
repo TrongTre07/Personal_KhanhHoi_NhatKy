@@ -28,6 +28,7 @@ const KetQuaThuMua = () => {
   const {data0201, setData0201} = useContext(UserContext);
   let lastItem = data0201.thumua[data0201.thumua.length - 1];
   let uniqueId = lastItem.id + 1;
+
   const moment = require('moment');
   const currentDate = moment();
   const formattedDate = currentDate.format('YYYY-MM-DDTHH:mm:ss');
@@ -71,8 +72,24 @@ const KetQuaThuMua = () => {
   };
 
   const handleXoaDong = () => {
-    const itemToRemove = data0201.thumua[selectedItemIndex];
 
+    let lastObject = data0201.thumua.length;
+    if (lastObject == 1) {
+      Alert.alert('Không thể xóa hết thông tin', '', [{text: 'OK'}]);
+      return;
+    }
+
+    data0201.thumua.map(item => {
+      if (item.hasOwnProperty('isdelete') && item.isdelete == 1) {
+        lastObject -= 1;
+      }
+    });
+    if (lastObject == 1) {
+      Alert.alert('Không thể xóa hết thông tin', '', [{text: 'OK'}]);
+      return;
+    }
+
+    const itemToRemove = data0201.thumua[selectedItemIndex];
     if (itemToRemove) {
       if (itemToRemove.hasOwnProperty('isdelete')) {
         itemToRemove.isdelete = 1;
@@ -233,18 +250,28 @@ const KetQuaThuMua = () => {
   };
 
   const KetQuaThuMuaItem = ({item, index}) => {
-    const isSelected = selectedItemIndex === index;
+    let countIsDelete = 0;
+    const rootIndex = index;
     let checkIsDeleted;
     if (item.isdelete == 1) {
       checkIsDeleted = true;
+    } else {
+      for (i = 0; i <= index; i++) {
+        if (data0201.thumua[i].isdelete && data0201.thumua[i].isdelete == 1) {
+          countIsDelete++;
+        }
+      }
+      index -= countIsDelete;
     }
+
+    const isSelected = selectedItemIndex === rootIndex;
     if (checkIsDeleted) {
       return null;
     }
     return (
       <Pressable
         key={index}
-        onPress={() => handleChonItem(index)}
+        onPress={() => handleChonItem(rootIndex)}
         style={[
           {flexDirection: 'row', backgroundColor: 'white'},
           isSelected && {backgroundColor: 'lightblue'},
