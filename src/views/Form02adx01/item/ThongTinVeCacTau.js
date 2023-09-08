@@ -37,9 +37,8 @@ const ThongTinVeCacTau = () => {
   //   }
   // };
 
-  const handleDeleteButton = () => {
-    const itemToRemove = data0201.thongtintaudc_thumua[pressedItem];
-
+  const handleDeleteButton = indexDuocChon => {
+    const itemToRemove = data0201.thongtintaudc_thumua[indexDuocChon];
     if (itemToRemove) {
       if (itemToRemove.hasOwnProperty('isdelete')) {
         itemToRemove.isdelete = 1;
@@ -77,7 +76,7 @@ const ThongTinVeCacTau = () => {
     const newId = lastId + 1;
 
     const obj = {
-      id: newId,
+      id: new Date(),
       // dairy_id: data0201.id,
       id_tau: '',
       tau_bs: '',
@@ -143,7 +142,7 @@ const ThongTinVeCacTau = () => {
         onPress={() => handleItemPress(index)}>
         <Text style={styles.text}>{`B.${index + 1}`}</Text>
         <TouchableOpacity
-          onPress={() => handleDeleteButton(item.id)}
+          onPress={() => handleDeleteButton(index)}
           style={styles.circle}>
           <Text style={styles.minus}>-</Text>
         </TouchableOpacity>

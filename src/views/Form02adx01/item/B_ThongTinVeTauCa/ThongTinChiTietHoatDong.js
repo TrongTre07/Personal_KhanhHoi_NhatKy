@@ -44,12 +44,11 @@ const ThongTinChiTietHoatDong = ({selectedItem}) => {
 
   const handleThemDong = () => {
     const objectAdd = {
-      id: uniqueId,
+      id: new Date(),
       // dairy_id: data0201.id,
-      methu:
-        data0201.thongtintaudc_thumua[
-          selectedItem
-        ].thongtinhoatdong.length.toString(),
+      methu: (
+        data0201.thongtintaudc_thumua[selectedItem].thongtinhoatdong.length + 1
+      ).toString(),
       thoidiem_tha: formattedDate,
       vido_tha: '',
       kinhdo_tha: '',
@@ -93,12 +92,29 @@ const ThongTinChiTietHoatDong = ({selectedItem}) => {
         ];
 
       if (itemToRemove) {
-        const updatedData0201 = {...data0201};
-        updatedData0201.thongtintaudc_thumua[selectedItem].thongtinhoatdong =
-          updatedData0201.thongtintaudc_thumua[
-            selectedItem
-          ].thongtinhoatdong.filter(item => item.id !== itemToRemove.id);
-        setData0201(updatedData0201);
+        if (itemToRemove.hasOwnProperty('isdelete')) {
+          const updatedData0201 = {...data0201};
+
+          updatedData0201.thongtintaudc_thumua[selectedItem].thongtinhoatdong =
+            updatedData0201.thongtintaudc_thumua[
+              selectedItem
+            ].thongtinhoatdong.map(item => {
+              if (item.id === itemToRemove.id) {
+                return {...item, isdelete: 1};
+              }
+              return item;
+            });
+
+          // Update data0201 with the modified thongtinhoatdong array
+          setData0201(updatedData0201);
+        } else {
+          const updatedData0201 = {...data0201};
+          updatedData0201.thongtintaudc_thumua[selectedItem].thongtinhoatdong =
+            updatedData0201.thongtintaudc_thumua[
+              selectedItem
+            ].thongtinhoatdong.filter(item => item.id !== itemToRemove.id);
+          setData0201(updatedData0201);
+        }
       } else {
         Alert.alert('Cần chọn dòng', '', [{text: 'OK'}]);
       }
@@ -307,6 +323,13 @@ const ThongTinChiTietHoatDong = ({selectedItem}) => {
   };
   const ThongTinHoatDongItem = ({item, index}) => {
     const isSelected = selectedItemIndex === index;
+    let checkIsDeleted;
+    if (item.isdelete == 1) {
+      checkIsDeleted = true;
+    }
+    if (checkIsDeleted) {
+      return null;
+    }
 
     return (
       <Pressable
@@ -710,7 +733,7 @@ const styles = StyleSheet.create({
     fontSize: 23,
     lineHeight: 25,
     borderColor: '#0099FF',
-    borderWidth: 0.6,
+    borderWidth: 1,
     width: widthLoai,
     height: 50,
     color: 'black',
@@ -791,7 +814,7 @@ const styles = StyleSheet.create({
     fontSize: 23,
     lineHeight: 25,
     borderColor: '#0099FF',
-    borderWidth: 0.6,
+    borderWidth: 1,
     width: widthTongKhoiLuong,
     color: 'black',
     textAlign: 'center', // Center text horizontally
@@ -809,7 +832,7 @@ const styles = StyleSheet.create({
     textAlignVertical: 'center',
   },
   inputKhoiLuong: {
-    fontWeight: '300',
+    fontWeight: '400',
     fontSize: 23,
     lineHeight: 25,
     backgroundColor: 'white',
@@ -821,7 +844,7 @@ const styles = StyleSheet.create({
     textAlignVertical: 'center',
   },
   inputToaDo: {
-    fontWeight: '300',
+    fontWeight: '400',
     fontSize: 23,
     lineHeight: 25,
     backgroundColor: 'white',
@@ -833,7 +856,7 @@ const styles = StyleSheet.create({
     textAlignVertical: 'center',
   },
   inputKhoiLuongLoai: {
-    fontWeight: '300',
+    fontWeight: '400',
     fontSize: 23,
     lineHeight: 25,
     backgroundColor: 'white',
@@ -845,7 +868,7 @@ const styles = StyleSheet.create({
     textAlignVertical: 'center',
   },
   inputNgay: {
-    fontWeight: '300',
+    fontWeight: '400',
     fontSize: 23,
     lineHeight: 25,
     backgroundColor: 'white',

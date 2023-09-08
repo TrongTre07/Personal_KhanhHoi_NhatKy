@@ -34,7 +34,7 @@ const KetQuaThuMua = () => {
 
   const handleThemDong = () => {
     const objectAdd = {
-      id: uniqueId,
+      id: new Date(),
       ngaythang: formattedDate,
       id_tau: '',
       tau_bs: '',
@@ -562,13 +562,14 @@ const styles = StyleSheet.create({
     fontSize: 23,
     lineHeight: 25,
     borderColor: '#0099FF',
-    borderWidth: 0.6,
+    borderWidth: 1,
     width: widthLoai,
     height: 50,
     color: 'black',
     textAlign: 'center', // Center text horizontally
     textAlignVertical: 'center',
   },
+
   textKhoiLuongThuySanDaMua: {
     fontWeight: '400',
     fontSize: 23,
@@ -643,7 +644,7 @@ const styles = StyleSheet.create({
     fontSize: 23,
     lineHeight: 25,
     borderColor: '#0099FF',
-    borderWidth: 0.6,
+    borderWidth: 1,
     width: widthTongKhoiLuong,
     color: 'black',
     textAlign: 'center', // Center text horizontally
@@ -671,7 +672,7 @@ const styles = StyleSheet.create({
     textAlignVertical: 'center',
   },
   inputKhoiLuong: {
-    fontWeight: '300',
+    fontWeight: '400',
     fontSize: 23,
     lineHeight: 25,
     backgroundColor: 'white',
@@ -683,7 +684,7 @@ const styles = StyleSheet.create({
     textAlignVertical: 'center',
   },
   inputToaDo: {
-    fontWeight: '300',
+    fontWeight: '400',
     fontSize: 23,
     lineHeight: 25,
     backgroundColor: 'white',
@@ -695,7 +696,7 @@ const styles = StyleSheet.create({
     textAlignVertical: 'center',
   },
   inputKhoiLuongLoai: {
-    fontWeight: '300',
+    fontWeight: '400',
     fontSize: 23,
     lineHeight: 25,
     backgroundColor: 'white',
@@ -707,7 +708,7 @@ const styles = StyleSheet.create({
     textAlignVertical: 'center',
   },
   inputNgay: {
-    fontWeight: '300',
+    fontWeight: '400',
     fontSize: 23,
     lineHeight: 25,
     backgroundColor: 'white',

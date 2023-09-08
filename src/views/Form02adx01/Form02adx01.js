@@ -109,7 +109,7 @@ const Form02ad01 = ({route}) => {
           },
         ]);
       } else {
-        await postForm0201(objectPost);
+        await postForm0201(modifyThongTinTauDCThumua(objectPost));
       }
     } else if (string == 'update') {
       await updateForm0201(modifyThongTinTauDCThumua(objectPost));
@@ -148,30 +148,56 @@ const Form02ad01 = ({route}) => {
     }
   };
 
-  // const modifyThongTinTauDCThumua = (data0201) =>{
+  // const modifyThongTinTauDCThumua = data0201 => {
+  //   // Modify thumua array
   //   const modifiedThumua = data0201.thumua.map(item => {
   //     if (!item.hasOwnProperty('isdelete')) {
-  //       // Item has isdelete field, update id to 0
+  //       // Item has isdelete field with a value of 1, update id to 0
   //       return {...item, id: 0};
   //     }
   //     return item;
   //   });
 
-  //   // Update data0201 with the modified thongtintaudc_thumua array
+  //   // Modify thongtintaudc_thumua array
+  //   const modifiedThongTinTauDCThumua = data0201.thongtintaudc_thumua.map(
+  //     item => {
+  //       if (item.thongtinhoatdong) {
+  //         const modifiedThongTinHoatDong = item.thongtinhoatdong.map(
+  //           subItem => {
+  //             if (!subItem.hasOwnProperty('isdelete')) {
+  //               return {...subItem, id: 0};
+  //             }
+  //             return subItem;
+  //           },
+  //         );
+  //         return {...item, thongtinhoatdong: modifiedThongTinHoatDong};
+  //       }
+
+  //       if (!item.hasOwnProperty('isdelete')) {
+  //         // Item has isdelete field with a value of 1, update id to 0
+  //         return {...item, id: 0};
+  //       }
+  //       // Check and modify thongtinhoatdong array if it exists
+  //       return item;
+  //     },
+  //   );
+
+  //   // Update data0201 with the modified thumua and thongtintaudc_thumua arrays
   //   const updatedData0201 = {
   //     ...data0201,
   //     thumua: modifiedThumua,
+  //     thongtintaudc_thumua: modifiedThongTinTauDCThumua,
   //   };
 
   //   console.log('MODIFY:', JSON.stringify(updatedData0201, null, 2));
 
   //   return updatedData0201;
-  // }
+  // };
 
   const modifyThongTinTauDCThumua = data0201 => {
     // Modify thumua array
     const modifiedThumua = data0201.thumua.map(item => {
-      if (item.hasOwnProperty('isdelete') && item.isdelete === 1) {
+      if (!item.hasOwnProperty('isdelete')) {
         // Item has isdelete field with a value of 1, update id to 0
         return {...item, id: 0};
       }
@@ -181,26 +207,23 @@ const Form02ad01 = ({route}) => {
     // Modify thongtintaudc_thumua array
     const modifiedThongTinTauDCThumua = data0201.thongtintaudc_thumua.map(
       item => {
-        if (item.hasOwnProperty('isdelete') && item.isdelete === 1) {
-          // Item has isdelete field with a value of 1, update id to 0
-          return {...item, id: 0};
-        }
-        // Check and modify thongtinhoatdong array if it exists
-        if (item.thongtinhoatdong && Array.isArray(item.thongtinhoatdong)) {
+        if (item.thongtinhoatdong) {
           const modifiedThongTinHoatDong = item.thongtinhoatdong.map(
             subItem => {
-              if (
-                subItem.hasOwnProperty('isdelete') &&
-                subItem.isdelete === 1
-              ) {
-                // Sub-item has isdelete field with a value of 1, update id to 0
+              if (!subItem.hasOwnProperty('isdelete')) {
                 return {...subItem, id: 0};
               }
               return subItem;
             },
           );
-          return {...item, thongtinhoatdong: modifiedThongTinHoatDong};
+          item = {...item, thongtinhoatdong: modifiedThongTinHoatDong};
         }
+
+        if (!item.hasOwnProperty('isdelete')) {
+          // Item has isdelete field with a value of 1, update id to 0
+          item = {...item, id: 0};
+        }
+
         return item;
       },
     );

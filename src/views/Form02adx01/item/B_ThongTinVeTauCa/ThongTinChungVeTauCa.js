@@ -15,7 +15,7 @@ const ThongTinChungVeTauCa = () => {
         }}>
         I. THÔNG TIN CHUNG VỀ TÀU CÁ
       </Text>
-      <Table1/>
+      <Table1 />
     </View>
   );
 };
