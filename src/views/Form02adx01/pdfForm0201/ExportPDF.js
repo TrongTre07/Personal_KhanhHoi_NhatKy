@@ -410,34 +410,34 @@ export const ExportPDF = async (data) => {
                             </td>
         
                             <td style="width: 7%;" class="s4 center-table" bgcolor="#D1D6DB">
-                                Loài
+                                Loài<br>
                                 ${duLieu?.thumua[0]?.loai_1}
         
                             </td>
                             <td style="width: 7%;" class="s4 center-table" bgcolor="#D1D6DB">
         
-                                Loài
+                                Loài<br>
                                 ${duLieu?.thumua[0]?.loai_2}
         
                             </td>
                             <td style="width: 7%;" class="s4 center-table" bgcolor="#D1D6DB">
-                                Loài
+                                Loài<br>
                                 ${duLieu?.thumua[0]?.loai_3}
         
         
                             </td>
                             <td style="width: 7%;" class="s4 center-table" bgcolor="#D1D6DB">
-                                Loài
+                                Loài<br>
                                 ${duLieu?.thumua[0]?.loai_4}
         
                             </td>
                             <td style="width: 7%;" class="s4 center-table" bgcolor="#D1D6DB">
-                                Loài
+                                Loài <br>
                                 ${duLieu?.thumua[0]?.loai_5}
         
                             </td>
                             <td style="width: 7%;" class="s4 center-table" bgcolor="#D1D6DB">
-                                Loài
+                                Loài<br>
                                 ${duLieu?.thumua[0]?.loai_6}
                             </td>
         
@@ -481,7 +481,7 @@ export const ExportPDF = async (data) => {
                                 ${line?.loai_6_kl}
                             </td>
                             <td class="s5 center-table">
-                                ${line?.tongsanluong||0}
+                                ${line?.tongsanluong}
                             </td>
                         </tr>
                         `).join('')}
@@ -492,26 +492,26 @@ export const ExportPDF = async (data) => {
                             </td>
         
                             <td class="center-table s5">
-                                ${totalByType[0]}
+                                ${totalByType[0]==0?'':totalByType[0]}
                             </td>
                             <td class="center-table s5">
-                                ${totalByType[1]}
+                                ${totalByType[1]==0?'':totalByType[1]}
                             </td>
                             <td class="center-table s5">
-                                ${totalByType[2]}
+                                ${totalByType[2]==0?'':totalByType[2]}
                             </td>
                             <td class="center-table s5">
-                                ${totalByType[3]}
+                                ${totalByType[3]==0?'':totalByType[3]}
                             </td>
                             <td class="center-table s5">
-                                ${totalByType[4]}
+                                ${totalByType[4]==0?'':totalByType[4]}
                             </td>
                             <td class="center-table s5">
-                                ${totalByType[5]}
+                                ${totalByType[5]==0?'':totalByType[5]}
                             </td>
                             </td>
                             <td class="center-table s5">
-                                ${totalByType[0]+totalByType[1]+totalByType[2]+totalByType[3]+totalByType[4]+totalByType[5]}
+                                ${totalByType[0]+totalByType[1]+totalByType[2]+totalByType[3]+totalByType[4]+totalByType[5]==0?'':totalByType[0]+totalByType[1]+totalByType[2]+totalByType[3]+totalByType[4]+totalByType[5]}
                             </td>
                         </tr>
                     </table>
@@ -650,34 +650,34 @@ export const ExportPDF = async (data) => {
                                     Kinh độ
                                 </td>
                                 <td style="width: 7%;" class="s4 center-table" bgcolor="#D1D6DB">
-                                    Loài
+                                    Loài<br>
                                     ${item.thongtinhoatdong[0]?.loai_1}
             
                                 </td>
                                 <td style="width: 7%;" class="s4 center-table" bgcolor="#D1D6DB">
             
-                                    Loài
+                                    Loài<br>
                                     ${item.thongtinhoatdong[0]?.loai_2}
             
                                 </td>
                                 <td style="width: 7%;" class="s4 center-table" bgcolor="#D1D6DB">
-                                    Loài
+                                    Loài<br>
                                     ${item.thongtinhoatdong[0]?.loai_3}
             
             
                                 </td>
                                 <td style="width: 7%;" class="s4 center-table" bgcolor="#D1D6DB">
-                                    Loài
+                                    Loài<br>
                                     ${item.thongtinhoatdong[0]?.loai_4}
             
                                 </td>
                                 <td style="width: 7%;" class="s4 center-table" bgcolor="#D1D6DB">
-                                    Loài
+                                    Loài<br>
                                     ${item.thongtinhoatdong[0]?.loai_5}
             
                                 </td>
                                 <td style="width: 7%;" class="s4 center-table" bgcolor="#D1D6DB">
-                                    Loài
+                                    Loài<br>
                                     ${item.thongtinhoatdong[0]?.loai_6}
                                 </td>
             
@@ -741,27 +741,27 @@ export const ExportPDF = async (data) => {
                                 </td>
             
                                 <td class="center-table s5">
-                                    ${bigdatatotal[index][0]}
+                                    ${bigdatatotal[index][0]==0?'':bigdatatotal[index][0]}
                                 </td>
                                 <td class="center-table s5">
-                                    ${bigdatatotal[index][1]}
+                                    ${bigdatatotal[index][1]==0?'':bigdatatotal[index][1]}
                                 </td>
                                 <td class="center-table s5">
-                                    ${bigdatatotal[index][2]}
+                                    ${bigdatatotal[index][2]==0?'':bigdatatotal[index][2]}
                                 </td>
                                 <td class="center-table s5">
-                                    ${bigdatatotal[index][3]}
+                                    ${bigdatatotal[index][3]==0?'':bigdatatotal[index][3]}
                                 </td>
                                 <td class="center-table s5">
-                                    ${bigdatatotal[index][4]}
+                                    ${bigdatatotal[index][4]==0?'':bigdatatotal[index][4]}
                                 </td>
                                 <td class="center-table s5">
-                                    ${bigdatatotal[index][5]}
+                                    ${bigdatatotal[index][5]==0?'':bigdatatotal[index][5]}
                                 </td>
                                 </td>
                                 <td class="center-table s5">
                                 
-                                    ${bigdatatotal[index][0]+bigdatatotal[index][1]+bigdatatotal[index][2]+bigdatatotal[index][3]+bigdatatotal[index][4]+bigdatatotal[index][5]}
+                                    ${(bigdatatotal[index][0]+bigdatatotal[index][1]+bigdatatotal[index][2]+bigdatatotal[index][3]+bigdatatotal[index][4]+bigdatatotal[index][5])==0?'':(bigdatatotal[index][0]+bigdatatotal[index][1]+bigdatatotal[index][2]+bigdatatotal[index][3]+bigdatatotal[index][4]+bigdatatotal[index][5])}
                                 </td>
                             </tr>
                         </table>
@@ -826,10 +826,12 @@ export const ExportPDF = async (data) => {
         if(duLieu?.dairy_name!=='filemau'){
             Alert.alert('Thành công', `PDF lưu tại ${file.filePath}`);
         }
+        return true;
         // setCheckViewPDF(false);
 
         // setIsLoading(false);
     } catch (error) {
+        return false;
         Alert.alert('Lỗiiiiiii', error.message);
     }
 };

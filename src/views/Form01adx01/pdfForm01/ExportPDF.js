@@ -775,10 +775,12 @@ export const ExportPDF = async (data) => {
         if(duLieu?.dairy_name!=='filemau'){
             Alert.alert('Thành công', `PDF lưu tại ${file.filePath}`);
         }
+        return true;
         // setCheckViewPDF(false);
 
         // setIsLoading(false);
     } catch (error) {
+        return false;
         Alert.alert('Lỗiiiiiii', error.message);
     }
 };

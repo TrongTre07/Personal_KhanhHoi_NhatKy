@@ -165,6 +165,7 @@ const UserProvider = ({children}) => {
 
         setInitialTitle(response.data.dairy_name);
         setData(await response.data);
+        return response.data;
       }
     } catch (error) {
       if(error.response.status===401){
@@ -251,6 +252,7 @@ const UserProvider = ({children}) => {
 
         setInitialTitle(response.data.dairy_name);
         setData0201(await response.data);
+        return response.data;
       }
     } catch (error) {
       if(error.response.status===401){
