@@ -7,6 +7,7 @@ import {
   View,
   Pressable,
   Alert,
+  ToastAndroid,
 } from 'react-native';
 import React, {useContext, useState} from 'react';
 import CustomDatePicker from '../../../others/CustomDatePicker';
@@ -35,85 +36,93 @@ const ThongTinChiTietHoatDong = ({selectedItem}) => {
   if (selectedItem >= data0201.thongtintaudc_thumua.length) {
     selectedItem--;
   }
-  const lastItem =
-    data0201.thongtintaudc_thumua[selectedItem].thongtinhoatdong[
-      data0201.thongtintaudc_thumua[selectedItem].thongtinhoatdong.length - 1
-    ];
+  // const lastItem =
+  //   data0201.thongtintaudc_thumua[selectedItem].thongtinhoatdong[
+  //     data0201.thongtintaudc_thumua[selectedItem].thongtinhoatdong.length - 1
+  //   ];
 
-  let uniqueId = lastItem.id + 1;
+  // let uniqueId = lastItem.id + 1;
 
   const handleThemDong = () => {
-    const objectAdd = {
-      id: new Date(),
-      // dairy_id: data0201.id,
-      methu: (
-        data0201.thongtintaudc_thumua[selectedItem].thongtinhoatdong.length + 1
-      ).toString(),
-      thoidiem_tha: formattedDate,
-      vido_tha: '',
-      kinhdo_tha: '',
-      thoidiem_thu: formattedDate,
-      vido_thu: '',
-      kinhdo_thu: '',
-      loai_1: '',
-      loai_2: '',
-      loai_3: '',
-      loai_4: '',
-      loai_5: '',
-      loai_6: '',
-      loai_1_kl: '',
-      loai_2_kl: '',
-      loai_3_kl: '',
-      loai_4_kl: '',
-      loai_5_kl: '',
-      loai_6_kl: '',
-      tongsanluong: '',
-    };
+    try {
+      const objectAdd = {
+        id: new Date(),
+        // dairy_id: data0201.id,
+        methu: (
+          data0201.thongtintaudc_thumua[selectedItem].thongtinhoatdong.length +
+          1
+        ).toString(),
+        thoidiem_tha: formattedDate,
+        vido_tha: '',
+        kinhdo_tha: '',
+        thoidiem_thu: formattedDate,
+        vido_thu: '',
+        kinhdo_thu: '',
+        loai_1: '',
+        loai_2: '',
+        loai_3: '',
+        loai_4: '',
+        loai_5: '',
+        loai_6: '',
+        loai_1_kl: '',
+        loai_2_kl: '',
+        loai_3_kl: '',
+        loai_4_kl: '',
+        loai_5_kl: '',
+        loai_6_kl: '',
+        tongsanluong: '',
+      };
 
-    const updatedData0201 = {...data0201};
+      const updatedData0201 = {...data0201};
 
-    if (updatedData0201.thongtintaudc_thumua[selectedItem]) {
-      updatedData0201.thongtintaudc_thumua[selectedItem].thongtinhoatdong.push(
-        objectAdd,
-      );
+      if (updatedData0201.thongtintaudc_thumua[selectedItem]) {
+        updatedData0201.thongtintaudc_thumua[
+          selectedItem
+        ].thongtinhoatdong.push(objectAdd);
+      }
+      setData0201(updatedData0201);
+    } catch (error) {
+      console.log('ERROR ', error);
+      ToastAndroid.show('Lỗi', ToastAndroid.SHORT);
     }
-    setData0201(updatedData0201);
   };
 
   const handleXoaDong = () => {
-    let lastObject =
-      data0201.thongtintaudc_thumua[selectedItem].thongtinhoatdong.length;
-    if (lastObject == 1) {
-      Alert.alert('Không thể xóa hết thông tin', '', [{text: 'OK'}]);
-      return;
-    }
-
-    data0201.thongtintaudc_thumua[selectedItem].thongtinhoatdong.map(item => {
-      if (item.hasOwnProperty('isdelete') && item.isdelete == 1) {
-        lastObject -= 1;
+    try {
+      let lastObject =
+        data0201.thongtintaudc_thumua[selectedItem].thongtinhoatdong.length;
+      if (lastObject == 1) {
+        Alert.alert('Không thể xóa hết thông tin', '', [{text: 'OK'}]);
+        return;
       }
-    });
-    if (lastObject == 1) {
-      Alert.alert('Không thể xóa hết thông tin', '', [{text: 'OK'}]);
-      return;
-    }
 
-    if (
-      data0201 &&
-      data0201.thongtintaudc_thumua &&
-      data0201.thongtintaudc_thumua[selectedItem]
-    ) {
-      const itemToRemove =
-        data0201.thongtintaudc_thumua[selectedItem].thongtinhoatdong[
-          selectedItemIndex
-        ];
+      data0201.thongtintaudc_thumua[selectedItem].thongtinhoatdong.map(item => {
+        if (item.hasOwnProperty('isdelete') && item.isdelete == 1) {
+          lastObject -= 1;
+        }
+      });
+      if (lastObject == 1) {
+        Alert.alert('Không thể xóa hết thông tin', '', [{text: 'OK'}]);
+        return;
+      }
 
-      if (itemToRemove) {
-        if (itemToRemove.hasOwnProperty('isdelete')) {
-          const updatedData0201 = {...data0201};
+      if (
+        data0201 &&
+        data0201.thongtintaudc_thumua &&
+        data0201.thongtintaudc_thumua[selectedItem]
+      ) {
+        const itemToRemove =
+          data0201.thongtintaudc_thumua[selectedItem].thongtinhoatdong[
+            selectedItemIndex
+          ];
 
-          updatedData0201.thongtintaudc_thumua[selectedItem].thongtinhoatdong =
+        if (itemToRemove) {
+          if (itemToRemove.hasOwnProperty('isdelete')) {
+            const updatedData0201 = {...data0201};
+
             updatedData0201.thongtintaudc_thumua[
+              selectedItem
+            ].thongtinhoatdong = updatedData0201.thongtintaudc_thumua[
               selectedItem
             ].thongtinhoatdong.map(item => {
               if (item.id === itemToRemove.id) {
@@ -122,19 +131,24 @@ const ThongTinChiTietHoatDong = ({selectedItem}) => {
               return item;
             });
 
-          // Update data0201 with the modified thongtinhoatdong array
-          setData0201(updatedData0201);
-        } else {
-          const updatedData0201 = {...data0201};
-          updatedData0201.thongtintaudc_thumua[selectedItem].thongtinhoatdong =
+            // Update data0201 with the modified thongtinhoatdong array
+            setData0201(updatedData0201);
+          } else {
+            const updatedData0201 = {...data0201};
             updatedData0201.thongtintaudc_thumua[
               selectedItem
+            ].thongtinhoatdong = updatedData0201.thongtintaudc_thumua[
+              selectedItem
             ].thongtinhoatdong.filter(item => item.id !== itemToRemove.id);
-          setData0201(updatedData0201);
+            setData0201(updatedData0201);
+          }
+        } else {
+          Alert.alert('Cần chọn dòng', '', [{text: 'OK'}]);
         }
-      } else {
-        Alert.alert('Cần chọn dòng', '', [{text: 'OK'}]);
       }
+    } catch (error) {
+      console.log('ERROR ', error);
+      ToastAndroid.show('Lỗi', ToastAndroid.SHORT);
     }
   };
 
@@ -143,143 +157,175 @@ const ThongTinChiTietHoatDong = ({selectedItem}) => {
   };
 
   const handleChangeViDoTha = (text, id) => {
-    const updatedData0201 = {...data0201};
+    try {
+      const updatedData0201 = {...data0201};
 
-    if (updatedData0201.thongtintaudc_thumua[selectedItem]) {
-      updatedData0201.thongtintaudc_thumua[selectedItem].thongtinhoatdong =
-        updatedData0201.thongtintaudc_thumua[selectedItem].thongtinhoatdong.map(
-          item => {
+      if (updatedData0201.thongtintaudc_thumua[selectedItem]) {
+        updatedData0201.thongtintaudc_thumua[selectedItem].thongtinhoatdong =
+          updatedData0201.thongtintaudc_thumua[
+            selectedItem
+          ].thongtinhoatdong.map(item => {
             if (item.id === id) {
               return {...item, vido_tha: text};
             }
             return item;
-          },
-        );
-    }
+          });
+      }
 
-    setData0201(updatedData0201);
+      setData0201(updatedData0201);
+    } catch (error) {
+      console.log('ERROR ', error);
+      ToastAndroid.show('Lỗi', ToastAndroid.SHORT);
+    }
   };
 
   const handleChangeKinhDoTha = (text, id) => {
-    const updatedData0201 = {...data0201};
+    try {
+      const updatedData0201 = {...data0201};
 
-    if (updatedData0201.thongtintaudc_thumua[selectedItem]) {
-      updatedData0201.thongtintaudc_thumua[selectedItem].thongtinhoatdong =
-        updatedData0201.thongtintaudc_thumua[selectedItem].thongtinhoatdong.map(
-          item => {
+      if (updatedData0201.thongtintaudc_thumua[selectedItem]) {
+        updatedData0201.thongtintaudc_thumua[selectedItem].thongtinhoatdong =
+          updatedData0201.thongtintaudc_thumua[
+            selectedItem
+          ].thongtinhoatdong.map(item => {
             if (item.id === id) {
               return {...item, kinhdo_tha: text};
             }
             return item;
-          },
-        );
-    }
+          });
+      }
 
-    setData0201(updatedData0201);
+      setData0201(updatedData0201);
+    } catch (error) {
+      console.log('ERROR ', error);
+      ToastAndroid.show('Lỗi', ToastAndroid.SHORT);
+    }
   };
 
   const handleChangeViDoThu = (text, id) => {
-    const updatedData0201 = {...data0201};
+    try {
+      const updatedData0201 = {...data0201};
 
-    if (updatedData0201.thongtintaudc_thumua[selectedItem]) {
-      updatedData0201.thongtintaudc_thumua[selectedItem].thongtinhoatdong =
-        updatedData0201.thongtintaudc_thumua[selectedItem].thongtinhoatdong.map(
-          item => {
+      if (updatedData0201.thongtintaudc_thumua[selectedItem]) {
+        updatedData0201.thongtintaudc_thumua[selectedItem].thongtinhoatdong =
+          updatedData0201.thongtintaudc_thumua[
+            selectedItem
+          ].thongtinhoatdong.map(item => {
             if (item.id === id) {
               return {...item, vido_thu: text};
             }
             return item;
-          },
-        );
-    }
+          });
+      }
 
-    setData0201(updatedData0201);
+      setData0201(updatedData0201);
+    } catch (error) {
+      console.log('ERROR ', error);
+      ToastAndroid.show('Lỗi', ToastAndroid.SHORT);
+    }
   };
 
   const handleChangeKinhDoThu = (text, id) => {
-    const updatedData0201 = {...data0201};
+    try {
+      const updatedData0201 = {...data0201};
 
-    if (updatedData0201.thongtintaudc_thumua[selectedItem]) {
-      updatedData0201.thongtintaudc_thumua[selectedItem].thongtinhoatdong =
-        updatedData0201.thongtintaudc_thumua[selectedItem].thongtinhoatdong.map(
-          item => {
+      if (updatedData0201.thongtintaudc_thumua[selectedItem]) {
+        updatedData0201.thongtintaudc_thumua[selectedItem].thongtinhoatdong =
+          updatedData0201.thongtintaudc_thumua[
+            selectedItem
+          ].thongtinhoatdong.map(item => {
             if (item.id === id) {
               return {...item, kinhdo_thu: text};
             }
             return item;
-          },
-        );
-    }
+          });
+      }
 
-    setData0201(updatedData0201);
+      setData0201(updatedData0201);
+    } catch (error) {
+      console.log('ERROR ', error);
+      ToastAndroid.show('Lỗi', ToastAndroid.SHORT);
+    }
   };
 
   const handleChangeKhoiLuongLoai = (khoiluong, id, loai) => {
-    if (
-      data0201 &&
-      data0201.thongtintaudc_thumua &&
-      data0201.thongtintaudc_thumua[selectedItem]
-    ) {
-      const updatedData0201 = {...data0201};
-      const item = updatedData0201.thongtintaudc_thumua[
-        selectedItem
-      ].thongtinhoatdong.find(item => item.id === id);
+    try {
+      if (
+        data0201 &&
+        data0201.thongtintaudc_thumua &&
+        data0201.thongtintaudc_thumua[selectedItem]
+      ) {
+        const updatedData0201 = {...data0201};
+        const item = updatedData0201.thongtintaudc_thumua[
+          selectedItem
+        ].thongtinhoatdong.find(item => item.id === id);
 
-      if (item) {
-        if (loai === 'loai_1_kl') {
-          item.loai_1_kl = khoiluong;
-        } else if (loai === 'loai_2_kl') {
-          item.loai_2_kl = khoiluong;
-        } else if (loai === 'loai_3_kl') {
-          item.loai_3_kl = khoiluong;
-        } else if (loai === 'loai_4_kl') {
-          item.loai_4_kl = khoiluong;
-        } else if (loai === 'loai_5_kl') {
-          item.loai_5_kl = khoiluong;
-        } else if (loai === 'loai_6_kl') {
-          item.loai_6_kl = khoiluong;
+        if (item) {
+          if (loai === 'loai_1_kl') {
+            item.loai_1_kl = khoiluong;
+          } else if (loai === 'loai_2_kl') {
+            item.loai_2_kl = khoiluong;
+          } else if (loai === 'loai_3_kl') {
+            item.loai_3_kl = khoiluong;
+          } else if (loai === 'loai_4_kl') {
+            item.loai_4_kl = khoiluong;
+          } else if (loai === 'loai_5_kl') {
+            item.loai_5_kl = khoiluong;
+          } else if (loai === 'loai_6_kl') {
+            item.loai_6_kl = khoiluong;
+          }
+
+          const newTongSanLuong =
+            (parseInt(item.loai_1_kl) || 0) +
+            (parseInt(item.loai_2_kl) || 0) +
+            (parseInt(item.loai_3_kl) || 0) +
+            (parseInt(item.loai_4_kl) || 0) +
+            (parseInt(item.loai_5_kl) || 0) +
+            (parseInt(item.loai_6_kl) || 0);
+
+          item.tongsanluong = newTongSanLuong.toString();
+
+          setData0201(updatedData0201);
         }
-
-        const newTongSanLuong =
-          (parseInt(item.loai_1_kl) || 0) +
-          (parseInt(item.loai_2_kl) || 0) +
-          (parseInt(item.loai_3_kl) || 0) +
-          (parseInt(item.loai_4_kl) || 0) +
-          (parseInt(item.loai_5_kl) || 0) +
-          (parseInt(item.loai_6_kl) || 0);
-
-        item.tongsanluong = newTongSanLuong.toString();
-
-        setData0201(updatedData0201);
       }
+    } catch (error) {
+      console.log('ERROR ', error);
+      ToastAndroid.show('Lỗi', ToastAndroid.SHORT);
     }
   };
 
   const handleChangeLoai = (text, loai) => {
-    const updatedData0201 = {...data0201};
+    try {
+      const updatedData0201 = {...data0201};
 
-    if (updatedData0201.thongtintaudc_thumua[selectedItem]) {
-      updatedData0201.thongtintaudc_thumua[selectedItem].thongtinhoatdong =
-        updatedData0201.thongtintaudc_thumua[selectedItem].thongtinhoatdong.map(
-          item => {
+      if (updatedData0201.thongtintaudc_thumua[selectedItem]) {
+        updatedData0201.thongtintaudc_thumua[selectedItem].thongtinhoatdong =
+          updatedData0201.thongtintaudc_thumua[
+            selectedItem
+          ].thongtinhoatdong.map(item => {
             return {
               ...item,
               [loai]: text,
             };
-          },
-        );
-    }
+          });
+      }
 
-    setData0201(updatedData0201);
+      setData0201(updatedData0201);
+    } catch (error) {
+      console.log('ERROR ', error);
+      ToastAndroid.show('Lỗi', ToastAndroid.SHORT);
+    }
   };
 
   const handleChangeDateTha = (date, id) => {
-    const updatedData0201 = {...data0201};
+    try {
+      const updatedData0201 = {...data0201};
 
-    if (updatedData0201.thongtintaudc_thumua[selectedItem]) {
-      updatedData0201.thongtintaudc_thumua[selectedItem].thongtinhoatdong =
-        updatedData0201.thongtintaudc_thumua[selectedItem].thongtinhoatdong.map(
-          item => {
+      if (updatedData0201.thongtintaudc_thumua[selectedItem]) {
+        updatedData0201.thongtintaudc_thumua[selectedItem].thongtinhoatdong =
+          updatedData0201.thongtintaudc_thumua[
+            selectedItem
+          ].thongtinhoatdong.map(item => {
             if (item.id === id) {
               return {
                 ...item,
@@ -287,19 +333,24 @@ const ThongTinChiTietHoatDong = ({selectedItem}) => {
               };
             }
             return item;
-          },
-        );
-    }
+          });
+      }
 
-    setData0201(updatedData0201);
+      setData0201(updatedData0201);
+    } catch (error) {
+      console.log('ERROR ', error);
+      ToastAndroid.show('Lỗi', ToastAndroid.SHORT);
+    }
   };
   const handleChangeDateThu = (date, id) => {
-    const updatedData0201 = {...data0201};
+    try {
+      const updatedData0201 = {...data0201};
 
-    if (updatedData0201.thongtintaudc_thumua[selectedItem]) {
-      updatedData0201.thongtintaudc_thumua[selectedItem].thongtinhoatdong =
-        updatedData0201.thongtintaudc_thumua[selectedItem].thongtinhoatdong.map(
-          item => {
+      if (updatedData0201.thongtintaudc_thumua[selectedItem]) {
+        updatedData0201.thongtintaudc_thumua[selectedItem].thongtinhoatdong =
+          updatedData0201.thongtintaudc_thumua[
+            selectedItem
+          ].thongtinhoatdong.map(item => {
             if (item.id === id) {
               return {
                 ...item,
@@ -307,11 +358,14 @@ const ThongTinChiTietHoatDong = ({selectedItem}) => {
               };
             }
             return item;
-          },
-        );
-    }
+          });
+      }
 
-    setData0201(updatedData0201);
+      setData0201(updatedData0201);
+    } catch (error) {
+      console.log('ERROR ', error);
+      ToastAndroid.show('Lỗi', ToastAndroid.SHORT);
+    }
   };
 
   // const handleChangeDateThu = (date, id) => {
@@ -326,165 +380,176 @@ const ThongTinChiTietHoatDong = ({selectedItem}) => {
   // };
 
   const calculateTongKhoiLuong = fieldName => {
-    let total = 0;
+    try {
+      let total = 0;
 
-    data0201.thongtintaudc_thumua[selectedItem].thongtinhoatdong?.forEach(
-      item => {
-        if (item[fieldName]) {
-          total += parseFloat(item[fieldName]); // Convert to float to ensure proper addition
-        }
-      },
-    );
+      data0201.thongtintaudc_thumua[selectedItem].thongtinhoatdong?.forEach(
+        item => {
+          if (item[fieldName]) {
+            total += parseFloat(item[fieldName]); // Convert to float to ensure proper addition
+          }
+        },
+      );
 
-    return total;
+      return total;
+    } catch (error) {
+      console.log('ERROR ', error);
+      ToastAndroid.show('Lỗi', ToastAndroid.SHORT);
+    }
   };
+
   const ThongTinHoatDongItem = ({item, index}) => {
-    const rootIndex = index;
-    let countIsDelete = 0;
+    try {
+      const rootIndex = index;
+      let countIsDelete = 0;
 
-    let checkIsDeleted;
-    if (item.isdelete == 1) {
-      checkIsDeleted = true;
-    } else {
-      for (i = 0; i <= index; i++) {
-        if (
-          data0201.thongtintaudc_thumua[selectedItem].thongtinhoatdong[i]
-            .isdelete &&
-          data0201.thongtintaudc_thumua[selectedItem].thongtinhoatdong[i]
-            .isdelete == 1
-        ) {
-          countIsDelete++;
+      let checkIsDeleted;
+      if (item.isdelete == 1) {
+        checkIsDeleted = true;
+      } else {
+        for (i = 0; i <= index; i++) {
+          if (
+            data0201.thongtintaudc_thumua[selectedItem].thongtinhoatdong[i]
+              .isdelete &&
+            data0201.thongtintaudc_thumua[selectedItem].thongtinhoatdong[i]
+              .isdelete == 1
+          ) {
+            countIsDelete++;
+          }
         }
+        index -= countIsDelete;
       }
-      index -= countIsDelete;
-    }
-    const isSelected = selectedItemIndex === rootIndex;
+      const isSelected = selectedItemIndex === rootIndex;
 
-    if (checkIsDeleted) {
-      return null;
-    }
+      if (checkIsDeleted) {
+        return null;
+      }
 
-    return (
-      <Pressable
-        key={index}
-        onPress={() => handleChonItem(rootIndex)}
-        style={[
-          {flexDirection: 'row', backgroundColor: 'white'},
-          isSelected && {backgroundColor: 'lightblue'},
-        ]}>
-        <Text style={styles.textTT}>{index + 1}</Text>
-
-        <View
+      return (
+        <Pressable
+          key={index}
+          onPress={() => handleChonItem(rootIndex)}
           style={[
-            styles.inputNgay,
-            {
-              flexDirection: 'row',
-              justifyContent: 'space-around',
-              alignItems: 'center',
-            },
+            {flexDirection: 'row', backgroundColor: 'white'},
+            isSelected && {backgroundColor: 'lightblue'},
           ]}>
+          <Text style={styles.textTT}>{index + 1}</Text>
+
+          <View
+            style={[
+              styles.inputNgay,
+              {
+                flexDirection: 'row',
+                justifyContent: 'space-around',
+                alignItems: 'center',
+              },
+            ]}>
+            <TextInput
+              style={styles.textDate}
+              value={moment(item.thoidiem_tha).format('DD/MM/YYYY hh:mm A')}
+              onChangeText={text => handleChangeDateTha(text, item.id)}
+            />
+            <CustomDateTimePicker
+              onDateChange={date => handleChangeDateTha(date, item.id)}
+            />
+          </View>
           <TextInput
-            style={styles.textDate}
-            value={moment(item.thoidiem_tha).format('DD/MM/YYYY hh:mm A')}
-            onChangeText={text => handleChangeDateTha(text, item.id)}
+            keyboardType="numeric"
+            style={styles.inputToaDo}
+            value={item.vido_tha}
+            onChangeText={text => handleChangeViDoTha(text, item.id)}
           />
-          <CustomDateTimePicker
-            onDateChange={date => handleChangeDateTha(date, item.id)}
-          />
-        </View>
-        <TextInput
-          keyboardType="numeric"
-          style={styles.inputToaDo}
-          value={item.vido_tha}
-          onChangeText={text => handleChangeViDoTha(text, item.id)}
-        />
-        <TextInput
-          keyboardType="numeric"
-          style={styles.inputToaDo}
-          value={item.kinhdo_tha}
-          onChangeText={text => handleChangeKinhDoTha(text, item.id)}
-        />
-        <View
-          style={[
-            styles.inputNgay,
-            {
-              flexDirection: 'row',
-              justifyContent: 'space-around',
-              alignItems: 'center',
-            },
-          ]}>
           <TextInput
-            style={styles.textDate}
-            value={moment(item.thoidiem_thu).format('DD/MM/YYYY hh:mm A')}
-            onChangeText={text => handleChangeDateThu(text, item.id)}
+            keyboardType="numeric"
+            style={styles.inputToaDo}
+            value={item.kinhdo_tha}
+            onChangeText={text => handleChangeKinhDoTha(text, item.id)}
           />
-          <CustomDateTimePicker
-            onDateChange={date => handleChangeDateThu(date, item.id)}
+          <View
+            style={[
+              styles.inputNgay,
+              {
+                flexDirection: 'row',
+                justifyContent: 'space-around',
+                alignItems: 'center',
+              },
+            ]}>
+            <TextInput
+              style={styles.textDate}
+              value={moment(item.thoidiem_thu).format('DD/MM/YYYY hh:mm A')}
+              onChangeText={text => handleChangeDateThu(text, item.id)}
+            />
+            <CustomDateTimePicker
+              onDateChange={date => handleChangeDateThu(date, item.id)}
+            />
+          </View>
+          <TextInput
+            keyboardType="numeric"
+            style={styles.inputToaDo}
+            value={item.vido_thu}
+            onChangeText={text => handleChangeViDoThu(text, item.id)}
           />
-        </View>
-        <TextInput
-          keyboardType="numeric"
-          style={styles.inputToaDo}
-          value={item.vido_thu}
-          onChangeText={text => handleChangeViDoThu(text, item.id)}
-        />
-        <TextInput
-          keyboardType="numeric"
-          style={styles.inputToaDo}
-          value={item.kinhdo_thu}
-          onChangeText={text => handleChangeKinhDoThu(text, item.id)}
-        />
-        <TextInput
-          keyboardType="numeric"
-          style={styles.inputKhoiLuongLoai}
-          value={item.loai_1_kl}
-          onChangeText={text =>
-            handleChangeKhoiLuongLoai(text, item.id, 'loai_1_kl')
-          }
-        />
-        <TextInput
-          keyboardType="numeric"
-          style={styles.inputKhoiLuongLoai}
-          value={item.loai_2_kl}
-          onChangeText={text =>
-            handleChangeKhoiLuongLoai(text, item.id, 'loai_2_kl')
-          }
-        />
-        <TextInput
-          keyboardType="numeric"
-          style={styles.inputKhoiLuongLoai}
-          value={item.loai_3_kl}
-          onChangeText={text =>
-            handleChangeKhoiLuongLoai(text, item.id, 'loai_3_kl')
-          }
-        />
-        <TextInput
-          keyboardType="numeric"
-          style={styles.inputKhoiLuongLoai}
-          value={item.loai_4_kl}
-          onChangeText={text =>
-            handleChangeKhoiLuongLoai(text, item.id, 'loai_4_kl')
-          }
-        />
-        <TextInput
-          keyboardType="numeric"
-          style={styles.inputKhoiLuongLoai}
-          value={item.loai_5_kl}
-          onChangeText={text =>
-            handleChangeKhoiLuongLoai(text, item.id, 'loai_5_kl')
-          }
-        />
-        <TextInput
-          keyboardType="numeric"
-          style={styles.inputKhoiLuongLoai}
-          value={item.loai_6_kl}
-          onChangeText={text =>
-            handleChangeKhoiLuongLoai(text, item.id, 'loai_6_kl')
-          }
-        />
-        <Text style={styles.textTongKhoiLuong}>{item.tongsanluong}</Text>
-      </Pressable>
-    );
+          <TextInput
+            keyboardType="numeric"
+            style={styles.inputToaDo}
+            value={item.kinhdo_thu}
+            onChangeText={text => handleChangeKinhDoThu(text, item.id)}
+          />
+          <TextInput
+            keyboardType="numeric"
+            style={styles.inputKhoiLuongLoai}
+            value={item.loai_1_kl}
+            onChangeText={text =>
+              handleChangeKhoiLuongLoai(text, item.id, 'loai_1_kl')
+            }
+          />
+          <TextInput
+            keyboardType="numeric"
+            style={styles.inputKhoiLuongLoai}
+            value={item.loai_2_kl}
+            onChangeText={text =>
+              handleChangeKhoiLuongLoai(text, item.id, 'loai_2_kl')
+            }
+          />
+          <TextInput
+            keyboardType="numeric"
+            style={styles.inputKhoiLuongLoai}
+            value={item.loai_3_kl}
+            onChangeText={text =>
+              handleChangeKhoiLuongLoai(text, item.id, 'loai_3_kl')
+            }
+          />
+          <TextInput
+            keyboardType="numeric"
+            style={styles.inputKhoiLuongLoai}
+            value={item.loai_4_kl}
+            onChangeText={text =>
+              handleChangeKhoiLuongLoai(text, item.id, 'loai_4_kl')
+            }
+          />
+          <TextInput
+            keyboardType="numeric"
+            style={styles.inputKhoiLuongLoai}
+            value={item.loai_5_kl}
+            onChangeText={text =>
+              handleChangeKhoiLuongLoai(text, item.id, 'loai_5_kl')
+            }
+          />
+          <TextInput
+            keyboardType="numeric"
+            style={styles.inputKhoiLuongLoai}
+            value={item.loai_6_kl}
+            onChangeText={text =>
+              handleChangeKhoiLuongLoai(text, item.id, 'loai_6_kl')
+            }
+          />
+          <Text style={styles.textTongKhoiLuong}>{item.tongsanluong}</Text>
+        </Pressable>
+      );
+    } catch (error) {
+      console.log('ERROR ', error);
+      ToastAndroid.show('Lỗi', ToastAndroid.SHORT);
+    }
   };
 
   return (

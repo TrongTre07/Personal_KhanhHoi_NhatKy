@@ -152,7 +152,7 @@ const Table1 = ({ }) => {
             onChangeText={text => {
               // setData0201({...data, gpkt_thoihan: text});
             }}
-            value={data0201.gpkt_thoihan}
+            value={data0201?.gpkt_thoihan}
             style={[styles.input, styles.text]}
             // editable={false}
           />

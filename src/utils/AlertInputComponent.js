@@ -3,7 +3,7 @@ import { View, Text, TextInput, Button, Modal, StyleSheet } from 'react-native';
 
 const AlertInputComponent = ({ visible, onClose, onSubmit, initialValue, actionPopup }) => {
   const [inputText, setInputText] = useState('');
-  const [action, setAction] = useState('Tạo');
+  const [action, setAction] = useState('Hoàn Tất');
 
   useEffect(() => {
     setInputText(initialValue || ''); // Set initial value when the popup appears

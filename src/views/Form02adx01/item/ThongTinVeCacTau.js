@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   FlatList,
   Alert,
+  ToastAndroid,
 } from 'react-native';
 import React, {useState} from 'react';
 import {ScrollView} from 'react-native';
@@ -45,150 +46,167 @@ const ThongTinVeCacTau = () => {
   // };
 
   const handleDeleteButton = indexDuocChon => {
-    let lastObject = data0201.thongtintaudc_thumua.length;
-    if (lastObject == 1) {
-      Alert.alert('Không thể xóa hết thông tin', '', [{text: 'OK'}]);
-      return;
-    }
-
-    data0201.thongtintaudc_thumua.map(item => {
-      if (item.hasOwnProperty('isdelete') && item.isdelete == 1) {
-        lastObject -= 1;
+    try {
+      let lastObject = data0201.thongtintaudc_thumua.length;
+      if (lastObject == 1) {
+        Alert.alert('Không thể xóa hết thông tin', '', [{text: 'OK'}]);
+        return;
       }
-    });
-    if (lastObject == 1) {
-      Alert.alert('Không thể xóa hết thông tin', '', [{text: 'OK'}]);
-      return;
-    }
-    const itemToRemove = data0201.thongtintaudc_thumua[indexDuocChon];
 
-    if (itemToRemove) {
-      if (itemToRemove.hasOwnProperty('isdelete')) {
-        itemToRemove.isdelete = 1;
-        // Update data0201 with the modified itemToRemove
-        const updatedData0201 = {
-          ...data0201,
-          thongtintaudc_thumua: data0201.thongtintaudc_thumua.map(item =>
-            item.id === itemToRemove.id ? itemToRemove : item,
-          ),
-        };
-        setData0201(updatedData0201);
+      data0201.thongtintaudc_thumua.map(item => {
+        if (item.hasOwnProperty('isdelete') && item.isdelete == 1) {
+          lastObject -= 1;
+        }
+      });
+      if (lastObject == 1) {
+        Alert.alert('Không thể xóa hết thông tin', '', [{text: 'OK'}]);
+        return;
+      }
+      const itemToRemove = data0201.thongtintaudc_thumua[indexDuocChon];
+
+      if (itemToRemove) {
+        if (itemToRemove.hasOwnProperty('isdelete')) {
+          itemToRemove.isdelete = 1;
+          // Update data0201 with the modified itemToRemove
+          const updatedData0201 = {
+            ...data0201,
+            thongtintaudc_thumua: data0201.thongtintaudc_thumua.map(item =>
+              item.id === itemToRemove.id ? itemToRemove : item,
+            ),
+          };
+          setData0201(updatedData0201);
+        } else {
+          // Item doesn't have isdelete field, remove it by filtering
+          const updatedThumua = data0201.thongtintaudc_thumua.filter(
+            item => item.id !== itemToRemove.id,
+          );
+
+          const updatedData0201 = {
+            ...data0201,
+            thongtintaudc_thumua: updatedThumua,
+          };
+
+          setData0201(updatedData0201);
+        }
+        if (pressedItem != 0) {
+          const pressedItemDelete = pressedItem;
+          setPressedItem(pressedItemDelete - 1);
+        }
       } else {
-        // Item doesn't have isdelete field, remove it by filtering
-        const updatedThumua = data0201.thongtintaudc_thumua.filter(
-          item => item.id !== itemToRemove.id,
-        );
-
-        const updatedData0201 = {
-          ...data0201,
-          thongtintaudc_thumua: updatedThumua,
-        };
-
-        setData0201(updatedData0201);
+        Alert.alert('Cần chọn dòng', '', [{text: 'OK'}]);
       }
-      if (pressedItem != 0) {
-        const pressedItemDelete = pressedItem;
-        setPressedItem(pressedItemDelete - 1);
-      }
-    } else {
-      Alert.alert('Cần chọn dòng', '', [{text: 'OK'}]);
+    } catch (error) {
+      console.log('ERROR ', error);
+      ToastAndroid.show('Lỗi', ToastAndroid.SHORT);
     }
   };
 
   const handleAddButton = () => {
-    const lastId = data0201.thongtintaudc_thumua.reduce((maxId, item) => {
-      return item.id > maxId ? item.id : maxId;
-    }, -1);
+    try {
+      const lastId = data0201.thongtintaudc_thumua.reduce((maxId, item) => {
+        return item.id > maxId ? item.id : maxId;
+      }, -1);
 
-    const newId = lastId + 1;
+      const newId = lastId + 1;
 
-    const obj = {
-      id: new Date(),
-      // dairy_id: data0201.id,
-      id_tau: '',
-      tau_bs: '',
-      tau_chieudailonnhat: '',
-      tau_tongcongsuatmaychinh: '',
-      gpkt_so: '',
-      gpkt_thoihan: formattedDate,
-      nghekt: '',
-      cang_di: '',
-      ngay_di: formattedDate,
-      tg_khaithac_tungay: formattedDate,
-      tg_khaithac_denngay: formattedDate,
-      thongtinhoatdong: [
-        {
-          id: 0,
-          // dairy_id: 0,
-          methu: '1',
-          thoidiem_tha: formattedDate,
-          vido_tha: '',
-          kinhdo_tha: '',
-          thoidiem_thu: formattedDate,
-          vido_thu: '',
-          kinhdo_thu: '',
-          loai_1: '',
-          loai_2: '',
-          loai_3: '',
-          loai_4: '',
-          loai_5: '',
-          loai_6: '',
-          loai_1_kl: '',
-          loai_2_kl: '',
-          loai_3_kl: '',
-          loai_4_kl: '',
-          loai_5_kl: '',
-          loai_6_kl: '',
-          tongsanluong: '',
-        },
-      ],
-    };
+      const obj = {
+        id: new Date(),
+        // dairy_id: data0201.id,
+        id_tau: '',
+        tau_bs: '',
+        tau_chieudailonnhat: '',
+        tau_tongcongsuatmaychinh: '',
+        gpkt_so: '',
+        gpkt_thoihan: formattedDate,
+        nghekt: '',
+        cang_di: '',
+        ngay_di: formattedDate,
+        tg_khaithac_tungay: formattedDate,
+        tg_khaithac_denngay: formattedDate,
+        thongtinhoatdong: [
+          {
+            id: 0,
+            // dairy_id: 0,
+            methu: '1',
+            thoidiem_tha: formattedDate,
+            vido_tha: '',
+            kinhdo_tha: '',
+            thoidiem_thu: formattedDate,
+            vido_thu: '',
+            kinhdo_thu: '',
+            loai_1: '',
+            loai_2: '',
+            loai_3: '',
+            loai_4: '',
+            loai_5: '',
+            loai_6: '',
+            loai_1_kl: '',
+            loai_2_kl: '',
+            loai_3_kl: '',
+            loai_4_kl: '',
+            loai_5_kl: '',
+            loai_6_kl: '',
+            tongsanluong: '',
+          },
+        ],
+      };
 
-    const newArray = {...data0201};
-    newArray.thongtintaudc_thumua.push(obj);
-    setData0201(newArray);
+      const newArray = {...data0201};
+      newArray.thongtintaudc_thumua.push(obj);
+      setData0201(newArray);
+    } catch (error) {
+      console.log('ERROR ', error);
+      ToastAndroid.show('Lỗi', ToastAndroid.SHORT);
+    }
   };
 
   const renderButton = (item, index) => {
-    let countIsDelete = 0;
-    const rootIndex = index;
+    try {
+      let countIsDelete = 0;
+      const rootIndex = index;
 
-    let checkIsDeleted;
-    if (item.isdelete == 1) {
-      checkIsDeleted = true;
-    } else {
-      for (i = 0; i <= index; i++) {
-        if (
-          data0201.thongtintaudc_thumua[i].isdelete &&
-          data0201.thongtintaudc_thumua[i].isdelete == 1
-        ) {
-          countIsDelete++;
+      let checkIsDeleted;
+      if (item.isdelete == 1) {
+        checkIsDeleted = true;
+      } else {
+        for (i = 0; i <= index; i++) {
+          if (
+            data0201.thongtintaudc_thumua[i].isdelete &&
+            data0201.thongtintaudc_thumua[i].isdelete == 1
+          ) {
+            countIsDelete++;
+          }
         }
+        index -= countIsDelete;
       }
-      index -= countIsDelete;
-    }
 
-    const isPressed = rootIndex === pressedItem;
+      const isPressed = rootIndex === pressedItem;
 
-    if (checkIsDeleted) {
-      return null;
-    }
+      if (checkIsDeleted) {
+        return null;
+      }
 
-    return (
-      <TouchableOpacity
-        style={[
-          styles.container,
-          isPressed ? {backgroundColor: '#0ea5e9'} : {backgroundColor: 'grey'},
-        ]}
-        onPress={() => handleItemPress(rootIndex)}>
-        <Text style={styles.text}>{`B.${index + 1}`}</Text>
+      return (
         <TouchableOpacity
-          onPress={() => handleDeleteButton(rootIndex)}
-          style={styles.circle}>
-          <Text style={styles.minus}>-</Text>
+          style={[
+            styles.container,
+            isPressed
+              ? {backgroundColor: '#0ea5e9'}
+              : {backgroundColor: 'grey'},
+          ]}
+          onPress={() => handleItemPress(rootIndex)}>
+          <Text style={styles.text}>{`B.${index + 1}`}</Text>
+          <TouchableOpacity
+            onPress={() => handleDeleteButton(rootIndex)}
+            style={styles.circle}>
+            <Text style={styles.minus}>-</Text>
+          </TouchableOpacity>
         </TouchableOpacity>
-      </TouchableOpacity>
-    );
+      );
+    } catch (error) {
+      console.log('ERROR ', error);
+      ToastAndroid.show('Lỗi', ToastAndroid.SHORT);
+    }
   };
 
   return (

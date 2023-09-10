@@ -246,6 +246,7 @@ const UserProvider = ({children}) => {
 
         setInitialTitle(response.data.dairy_name);
         setData0201(await response.data);
+        console.log('MODIFY:', JSON.stringify(response.data, null, 2));
         setIsLoading(false);
       }
     } catch (error) {
@@ -253,6 +254,7 @@ const UserProvider = ({children}) => {
         getAlert401();
       }
       console.log('ERROR: ', error);
+      setIsLoading(false);
     }
   };
 
@@ -268,12 +270,14 @@ const UserProvider = ({children}) => {
           {
             text: 'OK',
             onPress: () => {
+              setData0201(data0201Empty);
               setGoBackAlert(true);
             },
           },
         ]);
       }
       setIsLoading(false);
+
       return response.data;
     } catch (error) {
       setIsLoading(false);

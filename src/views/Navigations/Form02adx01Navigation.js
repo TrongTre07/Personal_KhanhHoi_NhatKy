@@ -1,5 +1,12 @@
-import { View, Text, TouchableOpacity, StyleSheet, Image, ToastAndroid } from 'react-native'
-import React, { useContext, useEffect } from 'react';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  Image,
+  ToastAndroid,
+} from 'react-native';
+import React, {useContext, useEffect} from 'react';
 
 import Form02adx01 from '../Form02adx01/Form02adx01';
 import {createStackNavigator} from '@react-navigation/stack';
@@ -14,15 +21,15 @@ import data0201Empty from '../Form02adx01/models/data0201';
 
 const Stack = createStackNavigator();
 const Form02adx01Navigation = () => {
-
-  const {data0201, setData0201, } = useContext(UserContext);
+  const {data0201, setData0201} = useContext(UserContext);
   const navigation = useNavigation();
   const netInfo = useNetInfo();
 
   const {setData} = React.useContext(UserContext);
 
   const handleNavigateForm02adx01 = async () => {
-    setData0201(data0201Empty)
+    // console.log('MODIFY:', JSON.stringify(data0201Empty, null, 2));
+
     navigation.navigate('form02adx01');
   };
 
@@ -30,8 +37,8 @@ const Form02adx01Navigation = () => {
     return (
       <TouchableOpacity
         onPress={() => {
+          setData0201(data0201Empty);
           navigation.pop();
-          setData({});
         }}>
         <Icon name="arrowleft" size={20} color="#000" />
       </TouchableOpacity>

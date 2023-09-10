@@ -1,4 +1,11 @@
-import {View, Text, TextInput, Image, Pressable} from 'react-native';
+import {
+  View,
+  Text,
+  TextInput,
+  Image,
+  Pressable,
+  ToastAndroid,
+} from 'react-native';
 import React, {useState, useMemo, useContext, useEffect} from 'react';
 import styles from './styles';
 
@@ -87,68 +94,118 @@ const Table1 = ({selectedItem}) => {
   // }, [selectedItem]);
 
   const handleTauBsChange = text => {
-    const newData0201 = {...data0201};
+    try {
+      const newData0201 = {...data0201};
 
-    newData0201.thongtintaudc_thumua[selectedItem].tau_bs = text;
+      newData0201.thongtintaudc_thumua[selectedItem].tau_bs = text;
 
-    setData0201(newData0201);
+      setData0201(newData0201);
+    } catch (error) {
+      console.log('ERROR ', error);
+      ToastAndroid.show('Lỗi', ToastAndroid.SHORT);
+    }
   };
 
   const handleChangeChieuDaiLonNhat = text => {
-    const newData0201 = {...data0201};
+    try {
+      const newData0201 = {...data0201};
 
-    newData0201.thongtintaudc_thumua[selectedItem].tau_chieudailonnhat = text;
+      newData0201.thongtintaudc_thumua[selectedItem].tau_chieudailonnhat = text;
 
-    setData0201(newData0201);
+      setData0201(newData0201);
+    } catch (error) {
+      console.log('ERROR ', error);
+      ToastAndroid.show('Lỗi', ToastAndroid.SHORT);
+    }
   };
 
   const handleChangeTongCongSuatMayChinh = text => {
-    const newData0201 = {...data0201};
-    newData0201.thongtintaudc_thumua[selectedItem].tau_tongcongsuatmaychinh =
-      text;
-    setData0201(newData0201);
+    try {
+      const newData0201 = {...data0201};
+      newData0201.thongtintaudc_thumua[selectedItem].tau_tongcongsuatmaychinh =
+        text;
+      setData0201(newData0201);
+    } catch (error) {
+      console.log('ERROR ', error);
+      ToastAndroid.show('Lỗi', ToastAndroid.SHORT);
+    }
   };
 
   const handleChangeSoGiayPhepKhaiThac = text => {
-    const newData0201 = {...data0201};
-    newData0201.thongtintaudc_thumua[selectedItem].gpkt_so = text;
-    setData0201(newData0201);
+    try {
+      const newData0201 = {...data0201};
+      newData0201.thongtintaudc_thumua[selectedItem].gpkt_so = text;
+      setData0201(newData0201);
+    } catch (error) {
+      console.log('ERROR ', error);
+      ToastAndroid.show('Lỗi', ToastAndroid.SHORT);
+    }
   };
 
   const handleChangeThoiHan = text => {
-    const newData0201 = {...data0201};
-    newData0201.thongtintaudc_thumua[selectedItem].gpkt_thoihan = text;
-    setData0201(newData0201);
+    try {
+      const newData0201 = {...data0201};
+      newData0201.thongtintaudc_thumua[selectedItem].gpkt_thoihan = text;
+      setData0201(newData0201);
+    } catch (error) {
+      console.log('ERROR ', error);
+      ToastAndroid.show('Lỗi', ToastAndroid.SHORT);
+    }
   };
 
   const handleChangeNgheKhaiThac = text => {
-    const newData0201 = {...data0201};
-    newData0201.thongtintaudc_thumua[selectedItem].nghekt = text;
-    setData0201(newData0201);
+    try {
+      const newData0201 = {...data0201};
+      newData0201.thongtintaudc_thumua[selectedItem].nghekt = text;
+      setData0201(newData0201);
+    } catch (error) {
+      console.log('ERROR ', error);
+      ToastAndroid.show('Lỗi', ToastAndroid.SHORT);
+    }
   };
 
   const handleChangeCangDi = text => {
-    const newData0201 = {...data0201};
-    newData0201.thongtintaudc_thumua[selectedItem].cang_di = text;
-    setData0201(newData0201);
+    try {
+      const newData0201 = {...data0201};
+      newData0201.thongtintaudc_thumua[selectedItem].cang_di = text;
+      setData0201(newData0201);
+    } catch (error) {
+      console.log('ERROR ', error);
+      ToastAndroid.show('Lỗi', ToastAndroid.SHORT);
+    }
   };
 
   const handleChangeNgayDi = text => {
-    const newData0201 = {...data0201};
-    newData0201.thongtintaudc_thumua[selectedItem].ngay_di = text;
-    setData0201(newData0201);
+    try {
+      const newData0201 = {...data0201};
+      newData0201.thongtintaudc_thumua[selectedItem].ngay_di = text;
+      setData0201(newData0201);
+    } catch (error) {
+      console.log('ERROR ', error);
+      ToastAndroid.show('Lỗi', ToastAndroid.SHORT);
+    }
   };
 
   const handleChangeKhaiThacTuNgay = text => {
-    const newData0201 = {...data0201};
-    newData0201.thongtintaudc_thumua[selectedItem].tg_khaithac_tungay = text;
-    setData0201(newData0201);
+    try {
+      const newData0201 = {...data0201};
+      newData0201.thongtintaudc_thumua[selectedItem].tg_khaithac_tungay = text;
+      setData0201(newData0201);
+    } catch (error) {
+      console.log('ERROR ', error);
+      ToastAndroid.show('Lỗi', ToastAndroid.SHORT);
+    }
   };
 
   const handleChangeKhaiThacDenNgay = text => {
-    const newData0201 = {...data0201};
-    newData0201.thongtintaudc_thumua[selectedItem].tg_khaithac_denngay = text;
-    setData0201(newData0201);
+    try {
+      const newData0201 = {...data0201};
+      newData0201.thongtintaudc_thumua[selectedItem].tg_khaithac_denngay = text;
+      setData0201(newData0201);
+    } catch (error) {
+      console.log('ERROR ', error);
+      ToastAndroid.show('Lỗi', ToastAndroid.SHORT);
+    }
   };
 
   return (

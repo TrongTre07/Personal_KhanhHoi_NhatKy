@@ -5,6 +5,8 @@ import {
   ScrollView,
   TouchableOpacity,
   Alert,
+  BackHandler,
+  ToastAndroid,
 } from 'react-native';
 import React, {useEffect, useContext} from 'react';
 import TongCucThuySanView from './item/TongCucThuySanView';
@@ -36,6 +38,9 @@ const Form02ad01 = ({route}) => {
     postForm0201,
     updateForm0201,
   } = useContext(UserContext);
+
+  let titleForm0201 = '';
+
   const netInfo = useNetInfo();
 
   const handleTriggerButtonClick = () => {
@@ -54,6 +59,7 @@ const Form02ad01 = ({route}) => {
   }, [goBackAlert, navigation, setGoBackAlert]);
 
   const handleDataSubmit = tieuDe => {
+    titleForm0201 = tieuDe;
     if (data0201.id == undefined) {
       //neu la create thi field id khong ton tai
       handleCreateForm(tieuDe, 'create');
@@ -143,7 +149,7 @@ const Form02ad01 = ({route}) => {
     const result = await Storage.getItem('form02adx01');
     if (result !== null) {
       const data = JSON.parse(result);
-      if (data.length > 0) setData(data[id]);
+      // if (data.length > 0) setData0201(data[id]);
     }
   };
 
@@ -193,6 +199,36 @@ const Form02ad01 = ({route}) => {
     return updatedData0201;
   };
 
+  // check ko có wifi thì update local
+  const handleUpdateDiaryLocal = async () => {
+    const dataForm = {...data0201};
+    dataForm.dairy_name = titleForm0201;
+    const result = await Storage.getItem('form02adx01');
+    if (result !== null) {
+      const data = JSON.parse(result);
+      data[id] = dataForm;
+      await Storage.setItem('form02adx01', JSON.stringify(data));
+    }
+    ToastAndroid.show('Cập nhật thành công', ToastAndroid.SHORT);
+    setData0201(data0201Empty);
+    setGoBackAlert(true);
+  };
+
+  React.useEffect(() => {
+    const backAction = () => {
+      setData0201(data0201Empty);
+      navigation.goBack();
+      return true;
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      backAction,
+    );
+
+    return () => backHandler.remove();
+  }, []);
+
   const _renderActionView = () => {
     return (
       <View style={styles.action}>
@@ -213,17 +249,19 @@ const Form02ad01 = ({route}) => {
         )}
         <TouchableOpacity
           style={[styles.actionDownload, styles.button]}
-          onPress={() => {
-            navigation.navigate('ViewPDF', {
-              id: id,
-              data: handleFormatObject(),
-            });
-          }}>
+          // onPress={() => {
+          //   navigation.navigate('ViewPDF', {
+          //     id: id,
+          //     data: handleFormatObject(),
+          //   });
+          // }}
+        >
           <Text style={styles.actionText}>Xem mẫu</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={[styles.actionExportPDF, styles.button]}
-          onPress={() => ExportPDF(handleFormatObject())}>
+          // onPress={() => ExportPDF(handleFormatObject())}
+        >
           <Text style={styles.actionText}>Tải Mẫu</Text>
         </TouchableOpacity>
       </View>

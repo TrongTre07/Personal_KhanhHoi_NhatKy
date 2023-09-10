@@ -7,6 +7,7 @@ import {
   View,
   Pressable,
   Alert,
+  ToastAndroid
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import CustomDatePicker from '../others/CustomDatePicker';
@@ -34,88 +35,97 @@ const KetQuaThuMua = () => {
   const formattedDate = currentDate.format('YYYY-MM-DDTHH:mm:ss');
 
   const handleThemDong = () => {
-    const objectAdd = {
-      id: new Date(),
-      ngaythang: formattedDate,
-      id_tau: '',
-      tau_bs: '',
-      tm_ct_vt_vido: '',
-      tm_ct_vt_kinhdo: '',
-      loai_1: '',
-      loai_2: '',
-      loai_3: '',
-      loai_4: '',
-      loai_5: '',
-      loai_6: '',
-      loai_1_kl: '',
-      loai_2_kl: '',
-      loai_3_kl: '',
-      loai_4_kl: '',
-      loai_5_kl: '',
-      loai_6_kl: '',
-      tongsanluong: '',
-    };
+    try {
+      const objectAdd = {
+        id: new Date(),
+        ngaythang: formattedDate,
+        id_tau: '',
+        tau_bs: '',
+        tm_ct_vt_vido: '',
+        tm_ct_vt_kinhdo: '',
+        loai_1: '',
+        loai_2: '',
+        loai_3: '',
+        loai_4: '',
+        loai_5: '',
+        loai_6: '',
+        loai_1_kl: '',
+        loai_2_kl: '',
+        loai_3_kl: '',
+        loai_4_kl: '',
+        loai_5_kl: '',
+        loai_6_kl: '',
+        tongsanluong: '',
+      };
 
-    // Add objectAdd to the thumua array
-    const updatedData0201 = {...data0201};
+      // Add objectAdd to the thumua array
+      const updatedData0201 = {...data0201};
 
-    //create se khong co field isdelete, get ve de update thi se co field isdelete
-    // if (updatedData0201.thumua[0].isdelete != undefined) {
-    //   //trong scope nay la update
-    //   objectAdd.id = 0;
-    // }
-    if (updatedData0201.thumua) {
-      updatedData0201.thumua.push(objectAdd);
+      //create se khong co field isdelete, get ve de update thi se co field isdelete
+      // if (updatedData0201.thumua[0].isdelete != undefined) {
+      //   //trong scope nay la update
+      //   objectAdd.id = 0;
+      // }
+      if (updatedData0201.thumua) {
+        updatedData0201.thumua.push(objectAdd);
+      }
+
+      setData0201(updatedData0201);
+    } catch (error) {
+      console.log('ERROR ', error);
+      ToastAndroid.show('Lỗi', ToastAndroid.SHORT);
     }
-
-    setData0201(updatedData0201);
   };
 
   const handleXoaDong = () => {
-
-    let lastObject = data0201.thumua.length;
-    if (lastObject == 1) {
-      Alert.alert('Không thể xóa hết thông tin', '', [{text: 'OK'}]);
-      return;
-    }
-
-    data0201.thumua.map(item => {
-      if (item.hasOwnProperty('isdelete') && item.isdelete == 1) {
-        lastObject -= 1;
+    try {
+      let lastObject = data0201.thumua.length;
+      if (lastObject == 1) {
+        Alert.alert('Không thể xóa hết thông tin', '', [{text: 'OK'}]);
+        return;
       }
-    });
-    if (lastObject == 1) {
-      Alert.alert('Không thể xóa hết thông tin', '', [{text: 'OK'}]);
-      return;
-    }
 
-    const itemToRemove = data0201.thumua[selectedItemIndex];
-    if (itemToRemove) {
-      if (itemToRemove.hasOwnProperty('isdelete')) {
-        itemToRemove.isdelete = 1;
-        // Update data0201 with the modified itemToRemove
-        const updatedData0201 = {
-          ...data0201,
-          thumua: data0201.thumua.map(item =>
-            item.id === itemToRemove.id ? itemToRemove : item,
-          ),
-        };
-        setData0201(updatedData0201);
+      data0201.thumua.map(item => {
+        if (item.hasOwnProperty('isdelete') && item.isdelete == 1) {
+          lastObject -= 1;
+        }
+      });
+      if (lastObject == 1) {
+        Alert.alert('Không thể xóa hết thông tin', '', [{text: 'OK'}]);
+        return;
+      }
+
+      const itemToRemove = data0201.thumua[selectedItemIndex];
+      if (itemToRemove) {
+        if (itemToRemove.hasOwnProperty('isdelete')) {
+          itemToRemove.isdelete = 1;
+          // Update data0201 with the modified itemToRemove
+          const updatedData0201 = {
+            ...data0201,
+            thumua: data0201.thumua.map(item =>
+              item.id === itemToRemove.id ? itemToRemove : item,
+            ),
+          };
+          setData0201(updatedData0201);
+        } else {
+          // Item doesn't have isdelete field, remove it by filtering
+          const updatedThumua = data0201.thumua.filter(
+            item => item.id !== itemToRemove.id,
+          );
+
+          const updatedData0201 = {
+            ...data0201,
+            thumua: updatedThumua,
+          };
+
+          setData0201(updatedData0201);
+        }
       } else {
-        // Item doesn't have isdelete field, remove it by filtering
-        const updatedThumua = data0201.thumua.filter(
-          item => item.id !== itemToRemove.id,
-        );
-
-        const updatedData0201 = {
-          ...data0201,
-          thumua: updatedThumua,
-        };
-
-        setData0201(updatedData0201);
+        Alert.alert('Cần chọn dòng', '', [{text: 'OK'}]);
       }
-    } else {
-      Alert.alert('Cần chọn dòng', '', [{text: 'OK'}]);
+    } catch (error) {
+      console.log('ERROR ', error);
+      ToastAndroid.show('Lỗi', ToastAndroid.SHORT);
     }
   };
 
@@ -125,246 +135,286 @@ const KetQuaThuMua = () => {
   };
 
   const handleChangeViDo = (text, id) => {
-    const updatedData0201 = {...data0201};
+    try {
+      const updatedData0201 = {...data0201};
 
-    updatedData0201.thumua = updatedData0201.thumua.map(item => {
-      if (item.id === id) {
-        return {...item, tm_ct_vt_vido: text};
-      }
-      return item;
-    });
+      updatedData0201.thumua = updatedData0201.thumua.map(item => {
+        if (item.id === id) {
+          return {...item, tm_ct_vt_vido: text};
+        }
+        return item;
+      });
 
-    setData0201(updatedData0201);
+      setData0201(updatedData0201);
+    } catch (error) {
+      console.log('ERROR ', error);
+      ToastAndroid.show('Lỗi', ToastAndroid.SHORT);
+    }
   };
 
   const handleChangeKinhDo = (text, id) => {
-    const updatedData0201 = {...data0201};
+    try {
+      const updatedData0201 = {...data0201};
 
-    updatedData0201.thumua = updatedData0201.thumua.map(item => {
-      if (item.id === id) {
-        return {...item, tm_ct_vt_kinhdo: text};
-      }
-      return item;
-    });
+      updatedData0201.thumua = updatedData0201.thumua.map(item => {
+        if (item.id === id) {
+          return {...item, tm_ct_vt_kinhdo: text};
+        }
+        return item;
+      });
 
-    setData0201(updatedData0201);
+      setData0201(updatedData0201);
+    } catch (error) {
+      console.log('ERROR ', error);
+      ToastAndroid.show('Lỗi', ToastAndroid.SHORT);
+    }
   };
 
   const handleChangeKhoiLuongLoai = (khoiluong, id, loai) => {
-    // Create a copy of data0201
-    const updatedData0201 = {...data0201};
+    try {
+      // Create a copy of data0201
+      const updatedData0201 = {...data0201};
 
-    // Map over the thumua array inside data0201 and update the relevant item
-    updatedData0201.thumua = updatedData0201.thumua.map(item => {
-      if (item.id === id && item.isdelete != 1) {
-        // Update the specific property based on 'loai'
-        if (loai === 'loai_1_kl') {
-          item.loai_1_kl = khoiluong;
-        } else if (loai === 'loai_2_kl') {
-          item.loai_2_kl = khoiluong;
-        } else if (loai === 'loai_3_kl') {
-          item.loai_3_kl = khoiluong;
-        } else if (loai === 'loai_4_kl') {
-          item.loai_4_kl = khoiluong;
-        } else if (loai === 'loai_5_kl') {
-          item.loai_5_kl = khoiluong;
-        } else if (loai === 'loai_6_kl') {
-          item.loai_6_kl = khoiluong;
+      // Map over the thumua array inside data0201 and update the relevant item
+      updatedData0201.thumua = updatedData0201.thumua.map(item => {
+        if (item.id === id && item.isdelete != 1) {
+          // Update the specific property based on 'loai'
+          if (loai === 'loai_1_kl') {
+            item.loai_1_kl = khoiluong;
+          } else if (loai === 'loai_2_kl') {
+            item.loai_2_kl = khoiluong;
+          } else if (loai === 'loai_3_kl') {
+            item.loai_3_kl = khoiluong;
+          } else if (loai === 'loai_4_kl') {
+            item.loai_4_kl = khoiluong;
+          } else if (loai === 'loai_5_kl') {
+            item.loai_5_kl = khoiluong;
+          } else if (loai === 'loai_6_kl') {
+            item.loai_6_kl = khoiluong;
+          }
+
+          // Calculate the new total sanluong
+          const newTongSanLuong =
+            (parseInt(item.loai_1_kl) || 0) +
+            (parseInt(item.loai_2_kl) || 0) +
+            (parseInt(item.loai_3_kl) || 0) +
+            (parseInt(item.loai_4_kl) || 0) +
+            (parseInt(item.loai_5_kl) || 0) +
+            (parseInt(item.loai_6_kl) || 0);
+
+          // Update the 'tongsanluong' property
+          item.tongsanluong = newTongSanLuong.toString();
+
+          return item;
         }
-
-        // Calculate the new total sanluong
-        const newTongSanLuong =
-          (parseInt(item.loai_1_kl) || 0) +
-          (parseInt(item.loai_2_kl) || 0) +
-          (parseInt(item.loai_3_kl) || 0) +
-          (parseInt(item.loai_4_kl) || 0) +
-          (parseInt(item.loai_5_kl) || 0) +
-          (parseInt(item.loai_6_kl) || 0);
-
-        // Update the 'tongsanluong' property
-        item.tongsanluong = newTongSanLuong.toString();
-
         return item;
-      }
-      return item;
-    });
+      });
 
-    // Update data0201 with the modified thumua
-    setData0201(updatedData0201);
+      // Update data0201 with the modified thumua
+      setData0201(updatedData0201);
+    } catch (error) {
+      console.log('ERROR ', error);
+      ToastAndroid.show('Lỗi', ToastAndroid.SHORT);
+    }
   };
   const handleChangeLoai = (text, loai) => {
-    const updatedData0201 = {...data0201};
+    try {
+      const updatedData0201 = {...data0201};
 
-    updatedData0201.thumua = updatedData0201.thumua.map(item => ({
-      ...item,
-      [loai]: text,
-    }));
+      updatedData0201.thumua = updatedData0201.thumua.map(item => ({
+        ...item,
+        [loai]: text,
+      }));
 
-    // Update data0201 with the modified thumua
-    setData0201(updatedData0201);
+      // Update data0201 with the modified thumua
+      setData0201(updatedData0201);
+    } catch (error) {
+      console.log('ERROR ', error);
+      ToastAndroid.show('Lỗi', ToastAndroid.SHORT);
+    }
   };
 
   const handleChangeDate = (date, id) => {
-    // Create a copy of data0201
-    const updatedData0201 = {...data0201};
+    try {
+      // Create a copy of data0201
+      const updatedData0201 = {...data0201};
 
-    // Map over the thumua array inside data0201 and update the relevant property
-    updatedData0201.thumua = updatedData0201.thumua.map(item => {
-      if (item.id === id) {
-        // Update the specific property
-        return {...item, ngaythang: moment(date).format('YYYY-MM-DD')};
-      }
-      return item;
-    });
+      // Map over the thumua array inside data0201 and update the relevant property
+      updatedData0201.thumua = updatedData0201.thumua.map(item => {
+        if (item.id === id) {
+          // Update the specific property
+          return {...item, ngaythang: moment(date).format('YYYY-MM-DD')};
+        }
+        return item;
+      });
 
-    // Update data0201 with the modified thumua
-    setData0201(updatedData0201);
+      // Update data0201 with the modified thumua
+      setData0201(updatedData0201);
+    } catch (error) {
+      console.log('ERROR ', error);
+      ToastAndroid.show('Lỗi', ToastAndroid.SHORT);
+    }
   };
 
   const handleChangeSoDkTau = (soDk, id) => {
-    // Create a copy of data0201
-    const updatedData0201 = {...data0201};
+    try {
+      // Create a copy of data0201
+      const updatedData0201 = {...data0201};
 
-    // Map over the thumua array inside data0201 and update the relevant property
-    updatedData0201.thumua = updatedData0201.thumua.map(item => {
-      if (item.id === id) {
-        return {...item, tau_bs: soDk};
-      }
-      return item;
-    });
+      // Map over the thumua array inside data0201 and update the relevant property
+      updatedData0201.thumua = updatedData0201.thumua.map(item => {
+        if (item.id === id) {
+          return {...item, tau_bs: soDk};
+        }
+        return item;
+      });
 
-    // Update data0201 with the modified thumua
-    setData0201(updatedData0201);
+      // Update data0201 with the modified thumua
+      setData0201(updatedData0201);
+    } catch (error) {
+      console.log('ERROR ', error);
+      ToastAndroid.show('Lỗi', ToastAndroid.SHORT);
+    }
   };
 
   const calculateTongKhoiLuong = fieldName => {
-    let total = 0;
+    try {
+      let total = 0;
 
-    data0201.thumua.forEach(item => {
-      if (item[fieldName] && item.isdelete != 1) {
-        total += parseFloat(item[fieldName]); // Convert to float to ensure proper addition
-      }
-    });
+      data0201.thumua.forEach(item => {
+        if (item[fieldName] && item.isdelete != 1) {
+          total += parseFloat(item[fieldName]); // Convert to float to ensure proper addition
+        }
+      });
 
-    return total;
+      return total;
+    } catch (error) {
+      console.log('ERROR ', error);
+      ToastAndroid.show('Lỗi', ToastAndroid.SHORT);
+    }
   };
 
   const KetQuaThuMuaItem = ({item, index}) => {
-    let countIsDelete = 0;
-    const rootIndex = index;
-    let checkIsDeleted;
-    if (item.isdelete == 1) {
-      checkIsDeleted = true;
-    } else {
-      for (i = 0; i <= index; i++) {
-        if (data0201.thumua[i].isdelete && data0201.thumua[i].isdelete == 1) {
-          countIsDelete++;
+    try {
+      let countIsDelete = 0;
+      const rootIndex = index;
+      let checkIsDeleted;
+      if (item.isdelete == 1) {
+        checkIsDeleted = true;
+      } else {
+        for (i = 0; i <= index; i++) {
+          if (data0201.thumua[i].isdelete && data0201.thumua[i].isdelete == 1) {
+            countIsDelete++;
+          }
         }
+        index -= countIsDelete;
       }
-      index -= countIsDelete;
-    }
 
-    const isSelected = selectedItemIndex === rootIndex;
-    if (checkIsDeleted) {
-      return null;
-    }
-    return (
-      <Pressable
-        key={index}
-        onPress={() => handleChonItem(rootIndex)}
-        style={[
-          {flexDirection: 'row', backgroundColor: 'white'},
-          isSelected && {backgroundColor: 'lightblue'},
-        ]}>
-        <Text style={styles.textTT}>{index + 1}</Text>
-        <TextInput
-          keyboardType="numeric"
-          style={styles.textSoDkTauCa}
-          value={item.tau_bs}
-          onChangeText={text => handleChangeSoDkTau(text, item.id)}
-        />
-        <View
+      const isSelected = selectedItemIndex === rootIndex;
+      if (checkIsDeleted) {
+        return null;
+      }
+      return (
+        <Pressable
+          key={index}
+          onPress={() => handleChonItem(rootIndex)}
           style={[
-            styles.inputNgay,
-            {
-              flexDirection: 'row',
-              justifyContent: 'space-around',
-              alignItems: 'center',
-            },
+            {flexDirection: 'row', backgroundColor: 'white'},
+            isSelected && {backgroundColor: 'lightblue'},
           ]}>
+          <Text style={styles.textTT}>{index + 1}</Text>
           <TextInput
             keyboardType="numeric"
-            style={styles.textDate}
-            value={moment(item.ngaythang).format('DD/MM/YYYY')}
-            onChangeText={text => handleChangeDate(text, item.id)}
+            style={styles.textSoDkTauCa}
+            value={item.tau_bs}
+            onChangeText={text => handleChangeSoDkTau(text, item.id)}
           />
-          <CustomDatePicker
-            onDateChange={date => handleChangeDate(date, item.id)}
+          <View
+            style={[
+              styles.inputNgay,
+              {
+                flexDirection: 'row',
+                justifyContent: 'space-around',
+                alignItems: 'center',
+              },
+            ]}>
+            <TextInput
+              keyboardType="numeric"
+              style={styles.textDate}
+              value={moment(item.ngaythang).format('DD/MM/YYYY')}
+              onChangeText={text => handleChangeDate(text, item.id)}
+            />
+            <CustomDatePicker
+              onDateChange={date => handleChangeDate(date, item.id)}
+            />
+          </View>
+          <TextInput
+            keyboardType="numeric"
+            style={styles.inputToaDo}
+            value={item.tm_ct_vt_vido}
+            onChangeText={text => handleChangeViDo(text, item.id)}
           />
-        </View>
-        <TextInput
-          keyboardType="numeric"
-          style={styles.inputToaDo}
-          value={item.tm_ct_vt_vido}
-          onChangeText={text => handleChangeViDo(text, item.id)}
-        />
-        <TextInput
-          keyboardType="numeric"
-          style={styles.inputToaDo}
-          value={item.tm_ct_vt_kinhdo}
-          onChangeText={text => handleChangeKinhDo(text, item.id)}
-        />
-        <TextInput
-          keyboardType="numeric"
-          style={styles.inputKhoiLuongLoai}
-          value={item.loai_1_kl}
-          onChangeText={text =>
-            handleChangeKhoiLuongLoai(text, item.id, 'loai_1_kl')
-          }
-        />
-        <TextInput
-          keyboardType="numeric"
-          style={styles.inputKhoiLuongLoai}
-          value={item.loai_2_kl}
-          onChangeText={text =>
-            handleChangeKhoiLuongLoai(text, item.id, 'loai_2_kl')
-          }
-        />
-        <TextInput
-          keyboardType="numeric"
-          style={styles.inputKhoiLuongLoai}
-          value={item.loai_3_kl}
-          onChangeText={text =>
-            handleChangeKhoiLuongLoai(text, item.id, 'loai_3_kl')
-          }
-        />
-        <TextInput
-          keyboardType="numeric"
-          style={styles.inputKhoiLuongLoai}
-          value={item.loai_4_kl}
-          onChangeText={text =>
-            handleChangeKhoiLuongLoai(text, item.id, 'loai_4_kl')
-          }
-        />
-        <TextInput
-          keyboardType="numeric"
-          style={styles.inputKhoiLuongLoai}
-          value={item.loai_5_kl}
-          onChangeText={text =>
-            handleChangeKhoiLuongLoai(text, item.id, 'loai_5_kl')
-          }
-        />
-        <TextInput
-          keyboardType="numeric"
-          style={styles.inputKhoiLuongLoai}
-          value={item.loai_6_kl}
-          onChangeText={text =>
-            handleChangeKhoiLuongLoai(text, item.id, 'loai_6_kl')
-          }
-        />
-        <Text style={styles.textTongKhoiLuong}>{item.tongsanluong}</Text>
-      </Pressable>
-    );
+          <TextInput
+            keyboardType="numeric"
+            style={styles.inputToaDo}
+            value={item.tm_ct_vt_kinhdo}
+            onChangeText={text => handleChangeKinhDo(text, item.id)}
+          />
+          <TextInput
+            keyboardType="numeric"
+            style={styles.inputKhoiLuongLoai}
+            value={item.loai_1_kl}
+            onChangeText={text =>
+              handleChangeKhoiLuongLoai(text, item.id, 'loai_1_kl')
+            }
+          />
+          <TextInput
+            keyboardType="numeric"
+            style={styles.inputKhoiLuongLoai}
+            value={item.loai_2_kl}
+            onChangeText={text =>
+              handleChangeKhoiLuongLoai(text, item.id, 'loai_2_kl')
+            }
+          />
+          <TextInput
+            keyboardType="numeric"
+            style={styles.inputKhoiLuongLoai}
+            value={item.loai_3_kl}
+            onChangeText={text =>
+              handleChangeKhoiLuongLoai(text, item.id, 'loai_3_kl')
+            }
+          />
+          <TextInput
+            keyboardType="numeric"
+            style={styles.inputKhoiLuongLoai}
+            value={item.loai_4_kl}
+            onChangeText={text =>
+              handleChangeKhoiLuongLoai(text, item.id, 'loai_4_kl')
+            }
+          />
+          <TextInput
+            keyboardType="numeric"
+            style={styles.inputKhoiLuongLoai}
+            value={item.loai_5_kl}
+            onChangeText={text =>
+              handleChangeKhoiLuongLoai(text, item.id, 'loai_5_kl')
+            }
+          />
+          <TextInput
+            keyboardType="numeric"
+            style={styles.inputKhoiLuongLoai}
+            value={item.loai_6_kl}
+            onChangeText={text =>
+              handleChangeKhoiLuongLoai(text, item.id, 'loai_6_kl')
+            }
+          />
+          <Text style={styles.textTongKhoiLuong}>{item.tongsanluong}</Text>
+        </Pressable>
+      );
+    } catch (error) {
+      console.log('ERROR ', error);
+      ToastAndroid.show('Lỗi', ToastAndroid.SHORT);
+    }
   };
 
   return (
