@@ -152,13 +152,13 @@ const Form01adx01Diary = ({ navigation }) => {
 //     }
 //   }, [data, setPrintf]);
 
-//   const getDataLocal = async () => {
-//     const result = await Storage.getItem('form01adx01');
-//     if (result !== null) {
-//       const data = JSON.parse(result);
-//       setDataDiary(data);
-//     }
-//   };
+  const getDataLocal = async () => {
+    const result = await Storage.getItem('form01adx01');
+    if (result !== null) {
+      const data = JSON.parse(result);
+      setDataDiary(data);
+    }
+  };
 
   // nếu có wifi, gọi app lấy danh sách từ server
   // nếu không có wifi, lấy data từ local
