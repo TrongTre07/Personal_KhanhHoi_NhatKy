@@ -8,15 +8,15 @@ const styles = StyleSheet.create({
     },
 
     lineRight:{
-        borderColor: '#0099FF',
-        borderRightWidth: 0.6,
+        // borderColor: '#0099FF',
+        // borderRightWidth: 0.6,
     },
     container: {
         // flex: 1,
         padding: 8,
         backgroundColor: '#fff',
-        borderColor: '#0099FF',
-        borderWidth: 0.6,
+        // borderColor: '#0099FF',
+        // borderWidth: 0.6,
     },
     txtHeader:{
         color:'black',
@@ -26,6 +26,12 @@ const styles = StyleSheet.create({
     header: {
         alignItems: 'center',
 
+    },
+    txtHeaderDate:{
+        color:'black',
+        fontSize:16,
+        fontWeight:'bold',
+        fontStyle:'italic'
     },
     row: {
         paddingVertical: 3,

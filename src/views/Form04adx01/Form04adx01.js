@@ -7,11 +7,12 @@ import {ScrollView} from 'react-native-gesture-handler';
 import HeaderView from './item/HeaderView';
 const Form04ad01 = ({route}) => {
   const {
-    getDetailForm0201Id,
-    setData0201,
-    data0201,
+    getDetailForm0401Id,
+    setData0401,
+    data0401,
     goBackAlert,
     setGoBackAlert,
+    
   } = useContext(UserContext);
   const netInfo = useNetInfo();
 
@@ -21,11 +22,11 @@ const Form04ad01 = ({route}) => {
     console.log('id: ', id);
 
     if (id != undefined) {
-      if (netInfo.isConnected) getDetailForm0201Id(id);
+      if (netInfo.isConnected) getDetailForm0401Id(id);
       // else
       // getDataLocal();
     } else {
-      setData0201({});
+      setData0401({});
     }
   }, [netInfo, id]);
   return (

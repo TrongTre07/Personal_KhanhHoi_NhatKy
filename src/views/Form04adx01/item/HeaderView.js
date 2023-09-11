@@ -4,7 +4,7 @@ import React from 'react';
 const HeaderView = () => {
   const soQuyDinh = 'Số 21 /2018/TT-BNNPTNT';
   const mauSo = 'Mẫu số 04 (Phụ lục I)';
-  const title = 'MẪU NHẬT KÝ KHAI THÁC THỦY SẢN';
+  const title = 'MẪU BÁO CÁO THĂM DÒ, TÌM KIẾM, DẪN DỤ NGUỒN LỢI THỦY SẢN';
   return (
     <View style={styles.container}>
       <View style={styles.mauSoVaSoQuyDinhContainer}>
@@ -23,22 +23,23 @@ export default HeaderView;
 const styles = StyleSheet.create({
   titleContainer: {
     flexDirection: 'row',
+    marginTop:16,
     justifyContent: 'center',
   },
   titleText: {
     fontWeight:'bold',
-    fontSize: 20,
+    fontSize: 16,
     color:'black',
   },
   mauSoText: {
     fontWeight:'bold',
-    fontSize: 18,
+    fontSize: 15,
     color:'black',
     fontStyle:'italic'
   },
   soQuyDinhText: {
     fontWeight:'bold',
-    fontSize: 18,
+    fontSize: 15,
     color:'black',
     
   },
