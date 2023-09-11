@@ -23,6 +23,12 @@ const styles = StyleSheet.create({
         fontSize:16,
         fontWeight:'bold'
     },
+    txtHeaderDate:{
+        color:'black',
+        fontSize:16,
+        fontWeight:'bold',
+        fontStyle:'italic'
+    },
     header: {
         alignItems: 'center',
 
