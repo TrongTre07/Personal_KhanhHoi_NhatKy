@@ -1,20 +1,40 @@
-import {StyleSheet, Text, View, ScrollView} from 'react-native';
-import React, {useEffect, useContext} from 'react';
+import {
+  StyleSheet,
+  Text,
+  View,
+  ScrollView,
+  TouchableOpacity,
+  BackHandler,
+  Alert,
+  ToastAndroid,
+} from 'react-native';
+import React, {useEffect, useContext, useState} from 'react';
 import TongCucThuySanView from './item/TongCucThuySanView';
 import {UserContext} from '../../contexts/UserContext';
 import {useNetInfo} from '@react-native-community/netinfo';
 import ChiTietNhomKhaiThac from './item/itemTongCucThuySan/ChiTietNhomKhaiThac';
+import {useNavigation} from '@react-navigation/core';
+import AlertInputComponent from '../../utils/AlertInputComponent';
+import data0301Empty from './models/data0301';
+import Storage from '../../utils/storage';
+import Spinner from 'react-native-loading-spinner-overlay';
 const Form03ad01 = ({route}) => {
   const {
-    getDetailForm0201Id,
+    getDetailForm0301Id,
     setData0301,
     data0301,
     goBackAlert,
     setGoBackAlert,
+    postForm0301,
+    updateForm0301,
   } = useContext(UserContext);
+  const navigation = useNavigation();
+  const [isPopupVisible, setPopupVisible] = useState(false);
+  const {isLoading} = useContext(UserContext);
+  const {initialTitle} = useContext(UserContext);
   const netInfo = useNetInfo();
 
-  let titleForm0201 = '';
+  let titleForm0301 = '';
 
   const handleTriggerButtonClick = () => {
     setPopupVisible(true);
@@ -32,8 +52,8 @@ const Form03ad01 = ({route}) => {
   }, [goBackAlert, navigation, setGoBackAlert]);
 
   const handleDataSubmit = tieuDe => {
-    titleForm0201 = tieuDe;
-    if (data0201.id == undefined) {
+    titleForm0301 = tieuDe;
+    if (data0301.id == undefined) {
       //neu la create thi field id khong ton tai
       handleCreateForm(tieuDe, 'create');
     } else {
@@ -45,8 +65,8 @@ const Form03ad01 = ({route}) => {
   };
 
   const handleCreateForm = async (tieuDe, string) => {
-    let objectPost = {...data0201};
-    objectPost.dairy_name = tieuDe;
+    let objectPost = {...data0301};
+    objectPost.dairyname = tieuDe;
 
     // console.log(JSON.stringify(objectPost, null, 2));
 
@@ -55,8 +75,8 @@ const Form03ad01 = ({route}) => {
     // chưa có mạng thì lưu local
     if (!isConnect) {
       const dataForm = objectPost;
-      const result = await Storage.getItem('form02adx01');
-      if (!dataForm.id_tau) {
+      const result = await Storage.getItem('form03adx01');
+      if (!dataForm.tau_bs) {
         Alert.alert('Lỗi', 'Bạn phải chọn tàu!', [
           {
             text: 'OK',
@@ -68,18 +88,18 @@ const Form03ad01 = ({route}) => {
       } else if (result !== null) {
         const data = JSON.parse(result);
         data.push(dataForm);
-        await Storage.setItem('form02adx01', JSON.stringify(data));
+        await Storage.setItem('form03adx01', JSON.stringify(data));
         ToastAndroid.show('Tạo thành công', ToastAndroid.SHORT);
         setGoBackAlert(true);
       } else {
         const data = [];
         data.push(dataForm);
-        await Storage.setItem('form02adx01', JSON.stringify(data));
+        await Storage.setItem('form03adx01', JSON.stringify(data));
         ToastAndroid.show('Tạo thành công', ToastAndroid.SHORT);
         setGoBackAlert(true);
       }
     } else if (string == 'create') {
-      if (!data0201.id_tau) {
+      if (!data0301.tau_bs) {
         Alert.alert('Lỗi', 'Bạn phải chọn tàu!', [
           {
             text: 'OK',
@@ -89,11 +109,11 @@ const Form03ad01 = ({route}) => {
           },
         ]);
       } else {
-        await postForm0201(modifyThongTinTauDCThumua(objectPost));
+        await postForm0301(modifyThongTinKhaiThac(objectPost));
       }
     } else if (string == 'update') {
-      await updateForm0201(modifyThongTinTauDCThumua(objectPost));
-      if (!data0201.id_tau) {
+      await updateForm0301(modifyThongTinKhaiThac(objectPost));
+      if (!data0301.tau_bs) {
         Alert.alert('Lỗi', 'Bạn phải chọn tàu!', [
           {
             text: 'OK',
@@ -110,86 +130,99 @@ const Form03ad01 = ({route}) => {
 
   useEffect(() => {
     if (id != undefined) {
-      if (netInfo.isConnected) getDetailForm0201Id(id);
+      if (netInfo.isConnected) getDetailForm0301Id(id);
       else getDataLocal();
     } else {
-      setData0201(data0201Empty);
+      setData0301(data0301Empty);
     }
-  }, [netInfo, id]);
+  }, [netInfo, id, setData0301]);
 
   // render data local to form
   const getDataLocal = async () => {
-    const result = await Storage.getItem('form02adx01');
+    const result = await Storage.getItem('form03adx01');
     if (result !== null) {
       const data = JSON.parse(result);
-      // if (data.length > 0) setData0201(data[id]);
+      if (data.length > 0) {
+        console.log(JSON.stringify(data[i], null, 2));
+        setData0301(data[id]);
+      }
     }
   };
 
-  const modifyThongTinTauDCThumua = data0201 => {
+  const modifyThongTinKhaiThac = data0301 => {
+    const modifiedKhaiThac = {...data0301};
+
+    if (modifiedKhaiThac.tau_tongcongsuatmaychinh === '') {
+      modifiedKhaiThac.tau_tongcongsuatmaychinh = 0;
+    } else if (isNaN(modifiedKhaiThac.tau_tongcongsuatmaychinh)) {
+      modifiedKhaiThac.tau_tongcongsuatmaychinh = parseInt(
+        modifiedKhaiThac.tau_tongcongsuatmaychinh,
+      );
+    }
+
+    if (modifiedKhaiThac.tau_chieudailonnhat === '') {
+      modifiedKhaiThac.tau_chieudailonnhat = 0;
+    }
+    if (modifiedKhaiThac.chuyenbien_so === '') {
+      modifiedKhaiThac.chuyenbien_so = 0;
+    }
+    if (modifiedKhaiThac.nam === '') {
+      modifiedKhaiThac.nam = 0;
+    }
+    if (modifiedKhaiThac.tongsolaodong === '') {
+      modifiedKhaiThac.tongsolaodong = 0;
+    }
+    if (modifiedKhaiThac.songaykhaithac === '') {
+      modifiedKhaiThac.songaykhaithac = 0;
+    }
+    if (modifiedKhaiThac.so_meluoi === '') {
+      modifiedKhaiThac.so_meluoi = 0;
+    }
+    if (modifiedKhaiThac.tongsanluong === '') {
+      modifiedKhaiThac.tongsanluong = 0;
+    }
+
     // Modify thumua array
-    const modifiedThumua = data0201.thumua.map(item => {
-      if (!item.hasOwnProperty('isdelete')) {
-        // Item has isdelete field with a value of 1, update id to 0
-        return {...item, id: 0};
-      }
-      return item;
-    });
-
-    // Modify thongtintaudc_thumua array
-    const modifiedThongTinTauDCThumua = data0201.thongtintaudc_thumua.map(
+    modifiedKhaiThac.tblreport_0301_ls = data0301.tblreport_0301_ls.map(
       item => {
-        if (item.thongtinhoatdong) {
-          const modifiedThongTinHoatDong = item.thongtinhoatdong.map(
-            subItem => {
-              if (!subItem.hasOwnProperty('isdelete')) {
-                return {...subItem, id: 0};
-              }
-              return subItem;
-            },
-          );
-          item = {...item, thongtinhoatdong: modifiedThongTinHoatDong};
-        }
-
         if (!item.hasOwnProperty('isdelete')) {
           // Item has isdelete field with a value of 1, update id to 0
-          item = {...item, id: 0};
+          return {...item, id: 0};
         }
-
         return item;
       },
     );
 
     // Update data0201 with the modified thumua and thongtintaudc_thumua arrays
-    const updatedData0201 = {
-      ...data0201,
-      thumua: modifiedThumua,
-      thongtintaudc_thumua: modifiedThongTinTauDCThumua,
-    };
+    // const updatedData0301 = {
+    //   ...data0301,
+    //   tblreport_0301_ls: modifiedKhaiThac,
+    // };
 
-    console.log('MODIFY:', JSON.stringify(updatedData0201, null, 2));
+    console.log('MODIFY:', JSON.stringify(modifiedKhaiThac, null, 2));
 
-    return updatedData0201;
+    return modifiedKhaiThac;
   };
 
   // check ko có wifi thì update local
   const handleUpdateDiaryLocal = async () => {
-    const dataForm = {...data0201};
-    dataForm.dairy_name = titleForm0201;
-    const result = await Storage.getItem('form02adx01');
+    const dataForm = {...data0301};
+    dataForm.dairyname = titleForm0301;
+    const result = await Storage.getItem('form03adx01');
     if (result !== null) {
       const data = JSON.parse(result);
       data[id] = dataForm;
-      await Storage.setItem('form02adx01', JSON.stringify(data));
+      await Storage.setItem('form03adx01', JSON.stringify(data));
+      console.log('STORAGE:', JSON.stringify(data, null, 2));
     }
     ToastAndroid.show('Cập nhật thành công', ToastAndroid.SHORT);
-    setData0201(data0201Empty);
+    // setData0301(data0301Empty);
     setGoBackAlert(true);
   };
 
   React.useEffect(() => {
     const backAction = () => {
-      setData0201(data0201Empty);
+      setData0301(data0301Empty);
       navigation.goBack();
       return true;
     };
@@ -275,4 +308,49 @@ const Form03ad01 = ({route}) => {
 
 export default Form03ad01;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  button: {
+    borderRadius: 5,
+    padding: 10,
+    marginRight: 8,
+  },
+
+  action: {
+    flexDirection: 'row',
+    marginVertical: 12,
+  },
+
+  actionText: {
+    color: 'white',
+    fontSize: 18,
+  },
+
+  actionTextDark: {
+    color: 'black',
+    fontSize: 18,
+  },
+
+  actionCreate: {
+    backgroundColor: '#4CAF50',
+    marginRight: 10,
+  },
+
+  actionSave: {
+    backgroundColor: '#e5e7eb',
+    marginRight: 10,
+  },
+
+  actionDownload: {
+    backgroundColor: '#3b82f6',
+    marginRight: 10,
+  },
+  actionExportPDF: {
+    backgroundColor: '#FF9800',
+    marginRight: 10,
+  },
+});

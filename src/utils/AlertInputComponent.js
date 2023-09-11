@@ -1,7 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, Button, Modal, StyleSheet } from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {View, Text, TextInput, Button, Modal, StyleSheet} from 'react-native';
 
-const AlertInputComponent = ({ visible, onClose, onSubmit, initialValue, actionPopup }) => {
+const AlertInputComponent = ({
+  visible,
+  onClose,
+  onSubmit,
+  initialValue,
+  actionPopup,
+}) => {
   const [inputText, setInputText] = useState('');
   const [action, setAction] = useState('Hoàn Tất');
 
@@ -9,28 +15,28 @@ const AlertInputComponent = ({ visible, onClose, onSubmit, initialValue, actionP
     setInputText(initialValue || ''); // Set initial value when the popup appears
   }, [initialValue]);
 
-  const handleInputChange = (text) => {
+  const handleInputChange = text => {
     setInputText(text);
   };
 
   const handleSubmit = () => {
     // if (inputText.trim() !== '') {
-      onSubmit(inputText); // Send data back to the parent component
+    onSubmit(inputText); // Send data back to the parent component
     // }
     // setInputText('');
     onClose();
   };
 
   // Define the dynamic style for the placeholder text based on inputText value
-  const placeholderTextStyle = inputText.trim() === '' ? styles.placeholderRed : styles.placeholderGray;
+  const placeholderTextStyle =
+    inputText.trim() === '' ? styles.placeholderRed : styles.placeholderGray;
 
   return (
     <Modal
       animationType="slide"
       transparent={true}
       visible={visible}
-      onRequestClose={onClose}
-    >
+      onRequestClose={onClose}>
       <View style={styles.modalContainer}>
         <View style={styles.modalContent}>
           <Text style={styles.title}>Nhập tên biểu mẫu</Text>
@@ -66,10 +72,11 @@ const styles = StyleSheet.create({
     width: '80%',
   },
   title: {
-    fontSize: 18,
+    fontSize: 20,
     fontWeight: 'bold',
     marginBottom: 10,
     textAlign: 'center',
+    color: 'black',
   },
   input: {
     borderWidth: 1,
@@ -77,8 +84,9 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     padding: 10,
     marginBottom: 20,
-    fontSize: 16,
-    color: '#333',
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: 'black',
   },
   buttonContainer: {
     flexDirection: 'row',

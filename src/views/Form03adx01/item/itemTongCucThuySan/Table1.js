@@ -17,48 +17,6 @@ const Table1 = ({}) => {
   const {dataInfShip, setDataInfShip} = useContext(UserContext);
   const netInfo = useNetInfo();
   const {data0301, setData0301} = useContext(UserContext);
-  // const [data0301, setData0301] = useState({
-  //   tau_tongcongsuatmaychinh: 12,
-  //   tau_chieudailonnhat: 12,
-  //   dairyname: 'BaoCaoKhaiThacThuySan_11092023',
-  //   denngay: '2023-09-11',
-  //   tblreport_0301_ls: [
-  //     {
-  //       id: 0,
-  //       tenloai: '1111',
-  //       sanluong: 12,
-  //     },
-  //     {
-  //       id: new Date(),
-  //       tenloai: '2222',
-  //       sanluong: 11,
-  //     },
-  //   ],
-  //   chuyenbien_so: 0,
-  //   nam: 0,
-  //   tungay: '0001-01-01',
-  //   ten_chutau_thuyentruong: 'abc',
-  //   diachi: 'aaaa',
-  //   tau_bs: 'HC-1234-TS1',
-  //   nghekhaithac: '',
-  //   tongsolaodong: 0,
-  //   songaykhaithac: 0,
-  //   so_meluoi: 0,
-  //   ngutruong_vinhbacbo: false,
-  //   ngutruong_trungbo: true,
-  //   ngutruong_dongnambo: false,
-  //   ngutruong_taynambo: false,
-  //   ngutruong_giuabiendong: true,
-  //   tongsanluong: 10,
-  // });
-
-  const [checked, setChecked] = useState({
-    vinh_bac_bo: false,
-    trung_bo: false,
-    dong_nam_bo: false,
-    tay_nam_bo: false,
-    giua_bien_dong: false,
-  });
 
   // check ko có wifi thì lấy dataInfShip từ local
   useEffect(() => {
@@ -84,7 +42,7 @@ const Table1 = ({}) => {
             onChangeText={text => {
               setData0301({...data0301, ten_chutau_thuyentruong: text});
             }}
-            value={data0301?.ten_chutau}
+            value={data0301?.ten_chutau_thuyentruong}
             style={[styles.input, styles.text]}
           />
           <Text style={styles.text}>;</Text>
@@ -117,11 +75,11 @@ const Table1 = ({}) => {
                 const dataInf = dataInfShip[itemIndex - 1];
                 setData0301({
                   ...data0301,
-                  ten_chutau: dataInf?.chutau,
+                  ten_chutau_thuyentruong: dataInf?.chutau,
                   tau_bs: dataInf?.tentau,
                   id_tau: dataInf?.idShip.toString(),
-                  tau_chieudailonnhat: dataInf?.chieudailonnhat + '',
-                  tau_tongcongsuatmaychinh: dataInf?.congsuat + '',
+                  tau_chieudailonnhat: dataInf?.chieudailonnhat,
+                  tau_tongcongsuatmaychinh: dataInf?.congsuat,
                 });
               }
             }}>
@@ -151,7 +109,10 @@ const Table1 = ({}) => {
           <TextInput
             // editable={false}
             onChangeText={text => {
-              setData0301({...data0301, tau_tongcongsuatmaychinh: text});
+              setData0301({
+                ...data0301,
+                tau_tongcongsuatmaychinh: parseInt(text, 10),
+              });
             }}
             value={data0301?.tau_tongcongsuatmaychinh.toString()}
             style={[styles.input, styles.text]}
@@ -165,7 +126,7 @@ const Table1 = ({}) => {
         <TextInput
           // editable={false}
           onChangeText={text => {
-            setData0301({...data0301, tau_chieudailonnhat: text});
+            setData0301({...data0301, tau_chieudailonnhat: parseInt(text, 10)});
           }}
           value={data0301?.tau_chieudailonnhat.toString()}
           style={[styles.input, styles.text]}
@@ -190,7 +151,7 @@ const Table1 = ({}) => {
           <Text style={styles.text}>7 Tổng số lao động:</Text>
           <TextInput
             onChangeText={text => {
-              setData0301({...data0301, tongsolaodong: text});
+              setData0301({...data0301, tongsolaodong: parseInt(text, 10)});
             }}
             value={data0301?.tongsolaodong.toString()}
             style={[styles.input, styles.text]}
@@ -206,7 +167,7 @@ const Table1 = ({}) => {
           <TextInput
             // editable={false}
             onChangeText={text => {
-              setData0301({...data0301, songaykhaithac: text});
+              setData0301({...data0301, songaykhaithac: parseInt(text, 10)});
             }}
             value={data0301?.songaykhaithac.toString()}
             style={[styles.input, styles.text]}
@@ -218,7 +179,7 @@ const Table1 = ({}) => {
           <Text style={styles.text}>9. Số mẻ lưới trong chuyến:</Text>
           <TextInput
             onChangeText={text => {
-              setData0301({...data0301, so_meluoi: text});
+              setData0301({...data0301, so_meluoi: parseInt(text, 10)});
             }}
             value={data0301.so_meluoi.toString()}
             style={[styles.input, styles.text]}

@@ -16,40 +16,6 @@ import {UserContext} from '../../../../contexts/UserContext';
 const ChiTietNhomKhaiThac = () => {
   const [selectedItemIndex, setSelectedItemIndex] = useState(-1);
   const {data0301, setData0301} = useContext(UserContext);
-  //   const [data0301, setData0301] = useState({
-  //     tau_tongcongsuatmaychinh: 12,
-  //     tau_chieudailonnhat: 12,
-  //     dairyname: 'BaoCaoKhaiThacThuySan_11092023',
-  //     denngay: '2023-09-11',
-  //     tblreport_0301_ls: [
-  //       {
-  //         id: 0,
-  //         tenloai: '1111',
-  //         sanluong: 12,
-  //       },
-  //       {
-  //         id: new Date(),
-  //         tenloai: '2222',
-  //         sanluong: 11,
-  //       },
-  //     ],
-  //     chuyenbien_so: 0,
-  //     nam: 0,
-  //     tungay: '0001-01-01',
-  //     ten_chutau_thuyentruong: 'abc',
-  //     diachi: '',
-  //     tau_bs: 'HC-1234-TS1',
-  //     nghekhaithac: '',
-  //     tongsolaodong: 0,
-  //     songaykhaithac: 0,
-  //     so_meluoi: 0,
-  //     ngutruong_vinhbacbo: false,
-  //     ngutruong_trungbo: true,
-  //     ngutruong_dongnambo: false,
-  //     ngutruong_taynambo: false,
-  //     ngutruong_giuabiendong: false,
-  //     tongsanluong: 0,
-  //   });
 
   const makeid = length => {
     let result = '';
@@ -91,7 +57,7 @@ const ChiTietNhomKhaiThac = () => {
       updateData0301.tblreport_0301_ls = updateData0301.tblreport_0301_ls.map(
         item => {
           if (item.id === id) {
-            return {...item, sanluong: sanLuong};
+            return {...item, sanluong: parseInt(sanLuong, 10)};
           }
           return item;
         },
@@ -109,7 +75,7 @@ const ChiTietNhomKhaiThac = () => {
       const objAdd = {
         id: makeid(7),
         tenloai: '',
-        sanluong: '',
+        sanluong: 0,
       };
       const updatedData0301 = {...data0301};
       if (updatedData0301.tblreport_0301_ls) {
@@ -132,7 +98,7 @@ const ChiTietNhomKhaiThac = () => {
       }
 
       data0301.tblreport_0301_ls.map(item => {
-        if (item.hasOwnProperty('isdelete') && item.isdelete == 1) {
+        if (item.hasOwnProperty('isdelete') && item.isdelete == true) {
           lastObject -= 1;
         }
       });
@@ -144,7 +110,7 @@ const ChiTietNhomKhaiThac = () => {
       const itemToRemove = data0301.tblreport_0301_ls[selectedItemIndex];
       if (itemToRemove) {
         if (itemToRemove.hasOwnProperty('isdelete')) {
-          itemToRemove.isdelete = 1;
+          itemToRemove.isdelete = true;
           // Update data0201 with the modified itemToRemove
           const updatedData0301 = {
             ...data0301,
@@ -180,7 +146,7 @@ const ChiTietNhomKhaiThac = () => {
       let total = 0;
 
       data0301.tblreport_0301_ls.forEach(item => {
-        if (item[sanluong] && item.isdelete != 1) {
+        if (item[sanluong] && item.isdelete != true) {
           total += parseFloat(item[sanluong]); // Convert to float to ensure proper addition
         }
       });
@@ -201,13 +167,13 @@ const ChiTietNhomKhaiThac = () => {
     let countIsDelete = 0;
     const rootIndex = index;
     let checkIsDeleted;
-    if (item?.isdelete == 1) {
+    if (item?.isdelete == true) {
       checkIsDeleted = true;
     } else {
       for (i = 0; i <= index; i++) {
         if (
           data0301.tblreport_0301_ls[i].isdelete &&
-          data0301.tblreport_0301_ls[i].isdelete == 1
+          data0301.tblreport_0301_ls[i].isdelete == true
         ) {
           countIsDelete++;
         }
@@ -247,7 +213,7 @@ const ChiTietNhomKhaiThac = () => {
   };
 
   return (
-    <View style={{flex: 1}}>
+    <View style={{flex: 1, backgroundColor: 'white'}}>
       <Text
         style={{
           fontStyle: 'italic',

@@ -113,16 +113,18 @@ const TongCucThuySanView = () => {
             keyboardType="numeric"
             value={data0301.chuyenbien_so.toString()}
             style={styles.txtHeader}
+            placeholder='.........'
             onChangeText={text =>
-              setData0301({...data0301, chuyenbien_so: text})
+              setData0301({...data0301, chuyenbien_so: parseInt(text, 10)})
             }
           />
           <Text style={styles.txtHeader}>/năm</Text>
           <TextInput
             keyboardType="numeric"
             style={styles.txtHeader}
+            placeholder='.........'
             value={data0301.nam.toString()}
-            onChangeText={text => setData0301({...data0301, nam: text})}
+            onChangeText={text => setData0301({...data0301, nam: parseInt(text, 10)})}
           />
         </View>
 

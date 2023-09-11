@@ -39,8 +39,6 @@ const Form03adx01Diary = ({ navigation }) => {
   const netInfo = useNetInfo();
   const [refreshing, setRefreshing] = React.useState(false);
 
-  
-
   useEffect(() => {
     if (!isLoggedIn) {
       setDataDiary([]);

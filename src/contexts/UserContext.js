@@ -369,6 +369,7 @@ const UserProvider = ({children}) => {
   //get form theo id
   const getDetailForm0301Id = async id => {
     try {
+      setIsLoading(true);
       if (!id) {
         setInitialTitle('');
       }
@@ -377,10 +378,12 @@ const UserProvider = ({children}) => {
           `/api/FormAppendix/0301/getbyid/${id}`,
         );
 
-        setInitialTitle(response.data.dairy_name);
-        setData0201(await response.data);
+        setInitialTitle(response.data.dairyname);
+        setData0301(await response.data);
+        setIsLoading(false);
       }
     } catch (error) {
+      setIsLoading(false);
       if (error.response.status === 401) {
         getAlert401();
       }
@@ -425,6 +428,44 @@ const UserProvider = ({children}) => {
           },
         ]);
       console.log('POST ERROR: ', error);
+    }
+  };
+
+  const updateForm0301 = async obj => {
+    // console.log(JSON.stringify(obj, null, 2));
+    try {
+      setIsLoading(true);
+      const response = await instance.post(
+        `/api/FormAppendix/0301/update`,
+        obj,
+      );
+      if (response.data == true) {
+        setIsLoading(false);
+        Alert.alert('Thành công', 'Bạn đã cập nhật thành công!', [
+          {
+            text: 'OK',
+            onPress: () => {
+              // setIsErrorPost(false);
+              setGoBackAlert(true);
+            },
+          },
+        ]);
+      }
+    } catch (error) {
+      setIsLoading(false);
+
+      console.log('ERROR UPDATE: ', error);
+      if (error.response.status === 401) {
+        getAlert401();
+      } else
+        Alert.alert('Lỗi', 'Không thể cập nhật!', [
+          {
+            text: 'OK',
+            onPress: () => {
+              // setIsErrorPost(false);
+            },
+          },
+        ]);
     }
   };
   //end
@@ -483,6 +524,7 @@ const UserProvider = ({children}) => {
       deleteForm0301Id,
       getDetailForm0301Id,
       postForm0301,
+      updateForm0301,
       data0301,
       setData0301,
     }),

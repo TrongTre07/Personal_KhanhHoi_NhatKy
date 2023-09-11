@@ -26,7 +26,6 @@ import data0201Empty from './models/data0201';
 const Form02ad01 = ({route}) => {
   const navigation = useNavigation();
   const [isPopupVisible, setPopupVisible] = useState(false);
-  const [initialValue, setInitialValue] = useState('');
   const {isLoading} = useContext(UserContext);
   const {initialTitle} = useContext(UserContext);
   const {
