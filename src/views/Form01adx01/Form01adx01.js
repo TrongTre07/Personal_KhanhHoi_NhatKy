@@ -73,7 +73,7 @@ const Form01adx01 = ({ route }) => {
   //goback
   useEffect(() => {
     if (goBackAlert) {
-      navigation.goBack();
+      navigation.pop();
       setGoBackAlert(false);
     }
   }, [goBackAlert, navigation, setGoBackAlert]);

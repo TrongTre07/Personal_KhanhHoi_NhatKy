@@ -47,13 +47,13 @@ const ThongTinVeCacTau = () => {
 
   const handleDeleteButton = indexDuocChon => {
     try {
-      let lastObject = data0201.thongtintaudc_thumua.length;
+      let lastObject = data0201?.thongtintaudc_thumua.length;
       if (lastObject == 1) {
         Alert.alert('Không thể xóa hết thông tin', '', [{text: 'OK'}]);
         return;
       }
 
-      data0201.thongtintaudc_thumua.map(item => {
+      data0201?.thongtintaudc_thumua.map(item => {
         if (item.hasOwnProperty('isdelete') && item.isdelete == 1) {
           lastObject -= 1;
         }
@@ -62,7 +62,7 @@ const ThongTinVeCacTau = () => {
         Alert.alert('Không thể xóa hết thông tin', '', [{text: 'OK'}]);
         return;
       }
-      const itemToRemove = data0201.thongtintaudc_thumua[indexDuocChon];
+      const itemToRemove = data0201?.thongtintaudc_thumua[indexDuocChon];
 
       if (itemToRemove) {
         if (itemToRemove.hasOwnProperty('isdelete')) {
@@ -70,14 +70,14 @@ const ThongTinVeCacTau = () => {
           // Update data0201 with the modified itemToRemove
           const updatedData0201 = {
             ...data0201,
-            thongtintaudc_thumua: data0201.thongtintaudc_thumua.map(item =>
+            thongtintaudc_thumua: data0201?.thongtintaudc_thumua.map(item =>
               item.id === itemToRemove.id ? itemToRemove : item,
             ),
           };
           setData0201(updatedData0201);
         } else {
           // Item doesn't have isdelete field, remove it by filtering
-          const updatedThumua = data0201.thongtintaudc_thumua.filter(
+          const updatedThumua = data0201?.thongtintaudc_thumua.filter(
             item => item.id !== itemToRemove.id,
           );
 
@@ -103,7 +103,7 @@ const ThongTinVeCacTau = () => {
 
   const handleAddButton = () => {
     try {
-      const lastId = data0201.thongtintaudc_thumua.reduce((maxId, item) => {
+      const lastId = data0201?.thongtintaudc_thumua.reduce((maxId, item) => {
         return item.id > maxId ? item.id : maxId;
       }, -1);
 
@@ -171,8 +171,8 @@ const ThongTinVeCacTau = () => {
       } else {
         for (i = 0; i <= index; i++) {
           if (
-            data0201.thongtintaudc_thumua[i].isdelete &&
-            data0201.thongtintaudc_thumua[i].isdelete == 1
+            data0201?.thongtintaudc_thumua[i].isdelete &&
+            data0201?.thongtintaudc_thumua[i].isdelete == 1
           ) {
             countIsDelete++;
           }
@@ -229,7 +229,7 @@ const ThongTinVeCacTau = () => {
             alignItems: 'center',
           }}>
           <FlatList
-            data={data0201.thongtintaudc_thumua}
+            data={data0201?.thongtintaudc_thumua}
             horizontal={true}
             showsHorizontalScrollIndicator={false}
             renderItem={({item, index}) => renderButton(item, index)}

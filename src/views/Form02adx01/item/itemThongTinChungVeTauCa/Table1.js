@@ -217,7 +217,7 @@ const Table1 = ({selectedItem}) => {
             onChangeText={text => {
               handleTauBsChange(text);
             }}
-            value={data0201.thongtintaudc_thumua[selectedItem].tau_bs}
+            value={data0201?.thongtintaudc_thumua[selectedItem]?.tau_bs}
             style={[styles.input, styles.text]}
           />
           <Text style={styles.text}>;</Text>

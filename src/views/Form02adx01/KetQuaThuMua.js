@@ -7,7 +7,7 @@ import {
   View,
   Pressable,
   Alert,
-  ToastAndroid
+  ToastAndroid,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import CustomDatePicker from '../others/CustomDatePicker';
@@ -591,7 +591,6 @@ const styles = StyleSheet.create({
     height: 50,
     borderWidth: 0.1,
     borderRadius: 10,
-
     margin: 10,
   },
   btnXoaDong: {

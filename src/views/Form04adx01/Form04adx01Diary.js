@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import React, { useContext, useEffect, useState, useCallback } from 'react';
 import { UserContext } from '../../contexts/UserContext';
-import { ExportPDF } from './pdfForm0301/ExportPDF';
+import { ExportPDF } from './pdfForm0401/ExportPDF';
 import {
   Table,
   TableWrapper,
@@ -24,14 +24,14 @@ import { useNetInfo } from '@react-native-community/netinfo';
 import Storage from '../../utils/storage';
 
 import moment from 'moment';
-import { PrintfPDF } from './pdfForm0301/PrintfPDF';
-const Form03adx01Diary = ({ navigation }) => {
+import { PrintfPDF } from './pdfForm0401/PrintfPDF';
+const Form04adx01Diary = ({ navigation }) => {
   const [dataDiary, setDataDiary] = useState([]);
 
   const {
-    getDiaryForm0301,
-    deleteForm0301Id,
-    getDetailForm0301Id,
+    getDiaryForm0401,
+    deleteForm0401Id,
+    getDetailForm0401Id,
     isLoggedIn,
   } = useContext(UserContext);
 
@@ -49,7 +49,7 @@ const Form03adx01Diary = ({ navigation }) => {
   const fetchdata = async () => {
     //sap xep lai danh sach theo thoi gian update
     setRefreshing(true);
-    const rawDiary = await getDiaryForm0301();
+    const rawDiary = await getDiaryForm0401();
     try {
       if (rawDiary != undefined) {
         await rawDiary.sort(sortListForm);
@@ -67,7 +67,7 @@ const Form03adx01Diary = ({ navigation }) => {
 
 
   const getDataLocal = async () => {
-    const result = await Storage.getItem('form03adx01');
+    const result = await Storage.getItem('form04adx01');
     if (result !== null) {
       const data = JSON.parse(result);
       setDataDiary(data);
@@ -99,7 +99,7 @@ const Form03adx01Diary = ({ navigation }) => {
         {
           text: 'Xoá',
           onPress: async () => {
-            await deleteForm0301Id(id);
+            await deleteForm0401Id(id);
             fetchdata();
           },
         },
@@ -124,7 +124,7 @@ const Form03adx01Diary = ({ navigation }) => {
             // delete object at index
             const newData = [...dataDiary];
             newData.splice(index, 1);
-            await Storage.setItem('form03adx01', JSON.stringify(newData)); // update lại data vừa xoá
+            await Storage.setItem('form04adx01', JSON.stringify(newData)); // update lại data vừa xoá
             setDataDiary(newData);
           },
         },
@@ -142,10 +142,10 @@ const Form03adx01Diary = ({ navigation }) => {
 
           let dataTemp;
           if (netInfo.isConnected) {
-            dataTemp = await getDetailForm0301Id(id);
+            dataTemp = await getDetailForm0401Id(id);
             dataTemp.dairy_name = 'filemau';
           } else {
-            const result = await Storage.getItem('form03adx01');
+            const result = await Storage.getItem('form04adx01');
             if (result !== null) {
               const dataLocal = JSON.parse(result);
               dataTemp = dataLocal[index];
@@ -163,7 +163,7 @@ const Form03adx01Diary = ({ navigation }) => {
       </TouchableOpacity>
       <TouchableOpacity
         onPress={() =>
-          navigation.navigate('form03adx01', {
+          navigation.navigate('form04adx01', {
             id: !netInfo.isConnected ? index : id,
           })
         }>
@@ -175,9 +175,9 @@ const Form03adx01Diary = ({ navigation }) => {
         onPress={async () => {
           let tempData;
           if (netInfo.isConnected) {
-            tempData = await getDetailForm0301Id(id);
+            tempData = await getDetailForm0401Id(id);
           } else {
-            const result = await Storage.getItem('form03adx01');
+            const result = await Storage.getItem('form04adx01');
             if (result !== null) {
               const dataLocal = JSON.parse(result);
               tempData = dataLocal[index];
@@ -204,9 +204,9 @@ const Form03adx01Diary = ({ navigation }) => {
         onPress={async () => {
           let tempData;
           if (netInfo.isConnected) {
-            tempData = await getDetailForm0301Id(id);
+            tempData = await getDetailForm0401Id(id);
           } else {
-            const result = await Storage.getItem('form03adx01');
+            const result = await Storage.getItem('form04adx01');
             if (result !== null) {
               const dataLocal = JSON.parse(result);
               tempData = dataLocal[index];
@@ -240,10 +240,10 @@ const Form03adx01Diary = ({ navigation }) => {
   //colum
   let state = {
     tableHead: [
-      'STT',
+      'TT',
       'Tên',
       'Số tàu',
-      'Chủ tàu/Thuyền trưởng',
+      'Thuyền trưởng',
       'Tổng khối lượng (kg)',
       'Chuyến biển số',
       'Từ ngày',
@@ -286,7 +286,7 @@ const Form03adx01Diary = ({ navigation }) => {
   );
 };
 
-export default Form03adx01Diary;
+export default Form04adx01Diary;
 
 const styles = StyleSheet.create({
   container: {
