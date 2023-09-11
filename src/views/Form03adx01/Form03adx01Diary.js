@@ -34,6 +34,8 @@ const Form03adx01Diary = ({ navigation }) => {
     getDiaryForm0301,
     deleteForm0301Id,
     isLoggedIn,
+    getDetailForm0301Id,
+    postForm0301,
   } = useContext(UserContext);
 
   const netInfo = useNetInfo();
@@ -65,45 +67,6 @@ const Form03adx01Diary = ({ navigation }) => {
     const dateB = new Date(b.date_modified);
     return dateA - dateB;
   };
-
-
-  //tranh goi ham nhieu lan khi o ben ngoai
-  // const [template, setTemplate] = useState(false);
-  // const handleGeneratePDF = id => {
-  //   getDetailFormId(id);
-    
-  //   if (netInfo.isConnected) {
-  //     setTemplate(true);
-  //   } else {
-  //     // Handle PDF generation locally without internet
-  //     const formIndex = dataDiary.findIndex(item => item.id === id);
-  //     if (formIndex !== -1) {
-  //       const formData = dataDiary[formIndex];
-  //       ExportPDF(formData); // Assuming ExportPDF generates the PDF
-  //     }
-  //   }
-  // };
-
-//   useEffect(() => {
-//     if (data && template) {
-//       ExportPDF(data);
-//       setTemplate(false);
-//     }
-//   }, [data, setTemplate]);
-
-// // dùng useEffect data để in
-//   const [printf, setPrintf] = useState(false);
-//   const handerlePrintPDF = (id) => {
-//     getDetailFormId(id);
-//     setPrintf(true);
-//   };
-
-//   useEffect(() => {
-//     if (data && printf) {
-//       PrintfPDF(data);
-//       setPrintf(false);
-//     }
-//   }, [data, setPrintf]);
 
   const getDataLocal = async () => {
     const result = await Storage.getItem('form03adx01');
@@ -176,61 +139,88 @@ const Form03adx01Diary = ({ navigation }) => {
   //btn
   const elementButton = (id, index) => (
     <View style={styles.boxbtn}>
-
       <TouchableOpacity
         // disabled={true}
-        onPress={() => {
-          if(!netInfo.isConnected){
-            ToastAndroid.show('Vui lòng kết nối internet.', ToastAndroid.SHORT);
-            return; 
+        onPress={ async() => {
+
+          let dataTemp;
+          if(netInfo.isConnected){
+            dataTemp = await getDetailForm0301Id(id);
+            dataTemp.dairy_name= 'filemau';
+
+          }else{
+            const result = await Storage.getItem('form03adx01');
+            if (result !== null) {
+              const dataLocal = JSON.parse(result);
+              dataTemp= dataLocal[index];
+              dataTemp.dairy_name= 'filemau';
+            }
           }
-          navigation.navigate('ViewPDF', { id: id, data: dataDiary });
+          const result = await ExportPDF(dataTemp);
+          result?navigation.navigate('ViewPDF'): Alert.alert('Thất bại', `không thể xem file pdf`);
         }}>
         <View style={[styles.btn, { backgroundColor: '#99FF33' }]}>
           <Text style={styles.btnText}>Xem</Text>
         </View>
       </TouchableOpacity>
-
       <TouchableOpacity
         onPress={() => navigation.navigate('form03adx01', { id: !netInfo.isConnected ? index : id })}>
         <View style={[styles.btn, { backgroundColor: '#00FFFF' }]}>
           <Text style={styles.btnText}>Sửa</Text>
         </View>
       </TouchableOpacity>
-
       <TouchableOpacity
-        onPress={() => {
-          if(!netInfo.isConnected){
-            ToastAndroid.show('Vui lòng kết nối internet.', ToastAndroid.SHORT);
-            return; 
+        onPress={async () => {
+          let tempData;
+          if(netInfo.isConnected){
+            tempData = await getDetailForm0301Id(id); 
+          }else{
+            const result = await Storage.getItem('form03adx01');
+            if (result !== null) {
+              const dataLocal = JSON.parse(result);
+              tempData= dataLocal[index];
+            }
           }
-          handleGeneratePDF(id);
+          if(tempData)
+            ExportPDF(tempData);
+          else
+            Alert.alert('Thất bại', `không thể tải file pdf`);
         }}>
         <View style={[styles.btn, { backgroundColor: '#FF99FF' }]}>
           <Text style={styles.btnText}>Tải xuống</Text>
         </View>
       </TouchableOpacity>
-
       <TouchableOpacity onPress={() => { !netInfo.isConnected ? handleDeleteFormLocal(index) : handleDelete(id) }}>
         <View style={[styles.btn, { backgroundColor: '#FF3333' }]}>
           <Text style={styles.btnText}>Xoá</Text>
         </View>
       </TouchableOpacity>
+      <TouchableOpacity onPress={async () =>{
 
-      <TouchableOpacity onPress={() =>{
-          if(!netInfo.isConnected){
-            ToastAndroid.show('Vui lòng kết nối internet.', ToastAndroid.SHORT);
-            return; 
+          let tempData;
+          if(netInfo.isConnected){
+            tempData = await getDetailForm0201Id(id);
+          }else{
+            const result = await Storage.getItem('form02adx01');
+            if (result !== null) {
+              const dataLocal = JSON.parse(result);
+              tempData= dataLocal[index];
+            }
           }
-          handerlePrintPDF(id)
+          console.log('tempData: ', tempData);
+          if(tempData)
+            PrintfPDF(tempData);
+          else
+            Alert.alert('Thất bại', `không thể in file pdf`);
+
       } }>
         <View style={[styles.btn, {backgroundColor: '#C0C0C0'}]}>
           <Text style={styles.btnText}>In</Text>
         </View>
       </TouchableOpacity>
-      
     </View>
   );
+
   //data
   const selectedData = dataDiary?.map((item, index) => [
     index,

@@ -29,14 +29,9 @@ const Form02adx01Diary = ({ navigation }) => {
   const {
     getDiaryForm0201,
     deleteForm0201Id,
-    dataInfShip,
     isLoggedIn,
     postForm0201,
     getDetailForm0201Id,
-    data0201,
-    setData0201,
-    checkViewPDF,
-    setCheckViewPDF,
   } = useContext(UserContext);
 
   const netInfo = useNetInfo();
@@ -322,6 +317,7 @@ const Form02adx01Diary = ({ navigation }) => {
       </TouchableOpacity>
     </View>
   );
+
   //data
   const selectedData = dataDiary?.map((item, index) => [
     index,
