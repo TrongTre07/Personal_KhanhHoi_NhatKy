@@ -352,11 +352,11 @@ export const ExportPDF = async (data) => {
         </html>`;
         const options = {
             html,
-            fileName: `${duLieu?.dairy_name}`,
+            fileName: `${duLieu?.dairyname}`,
             directory: 'pdf',
         };
         const file = await RNHTMLtoPDF.convert(options);
-        if(duLieu?.dairy_name!=='filemau'){
+        if(duLieu?.dairyname!=='filemau'){
             Alert.alert('Thành công', `PDF lưu tại ${file.filePath}`);
         }
         return true;

@@ -141,13 +141,13 @@ const Form03adx01Diary = ({ navigation }) => {
           let dataTemp;
           if (netInfo.isConnected) {
             dataTemp = await getDetailForm0301Id(id);
-            dataTemp.dairy_name = 'filemau';
+            dataTemp.dairyname = 'filemau';
           } else {
             const result = await Storage.getItem('form03adx01');
             if (result !== null) {
               const dataLocal = JSON.parse(result);
               dataTemp = dataLocal[index];
-              dataTemp.dairy_name = 'filemau';
+              dataTemp.dairyname = 'filemau';
             }
           }
           const result = await ExportPDF(dataTemp);

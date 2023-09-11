@@ -17,6 +17,8 @@ const UserProvider = ({children}) => {
   const [data0201, setData0201] = useState(data0201Empty);
 
   const [data0301, setData0301] = useState(data0301Empty);
+  const [data0401, setData0401] = useState([]);
+
   const [dataInfShip, setDataInfShip] = useState([]);
   const [token, setToken] = useState();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -381,6 +383,9 @@ const UserProvider = ({children}) => {
         setInitialTitle(response.data.dairyname);
         setData0301(await response.data);
         setIsLoading(false);
+        console.log('MODIFY:', JSON.stringify(response.data, null, 2));
+
+        return response.data;
       }
     } catch (error) {
       setIsLoading(false);
@@ -470,6 +475,100 @@ const UserProvider = ({children}) => {
   };
   //end
 
+  //form 0401
+  //get diary form
+  const getDiaryForm0401 = async () => {
+    try {
+      if (await Storage.getItem('token')) {
+        const response = await instance.get('api/FormAppendix/0401/getall');
+        return response.data;
+      }
+    } catch (error) {
+      if (error.response.status === 401) {
+        getAlert401();
+      }
+    }
+  };
+
+  //delete form
+  const deleteForm0401Id = async id => {
+    try {
+      if (id) {
+        await instance.post(`api/FormAppendix/0401/del/${id}`);
+      }
+    } catch (error) {
+      if (error.response.status === 401) {
+        getAlert401();
+      }
+      console.log('Delete ERROR: ', error);
+    }
+  };
+
+  //get form theo id
+  const getDetailForm0401Id = async id => {
+    try {
+      if (!id) {
+        setInitialTitle('');
+      }
+      if ((await Storage.getItem('token')) && id) {
+        const response = await instance.get(
+          `/api/FormAppendix/0401/getbyid/${id}`,
+        );
+
+        setInitialTitle(response.data.dairy_name);
+        setData0201(await response.data);
+        return response.data;
+      }
+    } catch (error) {
+      if (error.response.status === 401) {
+        getAlert401();
+      }
+      console.log('ERROR: ', error);
+    }
+  };
+
+  const postForm0401 = async obj => {
+    try {
+      setIsLoading(true);
+      const response = await instance.post('api/FormAppendix/0401/create', obj);
+
+      if (response.data == false) {
+        setIsErrorPost(true);
+      } else {
+        Alert.alert('Thành công', 'Bạn đã tạo thành công!', [
+          {
+            text: 'OK',
+            onPress: () => {
+              // setData0401(data0401Empty);
+              setGoBackAlert(true);
+            },
+          },
+        ]);
+      }
+      setIsLoading(false);
+      return response.data;
+    } catch (error) {
+      setIsLoading(false);
+      setIsErrorPost(true);
+
+      if (error.response.status === 401) {
+        getAlert401();
+      } else
+        Alert.alert('Lỗi', 'vui lòng vào ứng dụng lại!', [
+          {
+            text: 'OK',
+            onPress: () => {
+              RNRestart.restart();
+              // setIsErrorPost(false);
+            },
+          },
+        ]);
+      console.log('POST ERROR: ', error);
+    }
+  };
+
+  //end
+
   //check token
   const getAlert401 = () => {
     Alert.alert('Đã hết phiên đăng nhập!', 'Vui lòng đăng nhập lại', [
@@ -527,6 +626,13 @@ const UserProvider = ({children}) => {
       updateForm0301,
       data0301,
       setData0301,
+
+      data0401,
+      setData0401,
+      getDetailForm0401Id,
+      postForm0401,
+      deleteForm0401Id,
+      getDiaryForm0401,
     }),
     [
       checkViewPDF,
@@ -569,7 +675,15 @@ const UserProvider = ({children}) => {
       getDetailForm0301Id,
       postForm0301,
       data0301,
+      
       setData0301,
+
+      data0401,
+      setData0401,
+      getDetailForm0401Id,
+      postForm0401,
+      deleteForm0401Id,
+      getDiaryForm0401,
     ],
   );
 
