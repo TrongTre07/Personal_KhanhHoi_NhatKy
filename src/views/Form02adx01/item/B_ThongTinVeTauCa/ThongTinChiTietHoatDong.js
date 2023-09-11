@@ -33,7 +33,7 @@ const ThongTinChiTietHoatDong = ({selectedItem}) => {
   const [selectedItemIndex, setSelectedItemIndex] = useState(-1);
   const {data0201, setData0201} = useContext(UserContext);
   // console.log(JSON.stringify(data0201, null, 2));
-  if (selectedItem >= data0201.thongtintaudc_thumua.length) {
+  if (selectedItem >= data0201?.thongtintaudc_thumua?.length) {
     selectedItem--;
   }
   // const lastItem =

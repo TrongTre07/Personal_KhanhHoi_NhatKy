@@ -30,16 +30,7 @@ const AppNav = () => {
 
 const App = () => {
   return (
-    //   <UserProvider>
-    //   <FormProvider>
-    //     <View style={styles.container}>
-    //       {/* <AppNav /> */}
-    //       <PDF/>
-    //     </View>
-    //   </FormProvider>
-    // </UserProvider>
-
-    <UserProvider>
+      <UserProvider>
       <FormProvider>
         <View style={styles.container}>
           {/* <Form02ad01/> */}
@@ -48,6 +39,7 @@ const App = () => {
         </View>
       </FormProvider>
     </UserProvider>
+
   );
 };
 
