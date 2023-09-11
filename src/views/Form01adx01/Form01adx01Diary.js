@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import React, { useContext, useEffect, useState, useCallback } from 'react';
 import { UserContext } from '../../contexts/UserContext';
-import { ExportPDF } from './pdfForm01/ExportPDF';
+import  {ExportPDF}  from './pdfForm01/ExportPDF';
 import {
   Table,
   TableWrapper,
@@ -37,6 +37,8 @@ const Form01adx01Diary = ({ navigation }) => {
     getDetailFormId,
     data,
     setData,
+    checkViewPDF,
+    setCheckViewPDF,
   } = useContext(UserContext);
 
   const netInfo = useNetInfo();
@@ -99,42 +101,56 @@ const Form01adx01Diary = ({ navigation }) => {
 
 
   //tranh goi ham nhieu lan khi o ben ngoai
-  const [template, setTemplate] = useState(false);
-  const handleGeneratePDF = id => {
-    getDetailFormId(id);
+  // const [template, setTemplate] = useState(false);
+  // const handleGeneratePDF = id => {
+  //   getDetailFormId(id);
     
-    if (netInfo.isConnected) {
-      setTemplate(true);
-    } else {
-      // Handle PDF generation locally without internet
-      const formIndex = dataDiary.findIndex(item => item.id === id);
-      if (formIndex !== -1) {
-        const formData = dataDiary[formIndex];
-        ExportPDF(formData); // Assuming ExportPDF generates the PDF
-      }
-    }
-  };
+  //   if (netInfo.isConnected) {
+  //     setTemplate(true);
+  //   } else {
+  //     // Handle PDF generation locally without internet
+  //     const formIndex = dataDiary.findIndex(item => item.id === id);
+  //     if (formIndex !== -1) {
+  //       const formData = dataDiary[formIndex];
+  //       ExportPDF(formData); // Assuming ExportPDF generates the PDF
+  //     }
+  //   }  
+  // };
+  // let checkForm=false;
+  // const [checkForm, setCheckForm] = useState(false);
+  // useEffect(() => {
+  //   if (data && template) {
+  //     let dataTemp = data;
+  //     if(checkForm==true){
+  //       dataTemp= {...data, dairy_name: 'filemau'};
+  //       setCheckForm(false);
+  //       setTimeout(() => {
+  //         navigation.navigate('ViewPDF');
+  //       }, 2000);
+  //     }
+  //     ExportPDF(dataTemp);
+  //     setTemplate(false);
 
-  useEffect(() => {
-    if (data && template) {
-      ExportPDF(data);
-      setTemplate(false);
-    }
-  }, [data, setTemplate]);
+  //   }
+  //   // checkForm=false;
+  // }, [data, setTemplate]);
 
-// dùng useEffect data để in
-  const [printf, setPrintf] = useState(false);
-  const handerlePrintPDF = (id) => {
-    getDetailFormId(id);
-    setPrintf(true);
-  };
 
-  useEffect(() => {
-    if (data && printf) {
-      PrintfPDF(data);
-      setPrintf(false);
-    }
-  }, [data, setPrintf]);
+
+
+// // dùng useEffect data để in
+//   const [printf, setPrintf] = useState(false);
+//   const handerlePrintPDF = (id) => {
+//     getDetailFormId(id);
+//     setPrintf(true);
+//   };
+
+//   useEffect(() => {
+//     if (data && printf) {
+//       PrintfPDF(data);
+//       setPrintf(false);
+//     }
+//   }, [data, setPrintf]);
 
   const getDataLocal = async () => {
     const result = await Storage.getItem('form01adx01');
@@ -206,12 +222,26 @@ const Form01adx01Diary = ({ navigation }) => {
     <View style={styles.boxbtn}>
       <TouchableOpacity
         // disabled={true}
-        onPress={() => {
-          if(!netInfo.isConnected){
-            ToastAndroid.show('Vui lòng kết nối internet.', ToastAndroid.SHORT);
-            return; 
+        onPress={async () => {
+          let dataTemp;
+          if(netInfo.isConnected){
+            dataTemp = await getDetailFormId(id);
+            dataTemp.dairy_name= 'filemau';
+
+          }else{
+            const result = await Storage.getItem('form01adx01');
+            if (result !== null) {
+              const dataLocal = JSON.parse(result);
+              dataTemp= dataLocal[index];
+              dataTemp.dairy_name= 'filemau';
+            }
           }
-          navigation.navigate('ViewPDF', { id: id, data: dataDiary });
+          const result = await ExportPDF(dataTemp);
+          result?navigation.navigate('ViewPDF'): Alert.alert('Thất bại', `không thể xem file pdf`);
+          // setCheckForm(true);
+          // handleGeneratePDF(id);
+
+
         }}>
         <View style={[styles.btn, { backgroundColor: '#99FF33' }]}>
           <Text style={styles.btnText}>Xem</Text>
@@ -224,12 +254,18 @@ const Form01adx01Diary = ({ navigation }) => {
         </View>
       </TouchableOpacity>
       <TouchableOpacity
-        onPress={() => {
-          if(!netInfo.isConnected){
-            ToastAndroid.show('Vui lòng kết nối internet.', ToastAndroid.SHORT);
-            return; 
+        onPress={ async () => {
+          let tempData;
+          if(netInfo.isConnected){
+            tempData = await getDetailFormId(id); 
+          }else{
+            const result = await Storage.getItem('form01adx01');
+            if (result !== null) {
+              const dataLocal = JSON.parse(result);
+              tempData= dataLocal[index];
+            }
           }
-          handleGeneratePDF(id);
+          ExportPDF(tempData);
         }}>
         <View style={[styles.btn, { backgroundColor: '#FF99FF' }]}>
           <Text style={styles.btnText}>Tải xuống</Text>
@@ -240,12 +276,28 @@ const Form01adx01Diary = ({ navigation }) => {
           <Text style={styles.btnText}>Xoá</Text>
         </View>
       </TouchableOpacity>
-      <TouchableOpacity onPress={() =>{
-          if(!netInfo.isConnected){
-            ToastAndroid.show('Vui lòng kết nối internet.', ToastAndroid.SHORT);
-            return; 
+      <TouchableOpacity onPress={async () =>{
+          // if(!netInfo.isConnected){
+          //   ToastAndroid.show('Vui lòng kết nối internet.', ToastAndroid.SHORT);
+          //   return; 
+          // }
+          // handerlePrintPDF(id)
+
+          let tempData;
+          if(netInfo.isConnected){
+            tempData = await getDetailFormId(id);
+          }else{
+            const result = await Storage.getItem('form01adx01');
+            if (result !== null) {
+              const dataLocal = JSON.parse(result);
+              tempData= dataLocal[index];
+            }
           }
-          handerlePrintPDF(id)
+          // console.log('tempData: ', tempData);
+          if(tempData)
+            PrintfPDF(tempData);
+          else
+            Alert.alert('Thất bại', `không thể in file pdf`);
       } }>
         <View style={[styles.btn, {backgroundColor: '#C0C0C0'}]}>
           <Text style={styles.btnText}>In</Text>

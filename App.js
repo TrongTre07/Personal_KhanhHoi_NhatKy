@@ -7,12 +7,10 @@ import 'react-native-gesture-handler';
 
 import {FormProvider} from './src/contexts/FormContext';
 import AppNavigation from './src/views/Navigations/AppNavigation';
-import KetQuaThuMua from './src/views/Form02adx01/KetQuaThuMua';
 
 import Form02ad01 from './src/views/Form02adx01/Form02adx01';
 import ThongTinVeCacTau from './src/views/Form02adx01/item/ThongTinVeCacTau';
 import ThongTinChiTietHoatDong from './src/views/Form02adx01/item/B_ThongTinVeTauCa/ThongTinChiTietHoatDong';
-import {UserForm0201Provider} from './src/contexts/UserForm0201Context';
 import TongCucThuySanView from './src/views/Form02adx01/item/TongCucThuySanView';
 const AppNav = () => {
   const {isLoggedIn, setIsLoggedIn} = useContext(UserContext);
@@ -42,8 +40,9 @@ const App = () => {
     <UserProvider>
       <FormProvider>
         <View style={styles.container}>
-          {/* <ThongTinChiTietHoatDong /> */}
-          <AppNav />
+          {/* <Form02ad01/> */}
+          <AppNav />  
+          {/* <TextWebView/> */}
         </View>
       </FormProvider>
     </UserProvider>

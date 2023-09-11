@@ -23,6 +23,7 @@ const UserProvider = ({children}) => {
   const [isErrorPost, setIsErrorPost] = useState(false);
   const [initialTitle, setInitialTitle] = useState('');
   const [goBackAlert, setGoBackAlert] = useState(false);
+  const [checkViewPDF, setCheckViewPDF] = useState(false);
 
   const login = async (username, password) => {
     try {
@@ -160,6 +161,7 @@ const UserProvider = ({children}) => {
 
         setInitialTitle(response.data.dairy_name);
         setData(await response.data);
+        return response.data;
       }
     } catch (error) {
       if (error.response.status === 401) {
@@ -246,8 +248,8 @@ const UserProvider = ({children}) => {
 
         setInitialTitle(response.data.dairy_name);
         setData0201(await response.data);
-        console.log('MODIFY:', JSON.stringify(response.data, null, 2));
         setIsLoading(false);
+        return response.data;
       }
     } catch (error) {
       if (error.response.status === 401) {
@@ -277,7 +279,6 @@ const UserProvider = ({children}) => {
         ]);
       }
       setIsLoading(false);
-
       return response.data;
     } catch (error) {
       setIsLoading(false);
@@ -402,6 +403,8 @@ const UserProvider = ({children}) => {
 
   const contextValues = useMemo(
     () => ({
+      checkViewPDF,
+      setCheckViewPDF,
       isLoggedIn,
       setIsLoggedIn,
       login,
@@ -429,6 +432,7 @@ const UserProvider = ({children}) => {
       getDiaryForm0201,
       deleteForm0201Id,
       getDetailForm0201Id,
+      postForm0201,
       data0201,
       setData0201,
       // data0201Empty,
@@ -441,6 +445,8 @@ const UserProvider = ({children}) => {
       setData0301,
     }),
     [
+      checkViewPDF,
+      setCheckViewPDF,
       isLoggedIn,
       setIsLoggedIn,
       login,
@@ -468,6 +474,7 @@ const UserProvider = ({children}) => {
       getDiaryForm0201,
       deleteForm0201Id,
       getDetailForm0201Id,
+      postForm0201,
       data0201,
       setData0201,
       // data0201Empty,

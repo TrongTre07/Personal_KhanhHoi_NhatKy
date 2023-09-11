@@ -1,12 +1,12 @@
 import React, { useState, useContext } from 'react';
 import { Alert, Pressable, StyleSheet, Text, View } from 'react-native';
-import { FormContext } from '../contexts/FormContext';
-import { UserContext } from '../contexts/UserContext';
+import { UserContext } from '../../../contexts/UserContext';
 import RNHTMLtoPDF from 'react-native-html-to-pdf';
 import { checkUndefine } from './checkUndefine';
 
 export const ExportPDF = async (data) => {
     
+    // const {checkViewPDF,setCheckViewPDF} = useContext(UserContext);
     const duLieu = checkUndefine(data)
     let count = 1;
     let countfirst = 1;
@@ -772,9 +772,15 @@ export const ExportPDF = async (data) => {
             directory: 'pdf',
         };
         const file = await RNHTMLtoPDF.convert(options);
-        Alert.alert('Thành công', `PDF lưu tại ${file.filePath}`);
+        if(duLieu?.dairy_name!=='filemau'){
+            Alert.alert('Thành công', `PDF lưu tại ${file.filePath}`);
+        }
+        return true;
+        // setCheckViewPDF(false);
+
         // setIsLoading(false);
     } catch (error) {
+        return false;
         Alert.alert('Lỗiiiiiii', error.message);
     }
 };
