@@ -15,7 +15,7 @@ import CheckBox from '@react-native-community/checkbox';
 import moment from 'moment';
 const Table1 = ({ }) => {
   //data
-  const { dataInfShip, setData0401, data0401, setDataInfShip } = useContext(UserContext);
+  const { dataInfShip, setData0102, data0102, setDataInfShip } = useContext(UserContext);
   const netInfo = useNetInfo();
 
   // check ko có wifi thì lấy dataInfShip từ local
@@ -40,9 +40,9 @@ const Table1 = ({ }) => {
           <Text style={styles.text}>1. Họ và tên chủ tàu/Thuyền trưởng:</Text>
           <TextInput
             onChangeText={text => {
-              setData0401({ ...data0401, ten_chutau_thuyentruong: text });
+              setData0102({ ...data0102, ten_chutau_thuyentruong: text });
             }}
-            value={data0401?.ten_chutau_thuyentruong}
+            value={data0102?.ten_chutau_thuyentruong}
             style={[styles.input, styles.text]}
           />
           <Text style={styles.text}>;</Text>
@@ -54,9 +54,9 @@ const Table1 = ({ }) => {
         <Text style={styles.text}>2. Địa chỉ:</Text>
         <TextInput
           onChangeText={text => {
-            setData0401({ ...data0401, diachi: text });
+            setData0102({ ...data0102, diachi: text });
           }}
-          value={data0401?.diachi}
+          value={data0102?.diachi}
           style={[styles.input, styles.text]}
         />
       </View>
@@ -69,13 +69,13 @@ const Table1 = ({ }) => {
             <Text style={[styles.text]}>:</Text>
           </View>
           <Picker
-            selectedValue={data0401?.tau_bs}
+            selectedValue={data0102?.tau_bs}
             style={[styles.input]}
             onValueChange={(itemValue, itemIndex) => {
               if (itemValue) {
                 const dataInf = dataInfShip[itemIndex - 1];
-                setData0401({
-                  ...data0401,
+                setData0102({
+                  ...data0102,
                   ten_chutau: dataInf?.chutau,
                   tau_bs: dataInf?.tentau,
                   id_tau: dataInf?.idShip?.toString(),
@@ -111,9 +111,9 @@ const Table1 = ({ }) => {
             keyboardType="numeric"
             // editable={false}
             onChangeText={text => {
-              setData0401({ ...data0401, tau_tongcongsuatmaychinh: Number(text) });
+              setData0102({ ...data0102, tau_tongcongsuatmaychinh: Number(text) });
             }}
-            value={data0401?.tau_tongcongsuatmaychinh+''}
+            value={data0102?.tau_tongcongsuatmaychinh+''}
             style={[styles.input, styles.text]}
           />
           <Text style={styles.text}>CV</Text>
@@ -129,9 +129,9 @@ const Table1 = ({ }) => {
           keyboardType="numeric"
 
           onChangeText={text => {
-            setData0401({ ...data0401, tau_chieudailonnhat: Number(text) });
+            setData0102({ ...data0102, tau_chieudailonnhat: Number(text) });
           }}
-          value={data0401?.tau_chieudailonnhat+''}
+          value={data0102?.tau_chieudailonnhat+''}
           style={[styles.input, styles.text]}
         />
         <Text style={styles.text}>m; </Text>
@@ -144,9 +144,9 @@ const Table1 = ({ }) => {
           <TextInput
             // editable={false}
             onChangeText={text => {
-              setData0401({ ...data0401, nghe: text });
+              setData0102({ ...data0102, nghe: text });
             }}
-            value={data0401?.nghe}
+            value={data0102?.nghe}
             style={[styles.input, styles.text]}
           />
           <Text style={styles.text}>;</Text>
@@ -158,9 +158,9 @@ const Table1 = ({ }) => {
           keyboardType="numeric"
 
             onChangeText={text => {
-              setData0401({...data0401, tongsolaodong: Number(text)});
+              setData0102({...data0102, tongsolaodong: Number(text)});
             }}
-            value={data0401?.tongsolaodong.toString()}
+            value={data0102?.tongsolaodong.toString()}
             style={[styles.input, styles.text]}
           // editable={false}
           />
@@ -181,9 +181,9 @@ const Table1 = ({ }) => {
 
             // editable={false}
             onChangeText={text => {
-              setData0401({ ...data0401, songayhoatdong: Number(text) });
+              setData0102({ ...data0102, songayhoatdong: Number(text) });
             }}
-            value={data0401?.songayhoatdong.toString()}
+            value={data0102?.songayhoatdong.toString()}
             style={[styles.input, styles.text]}
           />
           <Text style={styles.text}>;</Text>
@@ -202,8 +202,8 @@ const Table1 = ({ }) => {
             Vịnh Bắc Bộ
           </Text>
           <CheckBox
-            value={data0401?.ngutruong_vinhbacbo}
-            onValueChange={value => setData0401({ ...data0401, ngutruong_vinhbacbo: value })}
+            value={data0102?.ngutruong_vinhbacbo}
+            onValueChange={value => setData0102({ ...data0102, ngutruong_vinhbacbo: value })}
             tintColors={{ true: 'gray', false: 'gray' }}
           />
         </View>
@@ -212,8 +212,8 @@ const Table1 = ({ }) => {
             Trung Bộ
           </Text>
           <CheckBox
-            value={data0401?.ngutruong_trungbo}
-            onValueChange={value => setData0401({ ...data0401, ngutruong_trungbo: value })}
+            value={data0102?.ngutruong_trungbo}
+            onValueChange={value => setData0102({ ...data0102, ngutruong_trungbo: value })}
             tintColors={{ true: 'gray', false: 'gray' }}
           />
         </View>
@@ -222,8 +222,8 @@ const Table1 = ({ }) => {
             Đông Nam Bộ
           </Text>
           <CheckBox
-            value={data0401?.ngutruong_dongnambo}
-            onValueChange={value => setData0401({ ...data0401, ngutruong_dongnambo: value })}
+            value={data0102?.ngutruong_dongnambo}
+            onValueChange={value => setData0102({ ...data0102, ngutruong_dongnambo: value })}
             tintColors={{ true: 'gray', false: 'gray' }}
           />
         </View>
@@ -232,8 +232,8 @@ const Table1 = ({ }) => {
             Tây Nam Bộ
           </Text>
           <CheckBox
-            value={data0401?.ngutruong_taynambo}
-            onValueChange={value => setData0401({ ...data0401, ngutruong_taynambo: value })}
+            value={data0102?.ngutruong_taynambo}
+            onValueChange={value => setData0102({ ...data0102, ngutruong_taynambo: value })}
             tintColors={{ true: 'gray', false: 'gray' }}
           />
         </View>
@@ -242,8 +242,8 @@ const Table1 = ({ }) => {
             Giữa Biển Đông
           </Text>
           <CheckBox
-            value={data0401?.ngutruong_giuabiendong}
-            onValueChange={value => setData0401({ ...data0401, ngutruong_giuabiendong: value })}
+            value={data0102?.ngutruong_giuabiendong}
+            onValueChange={value => setData0102({ ...data0102, ngutruong_giuabiendong: value })}
             tintColors={{ true: 'gray', false: 'gray' }}
           />
         </View>
@@ -259,8 +259,8 @@ const Table1 = ({ }) => {
             Ăn chia sản phẩm
             </Text>
             <CheckBox
-              value={data0401?.anchia}
-              onValueChange={value => setData0401({ ...data0401, anchia: value })}
+              value={data0102?.anchia}
+              onValueChange={value => setData0102({ ...data0102, anchia: value })}
               tintColors={{ true: 'gray', false: 'gray' }}
             />
           </View>
@@ -269,8 +269,8 @@ const Table1 = ({ }) => {
             Trả tiền trực tiếp
             </Text>
             <CheckBox
-              value={data0401?.tratientructiep}
-              onValueChange={value => setData0401({ ...data0401, tratientructiep: value })}
+              value={data0102?.tratientructiep}
+              onValueChange={value => setData0102({ ...data0102, tratientructiep: value })}
               tintColors={{ true: 'gray', false: 'gray' }}
             />
           </View>
@@ -284,9 +284,9 @@ const Table1 = ({ }) => {
           keyboardType="numeric"
 
             onChangeText={text => {
-              setData0401({ ...data0401, tongsanluong: Number(text) });
+              setData0102({ ...data0102, tongsanluong: Number(text) });
             }}
-            value={data0401?.tongsanluong.toString()}
+            value={data0102?.tongsanluong.toString()}
             style={[styles.input, styles.text]}
           />
           <Text style={styles.text}>kg </Text>

@@ -35,7 +35,7 @@ export const ExportPDF = async (data) => {
                     font-style: normal;
                     font-weight: bold;
                     text-decoration: none;
-                    font-size: 11pt;
+                    font-size: 13pt;
                     vertical-align: 11pt;
                 }
         
@@ -46,7 +46,7 @@ export const ExportPDF = async (data) => {
                     font-style: normal;
                     font-weight: bold;
                     text-decoration: none;
-                    font-size: 9pt;
+                    font-size: 11pt;
                 }
         
                 .s1 {
@@ -55,7 +55,7 @@ export const ExportPDF = async (data) => {
                     font-style: normal;
                     font-weight: bold;
                     text-decoration: none;
-                    font-size: 9pt;
+                    font-size: 11pt;
                 }
         
                 .s2 {
@@ -63,7 +63,7 @@ export const ExportPDF = async (data) => {
                     font-family: "Times New Roman", serif;
                     font-style: normal;
                     font-weight: normal;
-                    font-size: 9pt;
+                    font-size: 11pt;
                 }
         
                 .s3 {
@@ -72,7 +72,7 @@ export const ExportPDF = async (data) => {
                     font-style: italic;
                     font-weight: normal;
                     text-decoration: none;
-                    font-size: 9pt;
+                    font-size: 11pt;
                 }
         
                 .s4 {
@@ -81,7 +81,7 @@ export const ExportPDF = async (data) => {
                     font-style: normal;
                     font-weight: bold;
                     text-decoration: none;
-                    font-size: 9pt;
+                    font-size: 11pt;
                     word-wrap: break-word;
                 }
         
@@ -91,7 +91,7 @@ export const ExportPDF = async (data) => {
                     font-style: normal;
                     font-weight: normal;
                     text-decoration: none;
-                    font-size: 9pt;
+                    font-size: 11pt;
                     word-wrap: break-word;
                 }
         
@@ -101,7 +101,7 @@ export const ExportPDF = async (data) => {
                     font-style: italic;
                     font-weight: normal;
                     text-decoration: none;
-                    font-size: 9pt;
+                    font-size: 11pt;
                 }
         
                 table,

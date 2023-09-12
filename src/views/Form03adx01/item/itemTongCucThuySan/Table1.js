@@ -227,7 +227,7 @@ const Table1 = ({}) => {
             onValueChange={value =>
               setData0301({...data0301, ngutruong_dongnambo: value})
             }
-            tintColors={{true: '#gray', false: 'gray'}}
+            tintColors={{true: 'gray', false: 'gray'}}
           />
         </View>
         <View style={{flexDirection: 'row', alignItems: 'center'}}>

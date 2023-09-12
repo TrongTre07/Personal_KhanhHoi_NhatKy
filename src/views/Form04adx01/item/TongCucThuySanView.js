@@ -68,18 +68,22 @@ const TongCucThuySanView = () => {
             <TextInput
               keyboardType="numeric"
               value={data0401?.chuyenbien_so?.toString()}
-              style={[styles.txtHeader, { fontSize:16,fontWeight: "400" }]}
+              style={[styles.txtHeader,{ fontSize:16,fontWeight: "400",height:30, paddingVertical:0, borderColor: 'gray',
+              borderBottomWidth: 1,
+              borderStyle: 'dotted', }]}
               onChangeText={text =>
-                setData0401({ ...data0401, chuyenbien_so: text })
+                setData0401({ ...data0401, chuyenbien_so: Number(text) })
               }
             />
 
             <Text style={[styles.txtHeader, { fontWeight: "400" }]}>/năm</Text>
             <TextInput
               keyboardType="numeric"
-              style={styles.txtHeader}
+              style={[styles.txtHeader,{   height:30,paddingVertical:0, fontWeight: "400", borderColor: 'gray',
+              borderBottomWidth: 1,
+              borderStyle: 'dotted',}]}
               value={data0401?.nam?.toString()}
-              onChangeText={text => setData0401({ ...data0401, nam: text })}
+              onChangeText={text => setData0401({ ...data0401, nam: Number(text) })}
             />
         </View>
           <View

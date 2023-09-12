@@ -14,6 +14,7 @@ import ThongTinChiTietHoatDong from './src/views/Form02adx01/item/B_ThongTinVeTa
 import Form03ad01 from './src/views/Form03adx01/Form03adx01';
 import ChiTietNhomKhaiThac from './src/views/Form03adx01/item/itemTongCucThuySan/ChiTietNhomKhaiThac';
 import TongCucThuySanView from './src/views/Form03adx01/item/TongCucThuySanView';
+import Form01ad02 from './src/views/Form01adx02/Form01adx02';
 const AppNav = () => {
   const {isLoggedIn, setIsLoggedIn} = useContext(UserContext);
   // if(AsyncStorage.getItem('token'))
@@ -33,12 +34,11 @@ const App = () => {
       <UserProvider>
       <FormProvider>
         <View style={styles.container}>
-          {/* <Form02ad01/> */}
           <AppNav />
-          {/* <TextWebView/> */}
         </View>
       </FormProvider>
     </UserProvider>
+    
 
   );
 };

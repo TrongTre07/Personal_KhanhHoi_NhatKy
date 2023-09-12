@@ -11,6 +11,7 @@ import Form02adx01Navigation from './Form02adx01Navigation';
 import ViewPDF from '../Form01adx01/pdfForm01/ViewPDF';
 import Form03adx01Navigation from './Form03adx01Navigation';
 import Form04adx01Navigation from './Form04adx01Navigation';
+import Form01adx02Navigation from './Form01adx02Navigation';
 
 
 const Stack = createStackNavigator();
@@ -26,7 +27,10 @@ const MainNavigation = () => {
         options={{
           drawerType: 'front',
           headerTitle: HeaderScreen,
-          title: "Nhật ký khai thác thủy sản",
+          title: () => (
+            <Text style={styles.txt}>
+              01-PLI. Nhật ký khai thác thủy sản
+            </Text>),
 
         }}
       />
@@ -36,7 +40,10 @@ const MainNavigation = () => {
         options={{
           drawerType: 'front',
           headerTitle: HeaderScreen,
-          title: "Nhật ký thu mua, chuyển tải thủy sản",
+          title: () => (
+            <Text style={styles.txt}>
+              02-PLI. Nhật ký thu mua, chuyên tải thủy sản
+            </Text>),
 
         }}
       />
@@ -46,7 +53,10 @@ const MainNavigation = () => {
         options={{
           drawerType: 'front',
           headerTitle: HeaderScreen,
-          title: "Báo cáo khai thác thuỷ sản",
+          title: () => (
+            <Text style={styles.txt}>
+              03-PLI. Báo cáo khai thác thủy sản
+            </Text>)
 
         }}
       />
@@ -56,19 +66,24 @@ const MainNavigation = () => {
         options={{
           drawerType: 'front',
           headerTitle: HeaderScreen,
-          title: "Báo cáo thăm dò, tìm kiếm, dẫn dụ nguồn lợi thủy sản",
+          title: () => (
+            <Text style={styles.txt}>
+              04-PLI. Báo cáo thăm dò, tìm kiếm, dẫn dụ nguồn lợi thủy sản
+            </Text>)
 
         }}
       />
 
       <Drawer.Screen
         name="Form01adx02Navigation"
-        component={Form04adx01Navigation}
+        component={Form01adx02Navigation}
         options={{
           drawerType: 'front',
           headerTitle: HeaderScreen,
-          title: "Báo cáo thăm dò, tìm kiếm, dẫn dụ nguồn lợi thủy sản",
-
+          title: () => (
+            <Text style={styles.txt}>
+              01-PLII. Báo cáo kết quả rà soát cảng cá chỉ định có đủ hệ thống xác nhận nguồn gốc thủy sản từ khai thác
+            </Text>)
         }}
       />
 
@@ -78,7 +93,10 @@ const MainNavigation = () => {
         options={{
           drawerType: 'front',
           headerTitle: HeaderScreen,
-          title: "Báo cáo kết quả rà soát cảng cá chỉ định có đủ hệ thống xác nhận nguồn gốc thủy sản từ khai thác",
+          title: () => (
+            <Text style={styles.txt}>
+              02-PLII. Giấy biên nhận thủy sản bốc dỡ qua cảng
+            </Text>)
 
         }}
       />
@@ -123,5 +141,12 @@ const AppNavigation = () => {
 
 export default AppNavigation;
 
+const styles = StyleSheet.create({
+  txt: {
+    fontSize: 16,
+    textAlign: 'justify',
+    color: '#000',
+  }
+})
 
 

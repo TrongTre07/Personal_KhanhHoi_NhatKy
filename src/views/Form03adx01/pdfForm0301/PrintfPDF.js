@@ -34,7 +34,7 @@ export const PrintfPDF = async (data) => {
                         font-style: normal;
                         font-weight: bold;
                         text-decoration: none;
-                        font-size: 11pt;
+                        font-size: 13pt;
                         vertical-align: 11pt;
                     }
             
@@ -45,7 +45,7 @@ export const PrintfPDF = async (data) => {
                         font-style: normal;
                         font-weight: bold;
                         text-decoration: none;
-                        font-size: 9pt;
+                        font-size: 11pt;
                     }
             
                     .s1 {
@@ -54,7 +54,7 @@ export const PrintfPDF = async (data) => {
                         font-style: normal;
                         font-weight: bold;
                         text-decoration: none;
-                        font-size: 9pt;
+                        font-size: 11pt;
                     }
             
                     .s2 {
@@ -62,7 +62,7 @@ export const PrintfPDF = async (data) => {
                         font-family: "Times New Roman", serif;
                         font-style: normal;
                         font-weight: normal;
-                        font-size: 9pt;
+                        font-size: 11pt;
                     }
             
                     .s3 {
@@ -71,7 +71,7 @@ export const PrintfPDF = async (data) => {
                         font-style: italic;
                         font-weight: normal;
                         text-decoration: none;
-                        font-size: 9pt;
+                        font-size: 11pt;
                     }
             
                     .s4 {
@@ -80,7 +80,7 @@ export const PrintfPDF = async (data) => {
                         font-style: normal;
                         font-weight: bold;
                         text-decoration: none;
-                        font-size: 9pt;
+                        font-size: 11pt;
                         word-wrap: break-word;
                     }
             
@@ -90,7 +90,7 @@ export const PrintfPDF = async (data) => {
                         font-style: normal;
                         font-weight: normal;
                         text-decoration: none;
-                        font-size: 9pt;
+                        font-size: 11pt;
                         word-wrap: break-word;
                     }
             
@@ -100,7 +100,7 @@ export const PrintfPDF = async (data) => {
                         font-style: italic;
                         font-weight: normal;
                         text-decoration: none;
-                        font-size: 9pt;
+                        font-size: 11pt;
                     }
             
                     table,
@@ -177,9 +177,14 @@ export const PrintfPDF = async (data) => {
             
             <body>
                 <div>
-                    <h1 style="padding-top: 20pt; text-align:end;width: 100%;">
-                        Mẫu số 03 (Phụ lục I)
-                    </h1>
+                    <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 20pt;">
+                        <h1 style="margin: 0;">
+                            Số 21 /2018/TT-BNNPTNT
+                        </h1>
+                        <h1 style="margin: 0;">
+                            Mẫu số 03 (Phụ lục I)
+                        </h1>
+                    </div>  
                     <h1 style="padding-top: 6pt; text-align: center;width: 100%;">
                         MẪU BÁO CÁO KHAI THÁC THỦY SẢN
                     </h1>
