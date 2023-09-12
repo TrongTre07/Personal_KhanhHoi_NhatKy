@@ -13,6 +13,8 @@ import data0401Empty from '../views/Form04adx01/models/data0401';
 
 import data0102Empty from '../views/Form01adx02/models/data0102';
 
+import data0202Empty from '../views/Form02adx02/models/data0202';
+
 const UserContext = createContext();
 
 const UserProvider = ({children}) => {
@@ -24,6 +26,9 @@ const UserProvider = ({children}) => {
   const [data0401, setData0401] = useState(data0401Empty);
 
   const [data0102, setData0102] = useState(data0102Empty);
+
+  const [data0202, setData0202] = useState(data0202Empty);
+
 
   const [dataInfShip, setDataInfShip] = useState([]);
   const [token, setToken] = useState();
@@ -521,7 +526,7 @@ const UserProvider = ({children}) => {
           `/api/FormAppendix/0401/getbyid/${id}`,
         );
 
-        setInitialTitle(response.data.dairy_name);
+        setInitialTitle(response.data.dairyname);
         setData0401(await response.data);
         return response.data;
       }
@@ -651,7 +656,7 @@ const UserProvider = ({children}) => {
           `/api/FormAppendix/bcrs/getbyid/${id}`,
         );
 
-        setInitialTitle(response.data.dairy_name);
+        setInitialTitle(response.data.dairyname);
         setData0102(await response.data);
         return response.data;
       }
@@ -707,7 +712,137 @@ const UserProvider = ({children}) => {
     try {
       setIsLoading(true);
       const response = await instance.post(
-        `/api/FormAppendix/0102/update`,
+        `/api/FormAppendix/bcrs/update`,
+        obj,
+      );
+      if (response.data == true) {
+        setIsLoading(false);
+        Alert.alert('Thành công', 'Bạn đã cập nhật thành công!', [
+          {
+            text: 'OK',
+            onPress: () => {
+              // setIsErrorPost(false);
+              setGoBackAlert(true);
+            },
+          },
+        ]);
+      }
+    } catch (error) {
+      setIsLoading(false);
+
+      console.log('ERROR UPDATE: ', error);
+      if (error.response.status === 401) {
+        getAlert401();
+      } else
+        Alert.alert('Lỗi', 'Không thể cập nhật!', [
+          {
+            text: 'OK',
+            onPress: () => {
+              // setIsErrorPost(false);
+            },
+          },
+        ]);
+    }
+  };
+  //end
+
+  //form 0202
+  //get diary form
+  const getDiaryForm0202 = async () => {
+    try {
+      if (await Storage.getItem('token')) {
+        const response = await instance.get('api/FormAppendix/0202/getall');
+        return response.data;
+      }
+    } catch (error) {
+      if (error.response.status === 401) {
+        getAlert401();
+      }
+    }
+  };
+
+  //delete form
+  const deleteForm0202Id = async id => {
+    try {
+      if (id) {
+        await instance.post(`api/FormAppendix/0202/del/${id}`);
+      }
+    } catch (error) {
+      if (error.response.status === 401) {
+        getAlert401();
+      }
+      console.log('Delete ERROR: ', error);
+    }
+  };
+
+  //get form theo id
+  const getDetailForm0202Id = async id => {
+    try {
+      if (!id) {
+        setInitialTitle('');
+      }
+      if ((await Storage.getItem('token')) && id) {
+        const response = await instance.get(
+          `/api/FormAppendix/bcrs/getbyid/${id}`,
+        );
+
+        setInitialTitle(response.data.dairyname);
+        setData0102(await response.data);
+        return response.data;
+      }
+    } catch (error) {
+      if (error.response.status === 401) {
+        getAlert401();
+      }
+      console.log('ERROR: ', error);
+    }
+  };
+
+  const postForm0202 = async obj => {
+    try {
+      setIsLoading(true);
+      const response = await instance.post('api/FormAppendix/0202/create', obj);
+
+      if (response.data == false) {
+        setIsErrorPost(true);
+      } else {
+        Alert.alert('Thành công', 'Bạn đã tạo thành công!', [
+          {
+            text: 'OK',
+            onPress: () => {
+              setData0102(data0102Empty);
+              setGoBackAlert(true);
+            },
+          },
+        ]);
+      }
+      setIsLoading(false);
+      return response.data;
+    } catch (error) {
+      setIsLoading(false);
+      setIsErrorPost(true);
+
+      if (error.response.status === 401) {
+        getAlert401();
+      } else
+        Alert.alert('Lỗi', 'vui lòng vào ứng dụng lại!', [
+          {
+            text: 'OK',
+            onPress: () => {
+              RNRestart.restart();
+              // setIsErrorPost(false);
+            },
+          },
+        ]);
+      console.log('POST ERROR: ', error);
+    }
+  };
+  const updateForm0202 = async obj => {
+    // console.log(JSON.stringify(obj, null, 2));
+    try {
+      setIsLoading(true);
+      const response = await instance.post(
+        `/api/FormAppendix/0202/update`,
         obj,
       );
       if (response.data == true) {
@@ -814,6 +949,14 @@ const UserProvider = ({children}) => {
       deleteForm0102Id,
       getDiaryForm0102,
       updateForm0102,
+
+      data0202,
+      setData0202,
+      getDetailForm0202Id,
+      postForm0202,
+      deleteForm0202Id,
+      getDiaryForm0202,
+      updateForm0202,
     }),
     [
       checkViewPDF,
@@ -873,7 +1016,15 @@ const UserProvider = ({children}) => {
       postForm0102,
       deleteForm0102Id,
       getDiaryForm0102,
-      updateForm0102
+      updateForm0102,
+
+      data0202,
+      setData0202,
+      getDetailForm0202Id,
+      postForm0202,
+      deleteForm0202Id,
+      getDiaryForm0202,
+      updateForm0202,
     ],
   );
 

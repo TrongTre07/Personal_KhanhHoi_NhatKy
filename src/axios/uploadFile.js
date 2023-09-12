@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { Alert } from 'react-native';
 import RNFS from 'react-native-fs'; // Import thư viện RNFS
 
 const uploadFile = async (filePath) => {
@@ -43,8 +44,10 @@ const uploadFile = async (filePath) => {
       
         const response = await axios.post(baseURL, formData, config);
         console.log(response.data);
+        Alert.alert('Thành công', `Đã xuất file pdf`);
   
     } catch (error) {
+      Alert.alert('Thất bại', `không thể xuất file pdf`);
       console.log('error', error.message);
     }
   };

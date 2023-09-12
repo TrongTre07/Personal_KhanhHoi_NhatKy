@@ -12,22 +12,33 @@ import {
 import React, { useContext, useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { UserContext } from '../../../../contexts/UserContext';
-import data0201Empty from '../../models/data0102';
-const ChiTietNhomKhaiThac = () => {
+import data0202Empty from '../../models/data0202';
+const TableCangca2 = () => {
   const [selectedItemIndex, setSelectedItemIndex] = useState(-1);
-  const { data0102, setData0102 } = useContext(UserContext);
+  const { data0202, setData0202 } = useContext(UserContext);
 
   const handleThemDong = () => {
     try {
-      let objAdd = data0201Empty.cangca_ds_denghi[0];
+      const objAdd =       {
+        tencang: "",
+        loaicangca: "",
+        diachi: '',
+        dienthoai: '',
+        lydokhaitru: '',
+        ghichu: '',
+        isdelete: false
+      }
+      // const objAdd = data0202Empty.cangca_ds_khaitru[0];
+      // console.log('objAdd: ',data0202Empty.cangca_ds_khaitru[0]);
+
       // console.log('objAdd okokokokoko: ', objAdd);
-      let updatedData0102 = { ...data0102 };
+      let updatedData0202 = { ...data0202 };
       // objAdd = {...objAdd, id: Math.random(1,9)};
-      // if (updatedData0102.cangca_ds_denghi) {
-      //   updatedData0102.cangca_ds_denghi.push(objAdd);
+      // if (updatedData0202.cangca_ds_khaitru) {
+      //   updatedData0202.cangca_ds_khaitru.push(objAdd);
       // }
-      updatedData0102.cangca_ds_denghi.push({...objAdd})
-      setData0102(updatedData0102);
+      updatedData0202.cangca_ds_khaitru.push({ ...objAdd })
+      setData0202(updatedData0202);
     } catch (error) {
       console.log('ERROR ', error);
       ToastAndroid.show('Lỗi', ToastAndroid.SHORT);
@@ -36,13 +47,13 @@ const ChiTietNhomKhaiThac = () => {
 
   const handleXoaDong = () => {
     try {
-      let lastObject = data0102.cangca_ds_denghi.length;
+      let lastObject = data0202.cangca_ds_khaitru.length;
       if (lastObject == 1) {
         Alert.alert('Không thể xóa hết thông tin', '', [{ text: 'OK' }]);
         return;
       }
 
-      data0102.cangca_ds_denghi.map(item => {
+      data0202.cangca_ds_khaitru.map(item => {
         if (item.hasOwnProperty('isdelete') && item.isdelete == true) {
           lastObject -= 1;
         }
@@ -52,34 +63,34 @@ const ChiTietNhomKhaiThac = () => {
         return;
       }
 
-      let itemToRemove = data0102.cangca_ds_denghi[selectedItemIndex];
+      let itemToRemove = data0202.cangca_ds_khaitru[selectedItemIndex];
       if (itemToRemove) {
         if (itemToRemove.hasOwnProperty('isdelete')) {
           itemToRemove.isdelete = true;
           // Update data0202 with the modified itemToRemove
-          let tempData= {...data0102};
-          tempData.cangca_ds_denghi[selectedItemIndex] = itemToRemove;
-          // const updatedData0102 = {
-          //   ...data0102,
-          //   cangca_ds_denghi: data0102.cangca_ds_denghi.map(item =>
+          let tempData = { ...data0202 };
+          tempData.cangca_ds_khaitru[selectedItemIndex] = itemToRemove;
+          // const updatedData0202 = {
+          //   ...data0202,
+          //   cangca_ds_khaitru: data0202.cangca_ds_khaitru.map(item =>
           //     item.id === itemToRemove.id ? itemToRemove : item,
           //   ),
           // };
-          // const updatedData0102 = tempData;
-          setData0102(tempData);
-        } 
+          // const updatedData0202 = tempData;
+          setData0202(tempData);
+        }
         // else {
         //   // Item doesn't have isdelete field, remove it by filtering
-        //   const updatedKhaiThac = data0102.cangca_ds_denghi.filter(
+        //   const updatedKhaiThac = data0202.cangca_ds_khaitru.filter(
         //     item => item.id !== itemToRemove.id,
         //   );
 
-        //   const updatedData0102 = {
-        //     ...data0102,
-        //     cangca_ds_denghi: updatedKhaiThac,
+        //   const updatedData0202 = {
+        //     ...data0202,
+        //     cangca_ds_khaitru: updatedKhaiThac,
         //   };
 
-        //   setData0102(updatedData0102);
+        //   setData0202(updatedData0202);
         // }
       } else {
         Alert.alert('Cần chọn dòng', '', [{ text: 'OK' }]);
@@ -90,22 +101,6 @@ const ChiTietNhomKhaiThac = () => {
     }
   };
 
-  const calculateTongKhoiLuong = sanluong => {
-    try {
-      let total = 0;
-
-      data0102.cangca_ds_denghi.forEach(item => {
-        if (item[sanluong] && item.isdelete != true) {
-          total += parseFloat(item[sanluong]); // Convert to float to ensure proper addition
-        }
-      });
-
-      return total;
-    } catch (error) {
-      console.log('ERROR ', error);
-      ToastAndroid.show('Lỗi', ToastAndroid.SHORT);
-    }
-  };
 
   const handleChonItem = index => {
     console.log('index; ', index);
@@ -113,17 +108,17 @@ const ChiTietNhomKhaiThac = () => {
   };
 
   const TenLoaiThuySanItem = ({ item, index }) => {
-    // console.log("data0102", data0102);
+    // console.log("data0202", data0202);
 
     let countIsDelete = 0;
     let rootIndex = index;
-    let checkIsDeleted;
     if (item?.isdelete == true) {
-      checkIsDeleted = true;
+      return null;
+
     } else {
       for (i = 0; i <= index; i++) {
         if (
-          data0102.cangca_ds_denghi[i].isdelete 
+          data0202.cangca_ds_khaitru[i].isdelete
         ) {
           countIsDelete++;
         }
@@ -132,9 +127,6 @@ const ChiTietNhomKhaiThac = () => {
     }
 
     const isSelected = selectedItemIndex === index;
-    if (checkIsDeleted) {
-      return null;
-    }
 
     return (
       <Pressable
@@ -151,9 +143,9 @@ const ChiTietNhomKhaiThac = () => {
           value={item.tencang}
           // onChangeText={text => handleChangeTenLoai(text, item.id)}
           onChangeText={text => {
-            let tempdata0102 = { ...data0102 };
-            tempdata0102.cangca_ds_denghi[index].tencang = text;
-            setData0102(tempdata0102);
+            let tempdata0202 = { ...data0202 };
+            tempdata0202.cangca_ds_khaitru[index].tencang = text;
+            setData0202(tempdata0202);
           }}
         />
 
@@ -162,9 +154,9 @@ const ChiTietNhomKhaiThac = () => {
           value={item.loaicangca}
           // onChangeText={text => handleChangeTenLoai(text, item.id)}
           onChangeText={text => {
-            let tempdata0102 = { ...data0102 };
-            tempdata0102.cangca_ds_denghi[index].loaicangca = text;
-            setData0102(tempdata0102);
+            let tempdata0202 = { ...data0202 };
+            tempdata0202.cangca_ds_khaitru[index].loaicangca = text;
+            setData0202(tempdata0202);
           }}
         />
         <TextInput
@@ -172,9 +164,9 @@ const ChiTietNhomKhaiThac = () => {
           value={item.diachi}
           // onChangeText={text => handleChangeTenLoai(text, item.id)}
           onChangeText={text => {
-            let tempdata0102 = { ...data0102 };
-            tempdata0102.cangca_ds_denghi[index].diachi = text;
-            setData0102(tempdata0102);
+            let tempdata0202 = { ...data0202 };
+            tempdata0202.cangca_ds_khaitru[index].diachi = text;
+            setData0202(tempdata0202);
           }}
         />
         <TextInput
@@ -182,19 +174,19 @@ const ChiTietNhomKhaiThac = () => {
           value={item.dienthoai}
           // onChangeText={text => handleChangeTenLoai(text, item.id)}
           onChangeText={text => {
-            let tempdata0102 = { ...data0102 };
-            tempdata0102.cangca_ds_denghi[index].dienthoai = text;
-            setData0102(tempdata0102);
+            let tempdata0202 = { ...data0202 };
+            tempdata0202.cangca_ds_khaitru[index].dienthoai = text;
+            setData0202(tempdata0202);
           }}
         />
         <TextInput
           style={styles.textTenLoaiThuySan}
-          value={item.soquyetdinhmocang}
+          value={item.lydokhaitru}
           // onChangeText={text => handleChangeTenLoai(text, item.id)}
           onChangeText={text => {
-            let tempdata0102 = { ...data0102 };
-            tempdata0102.cangca_ds_denghi[index].soquyetdinhmocang = text;
-            setData0102(tempdata0102);
+            let tempdata0202 = { ...data0202 };
+            tempdata0202.cangca_ds_khaitru[index].lydokhaitru = text;
+            setData0202(tempdata0202);
           }}
         />
         <TextInput
@@ -202,9 +194,9 @@ const ChiTietNhomKhaiThac = () => {
           value={item.ghichu}
           // onChangeText={text => handleChangeTenLoai(text, item.id)}
           onChangeText={text => {
-            let tempdata0102 = { ...data0102 };
-            tempdata0102.cangca_ds_denghi[index].ghichu = text;
-            setData0102(tempdata0102);
+            let tempdata0202 = { ...data0202 };
+            tempdata0202.cangca_ds_khaitru[index].ghichu = text;
+            setData0202(tempdata0202);
           }}
         />
 
@@ -215,17 +207,38 @@ const ChiTietNhomKhaiThac = () => {
 
   return (
     <View style={{ flex: 1, backgroundColor: 'white' }}>
-      <Text
+      <View
         style={{
           marginHorizontal: 25,
-          fontWeight: 'bold',
-          fontSize: 20,
-          lineHeight: 28,
-          color: 'black',
-          marginVertical: 15,
-        }}>
-        1. Cảng cá đề nghị đưa vào danh sách cảng cá chỉ định:
-      </Text>
+          flexDirection: 'row',
+          width: '100%',
+          flexWrap: 'wrap',
+        }}
+      >
+        <Text
+          style={{
+            fontWeight: 'bold',
+            fontSize: 20,
+            lineHeight: 28,
+            color: 'black',
+          }}
+        >
+          2. Cảng cá đề nghị đưa khỏi danh sách cảng cá chỉ định:{' '}
+          <Text
+            style={{
+              fontWeight: 'normal',
+              fontStyle: 'italic',
+              fontSize: 20,
+              lineHeight: 28,
+              color: 'black',
+            }}
+          >
+            (Đối với cảng cá không đảm bảo đủ hệ thống xác nhận nguồn gốc thủy sản từ khai thác)
+          </Text>
+        </Text>
+      </View>
+
+
       <ScrollView>
         <ScrollView horizontal={true} style={{}}>
           <View style={{ flexDirection: 'column' }}>
@@ -240,19 +253,11 @@ const ChiTietNhomKhaiThac = () => {
               <Text style={styles.textTenLoaiThuySan}>Cảng cá loại</Text>
               <Text style={styles.textTenLoaiThuySan}>Địa chỉ</Text>
               <Text style={styles.textTenLoaiThuySan}>Điện thoại</Text>
-              <Text style={styles.textTenLoaiThuySan}>Số quyết định {`\n`} công bố mở cảng</Text>
+              <Text style={styles.textTenLoaiThuySan}>Lý do đề nghị đưa ra khỏi danh sách cảng chỉ định</Text>
               <Text style={styles.textTenLoaiThuySan}>Ghi chú</Text>
             </View>
 
-            {/* <FlatList
-          horizontal={false}
-          showsVerticalScrollIndicator={false}
-          data={data0102.cangca_ds_denghi}
-          renderItem={({item, index}) => TenLoaiThuySanItem({item, index})}
-          keyExtractor={item => item.id}
-        /> */}
-
-            {data0102.cangca_ds_denghi.map((item, index) =>
+            {data0202.cangca_ds_khaitru.map((item, index) =>
               TenLoaiThuySanItem({ item, index }),
             )}
           </View>
@@ -271,7 +276,7 @@ const ChiTietNhomKhaiThac = () => {
   );
 };
 
-export default ChiTietNhomKhaiThac;
+export default TableCangca2;
 
 const styles = StyleSheet.create({
   textTongKhoiLuongTong: {

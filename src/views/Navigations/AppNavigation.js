@@ -12,6 +12,7 @@ import ViewPDF from '../Form01adx01/pdfForm01/ViewPDF';
 import Form03adx01Navigation from './Form03adx01Navigation';
 import Form04adx01Navigation from './Form04adx01Navigation';
 import Form01adx02Navigation from './Form01adx02Navigation';
+import Form02adx02Navigation from './Form02adx02Navigation';
 
 
 const Stack = createStackNavigator();
@@ -89,7 +90,7 @@ const MainNavigation = () => {
 
       <Drawer.Screen
         name="Form02adx02Navigation"
-        component={Form04adx01Navigation}
+        component={Form02adx02Navigation}
         options={{
           drawerType: 'front',
           headerTitle: HeaderScreen,

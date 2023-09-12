@@ -8,7 +8,7 @@ import { UserContext } from '../../../contexts/UserContext.js';
 import moment from 'moment';
 import CustomDatePicker from '../../others/CustomDatePicker';
 const TongCucThuySanView = () => {
-  const { data0102, setData0102 } = useContext(UserContext);
+  const { data0202, setData0202 } = useContext(UserContext);
 
   return (
     <View style={styles.container}>
@@ -32,8 +32,8 @@ const TongCucThuySanView = () => {
             </Text>
             <TextInput
               style={[styles.input,{fontWeight:"400"}]}
-              value={data0102.sobacao}
-              onChangeText={text => {setData0102({...data0102,sobacao:text})}}
+              value={data0202.sobacao}
+              onChangeText={text => {setData0202({...data0202,sobacao:text})}}
             />
           </View>
           </View>
@@ -74,11 +74,11 @@ const TongCucThuySanView = () => {
               </Text>
               <TextInput
                 style={[styles.input,{fontWeight:"400",fontSize:19}]}
-                value={data0102?.kinhgui}
+                value={data0202?.kinhgui}
                 onChangeText={text => {
-                  let tempdata0102 = { ...data0102 };
-                  tempdata0102.kinhgui = text;
-                  setData0102(tempdata0102)
+                  let tempdata0202 = { ...data0202 };
+                  tempdata0202.kinhgui = text;
+                  setData0202(tempdata0202)
                 }}
               />
             </View>
@@ -88,7 +88,7 @@ const TongCucThuySanView = () => {
         {/* txt */}
         <View style={{marginHorizontal:24,marginTop:12}}>
           <Text style={[styles.txtHeader,{textAlign:'justify',fontWeight:'400'}]}>
-            Căn cứ khoản 2 Điều 6 Thông tư số 21/2018/TT-BNNPTNT, [Sở Nông nghiệp
+            Căn cứ khoản 2 Điều 6 Thông tư số 21/2028/TT-BNNPTNT, [Sở Nông nghiệp
             và Phát triển nông thôn] báo cáo kết quả rà soát cảng cá chỉ định có đủ hệ thống
             xác nhận nguồn gốc thủy sản từ khai thác đề nghị Tổng cục Thủy sản tổng hợp, 
             trình Bộ Nông nghiệp và Phát triển nông thôn công bố đưa vào hoặc đưa ra
