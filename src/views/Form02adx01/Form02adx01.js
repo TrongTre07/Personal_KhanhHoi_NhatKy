@@ -23,7 +23,7 @@ import {useState} from 'react';
 import Storage from '../../utils/storage';
 import {useNavigation} from '@react-navigation/native';
 import data0201Empty from './models/data0201';
-import { ExportPDF } from '../Form03adx01/pdfForm0301/ExportPDF';
+import { ExportPDF } from '../Form02adx01/pdfForm0201/ExportPDF';
 import uploadFile from '../../axios/uploadFile';
 const Form02ad01 = ({route}) => {
   const navigation = useNavigation();
@@ -254,6 +254,7 @@ const Form02ad01 = ({route}) => {
             let dataFix = data0201;
             dataFix.dairy_name = 'filemau';
             const exportPDF = await ExportPDF(dataFix);
+            console.log(exportPDF);
              if(exportPDF)
               navigation.navigate('ViewPDF')
             else
@@ -273,7 +274,7 @@ const Form02ad01 = ({route}) => {
             let dataFix = data0201;
             dataFix.dairy_name = 'filemau';
             const exportPDF = await ExportPDF(dataFix);
-            if(exportPDF)
+            if(exportPDF==true)
               uploadFile(`/storage/emulated/0/Android/data/com.khanhhoiapp/files/pdf/filemau.pdf`);
             else
               Alert.alert('Thất bại', `không thể xuất file pdf`);
