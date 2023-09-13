@@ -1,21 +1,29 @@
-import { View, Text, TextInput, Image, Pressable } from 'react-native';
-import React, { useState, useMemo, useContext, useEffect } from 'react';
+import {
+  View,
+  Text,
+  TextInput,
+  Image,
+  Pressable,
+  ToastAndroid,
+} from 'react-native';
+import React, {useState, useMemo, useContext, useEffect} from 'react';
 import styles from './styles';
 
-
 import DatePicker from 'react-native-date-picker';
-import { Picker } from '@react-native-picker/picker';
-import { dateNowFormat } from '../../../others/formatdate';
+import {Picker} from '@react-native-picker/picker';
+import {dateNowFormat} from '../../../others/formatdate';
 import CustomDatePicker from '../../../others/CustomDatePicker';
 
-import { UserContext } from '../../../../contexts/UserContext';
-import { useNetInfo } from '@react-native-community/netinfo';
+import {UserContext} from '../../../../contexts/UserContext';
+import {useNetInfo} from '@react-native-community/netinfo';
 import Storage from '../../../../utils/storage';
 import CheckBox from '@react-native-community/checkbox';
 import moment from 'moment';
-const Table1 = ({ }) => {
+import ChiTietVeSanLuongThuySan from './ChiTietVeSanLuongThuySan';
+const Table1 = ({}) => {
   //data
-  const { dataInfShip, setData0102, data0102, setDataInfShip } = useContext(UserContext);
+  const {dataInfShip, setData0202, data0202, setDataInfShip} =
+    useContext(UserContext);
   const netInfo = useNetInfo();
 
   // check ko có wifi thì lấy dataInfShip từ local
@@ -33,54 +41,115 @@ const Table1 = ({ }) => {
     }
   };
 
+  const handleChangeThoiHanGPKT = thoiHan => {
+    try {
+      setData0202({...data0202, thoihan_gpkt: thoiHan});
+    } catch (error) {
+      console.log('ERROR ', error);
+      ToastAndroid.show('Lỗi', ToastAndroid.SHORT);
+    }
+  };
+  const handleChangeNgayBocHang = ngayHocHang => {
+    try {
+      setData0202({...data0202, ngaybochang: ngayHocHang});
+    } catch (error) {
+      console.log('ERROR ', error);
+      ToastAndroid.show('Lỗi', ToastAndroid.SHORT);
+    }
+  };
+  const calculateTongKhoiLuong = khoiluong => {
+    try {
+      let total = 0;
+
+      data0202.ls0202ds.forEach(item => {
+        if (item[khoiluong] && item.isdelete != true) {
+          total += Number(item[khoiluong]); // Convert to float to ensure proper addition
+        }
+      });
+
+      return total;
+    } catch (error) {
+      console.log('ERROR ', error);
+      ToastAndroid.show('Lỗi', ToastAndroid.SHORT);
+    }
+  };
+
   return (
     <View>
       <View style={[styles.row]}>
-        <View style={[styles.row, { height: 'auto' }]}>
-          <Text style={styles.text}>1. Họ và tên chủ tàu/Thuyền trưởng:</Text>
+        <View style={[styles.row, {height: 'auto'}]}>
+          <Text style={styles.text}>Tên cảng cá:</Text>
           <TextInput
             onChangeText={text => {
-              setData0102({ ...data0102, ten_chutau_thuyentruong: text });
+              setData0202({...data0202, tencangca: text});
             }}
-            value={data0102?.ten_chutau_thuyentruong}
+            value={data0202?.tencangca}
             style={[styles.input, styles.text]}
           />
           <Text style={styles.text}>;</Text>
         </View>
-
       </View>
 
-      <View style={[styles.row, { height: 'auto' }]}>
-        <Text style={styles.text}>2. Địa chỉ:</Text>
+      <View style={[styles.row, {height: 'auto'}]}>
+        <Text style={styles.text}>Địa chỉ:</Text>
         <TextInput
           onChangeText={text => {
-            setData0102({ ...data0102, diachi: text });
+            setData0202({...data0202, diachi: text});
           }}
-          value={data0102?.diachi}
+          value={data0202?.diachi}
           style={[styles.input, styles.text]}
         />
       </View>
 
-      <View style={[styles.row, { height: 'auto' }]}>
-        <View style={[styles.row, { width: '50%', height: 'auto' }]}>
-          <View style={[styles.row, { width: '40%' }]}>
-            <Text style={[styles.text]}>3. Số đăng ký tàu</Text>
-            <Text style={{ color: 'red' }}>*</Text>
+      <View
+        style={{
+          flexDirection: 'row',
+          justifyContent: 'center',
+          alignItems: 'center',
+          marginVertical: 10,
+        }}>
+        <Text style={styles.txtHeader}>BIÊN NHẬN</Text>
+      </View>
+      <View style={[styles.row]}>
+        <View style={[styles.row, {height: 'auto'}]}>
+          <Text style={styles.text}>1. Họ và tên chủ tàu/Thuyền trưởng:</Text>
+          <TextInput
+            onChangeText={text => {
+              setData0202({...data0202, tenchutauthuyentruong: text});
+            }}
+            value={data0202?.tenchutauthuyentruong}
+            style={[styles.input, styles.text]}
+          />
+          <Text style={styles.text}>;</Text>
+        </View>
+      </View>
+
+      <View style={[styles.row, {height: 'auto'}]}>
+        <View style={[styles.row, {width: '100%', height: 'auto'}]}>
+          <View style={[styles.row, {width: '40%'}]}>
+            <Text style={[styles.text]}>2. Số đăng ký tàu</Text>
+            <Text style={{color: 'red'}}>*</Text>
             <Text style={[styles.text]}>:</Text>
           </View>
           <Picker
-            selectedValue={data0102?.tau_bs}
+            selectedValue={data0202?.biensotau}
             style={[styles.input]}
             onValueChange={(itemValue, itemIndex) => {
               if (itemValue) {
                 const dataInf = dataInfShip[itemIndex - 1];
-                setData0102({
-                  ...data0102,
-                  ten_chutau: dataInf?.chutau,
-                  tau_bs: dataInf?.tentau,
-                  id_tau: dataInf?.idShip?.toString(),
-                  tau_chieudailonnhat: dataInf?.chieudailonnhat ,
-                  tau_tongcongsuatmaychinh: dataInf?.congsuat ,
+                setData0202({
+                  ...data0202,
+                  tenchutauthuyentruong: dataInf?.chutau,
+                  biensotau: dataInf?.tentau,
+                  giayphepkhaithac: dataInf?.gpkt,
+                  thoihan_gpkt: moment(
+                    dataInf?.gpkt_thoihan,
+                    'DD/MM/YYYY',
+                  ).format('YYYY-MM-DD'),
+
+                  // id_tau: dataInf?.idShip?.toString(),
+                  // tau_chieudailonnhat: dataInf?.chieudailonnhat,
+                  // tau_tongcongsuatmaychinh: dataInf?.congsuat,
                 });
               }
             }}>
@@ -102,198 +171,109 @@ const Table1 = ({ }) => {
             })}
           </Picker>
         </View>
+      </View>
 
-        <View style={[styles.row, { width: '50%', height: 'auto' }]}>
-          <Text style={[styles.text, { width: '60%' }]}>
-            4. Tổng công xuất máy chính:
-          </Text>
+      <View style={[styles.row]}>
+        <View style={[styles.row, {width: '50%'}]}>
+          <Text style={styles.text}>3. Giấy phép khai thác thủy sản số:</Text>
+          <TextInput
+            // editable={false}
+            onChangeText={text => {
+              setData0202({...data0202, giayphepkhaithac: text});
+            }}
+            value={data0202?.giayphepkhaithac}
+            style={[styles.input, styles.text]}
+          />
+          <Text style={styles.text}>;</Text>
+        </View>
+
+        <View style={[styles.row, {width: '50%'}]}>
+          <Text style={styles.text}>Thời hạn đến:</Text>
+          <TextInput
+            onChangeText={text => {
+              handleChangeThoiHanGPKT(text);
+            }}
+            value={moment(data0202?.thoihan_gpkt).format('DD/MM/YYYY')}
+            style={[styles.input, styles.text]}
+            // editable={false}
+          />
+          <CustomDatePicker
+            onDateChange={date => {
+              handleChangeThoiHanGPKT(date);
+            }}
+          />
+        </View>
+      </View>
+
+      <View style={[styles.row, {height: 'auto'}]}>
+        <View style={[styles.row, {width: '50%'}]}>
+          <Text style={styles.text}>4. Ngày:</Text>
+          <TextInput
+            onChangeText={text => {
+              handleChangeNgayBocHang(text);
+            }}
+            value={moment(data0202?.ngaybochang).format('DD/MM/YYYY')}
+            style={[styles.input, styles.text]}
+            // editable={false}
+          />
+          <CustomDatePicker
+            onDateChange={date => {
+              handleChangeNgayBocHang(date);
+            }}
+          />
+        </View>
+        <Text style={styles.text}> đã bốc dỡ thủy sản qua cảng.</Text>
+      </View>
+      <View style={[styles.row]}>
+        <View style={[styles.row, {width: '100%'}]}>
+          <Text style={styles.text}>5. Tổng sản lượng thủy sản bốc dỡ:</Text>
           <TextInput
             keyboardType="numeric"
-            // editable={false}
             onChangeText={text => {
-              setData0102({ ...data0102, tau_tongcongsuatmaychinh: Number(text) });
+              setData0202({...data0202, tongsolaodong: Number(text)});
             }}
-            value={data0102?.tau_tongcongsuatmaychinh+''}
+            value={calculateTongKhoiLuong('khoiluong').toString() || 0}
             style={[styles.input, styles.text]}
+            editable={false}
           />
-          <Text style={styles.text}>CV</Text>
+          <Text style={styles.text}>kg</Text>
         </View>
       </View>
 
-      <View style={[styles.row, { height: 'auto' }]}>
-        <Text style={[styles.text,]}>
-          5. Chiều dài lớn nhất của tàu:
-        </Text>
-        <TextInput
-          // editable={false}
-          keyboardType="numeric"
-
-          onChangeText={text => {
-            setData0102({ ...data0102, tau_chieudailonnhat: Number(text) });
-          }}
-          value={data0102?.tau_chieudailonnhat+''}
-          style={[styles.input, styles.text]}
-        />
-        <Text style={styles.text}>m; </Text>
-      </View>
-      <View style={[styles.row]}>
-        <View style={[styles.row, { width: '50%' }]}>
-          <Text style={styles.text}>
-            6. Nghề (thăm dò/tìm kiếm/dẫn dụ):
-          </Text>
-          <TextInput
-            // editable={false}
-            onChangeText={text => {
-              setData0102({ ...data0102, nghe: text });
-            }}
-            value={data0102?.nghe}
-            style={[styles.input, styles.text]}
-          />
-          <Text style={styles.text}>;</Text>
-        </View>
-
-        <View style={[styles.row, { width: '50%' }]}>
-          <Text style={styles.text}>7. Số lao động:</Text>
-          <TextInput
-          keyboardType="numeric"
-
-            onChangeText={text => {
-              setData0102({...data0102, tongsolaodong: Number(text)});
-            }}
-            value={data0102?.tongsolaodong.toString()}
-            style={[styles.input, styles.text]}
-          // editable={false}
-          />
-          <Text style={styles.text}>người</Text>
-
-        </View>
-
-
-      </View>
+      <ChiTietVeSanLuongThuySan />
 
       <View style={[styles.row]}>
-        <View style={[styles.row, { width: '50%' }]}>
+        <View style={[styles.row, {width: '100%'}]}>
           <Text style={styles.text}>
-            8. Số ngày hoạt động
+            6. Người thu mua sản phẩm (Cơ sở CBTS/nậu, vựa/người buôn):
           </Text>
           <TextInput
-          keyboardType="numeric"
-
-            // editable={false}
             onChangeText={text => {
-              setData0102({ ...data0102, songayhoatdong: Number(text) });
+              setData0202({...data0202, nguoithumua: text});
             }}
-            value={data0102?.songayhoatdong.toString()}
+            value={data0202?.nguoithumua}
             style={[styles.input, styles.text]}
-          />
-          <Text style={styles.text}>;</Text>
-        </View>
-
-      </View>
-
-      <View style={[styles.row, { height: 'auto' }]}>
-        <Text style={[styles.text,]}>
-          9. Ngư trường khai thác chính:
-        </Text>
-      </View>
-      <View style={[styles.row, { height: 'auto', flexDirection: 'row', justifyContent: 'space-between', flexWrap:'wrap' }]}>
-        <View style={{ flexDirection: 'row',alignItems:'center' }}>
-          <Text style={[styles.text, { flexDirection: 'row' }]}>
-            Vịnh Bắc Bộ
-          </Text>
-          <CheckBox
-            value={data0102?.ngutruong_vinhbacbo}
-            onValueChange={value => setData0102({ ...data0102, ngutruong_vinhbacbo: value })}
-            tintColors={{ true: 'gray', false: 'gray' }}
-          />
-        </View>
-        <View style={{ flexDirection: 'row',alignItems:'center' }}>
-          <Text style={[styles.text, { flexDirection: 'row' }]}>
-            Trung Bộ
-          </Text>
-          <CheckBox
-            value={data0102?.ngutruong_trungbo}
-            onValueChange={value => setData0102({ ...data0102, ngutruong_trungbo: value })}
-            tintColors={{ true: 'gray', false: 'gray' }}
-          />
-        </View>
-        <View style={{ flexDirection: 'row',alignItems:'center' }}>
-          <Text style={[styles.text, { flexDirection: 'row' }]}>
-            Đông Nam Bộ
-          </Text>
-          <CheckBox
-            value={data0102?.ngutruong_dongnambo}
-            onValueChange={value => setData0102({ ...data0102, ngutruong_dongnambo: value })}
-            tintColors={{ true: 'gray', false: 'gray' }}
-          />
-        </View>
-        <View style={{ flexDirection: 'row',alignItems:'center' }}>
-          <Text style={[styles.text, { flexDirection: 'row' }]}>
-            Tây Nam Bộ
-          </Text>
-          <CheckBox
-            value={data0102?.ngutruong_taynambo}
-            onValueChange={value => setData0102({ ...data0102, ngutruong_taynambo: value })}
-            tintColors={{ true: 'gray', false: 'gray' }}
-          />
-        </View>
-        <View style={{ flexDirection: 'row',alignItems:'center',justifyContent:'flex-start' }}>
-          <Text style={[styles.text, { flexDirection: 'row' }]}>
-            Giữa Biển Đông
-          </Text>
-          <CheckBox
-            value={data0102?.ngutruong_giuabiendong}
-            onValueChange={value => setData0102({ ...data0102, ngutruong_giuabiendong: value })}
-            tintColors={{ true: 'gray', false: 'gray' }}
+            // editable={false}
           />
         </View>
       </View>
-      <View style={[styles.row, { height: 'auto' }]}>
-        <Text style={[styles.text,]}>
-          10. Ngư trường khai thác chính:
-        </Text>
-      </View>
-      <View style={[styles.row, { height: 'auto', flexDirection: 'row', justifyContent: 'space-between', flexWrap:'wrap' }]}>
-        <View style={{ flexDirection: 'row',alignItems:'center' }}>
-            <Text style={[styles.text, { flexDirection: 'row' }]}>
-            Ăn chia sản phẩm
-            </Text>
-            <CheckBox
-              value={data0102?.anchia}
-              onValueChange={value => setData0102({ ...data0102, anchia: value })}
-              tintColors={{ true: 'gray', false: 'gray' }}
-            />
-          </View>
-          <View style={{ flexDirection: 'row',alignItems:'center',justifyContent:'flex-start' }}>
-            <Text style={[styles.text, { flexDirection: 'row' }]}>
-            Trả tiền trực tiếp
-            </Text>
-            <CheckBox
-              value={data0102?.tratientructiep}
-              onValueChange={value => setData0102({ ...data0102, tratientructiep: value })}
-              tintColors={{ true: 'gray', false: 'gray' }}
-            />
-          </View>
-      </View>
-        <View style={[styles.row, { height: 'auto' }]}>
-          <Text style={[styles.text,]}>
-            11. Tổng sản lượng khai thác thuỷ sản:
+      <View style={[styles.row]}>
+        <View style={[styles.row, {width: '100%'}]}>
+          <Text style={styles.text}>
+            7. Hình thức bán sản phẩm (Toàn bộ/một phần/theo loài):
           </Text>
           <TextInput
-            // editable={false}
-          keyboardType="numeric"
-
             onChangeText={text => {
-              setData0102({ ...data0102, tongsanluong: Number(text) });
+              setData0202({...data0202, hinhthucbansp: text});
             }}
-            value={data0102?.tongsanluong.toString()}
+            value={data0202?.hinhthucbansp}
             style={[styles.input, styles.text]}
+            // editable={false}
           />
-          <Text style={styles.text}>kg </Text>
         </View>
-
+      </View>
     </View>
-      );
+  );
 };
 
-      export default Table1;
+export default Table1;

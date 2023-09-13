@@ -8,9 +8,9 @@ import {
   RefreshControl,
   ToastAndroid,
 } from 'react-native';
-import React, { useContext, useEffect, useState, useCallback } from 'react';
-import { UserContext } from '../../contexts/UserContext';
-import { ExportPDF } from './pdfForm0202/ExportPDF';
+import React, {useContext, useEffect, useState, useCallback} from 'react';
+import {UserContext} from '../../contexts/UserContext';
+import {ExportPDF} from './pdfForm0202/ExportPDF';
 import {
   Table,
   TableWrapper,
@@ -19,26 +19,20 @@ import {
   Col,
 } from 'react-native-table-component';
 
-import { useFocusEffect, useNavigation } from '@react-navigation/native';
-import { useNetInfo } from '@react-native-community/netinfo';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
+import {useNetInfo} from '@react-native-community/netinfo';
 import Storage from '../../utils/storage';
 
 import moment from 'moment';
-import { PrintfPDF } from './pdfForm0202/PrintfPDF';
-const Form02adx02Diary = ({ navigation }) => {
+import {PrintfPDF} from './pdfForm0202/PrintfPDF';
+const Form02adx02Diary = ({navigation}) => {
   const [dataDiary, setDataDiary] = useState([]);
 
-  const {
-    getDiaryForm0202,
-    deleteForm0202Id,
-    getDetailForm0202Id,
-    isLoggedIn,
-  } = useContext(UserContext);
+  const {getDiaryForm0202, deleteForm0202Id, getDetailForm0202Id, isLoggedIn} =
+    useContext(UserContext);
 
   const netInfo = useNetInfo();
   const [refreshing, setRefreshing] = React.useState(false);
-
-  
 
   useEffect(() => {
     if (!isLoggedIn) {
@@ -56,7 +50,7 @@ const Form02adx02Diary = ({ navigation }) => {
       }
       setDataDiary(rawDiary);
       setRefreshing(false);
-    } catch (error) { }
+    } catch (error) {}
   };
 
   const sortListForm = (a, b) => {
@@ -64,7 +58,6 @@ const Form02adx02Diary = ({ navigation }) => {
     const dateB = new Date(b.dateedit);
     return dateA - dateB;
   };
-
 
   const getDataLocal = async () => {
     const result = await Storage.getItem('form02adx02');
@@ -78,11 +71,8 @@ const Form02adx02Diary = ({ navigation }) => {
   // nếu không có wifi, lấy data từ local
   useFocusEffect(
     useCallback(() => {
-      if (netInfo.isConnected)
-         fetchdata();
-      else 
-         getDataLocal();
-
+      if (netInfo.isConnected) fetchdata();
+      else getDataLocal();
     }, [netInfo.isConnected]),
   );
 
@@ -104,7 +94,7 @@ const Form02adx02Diary = ({ navigation }) => {
           },
         },
       ],
-      { cancelable: false },
+      {cancelable: false},
     );
   };
 
@@ -129,9 +119,8 @@ const Form02adx02Diary = ({ navigation }) => {
           },
         },
       ],
-      { cancelable: false },
+      {cancelable: false},
     );
-
   };
 
   //btn
@@ -139,17 +128,16 @@ const Form02adx02Diary = ({ navigation }) => {
     <View style={styles.boxbtn}>
       <TouchableOpacity
         onPress={async () => {
-
           let dataTemp;
           if (netInfo.isConnected) {
             dataTemp = await getDetailForm0202Id(id);
-            dataTemp.dairyname = 'filemau';
+            dataTemp.dairy_name = 'filemau';
           } else {
             const result = await Storage.getItem('form02adx02');
             if (result !== null) {
               const dataLocal = JSON.parse(result);
               dataTemp = dataLocal[index];
-              dataTemp.dairyname = 'filemau';
+              dataTemp.dairy_name = 'filemau';
             }
           }
           const result = await ExportPDF(dataTemp);
@@ -224,23 +212,24 @@ const Form02adx02Diary = ({ navigation }) => {
   );
   //data
   const selectedData = dataDiary?.map((item, index) => {
-      let khoiluong = 0;
-      item.ls0202ds.forEach(element => {
-        khoiluong += Number(element.khoiluong);
-      });
+    let khoiluong = 0;
+    item.ls0202ds.forEach(element => {
+      khoiluong += Number(element.khoiluong);
+    });
     return [
-    index,
-    item.dairy_name,
-    item.biensotau,
-    item.tenchutauthuyentruong,
-    moment(item.ngaybochang).format('DD/MM/YYYY'),
-    khoiluong,
-    item.nguoithumua,
-    item.hinhthucbansp,
-    moment(item.datecreate).format('DD/MM/YYYY HH:mm'),
-    !item.dateedit?'':moment(item.dateedit).format('DD/MM/YYYY HH:mm'),
-    elementButton(item.id, index),
-  ]});
+      index,
+      item.dairy_name,
+      item.biensotau,
+      item.tenchutauthuyentruong,
+      moment(item.ngaybochang).format('DD/MM/YYYY'),
+      khoiluong,
+      item.nguoithumua,
+      item.hinhthucbansp,
+      moment(item.datecreate).format('DD/MM/YYYY HH:mm'),
+      !item.dateedit ? '' : moment(item.dateedit).format('DD/MM/YYYY HH:mm'),
+      elementButton(item.dairyid, index),
+    ];
+  });
 
   //colum
   let state = {
@@ -262,25 +251,28 @@ const Form02adx02Diary = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <ScrollView 
+      <ScrollView
         // style={{width:800}}
         vertical={true}
         // onRefresh={fetchdata}
         showsVerticalScrollIndicator={false}
         refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={()=>fetchdata()} />
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={() => fetchdata()}
+          />
         }>
-        <Table borderStyle={{ borderWidth: 1}}>
+        <Table borderStyle={{borderWidth: 1}}>
           <Row
             data={state.tableHead}
-            flexArr={[0.8,4,2,2,2,2,2,2,2,2,2,3 ]}
+            flexArr={[0.8, 4, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3]}
             style={styles.head}
             textStyle={styles.textHead}
           />
           <TableWrapper style={styles.wrapper}>
             <Rows
               data={state.tableColum}
-              flexArr={[0.8,4,2,2,2,2,2,2,2,2,2,3 ]}
+              flexArr={[0.8, 4, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3]}
               style={styles.row}
               textStyle={styles.text}
             />
@@ -313,7 +305,7 @@ const styles = StyleSheet.create({
   text: {
     textAlign: 'center',
     padding: 3,
-    fontSize: 12, 
+    fontSize: 12,
     color: '#000',
   },
   textHead: {

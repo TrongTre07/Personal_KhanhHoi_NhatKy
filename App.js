@@ -13,8 +13,11 @@ import ThongTinVeCacTau from './src/views/Form02adx01/item/ThongTinVeCacTau';
 import ThongTinChiTietHoatDong from './src/views/Form02adx01/item/B_ThongTinVeTauCa/ThongTinChiTietHoatDong';
 import Form03ad01 from './src/views/Form03adx01/Form03adx01';
 import ChiTietNhomKhaiThac from './src/views/Form03adx01/item/itemTongCucThuySan/ChiTietNhomKhaiThac';
-import TongCucThuySanView from './src/views/Form03adx01/item/TongCucThuySanView';
 import Form01ad02 from './src/views/Form01adx02/Form01adx02';
+import TongCucThuySanView from './src/views/Form02adx02/item/TongCucThuySanView';
+import ChiTietVeSanLuongThuySan from './src/views/Form02adx02/item/itemTongCucThuySan/ChiTietVeSanLuongThuySan';
+import XacNhanKhoiLuongThuySanConLai from './src/views/Form02adx02/item/itemTongCucThuySan/XacNhanKhoiLuongThuySanConLai';
+import Form02ad02 from './src/views/Form02adx02/Form02adx02';
 const AppNav = () => {
   const {isLoggedIn, setIsLoggedIn} = useContext(UserContext);
   // if(AsyncStorage.getItem('token'))
@@ -31,15 +34,13 @@ const AppNav = () => {
 
 const App = () => {
   return (
-      <UserProvider>
+    <UserProvider>
       <FormProvider>
         <View style={styles.container}>
           <AppNav />
         </View>
       </FormProvider>
     </UserProvider>
-    
-
   );
 };
 

@@ -18,40 +18,7 @@ import CustomDatePicker from '../../others/CustomDatePicker';
 import moment from 'moment';
 
 const TongCucThuySanView = () => {
-  // const [data0301, setData0301] = useState({
-  //   tau_tongcongsuatmaychinh: 12,
-  //   tau_chieudailonnhat: 12,
-  //   dairyname: 'BaoCaoKhaiThacThuySan_11092023',
-  //   denngay: '2023-09-11',
-  //   tblreport_0301_ls: [
-  //     {
-  //       id: 0,
-  //       tenloai: '1111',
-  //       sanluong: 12,
-  //     },
-  //     {
-  //       id: new Date(),
-  //       tenloai: '2222',
-  //       sanluong: 11,
-  //     },
-  //   ],
-  //   chuyenbien_so: 2,
-  //   nam: 999999,
-  //   tungay: '0001-01-01',
-  //   ten_chutau_thuyentruong: 'abc',
-  //   diachi: '',
-  //   tau_bs: 'HC-1234-TS1',
-  //   nghekhaithac: '',
-  //   tongsolaodong: 0,
-  //   songaykhaithac: 0,
-  //   so_meluoi: 0,
-  //   ngutruong_vinhbacbo: false,
-  //   ngutruong_trungbo: true,
-  //   ngutruong_dongnambo: false,
-  //   ngutruong_taynambo: false,
-  //   ngutruong_giuabiendong: false,
-  //   tongsanluong: 0,
-  // });
+
   const {data0301, setData0301} = useContext(UserContext);
   const handleChangeTuNgay = date => {
     try {

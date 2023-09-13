@@ -792,13 +792,13 @@ const UserProvider = ({children}) => {
       }
       if ((await Storage.getItem('token')) && id) {
         const response = await instance.get(
-          `/api/FormAppendix/bcrs/getbyid/${id}`,
+          `/api/FormAppendix/0202/getbyid/${id}`,
         );
 
-        setInitialTitle(response.data.dairyname);
-        setData0102(await response.data);
+        setInitialTitle(response.data.dairy_name);
+        setData0202(await response.data);
         setIsLoading(false);
-
+        console.log('MODIFY:', JSON.stringify(response.data, null, 2));
         return response.data;
       }
     } catch (error) {
@@ -823,12 +823,12 @@ const UserProvider = ({children}) => {
           {
             text: 'OK',
             onPress: () => {
-              setData0102(data0102Empty);
               setGoBackAlert(true);
             },
           },
         ]);
       }
+      setData0202(data0202Empty);
       setIsLoading(false);
       return response.data;
     } catch (error) {
@@ -866,6 +866,7 @@ const UserProvider = ({children}) => {
             onPress: () => {
               // setIsErrorPost(false);
               setGoBackAlert(true);
+              setData0202(data0202Empty);
             },
           },
         ]);
