@@ -265,14 +265,14 @@ const Form02adx02Diary = ({navigation}) => {
         <Table borderStyle={{borderWidth: 1}}>
           <Row
             data={state.tableHead}
-            flexArr={[0.8, 4, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3]}
+            flexArr={[0.8, 4, 2, 2, 2, 2, 2, 2, 2, 2, 4]}
             style={styles.head}
             textStyle={styles.textHead}
           />
           <TableWrapper style={styles.wrapper}>
             <Rows
               data={state.tableColum}
-              flexArr={[0.8, 4, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3]}
+              flexArr={[0.8, 4, 2, 2, 2, 2, 2, 2, 2, 2, 4]}
               style={styles.row}
               textStyle={styles.text}
             />
@@ -305,7 +305,7 @@ const styles = StyleSheet.create({
   text: {
     textAlign: 'center',
     padding: 3,
-    fontSize: 12,
+    fontSize: 14,
     color: '#000',
   },
   textHead: {
@@ -330,7 +330,8 @@ const styles = StyleSheet.create({
   btnText: {
     paddingVertical: 6,
     paddingHorizontal: 14,
-    fontSize: 16,
+    fontSize: 14,
+    color: '#000',
     fontWeight: '600',
   },
 });

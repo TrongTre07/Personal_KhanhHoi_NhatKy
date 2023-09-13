@@ -13,6 +13,10 @@ import Form03adx01Navigation from './Form03adx01Navigation';
 import Form04adx01Navigation from './Form04adx01Navigation';
 import Form01adx02Navigation from './Form01adx02Navigation';
 import Form02adx02Navigation from './Form02adx02Navigation';
+import Form03_PLIINavigation from './Form03_PLIINavigation';
+import Form04_PLIINavigation from './Form04_PLIINavigation';
+import Form02b_PLIIbNavigation from './Form02b_PLIIbNavigation';
+import Form04_PLIII_03Navigation from './Form04_PLIII_03Navigation';
 
 
 const Stack = createStackNavigator();
@@ -97,6 +101,61 @@ const MainNavigation = () => {
           title: () => (
             <Text style={styles.txt}>
               02-PLII. Giấy biên nhận thủy sản bốc dỡ qua cảng
+            </Text>)
+
+        }}
+      />
+
+      <Drawer.Screen
+        name="Form03_PLIINavigation"
+        component={Form03_PLIINavigation}
+        options={{
+          drawerType: 'front',
+          headerTitle: HeaderScreen,
+          title: () => (
+            <Text style={styles.txt}>
+              03-PLII. Mẫu biên bản kiểm tra tàu cá cập cảng
+            </Text>)
+
+        }}
+      />
+
+      <Drawer.Screen
+        name="Form04_PLIINavigation"
+        component={Form04_PLIINavigation}
+        options={{
+          drawerType: 'front',
+          headerTitle: HeaderScreen,
+          title: () => (
+            <Text style={styles.txt}>
+              04-PLII. Mẫu biên bản kiểm tra tàu cá rời cảng
+            </Text>)
+
+        }}
+      />
+
+      <Drawer.Screen
+        name="Form02b_PLIIbNavigation"
+        component={Form02b_PLIIbNavigation}
+        options={{
+          drawerType: 'front',
+          headerTitle: HeaderScreen,
+          title: () => (
+            <Text style={styles.txt}>
+              02b-PLIIb. Thông tin vận tải
+            </Text>)
+
+        }}
+      />
+      <Drawer.Screen
+        name="Form04_PLIII_03Navigation"
+        component={Form04_PLIII_03Navigation}
+        options={{
+          drawerType: 'front',
+          headerTitle: HeaderScreen,
+          title: () => (
+            <Text style={styles.txt}>
+              04-PLIII/03. Xác nhận cam kết sản phẩm thủy sản xuất khẩu có nguồn gốc từ thủy sản khai thác nhập khẩu
             </Text>)
 
         }}
