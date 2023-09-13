@@ -235,7 +235,7 @@ const XacNhanKhoiLuongThuySanConLai = () => {
           flexDirection: 'column',
           width: '100%',
           flexWrap: 'wrap',
-          marginVertical: 20
+          marginVertical: 20,
         }}>
         <Text
           style={{
