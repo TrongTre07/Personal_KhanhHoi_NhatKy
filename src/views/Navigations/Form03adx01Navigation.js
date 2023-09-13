@@ -30,7 +30,7 @@ const Form03adx01Navigation = () => {
           navigation.pop();
           setData0301(data0301Empty);
         }}>
-        <Icon name="arrowleft" size={20} color="#000" />
+        <Icon name="arrowleft" size={30} color="#000" />
       </TouchableOpacity>
     );
   };

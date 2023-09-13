@@ -29,7 +29,7 @@ const Form04_PLIINavigation = () => {
           navigation.pop();
           setData({});
         }}>
-        <Icon name="arrowleft" size={20} color="#000" />
+        <Icon name="arrowleft" size={30} color="#000" />
       </TouchableOpacity>
     );
   };

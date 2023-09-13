@@ -27,6 +27,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: '400',
     fontStyle: 'italic',
+    marginBottom: 20
   },
   header: {
     alignItems: 'center',
