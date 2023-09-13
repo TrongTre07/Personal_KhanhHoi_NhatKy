@@ -9,30 +9,30 @@ import {
   ToastAndroid,
 } from 'react-native';
 import React, {useEffect, useContext,useState} from 'react';
-import TongCucThuySanView from './item/TongCucThuySanView';
+// import TongCucThuySanView from './item/TongCucThuySanView';
 import {UserContext} from '../../contexts/UserContext';
 import {useNetInfo} from '@react-native-community/netinfo';
-import HeaderView from './item/HeaderView';
+// import HeaderView from './item/HeaderView';
 import Spinner from 'react-native-loading-spinner-overlay';
 import AlertInputComponent from '../../utils/AlertInputComponent';
-import { ExportPDF } from './pdfForm0202/ExportPDF';
-import data0202Empty from './models/data0202';
+import { ExportPDF } from './pdfForm04_PLIII_03/ExportPDF';
+import data04_PLIII_03Empty from './models/data04_PLIII_03';
 import uploadFile from '../../axios/uploadFile';
 import Storage from '../../utils/storage';
 import {useNavigation} from '@react-navigation/native';
-import ChiTietNhomKhaiThac from './item/itemTongCucThuySan/ChiTietNhomKhaiThac';
-import TableCangca2 from './item/itemTongCucThuySan/TableCangca2';
+// import ChiTietNhomKhaiThac from './item/itemTongCucThuySan/ChiTietNhomKhaiThac';
+// import TableCangca2 from './item/itemTongCucThuySan/TableCangca2';
 
 
-const Form02ad02 = ({route}) => {
+const Form04_PLIII_03 = ({route}) => {
   const {
-    getDetailForm0202Id,
-    setData0202,
-    data0202,
+    getDetailForm04_PLIII_03Id,
+    setData04_PLIII_03,
+    data04_PLIII_03,
     goBackAlert,
     setGoBackAlert,
-    postForm0202,
-    updateForm0202,
+    postForm04_PLIII_03,
+    updateForm04_PLIII_03,
   } = useContext(UserContext);
   const navigation = useNavigation();
   const [isPopupVisible, setPopupVisible] = useState(false);
@@ -40,7 +40,7 @@ const Form02ad02 = ({route}) => {
   const {initialTitle} = useContext(UserContext);
   const netInfo = useNetInfo();
 
-  let titleForm0202 = '';
+  let titleForm04_PLIII_03 = '';
 
   const handleTriggerButtonClick = () => {
     setPopupVisible(true);
@@ -58,8 +58,8 @@ const Form02ad02 = ({route}) => {
   }, [goBackAlert, navigation, setGoBackAlert]);
 
   const handleDataSubmit = tieuDe => {
-    titleForm0202 = tieuDe;
-    if (data0202.id == undefined) {
+    titleForm04_PLIII_03 = tieuDe;
+    if (data04_PLIII_03.id == undefined) {
       //neu la create thi field id khong ton tai
       handleCreateForm(tieuDe, 'create');
     } else {
@@ -71,8 +71,8 @@ const Form02ad02 = ({route}) => {
   };
 
   const handleCreateForm = async (tieuDe, string) => {
-    let objectPost = {...data0202};
-    objectPost.dairy_name = tieuDe;
+    let objectPost = {...data04_PLIII_03};
+    objectPost.dairyname = tieuDe;
 
     // console.log(JSON.stringify(objectPost, null, 2));
 
@@ -81,26 +81,26 @@ const Form02ad02 = ({route}) => {
     // chưa có mạng thì lưu local
     if (!isConnect) {
       const dataForm = objectPost;
-      const result = await Storage.getItem('form02adx02');
+      const result = await Storage.getItem('form04_PLIII_03');
     if (result !== null) {
         const data = JSON.parse(result);
         data.push(dataForm);
-        await Storage.setItem('form02adx02', JSON.stringify(data));
+        await Storage.setItem('form04_PLIII_03', JSON.stringify(data));
         ToastAndroid.show('Tạo thành công', ToastAndroid.SHORT);
         setGoBackAlert(true);
       } else {
         const data = [];
         data.push(dataForm);
-        await Storage.setItem('form02adx02', JSON.stringify(data));
+        await Storage.setItem('form04_PLIII_03', JSON.stringify(data));
         ToastAndroid.show('Tạo thành công', ToastAndroid.SHORT);
         setGoBackAlert(true);
       }
     } else if (string == 'create') {
 
-        await postForm0202(modifyThongTinKhaiThac(objectPost));
+        await postForm04_PLIII_03(modifyThongTinKhaiThac(objectPost));
 
     } else if (string == 'update') {
-      await updateForm0202(modifyThongTinKhaiThac(objectPost));
+      await updateForm04_PLIII_03(modifyThongTinKhaiThac(objectPost));
     }
   };
 
@@ -108,27 +108,27 @@ const Form02ad02 = ({route}) => {
 
   useEffect(() => {
     if (id != undefined) {
-      if (netInfo.isConnected) getDetailForm0202Id(id);
+      if (netInfo.isConnected) getDetailForm04_PLIII_03Id(id);
       else getDataLocal();
     } else {
-      setData0202(data0202Empty);
+      setData04_PLIII_03(data04_PLIII_03Empty);
     }
-  }, [netInfo, id, setData0202]);
+  }, [netInfo, id, setData04_PLIII_03]);
 
   // render data local to form
   const getDataLocal = async () => {
-    const result = await Storage.getItem('form02adx02');
+    const result = await Storage.getItem('form04_PLIII_03');
     if (result !== null) {
       const data = JSON.parse(result);
       if (data.length > 0) {
         console.log(JSON.stringify(data[i], null, 2));
-        setData0202(data[id]);
+        setData04_PLIII_03(data[id]);
       }
     }
   };
 
-  const modifyThongTinKhaiThac = data0202 => {
-    const modifiedKhaiThac = {...data0202}; 
+  const modifyThongTinKhaiThac = data04_PLIII_03 => {
+    const modifiedKhaiThac = {...data04_PLIII_03}; 
 
     // if (modifiedKhaiThac.tau_chieudailonnhat === '') {
     //   modifiedKhaiThac.tau_chieudailonnhat = 0;
@@ -166,23 +166,23 @@ const Form02ad02 = ({route}) => {
 
   // check ko có wifi thì update local
   const handleUpdateDiaryLocal = async () => {
-    const dataForm = {...data0202};
-    dataForm.dairy_name = titleForm0202;
-    const result = await Storage.getItem('form02adx02');
+    const dataForm = {...data04_PLIII_03};
+    dataForm.dairyname = titleForm04_PLIII_03;
+    const result = await Storage.getItem('form04_PLIII_03');
     if (result !== null) {
       const data = JSON.parse(result);
       data[id] = dataForm;
-      await Storage.setItem('form02adx02', JSON.stringify(data));
+      await Storage.setItem('form04_PLIII_03', JSON.stringify(data));
       console.log('STORAGE:', JSON.stringify(data, null, 2));
     }
     ToastAndroid.show('Cập nhật thành công', ToastAndroid.SHORT);
-    // setData0202(data0202Empty);
+    // setData04_PLIII_03(data04_PLIII_03Empty);
     setGoBackAlert(true);
   };
 
   React.useEffect(() => {
     const backAction = () => {
-      setData0202(data0202Empty);
+      setData04_PLIII_03(data04_PLIII_03Empty);
       navigation.goBack();
       return true;
     };
@@ -216,8 +216,8 @@ const Form02ad02 = ({route}) => {
         <TouchableOpacity
           style={[styles.actionDownload, styles.button]}
           onPress={ async () => {
-            let dataFix = data0202;
-            dataFix.dairy_name = 'filemau';
+            let dataFix = data04_PLIII_03;
+            dataFix.dairyname = 'filemau';
             const exportPDF = await ExportPDF(dataFix);
             console.log(exportPDF);
              if(exportPDF)
@@ -236,8 +236,8 @@ const Form02ad02 = ({route}) => {
               ToastAndroid.show('Vui lòng kết nối internet.', ToastAndroid.SHORT);
               return;
             }
-            let dataFix = data0202;
-            dataFix.dairy_name = 'filemau';
+            let dataFix = data04_PLIII_03;
+            dataFix.dairyname = 'filemau';
             const exportPDF = await ExportPDF(dataFix);
             if(exportPDF==true)
               uploadFile(`/storage/emulated/0/Android/data/com.khanhhoiapp/files/pdf/filemau.pdf`);
@@ -253,7 +253,7 @@ const Form02ad02 = ({route}) => {
 
   return (
     <ScrollView>
-      <HeaderView/>
+      {/* <HeaderView/> */}
       {/* <TongCucThuySanView /> */}
       {/* <ChiTietNhomKhaiThac/> */}
       {/* <TableCangca2/> */}
@@ -288,7 +288,7 @@ const Form02ad02 = ({route}) => {
   );
 };
 
-export default Form02ad02;
+export default Form04_PLIII_03;
 
 const styles = StyleSheet.create({
   container: {

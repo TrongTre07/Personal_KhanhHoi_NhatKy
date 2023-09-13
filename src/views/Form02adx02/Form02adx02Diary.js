@@ -143,13 +143,13 @@ const Form02adx02Diary = ({ navigation }) => {
           let dataTemp;
           if (netInfo.isConnected) {
             dataTemp = await getDetailForm0202Id(id);
-            dataTemp.dairyname = 'filemau';
+            dataTemp.dairy_name = 'filemau';
           } else {
             const result = await Storage.getItem('form02adx02');
             if (result !== null) {
               const dataLocal = JSON.parse(result);
               dataTemp = dataLocal[index];
-              dataTemp.dairyname = 'filemau';
+              dataTemp.dairy_name = 'filemau';
             }
           }
           const result = await ExportPDF(dataTemp);
@@ -239,7 +239,7 @@ const Form02adx02Diary = ({ navigation }) => {
     item.hinhthucbansp,
     moment(item.datecreate).format('DD/MM/YYYY HH:mm'),
     !item.dateedit?'':moment(item.dateedit).format('DD/MM/YYYY HH:mm'),
-    elementButton(item.id, index),
+    elementButton(item.dairyid, index),
   ]});
 
   //colum
@@ -273,14 +273,14 @@ const Form02adx02Diary = ({ navigation }) => {
         <Table borderStyle={{ borderWidth: 1}}>
           <Row
             data={state.tableHead}
-            flexArr={[0.8,4,2,2,2,2,2,2,2,2,2,3 ]}
+            flexArr={[0.8,4,2,2,2,2,2,2,2,2,4 ]}
             style={styles.head}
             textStyle={styles.textHead}
           />
           <TableWrapper style={styles.wrapper}>
             <Rows
               data={state.tableColum}
-              flexArr={[0.8,4,2,2,2,2,2,2,2,2,2,3 ]}
+              flexArr={[0.8,4,2,2,2,2,2,2,2,2,4 ]}
               style={styles.row}
               textStyle={styles.text}
             />
@@ -313,7 +313,7 @@ const styles = StyleSheet.create({
   text: {
     textAlign: 'center',
     padding: 3,
-    fontSize: 12, 
+    fontSize: 14, 
     color: '#000',
   },
   textHead: {
@@ -338,7 +338,8 @@ const styles = StyleSheet.create({
   btnText: {
     paddingVertical: 6,
     paddingHorizontal: 14,
-    fontSize: 16,
+    fontSize: 14,
+    color: '#000',
     fontWeight: '600',
   },
 });

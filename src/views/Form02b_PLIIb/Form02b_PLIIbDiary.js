@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import React, { useContext, useEffect, useState, useCallback } from 'react';
 import { UserContext } from '../../contexts/UserContext';
-import { ExportPDF } from './pdfForm0401/ExportPDF';
+import { ExportPDF } from './pdfForm02b_PLIIb/ExportPDF';
 import {
   Table,
   TableWrapper,
@@ -24,14 +24,14 @@ import { useNetInfo } from '@react-native-community/netinfo';
 import Storage from '../../utils/storage';
 
 import moment from 'moment';
-import { PrintfPDF } from './pdfForm0401/PrintfPDF';
-const Form04adx01Diary = ({ navigation }) => {
+import { PrintfPDF } from './pdfForm02b_PLIIb/PrintfPDF';
+const Form02b_PLIIbDiary = ({ navigation }) => {
   const [dataDiary, setDataDiary] = useState([]);
 
   const {
-    getDiaryForm0401,
-    deleteForm0401Id,
-    getDetailForm0401Id,
+    getDiaryForm02b_PLIIb,
+    deleteForm02b_PLIIb_Id,
+    getDetailForm02b_PLIIb_Id,
     isLoggedIn,
   } = useContext(UserContext);
 
@@ -49,7 +49,7 @@ const Form04adx01Diary = ({ navigation }) => {
   const fetchdata = async () => {
     //sap xep lai danh sach theo thoi gian update
     setRefreshing(true);
-    const rawDiary = await getDiaryForm0401();
+    const rawDiary = await getDiaryForm02b_PLIIb();
     try {
       if (rawDiary != undefined) {
         await rawDiary.sort(sortListForm);
@@ -67,7 +67,7 @@ const Form04adx01Diary = ({ navigation }) => {
 
 
   const getDataLocal = async () => {
-    const result = await Storage.getItem('form04adx01');
+    const result = await Storage.getItem('form02b_PLIIb');
     if (result !== null) {
       const data = JSON.parse(result);
       setDataDiary(data);
@@ -99,7 +99,7 @@ const Form04adx01Diary = ({ navigation }) => {
         {
           text: 'Xoá',
           onPress: async () => {
-            await deleteForm0401Id(id);
+            await deleteForm02b_PLIIb_Id(id);
             fetchdata();
           },
         },
@@ -124,7 +124,7 @@ const Form04adx01Diary = ({ navigation }) => {
             // delete object at index
             const newData = [...dataDiary];
             newData.splice(index, 1);
-            await Storage.setItem('form04adx01', JSON.stringify(newData)); // update lại data vừa xoá
+            await Storage.setItem('form02b_PLIIb', JSON.stringify(newData)); // update lại data vừa xoá
             setDataDiary(newData);
           },
         },
@@ -142,10 +142,10 @@ const Form04adx01Diary = ({ navigation }) => {
 
           let dataTemp;
           if (netInfo.isConnected) {
-            dataTemp = await getDetailForm0401Id(id);
+            dataTemp = await getDetailForm02b_PLIIb_Id(id);
             dataTemp.dairyname = 'filemau';
           } else {
-            const result = await Storage.getItem('form04adx01');
+            const result = await Storage.getItem('form02b_PLIIb');
             if (result !== null) {
               const dataLocal = JSON.parse(result);
               dataTemp = dataLocal[index];
@@ -163,7 +163,7 @@ const Form04adx01Diary = ({ navigation }) => {
       </TouchableOpacity>
       <TouchableOpacity
         onPress={() =>
-          navigation.navigate('form04adx01', {
+          navigation.navigate('form02b_PLIIb', {
             id: !netInfo.isConnected ? index : id,
           })
         }>
@@ -175,9 +175,9 @@ const Form04adx01Diary = ({ navigation }) => {
         onPress={async () => {
           let tempData;
           if (netInfo.isConnected) {
-            tempData = await getDetailForm0401Id(id);
+            tempData = await getDetailForm02b_PLIIb_Id(id);
           } else {
-            const result = await Storage.getItem('form04adx01');
+            const result = await Storage.getItem('form02b_PLIIb');
             if (result !== null) {
               const dataLocal = JSON.parse(result);
               tempData = dataLocal[index];
@@ -204,9 +204,9 @@ const Form04adx01Diary = ({ navigation }) => {
         onPress={async () => {
           let tempData;
           if (netInfo.isConnected) {
-            tempData = await getDetailForm0401Id(id);
+            tempData = await getDetailForm03_PLI_IId(id);
           } else {
-            const result = await Storage.getItem('form04adx01');
+            const result = await Storage.getItem('form02b_PLIIb');
             if (result !== null) {
               const dataLocal = JSON.parse(result);
               tempData = dataLocal[index];
@@ -223,31 +223,35 @@ const Form04adx01Diary = ({ navigation }) => {
     </View>
   );
   //data
-  const selectedData = dataDiary?.map((item, index) => [
+  const selectedData = dataDiary?.map((item, index) => {
+
+    return [
     index,
     item.dairyname,
-    item.tau_bs,
-    item.ten_chutau_thuyentruong,
-    item.chuyenbien_so,
-    item.tongsanluong,
-    moment(item.tungay).format('DD/MM/YYYY'),
-    moment(item.denngay).format('DD/MM/YYYY'),
+    item.sochungnhan,
+    item.quocgiaxuatkhau,
+    item.tentau,
+    item.sochuyen,
+    item.sochuyenbay,
+    item.quoctichxevasodangky,
+    item.sovanndonduongsat,
     moment(item.datecreate).format('DD/MM/YYYY HH:mm'),
     !item.dateedit?'':moment(item.dateedit).format('DD/MM/YYYY HH:mm'),
     elementButton(item.id, index),
-  ]);
+  ]});
 
   //colum
   let state = {
     tableHead: [
       'TT',
       'Tên',
-      'Số tàu',
-      'Thuyền trưởng',
-      'Tổng khối lượng (kg)',
-      'Chuyến biển số',
-      'Từ ngày',
-      'Đến ngày',
+      'Số chứng nhận',
+      'Quốc gia xuất khẩu',
+      'Tên tàu',
+      'Số chuyến',
+      'Số chuyến bay',
+      'Quốc tịch xe, số đăng ký',
+      'Số vận đơn',
       'Ngày tạo',
       'Sửa đổi lần cuối',
       'Thao tác',
@@ -268,14 +272,14 @@ const Form04adx01Diary = ({ navigation }) => {
         <Table borderStyle={{ borderWidth: 1}}>
           <Row
             data={state.tableHead}
-            flexArr={[0.8,2,2,2,2,2,2,2,2,2,3 ]}
+            flexArr={[1,3.5,2,2,2,2,2,2,2,2,2,3 ]}
             style={styles.head}
             textStyle={styles.textHead}
           />
           <TableWrapper style={styles.wrapper}>
             <Rows
               data={state.tableColum}
-              flexArr={[0.8,2,2,2,2,2,2,2,2,2,3 ]}
+              flexArr={[1,3.5,2,2,2,2,2,2,2,2,2,3 ]}
               style={styles.row}
               textStyle={styles.text}
             />
@@ -286,7 +290,7 @@ const Form04adx01Diary = ({ navigation }) => {
   );
 };
 
-export default Form04adx01Diary;
+export default Form02b_PLIIbDiary;
 
 const styles = StyleSheet.create({
   container: {
