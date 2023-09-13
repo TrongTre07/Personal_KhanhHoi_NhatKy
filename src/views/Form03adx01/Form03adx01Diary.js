@@ -8,9 +8,9 @@ import {
   RefreshControl,
   ToastAndroid,
 } from 'react-native';
-import React, { useContext, useEffect, useState, useCallback } from 'react';
-import { UserContext } from '../../contexts/UserContext';
-import { ExportPDF } from './pdfForm0301/ExportPDF';
+import React, {useContext, useEffect, useState, useCallback} from 'react';
+import {UserContext} from '../../contexts/UserContext';
+import {ExportPDF} from './pdfForm0301/ExportPDF';
 import {
   Table,
   TableWrapper,
@@ -19,21 +19,17 @@ import {
   Col,
 } from 'react-native-table-component';
 
-import { useFocusEffect, useNavigation } from '@react-navigation/native';
-import { useNetInfo } from '@react-native-community/netinfo';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
+import {useNetInfo} from '@react-native-community/netinfo';
 import Storage from '../../utils/storage';
 
 import moment from 'moment';
-import { PrintfPDF } from './pdfForm0301/PrintfPDF';
-const Form03adx01Diary = ({ navigation }) => {
+import {PrintfPDF} from './pdfForm0301/PrintfPDF';
+const Form03adx01Diary = ({navigation}) => {
   const [dataDiary, setDataDiary] = useState([]);
 
-  const {
-    getDiaryForm0301,
-    deleteForm0301Id,
-    getDetailForm0301Id,
-    isLoggedIn,
-  } = useContext(UserContext);
+  const {getDiaryForm0301, deleteForm0301Id, getDetailForm0301Id, isLoggedIn} =
+    useContext(UserContext);
 
   const netInfo = useNetInfo();
   const [refreshing, setRefreshing] = React.useState(false);
@@ -54,15 +50,14 @@ const Form03adx01Diary = ({ navigation }) => {
       }
       setDataDiary(rawDiary);
       setRefreshing(false);
-    } catch (error) { }
+    } catch (error) {}
   };
 
   const sortListForm = (a, b) => {
-    const dateA = new Date(a.date_modified);
-    const dateB = new Date(b.date_modified);
+    const dateA = new Date(a.dateedit);
+    const dateB = new Date(b.dateedit);
     return dateA - dateB;
   };
-
 
   const getDataLocal = async () => {
     const result = await Storage.getItem('form03adx01');
@@ -76,11 +71,8 @@ const Form03adx01Diary = ({ navigation }) => {
   // nếu không có wifi, lấy data từ local
   useFocusEffect(
     useCallback(() => {
-      if (netInfo.isConnected)
-         fetchdata();
-      else 
-         getDataLocal();
-
+      if (netInfo.isConnected) fetchdata();
+      else getDataLocal();
     }, [netInfo.isConnected]),
   );
 
@@ -102,7 +94,7 @@ const Form03adx01Diary = ({ navigation }) => {
           },
         },
       ],
-      { cancelable: false },
+      {cancelable: false},
     );
   };
 
@@ -127,9 +119,8 @@ const Form03adx01Diary = ({ navigation }) => {
           },
         },
       ],
-      { cancelable: false },
+      {cancelable: false},
     );
-
   };
 
   //btn
@@ -137,7 +128,6 @@ const Form03adx01Diary = ({ navigation }) => {
     <View style={styles.boxbtn}>
       <TouchableOpacity
         onPress={async () => {
-
           let dataTemp;
           if (netInfo.isConnected) {
             dataTemp = await getDetailForm0301Id(id);
@@ -231,7 +221,7 @@ const Form03adx01Diary = ({ navigation }) => {
     moment(item.tungay).format('DD/MM/YYYY'),
     moment(item.denngay).format('DD/MM/YYYY'),
     moment(item.datecreate).format('DD/MM/YYYY HH:mm'),
-    !item.dateedit?'':moment(item.dateedit).format('DD/MM/YYYY HH:mm'),
+    !item.dateedit ? '' : moment(item.dateedit).format('DD/MM/YYYY HH:mm'),
     elementButton(item.id, index),
   ]);
 
@@ -255,25 +245,28 @@ const Form03adx01Diary = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <ScrollView 
+      <ScrollView
         // style={{width:800}}
         vertical={true}
         // onRefresh={fetchdata}
         showsVerticalScrollIndicator={false}
         refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={()=>fetchdata()} />
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={() => fetchdata()}
+          />
         }>
-        <Table borderStyle={{ borderWidth: 1}}>
+        <Table borderStyle={{borderWidth: 1}}>
           <Row
             data={state.tableHead}
-            flexArr={[0.8,2,2,2,2,2,2,2,2,2,3 ]}
+            flexArr={[0.8, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3]}
             style={styles.head}
             textStyle={styles.textHead}
           />
           <TableWrapper style={styles.wrapper}>
             <Rows
               data={state.tableColum}
-              flexArr={[0.8,2,2,2,2,2,2,2,2,2,3 ]}
+              flexArr={[0.8, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3]}
               style={styles.row}
               textStyle={styles.text}
             />
@@ -306,7 +299,7 @@ const styles = StyleSheet.create({
   text: {
     textAlign: 'center',
     padding: 3,
-    fontSize: 12, 
+    fontSize: 12,
     color: '#000',
   },
   textHead: {

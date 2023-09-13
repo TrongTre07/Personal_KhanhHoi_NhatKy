@@ -22,13 +22,12 @@ const UserProvider = ({children}) => {
   const [data0201, setData0201] = useState(data0201Empty);
 
   const [data0301, setData0301] = useState(data0301Empty);
-  
+
   const [data0401, setData0401] = useState(data0401Empty);
 
   const [data0102, setData0102] = useState(data0102Empty);
 
   const [data0202, setData0202] = useState(data0202Empty);
-
 
   const [dataInfShip, setDataInfShip] = useState([]);
   const [token, setToken] = useState();
@@ -315,7 +314,7 @@ const UserProvider = ({children}) => {
   };
 
   const updateForm0201 = async obj => {
-    // console.log(JSON.stringify(obj, null, 2));
+    // dateedit
     try {
       const response = await instance.post(
         `/api/FormAppendix/0201/update`,
@@ -518,6 +517,7 @@ const UserProvider = ({children}) => {
   //get form theo id
   const getDetailForm0401Id = async id => {
     try {
+      setIsLoading(true);
       if (!id) {
         setInitialTitle('');
       }
@@ -528,9 +528,11 @@ const UserProvider = ({children}) => {
 
         setInitialTitle(response.data.dairyname);
         setData0401(await response.data);
+        setIsLoading(false);
         return response.data;
       }
     } catch (error) {
+      setIsLoading(false);
       if (error.response.status === 401) {
         getAlert401();
       }
@@ -648,6 +650,8 @@ const UserProvider = ({children}) => {
   //get form theo id
   const getDetailForm0102Id = async id => {
     try {
+      setIsLoading(true);
+
       if (!id) {
         setInitialTitle('');
       }
@@ -655,12 +659,15 @@ const UserProvider = ({children}) => {
         const response = await instance.get(
           `/api/FormAppendix/bcrs/getbyid/${id}`,
         );
-
         setInitialTitle(response.data.dairyname);
         setData0102(await response.data);
+        setIsLoading(false);
+
         return response.data;
       }
     } catch (error) {
+      setIsLoading(false);
+
       if (error.response.status === 401) {
         getAlert401();
       }
@@ -778,6 +785,8 @@ const UserProvider = ({children}) => {
   //get form theo id
   const getDetailForm0202Id = async id => {
     try {
+      setIsLoading(true);
+
       if (!id) {
         setInitialTitle('');
       }
@@ -788,9 +797,13 @@ const UserProvider = ({children}) => {
 
         setInitialTitle(response.data.dairyname);
         setData0102(await response.data);
+        setIsLoading(false);
+
         return response.data;
       }
     } catch (error) {
+      setIsLoading(false);
+
       if (error.response.status === 401) {
         getAlert401();
       }

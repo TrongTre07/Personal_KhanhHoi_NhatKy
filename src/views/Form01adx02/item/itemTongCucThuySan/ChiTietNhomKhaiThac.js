@@ -9,24 +9,34 @@ import {
   ToastAndroid,
   Alert,
 } from 'react-native';
-import React, { useContext, useState } from 'react';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { UserContext } from '../../../../contexts/UserContext';
+import React, {useContext, useState} from 'react';
+import {SafeAreaView} from 'react-native-safe-area-context';
+import {UserContext} from '../../../../contexts/UserContext';
 import data0201Empty from '../../models/data0102';
 const ChiTietNhomKhaiThac = () => {
   const [selectedItemIndex, setSelectedItemIndex] = useState(-1);
-  const { data0102, setData0102 } = useContext(UserContext);
+  const {data0102, setData0102} = useContext(UserContext);
 
   const handleThemDong = () => {
     try {
-      let objAdd = data0201Empty.cangca_ds_denghi[0];
+      let objAdd = {
+        // id: 0,
+        tencang: '',
+        loaicangca: '',
+        diachi: '',
+        dienthoai: '',
+        soquyetdinhmocang: '',
+        lydokhaitru: '',
+        isdelete: false,
+        ghichu: '',
+      };
       // console.log('objAdd okokokokoko: ', objAdd);
-      let updatedData0102 = { ...data0102 };
+      let updatedData0102 = {...data0102};
       // objAdd = {...objAdd, id: Math.random(1,9)};
       // if (updatedData0102.cangca_ds_denghi) {
       //   updatedData0102.cangca_ds_denghi.push(objAdd);
       // }
-      updatedData0102.cangca_ds_denghi.push({...objAdd})
+      updatedData0102.cangca_ds_denghi.push({...objAdd});
       setData0102(updatedData0102);
     } catch (error) {
       console.log('ERROR ', error);
@@ -38,7 +48,7 @@ const ChiTietNhomKhaiThac = () => {
     try {
       let lastObject = data0102.cangca_ds_denghi.length;
       if (lastObject == 1) {
-        Alert.alert('Không thể xóa hết thông tin', '', [{ text: 'OK' }]);
+        Alert.alert('Không thể xóa hết thông tin', '', [{text: 'OK'}]);
         return;
       }
 
@@ -48,7 +58,7 @@ const ChiTietNhomKhaiThac = () => {
         }
       });
       if (lastObject == 1) {
-        Alert.alert('Không thể xóa hết thông tin', '', [{ text: 'OK' }]);
+        Alert.alert('Không thể xóa hết thông tin', '', [{text: 'OK'}]);
         return;
       }
 
@@ -57,7 +67,7 @@ const ChiTietNhomKhaiThac = () => {
         if (itemToRemove.hasOwnProperty('isdelete')) {
           itemToRemove.isdelete = true;
           // Update data0202 with the modified itemToRemove
-          let tempData= {...data0102};
+          let tempData = {...data0102};
           tempData.cangca_ds_denghi[selectedItemIndex] = itemToRemove;
           // const updatedData0102 = {
           //   ...data0102,
@@ -67,7 +77,7 @@ const ChiTietNhomKhaiThac = () => {
           // };
           // const updatedData0102 = tempData;
           setData0102(tempData);
-        } 
+        }
         // else {
         //   // Item doesn't have isdelete field, remove it by filtering
         //   const updatedKhaiThac = data0102.cangca_ds_denghi.filter(
@@ -82,7 +92,7 @@ const ChiTietNhomKhaiThac = () => {
         //   setData0102(updatedData0102);
         // }
       } else {
-        Alert.alert('Cần chọn dòng', '', [{ text: 'OK' }]);
+        Alert.alert('Cần chọn dòng', '', [{text: 'OK'}]);
       }
     } catch (error) {
       console.log('ERROR ', error);
@@ -112,7 +122,7 @@ const ChiTietNhomKhaiThac = () => {
     setSelectedItemIndex(index);
   };
 
-  const TenLoaiThuySanItem = ({ item, index }) => {
+  const TenLoaiThuySanItem = ({item, index}) => {
     // console.log("data0102", data0102);
 
     let countIsDelete = 0;
@@ -122,9 +132,7 @@ const ChiTietNhomKhaiThac = () => {
       checkIsDeleted = true;
     } else {
       for (i = 0; i <= index; i++) {
-        if (
-          data0102.cangca_ds_denghi[i].isdelete 
-        ) {
+        if (data0102.cangca_ds_denghi[i].isdelete) {
           countIsDelete++;
         }
       }
@@ -141,8 +149,8 @@ const ChiTietNhomKhaiThac = () => {
         key={index}
         onPress={() => handleChonItem(index)}
         style={[
-          { flexDirection: 'row', backgroundColor: 'white' },
-          isSelected && { backgroundColor: 'lightblue' },
+          {flexDirection: 'row', backgroundColor: 'white'},
+          isSelected && {backgroundColor: 'lightblue'},
         ]}>
         <Text style={styles.textTT}>{rootIndex + 1}</Text>
 
@@ -151,7 +159,7 @@ const ChiTietNhomKhaiThac = () => {
           value={item.tencang}
           // onChangeText={text => handleChangeTenLoai(text, item.id)}
           onChangeText={text => {
-            let tempdata0102 = { ...data0102 };
+            let tempdata0102 = {...data0102};
             tempdata0102.cangca_ds_denghi[index].tencang = text;
             setData0102(tempdata0102);
           }}
@@ -162,7 +170,7 @@ const ChiTietNhomKhaiThac = () => {
           value={item.loaicangca}
           // onChangeText={text => handleChangeTenLoai(text, item.id)}
           onChangeText={text => {
-            let tempdata0102 = { ...data0102 };
+            let tempdata0102 = {...data0102};
             tempdata0102.cangca_ds_denghi[index].loaicangca = text;
             setData0102(tempdata0102);
           }}
@@ -172,7 +180,7 @@ const ChiTietNhomKhaiThac = () => {
           value={item.diachi}
           // onChangeText={text => handleChangeTenLoai(text, item.id)}
           onChangeText={text => {
-            let tempdata0102 = { ...data0102 };
+            let tempdata0102 = {...data0102};
             tempdata0102.cangca_ds_denghi[index].diachi = text;
             setData0102(tempdata0102);
           }}
@@ -182,7 +190,7 @@ const ChiTietNhomKhaiThac = () => {
           value={item.dienthoai}
           // onChangeText={text => handleChangeTenLoai(text, item.id)}
           onChangeText={text => {
-            let tempdata0102 = { ...data0102 };
+            let tempdata0102 = {...data0102};
             tempdata0102.cangca_ds_denghi[index].dienthoai = text;
             setData0102(tempdata0102);
           }}
@@ -192,7 +200,7 @@ const ChiTietNhomKhaiThac = () => {
           value={item.soquyetdinhmocang}
           // onChangeText={text => handleChangeTenLoai(text, item.id)}
           onChangeText={text => {
-            let tempdata0102 = { ...data0102 };
+            let tempdata0102 = {...data0102};
             tempdata0102.cangca_ds_denghi[index].soquyetdinhmocang = text;
             setData0102(tempdata0102);
           }}
@@ -202,19 +210,17 @@ const ChiTietNhomKhaiThac = () => {
           value={item.ghichu}
           // onChangeText={text => handleChangeTenLoai(text, item.id)}
           onChangeText={text => {
-            let tempdata0102 = { ...data0102 };
+            let tempdata0102 = {...data0102};
             tempdata0102.cangca_ds_denghi[index].ghichu = text;
             setData0102(tempdata0102);
           }}
         />
-
-
       </Pressable>
     );
   };
 
   return (
-    <View style={{ flex: 1, backgroundColor: 'white' }}>
+    <View style={{flex: 1, backgroundColor: 'white'}}>
       <Text
         style={{
           marginHorizontal: 25,
@@ -228,7 +234,7 @@ const ChiTietNhomKhaiThac = () => {
       </Text>
       <ScrollView>
         <ScrollView horizontal={true} style={{}}>
-          <View style={{ flexDirection: 'column' }}>
+          <View style={{flexDirection: 'column'}}>
             <View
               style={{
                 flexDirection: 'row',
@@ -240,7 +246,9 @@ const ChiTietNhomKhaiThac = () => {
               <Text style={styles.textTenLoaiThuySan}>Cảng cá loại</Text>
               <Text style={styles.textTenLoaiThuySan}>Địa chỉ</Text>
               <Text style={styles.textTenLoaiThuySan}>Điện thoại</Text>
-              <Text style={styles.textTenLoaiThuySan}>Số quyết định {`\n`} công bố mở cảng</Text>
+              <Text style={styles.textTenLoaiThuySan}>
+                Số quyết định {`\n`} công bố mở cảng
+              </Text>
               <Text style={styles.textTenLoaiThuySan}>Ghi chú</Text>
             </View>
 
@@ -253,13 +261,13 @@ const ChiTietNhomKhaiThac = () => {
         /> */}
 
             {data0102.cangca_ds_denghi.map((item, index) =>
-              TenLoaiThuySanItem({ item, index }),
+              TenLoaiThuySanItem({item, index}),
             )}
           </View>
         </ScrollView>
       </ScrollView>
 
-      <View style={{ flexDirection: 'row' }}>
+      <View style={{flexDirection: 'row'}}>
         <Pressable style={styles.btnThemDong} onPress={() => handleThemDong()}>
           <Text style={styles.textBtn}>Thêm dòng</Text>
         </Pressable>

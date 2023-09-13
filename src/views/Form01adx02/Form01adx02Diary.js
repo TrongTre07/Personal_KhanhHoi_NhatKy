@@ -60,8 +60,8 @@ const Form01adx02Diary = ({ navigation }) => {
   };
 
   const sortListForm = (a, b) => {
-    const dateA = new Date(a.date_modified);
-    const dateB = new Date(b.date_modified);
+    const dateA = new Date(a.dateedit);
+    const dateB = new Date(b.dateedit);
     return dateA - dateB;
   };
 
