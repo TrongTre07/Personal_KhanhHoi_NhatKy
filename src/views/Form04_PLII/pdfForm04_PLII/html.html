@@ -41,6 +41,7 @@
             font-weight: bold;
             text-decoration: none;
             font-size: 13pt;
+            word-wrap: break-word;
         }
 
         .s2 {
@@ -130,6 +131,35 @@
             padding: 4pt;
         }
 
+        .checkbox-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        input[type="checkbox"] {
+            -webkit-appearance: initial;
+            appearance: initial;
+            background: #fff;
+            width: 15px;
+            height: 15px;
+            border: 1px solid #000;
+            position: relative;
+        }
+
+        input[type="checkbox"]:checked:after {
+            /* Heres your symbol replacement */
+            content: "X";
+            color: #000;
+            position: absolute;
+            font-size: 11px;
+            left: 50%;
+            top: 55%;
+            -webkit-transform: translate(-50%, -50%);
+            -moz-transform: translate(-50%, -50%);
+            -ms-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
+        }
     </style>
 </head>
 
@@ -140,7 +170,7 @@
                 Số 21 /2018/TT-BNNPTNT
             </h1>
             <h1 style="margin: 0;">
-                Mẫu số 02 (Phụ lục II)
+                Mẫu số 03 (Phụ lục II)
             </h1>
         </div>
         <h1 style="padding-top: 6pt; text-align: center;width: 100%;">
@@ -164,58 +194,111 @@
                 </h1>
 
                 <h1 style="padding-top: 4pt; text-align: center;width: 100%;">
-                    Số gvCC1a
-                </h1>
-
-                <h1 style="padding-top: 4pt; text-align: center;width: 100%;font-style: italic;
-                            font-weight: normal;">
-                    (Giấy biên nhận có giá trị 90 ngày, kể từ ngày được cấp)
+                    Số ${duLieu?.sobiennhan||'...........'}
                 </h1>
 
                 <!-- end -->
                 <!-- 2 thong tin -->
                 <div class="s2">
-                    <div style="margin: 0 20 0 20;">
-                        <div style="display: flex; margin-top: 8pt;height: 13pt;">
-                            Tên cảng cá:
-                            ${duLieu?.ten_chutau_thuyentruong||'................................................................................................................'}
+                    <div style="margin: 16pt 20pt 0 20pt;">
+                        <div style="display: flex; margin-top: 8pt">
+                            Tên cảng cá: ${duLieu?.tencangca||'........................'} ; Địa chỉ:
+                            ${duLieu?.tencangca||'...............................................................................'}
                         </div>
-                        <div style="display: flex; margin-top: 8pt;">
-                            Địa chỉ:
+                        <div style="display: flex; margin-top: 8pt; margin-bottom: 15pt;">
+                            Thời gian:
                             ${duLieu?.diachi||'....................................................................................................................'};
                         </div>
                     </div>
                 </div>
                 <!-- end -->
                 <!-- body and title-->
-                <h1 style="padding-top: 4pt; text-align: center;width: 100%;">
-                    BIÊN NHẬN
-                </h1>
-                <div class="s2">
-                    <div style="margin: 0 20 0 20;">
-                        <div style="display: flex; margin-top: 8pt;height: 13pt;">
-                            1. Họ và tên chủ tàu/thuyền trưởng:
-                            ${duLieu?.ten_chutau_thuyentruong||'................................................................................................................'}
+                <div class="s2" style="height: auto;">
+                    <div style="margin: 0 20pt 0 20pt;">
+                        <div class="s1" style="display: flex; margin-top: 8pt;">
+                            1. Đơn vị kiểm tra:
+                            ${duLieu?.tenchutauthuyentruong||'................................................................................................................'}
                         </div>
                         <div style="display: flex; margin-top: 8pt;">
-                            2. Số đăng ký tàu:
-                            ${duLieu?.diachi||'....................................................................................................................'};
-                        </div>
-                        <div style="display: flex; margin-top: 8pt;">
-                            <div style="width: 65%;">
-                                3. Giấy phép khai thác thủy sản số: ${duLieu?.tau_bs||'.............................'}
+                            <div style="width: 50%;">
+                                Người kiểm tra:
+                                ${duLieu?.giayphepkhaithac||'..................................................'}
                             </div>
-                            <div style="width: 350%;">
-                                ;; Thời hạn đến: ${duLieu?.tau_tongcongsuatmaychinh||'..............'};
+                            <div style="width: 50%;">
+                                ; Chức vụ:
+                                ${duLieu?.thoihan_gpkt||'........................................................'};
                             </div>
                         </div>
                         <div style="display: flex; margin-top: 8pt;">
-                            4. Ngày: ${duLieu?.tau_chieudailonnhat+''||'..............'} m
+                            <div style="width: 50%;">
+                                Người kiểm tra:
+                                ${duLieu?.giayphepkhaithac||'..................................................'}
+                            </div>
+                            <div style="width: 50%;">
+                                ; Chức vụ:
+                                ${duLieu?.thoihan_gpkt||'........................................................'};
+                            </div>
                         </div>
                         <div style="display: flex; margin-top: 8pt;">
-                            5: Tổng sản lượng thủy sản bốc dỡ: ${duLieu?.tongsanluong+''||'..............'} kg
+                            <div style="width: 50%;">
+                                Người kiểm tra:
+                                ${duLieu?.giayphepkhaithac||'..................................................'}
+                            </div>
+                            <div style="width: 50%;">
+                                ; Chức vụ:
+                                ${duLieu?.thoihan_gpkt||'........................................................'};
+                            </div>
+                        </div>
+                        <div style="display: flex; margin-top: 8pt;">
+                            <div style="width: 50%;">
+                                Người kiểm tra:
+                                ${duLieu?.giayphepkhaithac||'..................................................'}
+                            </div>
+                            <div style="width: 50%;">
+                                ; Chức vụ:
+                                ${duLieu?.thoihan_gpkt||'........................................................'};
+                            </div>
                         </div>
                     </div>
+
+                    <!-- 2 -->
+                    <div style="margin: 0 20pt 0 20pt;">
+                        <div class="s1" style="display: flex; margin-top: 8pt;">
+                            2. Kiểm tra tàu cá:
+                        </div>
+                        <div style="display: flex; margin-top: 8pt;">
+                            <div style="width: 50%;">
+                                Tên tàu:
+                                ${duLieu?.giayphepkhaithac||'..................................................'}
+                            </div>
+                            <div style="width: 50%;">
+                                ; Số đăng ký tàu:
+                                ${duLieu?.thoihan_gpkt||'........................................................'};
+                            </div>
+                        </div>
+                        <div style="display: flex; margin-top: 8pt;">
+                            <div style="width: 50%;">
+                                Họ tên chủ tàu:
+                                ${duLieu?.giayphepkhaithac||'..................................................'}
+                            </div>
+                            <div style="width: 50%;">
+                                ; Địa chỉ:
+                                ${duLieu?.thoihan_gpkt||'........................................................'};
+                            </div>
+                        </div>
+                        <div style="display: flex; margin-top: 8pt;">
+                            <div style="width: 50%;">
+                                Họ và tên thuyền trưởng:
+                                ${duLieu?.giayphepkhaithac||'..................................................'}
+                            </div>
+                            <div style="width: 50%;">
+                                ; Địa chỉ:
+                                ${duLieu?.thoihan_gpkt||'........................................................'};
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 3 -->
                 </div>
                 <!-- end -->
 
@@ -223,173 +306,227 @@
             <!-- end thong tin  -->
 
             <!-- body table -->
-            <div class="s2" style="margin: 8pt 16pt 0 16pt; font-style: italic; ">
-                Chi tiết về sản lượng thủy sản bốc dỡ:
+            <!-- 3 -->
+            <div class="s1" style="margin: 8pt 20pt 0 20pt; ">
+                3. Kiểm tra hồ sơ:
             </div>
             <div style="overflow-x:auto; margin-top: 6pt;">
                 <table cellspacing="0"
                     style="width:100%; height: auto; table-layout: fixed; overflow-wrap: break-word;">
-                    <tr>
-                        <td style="text-align: center;padding: 4pt; vertical-align: middle; width: 8%;" rowspan="1"
-                            bgcolor="#D1D6DB">
-                            <div class="s4">
-                                TT
-                            </div>
-                        </td>
-                        <td style="text-align:  center; vertical-align: middle; width: 60%;" rowspan="1"
-                            bgcolor="#D1D6DB">
-                            <p class="s4">
-                                Tên loài thủy sản</p>
-                        </td>
 
-                        <td style="text-align: center; vertical-align: middle; width: 22%;" rowspan="1"
-                            bgcolor="#D1D6DB">
-                            <p class="s4">
-                                Khối lượng bốc dỡ qua cảng (kg)
-                            </p>
+                    <tr>
+                        <td class="s5 center-table" style="width: 42%;">
+                            Giấy chứng nhận đăng ký tàu cá
+                        </td>
+                        <td class="s5 center-table" style="width: 8%;">
+                            ${line?.tenloai}
+                        </td>
+                        <td class="s5 center-table " style="width: 42%;">
+                            Sổ danh bạ thuyền viên tàu cá
+                        </td>
+                        <td class="s5 center-table" style="width: 8%;">
+                            ${line?.khoiluong}
                         </td>
                     </tr>
-                    ${duLieu?.tblreport_0301_ls.map((line,index) => `
                     <tr>
                         <td class="s5 center-table">
-                            ${index+1}
+                            Giấy chứng nhận an toàn kỹ thuật tàu cá
                         </td>
                         <td class="s5 center-table">
                             ${line?.tenloai}
                         </td>
+                        <td class="s5 center-table ">
+                            Văn bằng, chứng từ thuyền trưởng
+                        </td>
                         <td class="s5 center-table">
-                            ${line?.khoiluong}
+                            ${line?.khoiluong==0?'':line?.khoiluong}
                         </td>
                     </tr>
-                    `).join('')}
+                    <tr>
+                        <td class="s5 center-table">
+                            Giấy phép khai thác thủy sản
+                        </td>
+                        <td class="s5 center-table">
+                            ${line?.tenloai}
+                        </td>
+                        <td class="s5 center-table ">
+                            Văn bằng, chứng từ máy trưởng
+                        </td>
+                        <td class="s5 center-table">
+                            ${line?.khoiluong==0?'':line?.khoiluong}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="s5 center-table">
+                            Nhật ký khai thác thủy sản
+                        </td>
+                        <td class="s5 center-table">
+                            ${line?.tenloai}
+                        </td>
+                        <td class="s5 center-table ">
+                            Văn bằng, chứng từ thợ máy
+                        </td>
+                        <td class="s5 center-table">
+                            ${line?.khoiluong==0?'':line?.khoiluong}
+                        </td>
+                    </tr>
 
                 </table>
-                <!-- 2 thong tin -->
-                <div class="s2">
-                    <div style="margin: 0 20 0 20;">
-                        <div style="display: flex; margin-top: 8pt;height: 13pt;">
-                            6. Người thu mua sản phẩm (Cơ sở CBTS/nậu, vựa/người buôn):
-                            ${duLieu?.ten_chutau_thuyentruong||'..................................................................'}
-                        </div>
-                        <div style="display: flex; margin-top: 8pt;">
-                            7. Hình thức bán sản phẩm (Toàn bộ/một phần/theo loài):
-                            ${duLieu?.diachi||'..................................................................'};
-                        </div>
-                    </div>
-                </div>
-                <!-- end -->
-                <div style="display: flex; justify-content: space-between;">
-                    <div style="margin-left: 20pt; margin-top: 20pt;">
-                        <div class="chuKy">
-                            <h1 style="margin-bottom: 6pt;">Đại diện tàu cá</h1>
-                            <div class="s6 new-page" style="margin-top: 4pt;">(ký, ghi rõ họ và tên)</div>
-                        </div>
-                    </div>
-                    <div style="margin-right: 20pt;">
-                        <div class="chuKy">
-                            <div class="s6" style="margin-bottom: 6pt;">Ngày ...... tháng ...... năm ......</div>
-                            <h1 style="margin-bottom: 6pt;">Đại diện cảng cá</h1>
-                            <div class="s6 new-page" style="margin-bottom: 6pt;">(ký, ghi rõ họ và tên)</div>
-                        </div>
-                    </div>
-                </div>
 
-                <br>
             </div>
 
+            <!-- 4 -->
+            <div class="s1" style="margin: 8pt 20pt 0 20pt; ">
+                4. Kiểm tra thực tế
+            </div>
+            <!-- 4.1 -->
+            <div class="s1" style="margin: 8pt 20pt 0 20pt;font-style: italic; ">
+                4.1 Trang thiết bị trên tàu <label class="s3" style="margin-left: 30pt;">(Ghi đủ (Đ) hoặc thiếu (T) vào
+                    ô tương ứng)</label>
+            </div>
+            <div style="overflow-x:auto; margin-top: 3pt;">
+                <table style="width:100%; height: auto; overflow-wrap: break-word;">
+                    <tr>
+                        <td class="s1 center-table" colspan="2">
+                            Loại trang thiết bị
+                        </td>
+                        <td class="s1 center-table">
+                            Diễn giải
+                        </td>
+                        <td class="s1 center-table" colspan="2">
+                            Loại trang thiết bị
+                        </td>
+                        <td class="s1 center-table">
+                            Diễn giải
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="s5 center-table" style="width: 22%;">Loại trang thiết bị Loại trang thiết bị</td>
+                        <td class="s5 center-table" style="width: 8%;">T</td>
+                        <td class="s5 center-table" style="width: 20%;">Loại trang thiết bị Loại trang thiết bị</td>
+                        <td class="s5 center-table" style="width: 22%;">Loại trang thiết bị Loại trang thiết bị</td>
+                        <td class="s5 center-table" style="width: 8%;">T</td>
+                        <td class="s5 center-table" style="width: 20%;">Dien giai</td>
+                    </tr>
+                </table>
+
+            </div>
+
+            <!-- 4.2 -->
+            <div class="s1" style="margin: 8pt 20pt 0 20pt; font-style: italic;">
+                4.2 Loại nghề khai thác thủy sản và đánh dấu tàu cá 
+            </div>
+            <div style="overflow-x:auto; margin-top: 3pt;">
+                <table cellspacing="0"
+                    style="width:100%; height: auto; table-layout: fixed; overflow-wrap: break-word;">
+
+                    <tr>
+                        <td class="s5 center-table" style="width: 17%;">
+                            Lưới kéo
+                        </td>
+                        <td class="s5 center-table" style="width: 8%;">
+                            x
+                        </td>
+                        <td class="s5 center-table " style="width: 17%;">
+                            Lưới vây
+                        </td>
+                        <td class="s5 center-table" style="width: 8%;">
+                            x
+                        </td>
+                        <td class="s5 center-table " style="width: 17%;">
+                            Nghề chụp
+                        </td>
+                        <td class="s5 center-table" style="width: 8%;">
+                            x
+                        </td>
+                        <td class="s5 center-table " style="width: 17%;">
+                            Nghề khác: x x x xx x
+                        </td>
+                        <td class="s5 center-table" style="width: 8%;">
+                            x
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="s5 center-table" style="width: 17%;">
+                            Nghề câu
+                        </td>
+                        <td class="s5 center-table" style="width: 8%;">
+                            x
+                        </td>
+                        <td class="s5 center-table " style="width: 17%;">
+                            Lưới rê
+                        </td>
+                        <td class="s5 center-table" style="width: 8%;">
+                            x
+                        </td>
+                        <td class="s5 center-table " style="width: 17%;">
+                            Nghề lồng, bẩy
+                        </td>
+                        <td class="s5 center-table" style="width: 8%;">
+                            x
+                        </td>
+                        <td class="s5 center-table " style="width: 17%;">
+                            Đánh dấu tàu cá
+                        </td>
+                        <td class="s5 center-table" style="width: 8%;">
+                            x
+                        </td>
+                    </tr>
+
+
+                </table>
+            </div>      
+
+            <div class="s1" style="margin: 8pt 20pt 0 20pt; font-style: italic; ">
+                4.3 Số lượng thuyền viên tàu cá: 10 người
+            </div>
+            <!-- 5 -->
+            <div class="s1" style="margin: 8pt 20pt 0 20pt; font-style: italic;">
+                5. Đã nộp báo cáo, nhật ký khai thác thủy sản chuyến trước
+            </div>
+            <div style="overflow-x:auto; margin-top: 3pt;">
+                <table cellspacing="0"
+                    style="width:100%; height: auto; table-layout: fixed; overflow-wrap: break-word;">
+
+                    <tr>
+                        <td class="s5 center-table" style="width: 42%;">
+                            Báo cáo khai thác thủy sản
+                        </td>
+                        <td class="s5 center-table" style="width: 8%;">
+                            x
+                        </td>
+                        <td class="s5 center-table " style="width: 42%;">
+                            Nhật ký khai thác thủy sản
+                        </td>
+                        <td class="s5 center-table" style="width: 8%;">
+                            x
+                        </td>
+                    </tr>
+
+                </table>
+            </div>   
+            <div class="s1" style="margin: 8pt 20pt 0 20pt; ">
+                6. Kết luận kiểm tra:
+            </div>
+            <!-- end -->
+            <div style="display: flex; justify-content: space-between;">
+                <div style="margin-left: 20pt; margin-top: 12pt;">
+                    <div class="chuKy">
+                        <h1 style="margin-bottom: 6pt;">Chủ tàu/thuyền trưởng</h1>
+                        <div class="s6 new-page" style="margin-top: 4pt;">(ký, ghi rõ họ và tên)</div>
+                    </div>
+                </div>
+                <div style="margin-right: 20pt;  margin-top: 12pt;">
+                    <div class="chuKy">
+                        <h1 style="margin-bottom: 6pt;">Đại diện đơn vị kiểm tra</h1>
+                        <div class="s6 new-page" style="margin-top: 4pt;">(ký, đóng dấu xác nhận)</div>
+                    </div>
+                </div>
+            </div>
             <!-- end body table -->
 
-            <!-- table 2 -->
-            <!-- body table -->
-            <div style="width: 100%;">
-                <h1 style="margin: 8pt 16pt 0 16pt;">
-                    XÁC NHẬN KHỐI LƯỢNG THỦY SẢN CÒN LẠI
-                </h1>
-                <div class="s2" style="margin: 2pt 16pt 0 16pt;font-size: 11pt; font-style: italic; ">
-                    (Dùng cho tổ chức quản lý cảng cá xác nhận khối lượng nguyên liệu thủy sản còn lại khi chưa xác nhận
-                    hết khối lượng nguyên liệu
-                    thủy sản trong Giấy biên nhận thủy sản bốc dỡ qua cảng)
-                </div>
-                <div class="s2" style="margin: 8pt 16pt 0 16pt; ">
-                    .........., ngày 24 tháng 08 năm 2023; Cảng cá: quy nhon xác nhận khối lượng thủy sản còn lại trong
-                    Giấy biên nhận thủy sản bốc dỡ qua cảng sau khi cấp Giấy xác nhận nguyên
-                    liệu thủy sản khai thác số: QC31/2014
-
-                </div>
-                <div style="overflow-x:auto; margin-top: 6pt;">
-                    <table cellspacing="0"
-                        style="width:100%; height: auto; table-layout: fixed; overflow-wrap: break-word;">
-                        <tr>
-                            <td style="text-align: center;padding: 4pt; vertical-align: middle; width: 9%;" rowspan="1"
-                                bgcolor="#D1D6DB">
-                                <div class="s4">
-                                    TT
-                                </div>
-                            </td>
-                            <td style="text-align:  center; vertical-align: middle; width: 25%;" rowspan="1"
-                                bgcolor="#D1D6DB">
-                                <p class="s4">
-                                    Tên loài thủy sản</p>
-                            </td>
-
-                            <td style="text-align: center; vertical-align: middle; width: 22%;" rowspan="1"
-                                bgcolor="#D1D6DB">
-                                <p class="s4">
-                                    Khối lượng thủy sản bốc dỡ qua cảng (kg)
-                                </p>
-                            </td>
-
-                            <td style="text-align: center; vertical-align: middle; width: 22%;" rowspan="1"
-                                bgcolor="#D1D6DB">
-                                <p class="s4">
-                                    Khối lượng thủy sản đã xác nhận (kg)
-                                </p>
-                            </td>
-
-                            <td style="text-align: center; vertical-align: middle; width: 22%;" rowspan="1"
-                                bgcolor="#D1D6DB">
-                                <p class="s4">
-                                    Khối lượng thủy sản còn lại (kg)
-                                </p>
-                            </td>
-                        </tr>
-                        ${duLieu?.tblreport_0301_ls.map((line,index) => `
-                        <tr>
-                            <td class="s5 center-table">
-                                ${index+1}
-                            </td>
-                            <td class="s5 center-table">
-                                ${line?.tenloai}
-                            </td>
-                            <td class="s5 center-table">
-                                ${line?.khoiluong}
-                            </td>
-                            <td class="s5 center-table">
-                                ${line?.khoiluong}
-                            </td>
-                            <td class="s5 center-table">
-                                ${line?.khoiluong}
-                            </td>
-                        </tr>
-                        `).join('')}
-
-                    </table>
-                    <!-- end -->
-                    <div style="float: right; margin-right: 20pt; margin-top:20p">
-                        <div class="chuKy">
-                            <h1 style="margin-bottom: 6pt;">
-                                Thủ trưởng đơn vị: ............
-                            </h1>
-                            <div class="s6 " style="margin-top: 0pt;">
-                                (ký tên, đóng dấu)
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-
         </table>
+
     </div>
 
     <!-- end -->

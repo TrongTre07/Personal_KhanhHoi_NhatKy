@@ -204,7 +204,7 @@ const Form02b_PLIIbDiary = ({ navigation }) => {
         onPress={async () => {
           let tempData;
           if (netInfo.isConnected) {
-            tempData = await getDetailForm03_PLI_IId(id);
+            tempData = await getDetailForm02b_PLIIb_Id(id);
           } else {
             const result = await Storage.getItem('form02b_PLIIb');
             if (result !== null) {
