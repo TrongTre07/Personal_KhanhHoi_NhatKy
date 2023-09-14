@@ -47,7 +47,7 @@ const Form04_PLIINavigation = () => {
                 justifyContent: 'space-between',
               }}>
               <Text style={[styles.btnText, {color: 'red'}]}>
-              Biên nhận thủy sản bốc dỡ qua cảng
+              Biên bản kiểm tra tàu cá rời cảng
               </Text>
               <TouchableOpacity
                 style={{}}
