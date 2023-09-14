@@ -188,10 +188,7 @@ const XacNhanKhoiLuongThuySanConLai = () => {
           // onChangeText={text => handleChangeTenLoai(text, item.id)}
           onChangeText={text => {
             let tempdata0202 = {...data0202};
-            tempdata0202.xacnhan.lsxacnhan_[index].klbocdoquacang = parseInt(
-              text,
-              10,
-            );
+            tempdata0202.xacnhan.lsxacnhan_[index].klbocdoquacang = Number(text);
             setData0202(tempdata0202);
           }}
         />
