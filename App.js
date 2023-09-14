@@ -22,6 +22,7 @@ import TableForm03PL2 from './src/views/Form03_PLII/TableForm03PL2';
 import KiemTraSanLuongKhaiThac from './src/views/Form03_PLII/KiemTraSanLuongKhaiThac';
 import TableForm04PL2 from './src/views/Form04_PLII/TableForm04PL2';
 import TableKiemTraThucTe from './src/views/Form04_PLII/TableKiemTraThucTe';
+import TableForm02PL2B from './src/views/Form02b_PLIIb/TableForm02PL2B';
 const AppNav = () => {
   const {isLoggedIn, setIsLoggedIn} = useContext(UserContext);
   // if(AsyncStorage.getItem('token'))

@@ -8,25 +8,26 @@ import {
   Alert,
   ToastAndroid,
 } from 'react-native';
-import React, {useEffect, useContext,useState} from 'react';
+import React, {useEffect, useContext, useState} from 'react';
 // import TongCucThuySanView from './item/TongCucThuySanView';
 import {UserContext} from '../../contexts/UserContext';
 import {useNetInfo} from '@react-native-community/netinfo';
 // import HeaderView from './item/HeaderView';
 import Spinner from 'react-native-loading-spinner-overlay';
 import AlertInputComponent from '../../utils/AlertInputComponent';
-import { ExportPDF } from './pdfForm02b_PLIIb/ExportPDF';
+import {ExportPDF} from './pdfForm02b_PLIIb/ExportPDF';
 import data02b_PLIIbEmpty from './models/data02b_PLIIb';
 import uploadFile from '../../axios/uploadFile';
 import Storage from '../../utils/storage';
 import {useNavigation} from '@react-navigation/native';
+import HeaderForm02_PL2B from './HeaderForm02PL2B';
+import TableForm02PL2B from './TableForm02PL2B';
 // import ChiTietNhomKhaiThac from './item/itemTongCucThuySan/ChiTietNhomKhaiThac';
 // import TableCangca2 from './item/itemTongCucThuySan/TableCangca2';
 
-
 const Form02b_PLIIb = ({route}) => {
   const {
-    getDetailForm02b_PLIIbId,
+    getDetailForm02b_PLIIb_Id,
     setData02b_PLIIb,
     data02b_PLIIb,
     goBackAlert,
@@ -82,7 +83,7 @@ const Form02b_PLIIb = ({route}) => {
     if (!isConnect) {
       const dataForm = objectPost;
       const result = await Storage.getItem('form02b_PLIIb');
-    if (result !== null) {
+      if (result !== null) {
         const data = JSON.parse(result);
         data.push(dataForm);
         await Storage.setItem('form02b_PLIIb', JSON.stringify(data));
@@ -96,11 +97,9 @@ const Form02b_PLIIb = ({route}) => {
         setGoBackAlert(true);
       }
     } else if (string == 'create') {
-
-        await postForm02b_PLIIb(modifyThongTinKhaiThac(objectPost));
-
+      await postForm02b_PLIIb(objectPost);
     } else if (string == 'update') {
-      await updateForm02b_PLIIb(modifyThongTinKhaiThac(objectPost));
+      await updateForm02b_PLIIb(objectPost);
     }
   };
 
@@ -108,7 +107,7 @@ const Form02b_PLIIb = ({route}) => {
 
   useEffect(() => {
     if (id != undefined) {
-      if (netInfo.isConnected) getDetailForm02b_PLIIbId(id);
+      if (netInfo.isConnected) getDetailForm02b_PLIIb_Id(id);
       else getDataLocal();
     } else {
       setData02b_PLIIb(data02b_PLIIbEmpty);
@@ -125,43 +124,6 @@ const Form02b_PLIIb = ({route}) => {
         setData02b_PLIIb(data[id]);
       }
     }
-  };
-
-  const modifyThongTinKhaiThac = data02b_PLIIb => {
-    const modifiedKhaiThac = {...data02b_PLIIb}; 
-
-    // if (modifiedKhaiThac.tau_chieudailonnhat === '') {
-    //   modifiedKhaiThac.tau_chieudailonnhat = 0;
-    // }    
-    // if (modifiedKhaiThac.tau_tongcongsuatmaychinh === '') {
-    //   modifiedKhaiThac.tau_tongcongsuatmaychinh = 0;
-    // }
-    
-    // if (modifiedKhaiThac.chuyenbien_so === '') {
-    //   modifiedKhaiThac.chuyenbien_so = 0;
-    // }
-    // if (modifiedKhaiThac.nam === '') {
-    //   modifiedKhaiThac.nam = 0;
-    // }
-    // if (modifiedKhaiThac.tongsolaodong === '') {
-    //   modifiedKhaiThac.tongsolaodong = 0;
-    // }
-    // if (modifiedKhaiThac.songaykhaithac === '') {
-    //   modifiedKhaiThac.songaykhaithac = 0;
-    // }
-    // if (modifiedKhaiThac.so_meluoi === '') {
-    //   modifiedKhaiThac.so_meluoi = 0;
-    // }
-    // if (modifiedKhaiThac.tongsanluong === '') {
-    //   modifiedKhaiThac.tongsanluong = 0;
-    // }
-    // if (modifiedKhaiThac.songayhoatdong === '') {
-    //   modifiedKhaiThac.songayhoatdong = 0;
-    // }
-
-    console.log('modifiedKhaiThac:', JSON.stringify(modifiedKhaiThac, null, 2));
-
-    return modifiedKhaiThac;
   };
 
   // check ko có wifi thì update local
@@ -215,36 +177,35 @@ const Form02b_PLIIb = ({route}) => {
         )}
         <TouchableOpacity
           style={[styles.actionDownload, styles.button]}
-          onPress={ async () => {
+          onPress={async () => {
             let dataFix = data02b_PLIIb;
             dataFix.dairyname = 'filemau';
             const exportPDF = await ExportPDF(dataFix);
             console.log(exportPDF);
-             if(exportPDF)
-              navigation.navigate('ViewPDF')
-            else
-              Alert.alert('Thất bại', `không thể xem file pdf`);
-
-          }}
-        >
+            if (exportPDF) navigation.navigate('ViewPDF');
+            else Alert.alert('Thất bại', `không thể xem file pdf`);
+          }}>
           <Text style={styles.actionText}>Xem mẫu</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={[styles.actionExportPDF, styles.button]}
-          onPress={async() => {
-            if(!netInfo.isConnected){
-              ToastAndroid.show('Vui lòng kết nối internet.', ToastAndroid.SHORT);
+          onPress={async () => {
+            if (!netInfo.isConnected) {
+              ToastAndroid.show(
+                'Vui lòng kết nối internet.',
+                ToastAndroid.SHORT,
+              );
               return;
             }
             let dataFix = data02b_PLIIb;
             dataFix.dairyname = 'filemau';
             const exportPDF = await ExportPDF(dataFix);
-            if(exportPDF==true)
-              uploadFile(`/storage/emulated/0/Android/data/com.khanhhoiapp/files/pdf/filemau.pdf`);
-            else
-              Alert.alert('Thất bại', `không thể xuất file pdf`);
-          }}
-        >
+            if (exportPDF == true)
+              uploadFile(
+                `/storage/emulated/0/Android/data/com.khanhhoiapp/files/pdf/filemau.pdf`,
+              );
+            else Alert.alert('Thất bại', `không thể xuất file pdf`);
+          }}>
           <Text style={styles.actionText}>Xuất file</Text>
         </TouchableOpacity>
       </View>
@@ -253,14 +214,9 @@ const Form02b_PLIIb = ({route}) => {
 
   return (
     <ScrollView>
-      {/* <HeaderView/> */}
-      {/* <TongCucThuySanView /> */}
-      {/* <ChiTietNhomKhaiThac/> */}
-      {/* <TableCangca2/> */}
-      <View style={{backgroundColor:'#fff'}}>
-      {_renderActionView()}
-
-      </View>
+      <HeaderForm02_PL2B />
+      <TableForm02PL2B />
+      <View style={{backgroundColor: '#fff'}}>{_renderActionView()}</View>
       <Spinner
         visible={isLoading}
         textContent={'Đang tải...'}
@@ -295,7 +251,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor:'#fff'
+    backgroundColor: '#fff',
   },
   button: {
     borderRadius: 5,
