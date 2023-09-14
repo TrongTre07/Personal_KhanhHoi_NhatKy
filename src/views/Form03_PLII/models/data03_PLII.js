@@ -5,8 +5,8 @@ const moment = require('moment');
 // const formattedDate = currentDate.format('YYYY-MM-DDTHH:mm:ss');
 
 const data03_PLIIEmpty = {
-  thoigiankt: '2023-09-14T08:51:12',
-  dairyname: 'BienBanKiemTraTauCaCapCang_14092023',
+  thoigiankt: moment(),
+  dairyname: '',
   tbldairy_0203_ls: [
     {
       id: makeid(7),

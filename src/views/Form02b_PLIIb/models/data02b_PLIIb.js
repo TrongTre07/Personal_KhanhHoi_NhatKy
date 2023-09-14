@@ -3,7 +3,7 @@ const moment = require('moment');
 // const formattedDate = currentDate.format('YYYY-MM-DDTHH:mm:ss');
 
 const data02b_PLIIbEmpty = {
-  dairyname: 'ThongTinVanTai_14092023',
+  dairyname: '',
   sochungnhan: '',
   quocgiaxuatkhau: '',
   diadiemxuatphat: '',
