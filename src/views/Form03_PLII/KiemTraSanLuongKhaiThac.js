@@ -11,36 +11,34 @@ import {
 } from 'react-native';
 import React, {useContext, useState} from 'react';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {UserContext} from '../../../../contexts/UserContext';
-import makeid from '../../../others/makeid';
-import CustomDateTimePicker from '../../../others/CustomDateTimePicker';
-import CustomDatePicker from '../../../others/CustomDatePicker';
+import {UserContext} from '../../contexts/UserContext';
+import makeid from '../others/makeid';
+
 import moment from 'moment';
 
-const XacNhanKhoiLuongThuySanConLai = () => {
+const KiemTraSanLuongKhaiThac = () => {
   const [selectedItemIndex, setSelectedItemIndex] = useState(-1);
-  const {data0202, setData0202} = useContext(UserContext);
+  const {data03_PLII, setData03_PLII} = useContext(UserContext);
 
   const handleThemDong = () => {
     try {
       const objAdd = {
         id: makeid(7),
         tenloai: '',
-        klbocdoquacang: 0,
-        kldaxacnhan: 0,
-        klconlai: 0,
+        slbaocao: 0,
+        slthucte: 0,
       };
-      // const objAdd = data0202Empty.data0202.xacnhan.lsxacnhan_[0];
-      // console.log('objAdd: ',data0202Empty.data0202.xacnhan.lsxacnhan_[0]);
+      // const objAdd = data03_PLIIEmpty.data03_PLII.tbldairy_0203_ls[0];
+      // console.log('objAdd: ',data03_PLIIEmpty.data03_PLII.tbldairy_0203_ls[0]);
 
       // console.log('objAdd okokokokoko: ', objAdd);
-      let updatedData0202 = {...data0202};
+      let updateddata03_PLII = {...data03_PLII};
       // objAdd = {...objAdd, id: Math.random(1,9)};
-      // if (updatedData0202.data0202.xacnhan.lsxacnhan_) {
-      //   updatedData0202.data0202.xacnhan.lsxacnhan_.push(objAdd);
+      // if (updateddata03_PLII.data03_PLII.tbldairy_0203_ls) {
+      //   updateddata03_PLII.data03_PLII.tbldairy_0203_ls.push(objAdd);
       // }
-      updatedData0202.xacnhan.lsxacnhan_.push({...objAdd});
-      setData0202(updatedData0202);
+      updateddata03_PLII.tbldairy_0203_ls.push({...objAdd});
+      setData03_PLII(updateddata03_PLII);
     } catch (error) {
       console.log('ERROR ', error);
       ToastAndroid.show('Lỗi', ToastAndroid.SHORT);
@@ -49,13 +47,13 @@ const XacNhanKhoiLuongThuySanConLai = () => {
 
   const handleXoaDong = () => {
     try {
-      let lastObject = data0202.xacnhan.lsxacnhan_.length;
+      let lastObject = data03_PLII.tbldairy_0203_ls.length;
       if (lastObject == 1) {
         Alert.alert('Không thể xóa hết thông tin', '', [{text: 'OK'}]);
         return;
       }
 
-      data0202.xacnhan.lsxacnhan_.map(item => {
+      data03_PLII.tbldairy_0203_ls.map(item => {
         if (item.hasOwnProperty('isdelete') && item.isdelete == true) {
           lastObject -= 1;
         }
@@ -65,14 +63,14 @@ const XacNhanKhoiLuongThuySanConLai = () => {
         return;
       }
 
-      let itemToRemove = data0202.xacnhan.lsxacnhan_[selectedItemIndex];
+      let itemToRemove = data03_PLII.tbldairy_0203_ls[selectedItemIndex];
       if (itemToRemove) {
         if (itemToRemove.hasOwnProperty('isdelete')) {
           // Assuming itemToRemove contains the id you want to update
           const itemIdToRemove = itemToRemove.id;
 
           // Create a modified version of lsxacnhan_ by mapping over its items
-          const modifiedLsxacnhan_ = data0202.xacnhan.lsxacnhan_.map(item => {
+          const modifiedLsxacnhan_ = data03_PLII.tbldairy_0203_ls.map(item => {
             // Check if the item has the same id as the item to remove
             if (item.id === itemIdToRemove) {
               // Update the item and mark it as deleted
@@ -82,34 +80,28 @@ const XacNhanKhoiLuongThuySanConLai = () => {
             return item;
           });
 
-          // Create the updated data0202 object with the modified lsxacnhan_
-          const updatedData0202 = {
-            ...data0202,
-            xacnhan: {
-              ...data0202.xacnhan,
-              lsxacnhan_: modifiedLsxacnhan_,
-            },
+          // Create the updated data03_PLII object with the modified lsxacnhan_
+          const updateddata03_PLII = {
+            ...data03_PLII,
+            tbldairy_0203_ls: modifiedLsxacnhan_,
           };
 
           // Update the state with the modified data
-          setData0202(updatedData0202);
+          setData03_PLII(updateddata03_PLII);
         } else {
           // Item doesn't have isdelete field, remove it by filtering
 
-          const updatedKhaiThac = data0202.xacnhan.lsxacnhan_.filter(
+          const updatedKhaiThac = data03_PLII.tbldairy_0203_ls.filter(
             item => item.id !== itemToRemove.id,
           );
 
-          const updatedData0202 = {
-            ...data0202,
-            xacnhan: {
-              ...data0202.xacnhan,
-              lsxacnhan_: updatedKhaiThac,
-            },
+          const updateddata03_PLII = {
+            ...data03_PLII,
+            tbldairy_0203_ls: updatedKhaiThac,
           };
-          console.log(JSON.stringify(updatedData0202, null, 2));
+          console.log(JSON.stringify(updateddata03_PLII, null, 2));
 
-          setData0202(updatedData0202);
+          setData03_PLII(updateddata03_PLII);
         }
       } else {
         Alert.alert('Cần chọn dòng', '', [{text: 'OK'}]);
@@ -129,7 +121,7 @@ const XacNhanKhoiLuongThuySanConLai = () => {
     try {
       let total = 0;
 
-      data0202.xacnhan.lsxacnhan_.forEach(item => {
+      data03_PLII.tbldairy_0203_ls.forEach(item => {
         if (item[khoiLuong] && item.isdelete != true) {
           total += parseFloat(item[khoiLuong]); // Convert to float to ensure proper addition
         }
@@ -143,7 +135,7 @@ const XacNhanKhoiLuongThuySanConLai = () => {
   };
 
   const TenLoaiThuySanItem = ({item, index}) => {
-    // console.log("data0202", data0202);
+    // console.log("data03_PLII", data03_PLII);
 
     let countIsDelete = 0;
     let rootIndex = index;
@@ -151,7 +143,7 @@ const XacNhanKhoiLuongThuySanConLai = () => {
       return null;
     } else {
       for (i = 0; i <= index; i++) {
-        if (data0202.xacnhan.lsxacnhan_[i].isdelete) {
+        if (data03_PLII.tbldairy_0203_ls[i].isdelete) {
           countIsDelete++;
         }
       }
@@ -175,163 +167,63 @@ const XacNhanKhoiLuongThuySanConLai = () => {
           value={item.tenloai}
           // onChangeText={text => handleChangeTenLoai(text, item.id)}
           onChangeText={text => {
-            let tempdata0202 = {...data0202};
-            tempdata0202.xacnhan.lsxacnhan_[index].tenloai = text;
-            setData0202(tempdata0202);
+            let tempdata03_PLII = {...data03_PLII};
+            tempdata03_PLII.tbldairy_0203_ls[index].tenloai = text;
+            setData03_PLII(tempdata03_PLII);
           }}
         />
 
         <TextInput
           style={styles.textTenLoaiThuySan}
-          value={item.klbocdoquacang.toString()}
+          value={item.slbaocao.toString()}
           keyboardType="numeric"
           // onChangeText={text => handleChangeTenLoai(text, item.id)}
           onChangeText={text => {
-            let tempdata0202 = {...data0202};
-            tempdata0202.xacnhan.lsxacnhan_[index].klbocdoquacang =
-              Number(text);
-            setData0202(tempdata0202);
+            let tempdata03_PLII = {...data03_PLII};
+            if (isNaN(text)) {
+              text = 0;
+            }
+            tempdata03_PLII.tbldairy_0203_ls[index].slbaocao = Number(text);
+            setData03_PLII(tempdata03_PLII);
           }}
         />
         <TextInput
           style={styles.textTenLoaiThuySan}
-          value={item.kldaxacnhan.toString()}
+          value={item.slthucte.toString()}
           keyboardType="numeric"
           // onChangeText={text => handleChangeTenLoai(text, item.id)}
           onChangeText={text => {
-            let tempdata0202 = {...data0202};
-            tempdata0202.xacnhan.lsxacnhan_[index].kldaxacnhan = parseInt(
+            let tempdata03_PLII = {...data03_PLII};
+            if (isNaN(text)) {
+              text = 0;
+            }
+            tempdata03_PLII.tbldairy_0203_ls[index].slthucte = parseInt(
               text,
               10,
             );
-            setData0202(tempdata0202);
+            setData03_PLII(tempdata03_PLII);
           }}
         />
-        <TextInput
+        {/* <TextInput
           style={styles.textTenLoaiThuySan}
           value={item.klconlai.toString()}
           keyboardType="numeric"
           // onChangeText={text => handleChangeTenLoai(text, item.id)}
           onChangeText={text => {
-            let tempdata0202 = {...data0202};
-            tempdata0202.xacnhan.lsxacnhan_[index].klconlai = parseInt(
+            let tempdata03_PLII = {...data03_PLII};
+            tempdata03_PLII.tbldairy_0203_ls[index].klconlai = parseInt(
               text,
               10,
             );
-            setData0202(tempdata0202);
+            setData03_PLII(tempdata03_PLII);
           }}
-        />
+        /> */}
       </Pressable>
     );
   };
 
   return (
     <View style={{flex: 1, backgroundColor: 'white'}}>
-      <View
-        style={{
-          //   marginHorizontal: 25,
-          flexDirection: 'column',
-          width: '100%',
-          flexWrap: 'wrap',
-          marginVertical: 20,
-        }}>
-        <Text
-          style={{
-            fontWeight: 'bold',
-            fontSize: 26,
-
-            color: 'black',
-          }}>
-          XÁC NHẬN KHỐI LƯỢNG THỦY SẢN CÒN LẠI{' '}
-        </Text>
-        <Text
-          style={{
-            fontWeight: 'normal',
-            fontStyle: 'italic',
-            fontSize: 22,
-
-            color: 'black',
-            fontWeight: '400',
-            marginTop: 10,
-          }}
-          width="100%"
-          numberOfLines={3}>
-          (Dùng cho tổ chức quản lý cảng cá xác nhận khối lượng nguyên liệu thủy
-          sản còn lại khi chưa xác nhận hết khối lượng nguyên liệu thủy sản
-          trong Giấy biên nhận thủy sản bốc dỡ qua cảng)
-        </Text>
-
-        <View
-          style={{
-            flexDirection: 'column',
-            marginVertical: 10,
-          }}>
-          <View
-            style={[
-              styles.row,
-              {
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-              },
-            ]}>
-            <Text style={styles.text}>.........,ngày:</Text>
-            <TextInput
-              onDateChange={date => {
-                setData0202({
-                  ...data0202,
-                  xacnhan: {...data0202.xacnhan, ngaylap: date},
-                });
-              }}
-              value={moment(data0202?.xacnhan.ngaylap).format('DD/MM/YYYY')}
-              style={[styles.text, styles.input]}
-            />
-            <CustomDatePicker
-              onDateChange={date => {
-                setData0202({
-                  ...data0202,
-                  xacnhan: {...data0202.xacnhan, ngaylap: date},
-                });
-              }}
-            />
-            <Text style={styles.text}>; Cảng cá </Text>
-            <TextInput
-              style={[styles.text, styles.input]}
-              value={data0202.xacnhan.cangca}
-              onChangeText={text => {
-                setData0202({
-                  ...data0202,
-                  xacnhan: {...data0202.xacnhan, cangca: text},
-                });
-              }}
-            />
-            <Text style={styles.text}>
-              xác nhận khối lượng thủy sản còn lại trong Giấy biên nhận thủy sản
-              bốc dỡ
-            </Text>
-          </View>
-
-          <View style={{flexDirection: 'row', justifyContent: 'flex-start'}}>
-            <Text style={styles.text} numberOfLines={2}>
-              qua cảng sau khi cấp Giấy xác nhận nguyên liệu thủy sản khai thác
-              số
-            </Text>
-            <TextInput
-              style={[styles.text, styles.input]}
-              value={data0202.xacnhan.soxacnhannguyenlieukhaithac}
-              onChangeText={text => {
-                setData0202({
-                  ...data0202,
-                  xacnhan: {
-                    ...data0202.xacnhan,
-                    soxacnhannguyenlieukhaithac: text,
-                  },
-                });
-              }}
-            />
-          </View>
-        </View>
-      </View>
-
       <ScrollView style={{marginVertical: 5}}>
         <ScrollView
           horizontal={true}
@@ -347,30 +239,24 @@ const XacNhanKhoiLuongThuySanConLai = () => {
 
               <Text style={styles.textTenLoaiThuySan}>Tên loài thủy sản</Text>
               <Text style={styles.textTenLoaiThuySan}>
-                Khối lượng thủy sản bốc dỡ qua cảng (kg)
+                Số lượng theo báo cáo (kg)
               </Text>
               <Text style={styles.textTenLoaiThuySan}>
-                Khối lượng thủy đã xác nhận (kg)
-              </Text>
-              <Text style={styles.textTenLoaiThuySan}>
-                Khối lượng thủy còn lại (kg)
+                Số lượng thực tế (kg)
               </Text>
             </View>
 
-            {data0202.xacnhan.lsxacnhan_.map((item, index) =>
+            {data03_PLII.tbldairy_0203_ls.map((item, index) =>
               TenLoaiThuySanItem({item, index}),
             )}
             <View style={{flexDirection: 'row', height: 50}}>
-              <Text style={styles.textTongKhoiLuongTong}>Tổng khối lượng</Text>
+              <Text style={styles.textTongKhoiLuongTong}>Tổng cộng</Text>
 
               <Text style={styles.textSanLuong}>
-                {calculateTongKhoiLuong('klbocdoquacang')}
+                {calculateTongKhoiLuong('slbaocao')}
               </Text>
               <Text style={styles.textSanLuong}>
-                {calculateTongKhoiLuong('kldaxacnhan')}
-              </Text>
-              <Text style={styles.textSanLuong}>
-                {calculateTongKhoiLuong('klconlai')}
+                {calculateTongKhoiLuong('slthucte')}
               </Text>
             </View>
           </View>
@@ -389,7 +275,7 @@ const XacNhanKhoiLuongThuySanConLai = () => {
   );
 };
 
-export default XacNhanKhoiLuongThuySanConLai;
+export default KiemTraSanLuongKhaiThac;
 
 const styles = StyleSheet.create({
   input: {
@@ -418,7 +304,7 @@ const styles = StyleSheet.create({
 
     borderColor: '#0099FF',
     borderWidth: 1,
-    width: 460,
+    width: 560,
     color: 'black',
     textAlign: 'center', // Center text horizontally
     textAlignVertical: 'center',
@@ -441,7 +327,7 @@ const styles = StyleSheet.create({
     padding: 8,
     borderColor: '#0099FF',
     borderWidth: 1,
-    width: 400,
+    width: 500,
     color: 'black',
     textAlign: 'center', // Center text horizontally
     textAlignVertical: 'center',
@@ -452,7 +338,7 @@ const styles = StyleSheet.create({
 
     borderColor: '#0099FF',
     borderWidth: 1,
-    width: 400,
+    width: 500,
     color: 'black',
     textAlign: 'center', // Center text horizontally
     textAlignVertical: 'center',

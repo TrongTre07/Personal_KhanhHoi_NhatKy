@@ -14,10 +14,12 @@ import ThongTinChiTietHoatDong from './src/views/Form02adx01/item/B_ThongTinVeTa
 import Form03ad01 from './src/views/Form03adx01/Form03adx01';
 import ChiTietNhomKhaiThac from './src/views/Form03adx01/item/itemTongCucThuySan/ChiTietNhomKhaiThac';
 import Form01ad02 from './src/views/Form01adx02/Form01adx02';
-import TongCucThuySanView from './src/views/Form02adx02/item/TongCucThuySanView';
 import ChiTietVeSanLuongThuySan from './src/views/Form02adx02/item/itemTongCucThuySan/ChiTietVeSanLuongThuySan';
 import XacNhanKhoiLuongThuySanConLai from './src/views/Form02adx02/item/itemTongCucThuySan/XacNhanKhoiLuongThuySanConLai';
 import Form02ad02 from './src/views/Form02adx02/Form02adx02';
+import TongCucThuySanView from './src/views/Form03_PLII/TongCucThuySanView';
+import TableForm03PL2 from './src/views/Form03_PLII/TableForm03PL2';
+import KiemTraSanLuongKhaiThac from './src/views/Form03_PLII/KiemTraSanLuongKhaiThac';
 const AppNav = () => {
   const {isLoggedIn, setIsLoggedIn} = useContext(UserContext);
   // if(AsyncStorage.getItem('token'))
