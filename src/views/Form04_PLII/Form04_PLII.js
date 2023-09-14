@@ -8,25 +8,27 @@ import {
   Alert,
   ToastAndroid,
 } from 'react-native';
-import React, {useEffect, useContext,useState} from 'react';
+import React, {useEffect, useContext, useState} from 'react';
 // import TongCucThuySanView from './item/TongCucThuySanView';
 import {UserContext} from '../../contexts/UserContext';
 import {useNetInfo} from '@react-native-community/netinfo';
 // import HeaderView from './item/HeaderView';
 import Spinner from 'react-native-loading-spinner-overlay';
 import AlertInputComponent from '../../utils/AlertInputComponent';
-import { ExportPDF } from './pdfForm04_PLII/ExportPDF';
+import {ExportPDF} from './pdfForm04_PLII/ExportPDF';
 import data04_PLIIEmpty from './models/data04_PLII';
 import uploadFile from '../../axios/uploadFile';
 import Storage from '../../utils/storage';
 import {useNavigation} from '@react-navigation/native';
+import HeaderForm04_PL2 from './HeaderForm04_PL2';
+import TongCucThuySanView from './TongCucThuySanForm04_PL2';
+import TableForm04PL2 from './TableForm04PL2';
 // import ChiTietNhomKhaiThac from './item/itemTongCucThuySan/ChiTietNhomKhaiThac';
 // import TableCangca2 from './item/itemTongCucThuySan/TableCangca2';
 
-
 const Form04_PLII = ({route}) => {
   const {
-    getDetailForm04_PLIIId,
+    getDetailForm04_PLII_Id,
     setData04_PLII,
     data04_PLII,
     goBackAlert,
@@ -82,7 +84,7 @@ const Form04_PLII = ({route}) => {
     if (!isConnect) {
       const dataForm = objectPost;
       const result = await Storage.getItem('form04_PLII');
-    if (result !== null) {
+      if (result !== null) {
         const data = JSON.parse(result);
         data.push(dataForm);
         await Storage.setItem('form04_PLII', JSON.stringify(data));
@@ -96,11 +98,9 @@ const Form04_PLII = ({route}) => {
         setGoBackAlert(true);
       }
     } else if (string == 'create') {
-
-        await postForm04_PLII(modifyThongTinKhaiThac(objectPost));
-
+      await postForm04_PLII(objectPost);
     } else if (string == 'update') {
-      await updateForm04_PLII(modifyThongTinKhaiThac(objectPost));
+      await updateForm04_PLII(objectPost);
     }
   };
 
@@ -108,7 +108,7 @@ const Form04_PLII = ({route}) => {
 
   useEffect(() => {
     if (id != undefined) {
-      if (netInfo.isConnected) getDetailForm04_PLIIId(id);
+      if (netInfo.isConnected) getDetailForm04_PLII_Id(id);
       else getDataLocal();
     } else {
       setData04_PLII(data04_PLIIEmpty);
@@ -128,15 +128,15 @@ const Form04_PLII = ({route}) => {
   };
 
   const modifyThongTinKhaiThac = data04_PLII => {
-    const modifiedKhaiThac = {...data04_PLII}; 
+    const modifiedKhaiThac = {...data04_PLII};
 
     // if (modifiedKhaiThac.tau_chieudailonnhat === '') {
     //   modifiedKhaiThac.tau_chieudailonnhat = 0;
-    // }    
+    // }
     // if (modifiedKhaiThac.tau_tongcongsuatmaychinh === '') {
     //   modifiedKhaiThac.tau_tongcongsuatmaychinh = 0;
     // }
-    
+
     // if (modifiedKhaiThac.chuyenbien_so === '') {
     //   modifiedKhaiThac.chuyenbien_so = 0;
     // }
@@ -215,36 +215,35 @@ const Form04_PLII = ({route}) => {
         )}
         <TouchableOpacity
           style={[styles.actionDownload, styles.button]}
-          onPress={ async () => {
+          onPress={async () => {
             let dataFix = data04_PLII;
             dataFix.dairyname = 'filemau';
             const exportPDF = await ExportPDF(dataFix);
             console.log(exportPDF);
-             if(exportPDF)
-              navigation.navigate('ViewPDF')
-            else
-              Alert.alert('Thất bại', `không thể xem file pdf`);
-
-          }}
-        >
+            if (exportPDF) navigation.navigate('ViewPDF');
+            else Alert.alert('Thất bại', `không thể xem file pdf`);
+          }}>
           <Text style={styles.actionText}>Xem mẫu</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={[styles.actionExportPDF, styles.button]}
-          onPress={async() => {
-            if(!netInfo.isConnected){
-              ToastAndroid.show('Vui lòng kết nối internet.', ToastAndroid.SHORT);
+          onPress={async () => {
+            if (!netInfo.isConnected) {
+              ToastAndroid.show(
+                'Vui lòng kết nối internet.',
+                ToastAndroid.SHORT,
+              );
               return;
             }
             let dataFix = data04_PLII;
             dataFix.dairyname = 'filemau';
             const exportPDF = await ExportPDF(dataFix);
-            if(exportPDF==true)
-              uploadFile(`/storage/emulated/0/Android/data/com.khanhhoiapp/files/pdf/filemau.pdf`);
-            else
-              Alert.alert('Thất bại', `không thể xuất file pdf`);
-          }}
-        >
+            if (exportPDF == true)
+              uploadFile(
+                `/storage/emulated/0/Android/data/com.khanhhoiapp/files/pdf/filemau.pdf`,
+              );
+            else Alert.alert('Thất bại', `không thể xuất file pdf`);
+          }}>
           <Text style={styles.actionText}>Xuất file</Text>
         </TouchableOpacity>
       </View>
@@ -253,14 +252,10 @@ const Form04_PLII = ({route}) => {
 
   return (
     <ScrollView>
-      {/* <HeaderView/> */}
-      {/* <TongCucThuySanView /> */}
-      {/* <ChiTietNhomKhaiThac/> */}
-      {/* <TableCangca2/> */}
-      <View style={{backgroundColor:'#fff'}}>
-      {_renderActionView()}
-
-      </View>
+      <HeaderForm04_PL2 />
+      <TongCucThuySanView />
+      <TableForm04PL2 />
+      <View style={{backgroundColor: '#fff'}}>{_renderActionView()}</View>
       <Spinner
         visible={isLoading}
         textContent={'Đang tải...'}
@@ -295,7 +290,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor:'#fff'
+    backgroundColor: '#fff',
   },
   button: {
     borderRadius: 5,

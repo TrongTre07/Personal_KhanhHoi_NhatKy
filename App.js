@@ -20,6 +20,8 @@ import Form02ad02 from './src/views/Form02adx02/Form02adx02';
 import TongCucThuySanView from './src/views/Form03_PLII/TongCucThuySanView';
 import TableForm03PL2 from './src/views/Form03_PLII/TableForm03PL2';
 import KiemTraSanLuongKhaiThac from './src/views/Form03_PLII/KiemTraSanLuongKhaiThac';
+import TableForm04PL2 from './src/views/Form04_PLII/TableForm04PL2';
+import TableKiemTraThucTe from './src/views/Form04_PLII/TableKiemTraThucTe';
 const AppNav = () => {
   const {isLoggedIn, setIsLoggedIn} = useContext(UserContext);
   // if(AsyncStorage.getItem('token'))

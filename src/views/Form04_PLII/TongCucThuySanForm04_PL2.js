@@ -15,15 +15,15 @@ import styles from './styles';
 import {UserContext} from '../../contexts/UserContext';
 
 const TongCucThuySanView = () => {
-  const {data03_PLII, setData03_PLII} = useContext(UserContext);
+  const {data04_PLII, setData04_PLII} = useContext(UserContext);
   const handleChangeTuNgay = date => {
     try {
       // Create a copy of data0201
-      const updateddata03_PLII = {...data03_PLII};
-      updateddata03_PLII.tungay = moment(date).format('YYYY-MM-DD');
+      const updateddata04_PLII = {...data04_PLII};
+      updateddata04_PLII.tungay = moment(date).format('YYYY-MM-DD');
 
       // Update data0201 with the modified thumua
-      setData03_PLII(updateddata03_PLII);
+      setData04_PLII(updateddata04_PLII);
     } catch (error) {
       console.log('ERROR ', error);
       ToastAndroid.show('Lỗi', ToastAndroid.SHORT);
@@ -32,11 +32,11 @@ const TongCucThuySanView = () => {
   const handleChangeDenNgay = date => {
     try {
       // Create a copy of data0201
-      const updateddata03_PLII = {...data03_PLII};
-      updateddata03_PLII.denngay = moment(date).format('YYYY-MM-DD');
+      const updateddata04_PLII = {...data04_PLII};
+      updateddata04_PLII.denngay = moment(date).format('YYYY-MM-DD');
 
       // Update data0201 with the modified thumua
-      setData03_PLII(updateddata03_PLII);
+      setData04_PLII(updateddata04_PLII);
     } catch (error) {
       console.log('ERROR ', error);
       ToastAndroid.show('Lỗi', ToastAndroid.SHORT);
@@ -46,7 +46,7 @@ const TongCucThuySanView = () => {
     <View style={styles.container}>
       <View style={[styles.header]}>
         <Text style={styles.txtHeader}>
-          MẪU BIÊN BẢN KIỂM TRA TÀU CÁ CẬP CẢNG
+        MẪU BIÊN BẢN KIỂM TRA TÀU CÁ RỜI CẢNG
         </Text>
         <Text style={styles.txtHeader}>
           {'\n'} CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM
@@ -56,7 +56,7 @@ const TongCucThuySanView = () => {
       </View>
 
       <View style={[styles.header]}>
-        <Text style={styles.txtHeader}>BIÊN BẢN KIỂM TRA TÀU CÁ CẬP CẢNG</Text>
+        <Text style={styles.txtHeader}>BIÊN BẢN KIỂM TRA TÀU CÁ RỜI CẢNG</Text>
         <View
           style={{
             flexDirection: 'row',
@@ -66,11 +66,11 @@ const TongCucThuySanView = () => {
           <Text style={styles.txtHeader}>SỐ:</Text>
           <TextInput
             
-            value={data03_PLII.sobienban.toString()}
+            value={data04_PLII.sobienban.toString()}
             style={styles.txtHeader}
             placeholder="........."
             onChangeText={text =>
-              setData03_PLII({...data03_PLII, sobienban: text})
+              setData04_PLII({...data04_PLII, sobienban: text})
             }
           />
         </View>

@@ -2,42 +2,56 @@ const moment = require('moment');
 // const currentDate = moment();
 // const formattedDate = currentDate.format('YYYY-MM-DDTHH:mm:ss');
 
-const data04_PLIIEmpty =  {
-    // dairyid: 2,
-    // dairy_name: "",
-    // sobiennhan: "",
-    // tencangca: "",
-    // diachi: "",
-    // tenchutauthuyentruong: "",
-    // biensotau: "",
-    // giayphepkhaithac: "",
-    // thoihan_gpkt: "",
-    // ngaybochang: moment().format('YYYY-MM-DD'),
-    // nguoithumua: "",
-    // hinhthucbansp: "",
-    // ngayky: "",
-    // ls04_PLIIds: [
-    //     {
-    //         tenloai: "",
-    //         khoiluong: null,
-    //         isdelete: false
-    //     }
-    // ],
-    // xacnhan: {
-    //     ngaylap: moment().format('YYYY-MM-DD'),
-    //     cangca: "",
-    //     soxacnhannguyenlieukhaithac: "",
-    //     lsxacnhan_: [
-    //         {
-    //             tenloai: "",
-    //             klbocdoquacang: null,
-    //             kldaxacnhan: null,
-    //             klconlai: null,
-    //             isdelete: false,
-    //         }
-    //     ],
-    // },
-}
-
+const data04_PLIIEmpty = {
+  thoigiankt: '2023-09-14T10:39:01',
+  dairyname: 'BienBanKiemTraTauCaRoiCang14092023',
+  sobienban: '',
+  tencangca: '',
+  diachi: '',
+  donvikt: '',
+  kt1: '',
+  cv1: '',
+  kt2: '',
+  cv2: '',
+  kt3: '',
+  cv3: '',
+  kt4: '',
+  cv4: '',
+  tentau: '',
+  sodangkytau: '',
+  tenchutau: '',
+  diachichutau: '',
+  thuyentruong: '',
+  diachithuytruong: '',
+  kt_chungnhantauca: false,
+  kt_sodanhbathuyvien: false,
+  kt_antoankithuat: false,
+  kt_chungtuthuyentruong: false,
+  kt_gpkt: false,
+  kt_chungtumaytruong: false,
+  kt_nhatkykhaithac: false,
+  kt_chungtuthomay: false,
+  tbhanghai: false,
+  tbhanghai_diengiai: '',
+  cuusinhcuuhoa: false,
+  cuusinhcuuhoa_diengiai: '',
+  ttlienlac: false,
+  ttlienlac_diengiai: '',
+  gsht: false,
+  gsht_diengiai: '',
+  luoikeo: false,
+  luoivay: false,
+  nghechup: false,
+  nghekhac: '',
+  isnghekhac: false,
+  nghecau: false,
+  luoire: false,
+  longbay: false,
+  danhdautauca: false,
+  sothuyenvien: 0,
+  bckhaithac: false,
+  nhatkykhaithac: false,
+  ketluan: '',
+};
 
 export default data04_PLIIEmpty;
