@@ -8,36 +8,26 @@ import jwtDecode from 'jwt-decode';
 import Storage from '../utils/storage';
 import RNRestart from 'react-native-restart';
 
+import data0101Empty from '../views/Form01adx01/models/data0101Empty';
 import data0201Empty from '../views/Form02adx01/models/data0201';
 import data0301Empty from '../views/Form03adx01/models/data0301';
 import data0401Empty from '../views/Form04adx01/models/data0401';
-
 import data0102Empty from '../views/Form01adx02/models/data0102';
-
 import data0202Empty from '../views/Form02adx02/models/data0202';
-
 import data03_PLIIEmpty from '../views/Form03_PLII/models/data03_PLII';
-
 import data04_PLIIEmpty from '../views/Form04_PLII/models/data04_PLII';
-
 import data02b_PLIIbEmpty from '../views/Form02b_PLIIb/models/data02b_PLIIb';
-
 import data04_PLIII_03Empty from '../views/Form04_PLIII_03/models/data04_PLIII_03';
 
 const UserContext = createContext();
 
 const UserProvider = ({children}) => {
-  const [data, setData] = useState([]);
+  const [data0101, setData0101] = useState(data0101Empty);
   const [data0201, setData0201] = useState(data0201Empty);
-
   const [data0301, setData0301] = useState(data0301Empty);
-
   const [data0401, setData0401] = useState(data0401Empty);
-
   const [data0102, setData0102] = useState(data0102Empty);
-
   const [data0202, setData0202] = useState(data0202Empty);
-
   const [data03_PLII, setData03_PLII] = useState(data03_PLIIEmpty);
   const [data04_PLII, setData04_PLII] = useState(data04_PLIIEmpty);
   const [data02b_PLIIb, setData02b_PLIIb] = useState(data02b_PLIIbEmpty);
@@ -100,13 +90,10 @@ const UserProvider = ({children}) => {
 
   //form 0101 ...............................................................................................................
   //tạo form
-  const postForm = async obj => {
+  const postForm0101 = async obj => {
     try {
-      const payload = obj;
-      const response = await instance.post(
-        'api/FormAppendix/0101/create',
-        payload,
-      );
+      setIsLoading(true);
+      const response = await instance.post('api/FormAppendix/0101/create', obj);
 
       if (response.data == false) {
         setIsErrorPost(true);
@@ -143,7 +130,7 @@ const UserProvider = ({children}) => {
   };
 
   //getDi
-  const getDiaryForm = async () => {
+  const getDiaryForm0101 = async () => {
     try {
       if (await Storage.getItem('token')) {
         const response = await instance.get('api/FormAppendix/getall_0101');
@@ -163,7 +150,7 @@ const UserProvider = ({children}) => {
     }
   };
 
-  const deleteFormId = async id => {
+  const deleteForm0101_Id = async id => {
     try {
       if (id) {
         await instance.post(`api/FormAppendix/0101/del/${id}`);
@@ -176,7 +163,7 @@ const UserProvider = ({children}) => {
     }
   };
 
-  const getDetailFormId = async id => {
+  const getDetailForm0101_Id = async id => {
     try {
       if (!id) {
         setInitialTitle('');
@@ -187,7 +174,7 @@ const UserProvider = ({children}) => {
         );
 
         setInitialTitle(response.data.dairy_name);
-        setData(await response.data);
+        setData0101(await response.data);
         return response.data;
       }
     } catch (error) {
@@ -198,8 +185,9 @@ const UserProvider = ({children}) => {
     }
   };
 
-  const updateForm = async obj => {
+  const updateForm0101 = async obj => {
     try {
+      setIsLoading(true);
       const response = await instance.post(
         `/api/FormAppendix/0101/update`,
         obj,
@@ -215,7 +203,9 @@ const UserProvider = ({children}) => {
           },
         ]);
       }
+      setIsLoading(false);
     } catch (error) {
+      setIsLoading(false);
       console.log('ERROR UPDATE: ', error);
       if (error.response.status === 401) {
         getAlert401();
@@ -1478,19 +1468,20 @@ const UserProvider = ({children}) => {
       login,
       token,
       setToken,
-      postForm,
+      postForm0101,
       postForm0201,
       isLoading,
       setIsLoading,
       isErrorPost,
       setIsErrorPost,
-      getDiaryForm,
-      deleteFormId,
       dataInfShip,
-      data,
-      setData,
-      getDetailFormId,
-      updateForm,
+
+      getDiaryForm0101,
+      deleteForm0101_Id,
+      data0101,
+      setData0101,
+      getDetailForm0101_Id,
+      updateForm0101,
       initialTitle,
       setInitialTitle,
       setDataInfShip,
@@ -1568,7 +1559,7 @@ const UserProvider = ({children}) => {
       postForm04_PLIII_03,
       deleteForm04_PLIII_03_Id,
       getDiaryForm04_PLIII_03,
-      updateForm02b_PLIIb,
+      updateForm04_PLIII_03,
     }),
     [
       checkViewPDF,

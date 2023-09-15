@@ -120,7 +120,6 @@ const Form02b_PLIIb = ({route}) => {
     if (result !== null) {
       const data = JSON.parse(result);
       if (data.length > 0) {
-        console.log(JSON.stringify(data[i], null, 2));
         setData02b_PLIIb(data[id]);
       }
     }

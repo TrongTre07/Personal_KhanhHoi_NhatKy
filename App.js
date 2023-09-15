@@ -23,6 +23,10 @@ import KiemTraSanLuongKhaiThac from './src/views/Form03_PLII/KiemTraSanLuongKhai
 import TableForm04PL2 from './src/views/Form04_PLII/TableForm04PL2';
 import TableKiemTraThucTe from './src/views/Form04_PLII/TableKiemTraThucTe';
 import TableForm02PL2B from './src/views/Form02b_PLIIb/TableForm02PL2B';
+import HeaderForm04_PL2_03 from './src/views/Form04_PLIII_03/HeaderForm04_PL3_03';
+import TableForm04_PL2_03 from './src/views/Form04_PLIII_03/TableForm04_PL3_03';
+import TableReport from './src/views/Form04_PLIII_03/TableReport';
+import A_KetQuaThuMua from './src/views/Form01adx01/A_KetQuaThuMua';
 const AppNav = () => {
   const {isLoggedIn, setIsLoggedIn} = useContext(UserContext);
   // if(AsyncStorage.getItem('token'))
@@ -42,7 +46,7 @@ const App = () => {
     <UserProvider>
       <FormProvider>
         <View style={styles.container}>
-          <AppNav />
+          <A_KetQuaThuMua />
         </View>
       </FormProvider>
     </UserProvider>
