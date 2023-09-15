@@ -10,13 +10,14 @@ import Storage from '../../utils/storage';
 import {useNetInfo} from '@react-native-community/netinfo';
 import {UserContext} from '../../contexts/UserContext';
 import Icon from 'react-native-vector-icons/AntDesign';
+import data03_PLIIEmpty from '../Form03_PLII/models/data03_PLII';
 
 const Stack = createStackNavigator();
 const Form03_PLIINavigation = () => {
   const navigation = useNavigation();
   const netInfo = useNetInfo();
 
-  const {setData} = useContext(UserContext);
+  const {setData03_PLII} = useContext(UserContext);
 
   const handleNavigateForm03_PLII = async () => {
     navigation.navigate('form03_PLII');
@@ -27,7 +28,7 @@ const Form03_PLIINavigation = () => {
       <TouchableOpacity
         onPress={() => {
           navigation.pop();
-          setData({});
+          setData03_PLII(data03_PLIIEmpty);
         }}>
         <Icon name="arrowleft" size={30} color="#000" />
       </TouchableOpacity>

@@ -591,7 +591,6 @@ const TableKiemTraThucTe = ({}) => {
         <View style={[styles.row, {height: 'auto'}]}>
           <Text style={styles.textBold}>6. Kết luận kiểm tra:</Text>
           <TextInput
-            keyboardType="numeric"
             style={[styles.inputCheckBox, styles.text]}
             value={data04_PLII?.ketluan}
             onChangeText={value =>

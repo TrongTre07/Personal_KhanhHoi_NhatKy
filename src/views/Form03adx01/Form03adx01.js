@@ -8,19 +8,19 @@ import {
   Alert,
   ToastAndroid,
 } from 'react-native';
-import React, {useEffect, useContext, useState} from 'react';
+import React, { useEffect, useContext, useState } from 'react';
 import TongCucThuySanView from './item/TongCucThuySanView';
-import {UserContext} from '../../contexts/UserContext';
-import {useNetInfo} from '@react-native-community/netinfo';
+import { UserContext } from '../../contexts/UserContext';
+import { useNetInfo } from '@react-native-community/netinfo';
 import ChiTietNhomKhaiThac from './item/itemTongCucThuySan/ChiTietNhomKhaiThac';
-import {useNavigation} from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 import AlertInputComponent from '../../utils/AlertInputComponent';
 import data0301Empty from './models/data0301';
 import Storage from '../../utils/storage';
 import Spinner from 'react-native-loading-spinner-overlay';
-import {ExportPDF} from './pdfForm0301/ExportPDF';
+import { ExportPDF } from './pdfForm0301/ExportPDF';
 import uploadFile from '../../axios/uploadFile';
-const Form03ad01 = ({route}) => {
+const Form03ad01 = ({ route }) => {
   const {
     getDetailForm0301Id,
     setData0301,
@@ -32,8 +32,8 @@ const Form03ad01 = ({route}) => {
   } = useContext(UserContext);
   const navigation = useNavigation();
   const [isPopupVisible, setPopupVisible] = useState(false);
-  const {isLoading} = useContext(UserContext);
-  const {initialTitle} = useContext(UserContext);
+  const { isLoading } = useContext(UserContext);
+  const { initialTitle } = useContext(UserContext);
   const netInfo = useNetInfo();
 
   let titleForm0301 = '';
@@ -55,7 +55,7 @@ const Form03ad01 = ({route}) => {
 
   const handleDataSubmit = tieuDe => {
     titleForm0301 = tieuDe;
-    if (data0301.id == undefined) {
+    if (id == undefined) {
       //neu la create thi field id khong ton tai
       handleCreateForm(tieuDe, 'create');
     } else {
@@ -67,7 +67,7 @@ const Form03ad01 = ({route}) => {
   };
 
   const handleCreateForm = async (tieuDe, string) => {
-    let objectPost = {...data0301};
+    let objectPost = { ...data0301 };
     objectPost.dairyname = tieuDe;
 
     // console.log(JSON.stringify(objectPost, null, 2));
@@ -77,7 +77,8 @@ const Form03ad01 = ({route}) => {
     // chưa có mạng thì lưu local
     if (!isConnect) {
       const dataForm = objectPost;
-      const result = await Storage.getItem('form03adx01');
+      let result = JSON.parse(await Storage.getItem('form03adx01'));
+
       if (!dataForm.tau_bs) {
         Alert.alert('Lỗi', 'Bạn phải chọn tàu!', [
           {
@@ -87,18 +88,30 @@ const Form03ad01 = ({route}) => {
             },
           },
         ]);
-      } else if (result !== null) {
-        const data = JSON.parse(result);
-        data.push(dataForm);
-        await Storage.setItem('form03adx01', JSON.stringify(data));
-        ToastAndroid.show('Tạo thành công', ToastAndroid.SHORT);
-        setGoBackAlert(true);
       } else {
-        const data = [];
-        data.push(dataForm);
-        await Storage.setItem('form03adx01', JSON.stringify(data));
-        ToastAndroid.show('Tạo thành công', ToastAndroid.SHORT);
-        setGoBackAlert(true);
+        // chưa có mạng thì lưu local
+        if (!isConnect) {
+          if (result === null || !Array.isArray(result)) {
+            result = [];
+          }
+
+          switch (string) {
+            case 'create':
+              // console.log('ID:', id);
+
+              result.push(dataForm);
+              await Storage.setItem('form03adx01', JSON.stringify(result));
+              ToastAndroid.show('Tạo thành công', ToastAndroid.SHORT);
+              setGoBackAlert(true);
+              break;
+            case 'update':
+              result[id] = dataForm;
+              await Storage.setItem('form03adx01', JSON.stringify(result));
+              ToastAndroid.show('Cập nhật thành công', ToastAndroid.SHORT);
+              setGoBackAlert(true);
+              break;
+          }
+        }
       }
     } else if (string == 'create') {
       if (!data0301.tau_bs) {
@@ -152,7 +165,7 @@ const Form03ad01 = ({route}) => {
   };
 
   const modifyThongTinKhaiThac = data0301 => {
-    const modifiedKhaiThac = {...data0301};
+    const modifiedKhaiThac = { ...data0301 };
 
     if (modifiedKhaiThac.tau_tongcongsuatmaychinh === '') {
       modifiedKhaiThac.tau_tongcongsuatmaychinh = 0;
@@ -189,7 +202,7 @@ const Form03ad01 = ({route}) => {
       item => {
         if (!item.hasOwnProperty('isdelete')) {
           // Item has isdelete field with a value of 1, update id to 0
-          return {...item, id: 0};
+          return { ...item, id: 0 };
         }
         return item;
       },
@@ -208,7 +221,7 @@ const Form03ad01 = ({route}) => {
 
   // check ko có wifi thì update local
   const handleUpdateDiaryLocal = async () => {
-    const dataForm = {...data0301};
+    const dataForm = { ...data0301 };
     dataForm.dairyname = titleForm0301;
     const result = await Storage.getItem('form03adx01');
     if (result !== null) {
@@ -244,7 +257,7 @@ const Form03ad01 = ({route}) => {
           <TouchableOpacity
             style={[styles.actionCreate, styles.button]}
             onPress={() => {
-              netInfo.isConnected ? handleUpdate() : handleUpdateDiaryLocal();
+              handleUpdate();
             }}>
             <Text style={styles.actionText}>Cập nhật</Text>
           </TouchableOpacity>
@@ -257,12 +270,12 @@ const Form03ad01 = ({route}) => {
         )}
         <TouchableOpacity
           style={[styles.actionDownload, styles.button]}
-          onPress={ async () => {
+          onPress={async () => {
             let dataFix = data0301;
             dataFix.dairyname = 'filemau';
             const exportPDF = await ExlporPDF(dataFix);
             console.log(exportPDF);
-             if(exportPDF)
+            if (exportPDF)
               navigation.navigate('ViewPDF')
             else
               Alert.alert('Thất bại', `không thể xem file pdf`);
@@ -273,15 +286,15 @@ const Form03ad01 = ({route}) => {
         </TouchableOpacity>
         <TouchableOpacity
           style={[styles.actionExportPDF, styles.button]}
-          onPress={async() => {
-            if(!netInfo.isConnected){
+          onPress={async () => {
+            if (!netInfo.isConnected) {
               ToastAndroid.show('Vui lòng kết nối internet.', ToastAndroid.SHORT);
               return;
             }
             let dataFix = data0301;
             dataFix.dairyname = 'filemau';
             const exportPDF = await ExportPDF(dataFix);
-            if(exportPDF==true)
+            if (exportPDF == true)
               uploadFile(`/storage/emulated/0/Android/data/com.khanhhoiapp/files/pdf/filemau.pdf`);
             else
               Alert.alert('Thất bại', `không thể xuất file pdf`);
@@ -319,7 +332,7 @@ const Form03ad01 = ({route}) => {
             ]);
           } else handleDataSubmit(tieuDe);
         }}
-        initialValue={initialTitle}
+        initialValue={initialTitle||data0301?.dairyname}
       />
     </ScrollView>
   );

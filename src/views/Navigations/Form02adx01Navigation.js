@@ -21,11 +21,11 @@ import data0201Empty from '../Form02adx01/models/data0201';
 
 const Stack = createStackNavigator();
 const Form02adx01Navigation = () => {
-  const {data0201, setData0201} = useContext(UserContext);
+  // const {data0201, setData0201} = useContext(UserContext);
   const navigation = useNavigation();
   const netInfo = useNetInfo();
 
-  const {setData} = React.useContext(UserContext);
+  const {setData0201} = React.useContext(UserContext);
 
   const handleNavigateForm02adx01 = async () => {
     // console.log('MODIFY:', JSON.stringify(data0201Empty, null, 2));
@@ -37,8 +37,9 @@ const Form02adx01Navigation = () => {
     return (
       <TouchableOpacity
         onPress={() => {
-          // setData0201({data0201Empty});
           navigation.pop();
+          // console.log(data0201Empty.thongtintaudc_thumua[0]);
+          setData0201(data0201Empty);
         }}>
         <Icon name="arrowleft" size={30} color="#000" />
       </TouchableOpacity>

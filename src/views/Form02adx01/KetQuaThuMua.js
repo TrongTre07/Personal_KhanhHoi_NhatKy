@@ -28,8 +28,6 @@ const widthTongKhoiLuongTong =
 const KetQuaThuMua = () => {
   const [selectedItemIndex, setSelectedItemIndex] = useState(-1);
   const {data0201, setData0201} = useContext(UserContext);
-  let lastItem = data0201.thumua[data0201.thumua.length - 1];
-  let uniqueId = lastItem.id + 1;
 
   const moment = require('moment');
   const currentDate = moment();
@@ -38,7 +36,7 @@ const KetQuaThuMua = () => {
   const handleThemDong = () => {
     try {
       const objectAdd = {
-        id: makeid(id),
+        id: makeid(7),
         ngaythang: formattedDate,
         id_tau: '',
         tau_bs: '',

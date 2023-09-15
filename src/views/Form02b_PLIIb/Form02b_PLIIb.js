@@ -60,7 +60,7 @@ const Form02b_PLIIb = ({route}) => {
 
   const handleDataSubmit = tieuDe => {
     titleForm02b_PLIIb = tieuDe;
-    if (data02b_PLIIb.id == undefined) {
+    if (id == undefined) {
       //neu la create thi field id khong ton tai
       handleCreateForm(tieuDe, 'create');
     } else {
@@ -75,26 +75,32 @@ const Form02b_PLIIb = ({route}) => {
     let objectPost = {...data02b_PLIIb};
     objectPost.dairyname = tieuDe;
 
-    // console.log(JSON.stringify(objectPost, null, 2));
-
     const isConnect = netInfo.isConnected;
 
     // chưa có mạng thì lưu local
     if (!isConnect) {
       const dataForm = objectPost;
-      const result = await Storage.getItem('form02b_PLIIb');
-      if (result !== null) {
-        const data = JSON.parse(result);
-        data.push(dataForm);
-        await Storage.setItem('form02b_PLIIb', JSON.stringify(data));
-        ToastAndroid.show('Tạo thành công', ToastAndroid.SHORT);
-        setGoBackAlert(true);
-      } else {
-        const data = [];
-        data.push(dataForm);
-        await Storage.setItem('form02b_PLIIb', JSON.stringify(data));
-        ToastAndroid.show('Tạo thành công', ToastAndroid.SHORT);
-        setGoBackAlert(true);
+      let result = JSON.parse(await Storage.getItem('form02b_PLIIb'));
+
+      if (result === null || !Array.isArray(result)) {
+        result = [];
+      }
+
+      switch (string) {
+        case 'create':
+          // console.log('ID:', id);
+
+          result.push(dataForm);
+          await Storage.setItem('form02b_PLIIb', JSON.stringify(result));
+          ToastAndroid.show('Tạo thành công', ToastAndroid.SHORT);
+          setGoBackAlert(true);
+          break;
+        case 'update':
+          result[id] = dataForm;
+          await Storage.setItem('form02b_PLIIb', JSON.stringify(result));
+          ToastAndroid.show('Cập nhật thành công', ToastAndroid.SHORT);
+          setGoBackAlert(true);
+          break;
       }
     } else if (string == 'create') {
       await postForm02b_PLIIb(objectPost);
@@ -126,20 +132,20 @@ const Form02b_PLIIb = ({route}) => {
   };
 
   // check ko có wifi thì update local
-  const handleUpdateDiaryLocal = async () => {
-    const dataForm = {...data02b_PLIIb};
-    dataForm.dairyname = titleForm02b_PLIIb;
-    const result = await Storage.getItem('form02b_PLIIb');
-    if (result !== null) {
-      const data = JSON.parse(result);
-      data[id] = dataForm;
-      await Storage.setItem('form02b_PLIIb', JSON.stringify(data));
-      console.log('STORAGE:', JSON.stringify(data, null, 2));
-    }
-    ToastAndroid.show('Cập nhật thành công', ToastAndroid.SHORT);
-    // setData02b_PLIIb(data02b_PLIIbEmpty);
-    setGoBackAlert(true);
-  };
+  // const handleUpdateDiaryLocal = async () => {
+  //   const dataForm = {...data02b_PLIIb};
+  //   dataForm.dairyname = titleForm02b_PLIIb;
+  //   const result = await Storage.getItem('form02b_PLIIb');
+  //   if (result !== null) {
+  //     const data = JSON.parse(result);
+  //     data[id] = dataForm;
+  //     await Storage.setItem('form02b_PLIIb', JSON.stringify(data));
+  //     console.log('STORAGE:', JSON.stringify(data, null, 2));
+  //   }
+  //   ToastAndroid.show('Cập nhật thành công', ToastAndroid.SHORT);
+  //   // setData02b_PLIIb(data02b_PLIIbEmpty);
+  //   setGoBackAlert(true);
+  // };
 
   React.useEffect(() => {
     const backAction = () => {
@@ -163,7 +169,7 @@ const Form02b_PLIIb = ({route}) => {
           <TouchableOpacity
             style={[styles.actionCreate, styles.button]}
             onPress={() => {
-              netInfo.isConnected ? handleUpdate() : handleUpdateDiaryLocal();
+              handleUpdate();
             }}>
             <Text style={styles.actionText}>Cập nhật</Text>
           </TouchableOpacity>
@@ -237,7 +243,7 @@ const Form02b_PLIIb = ({route}) => {
             ]);
           } else handleDataSubmit(tieuDe);
         }}
-        initialValue={initialTitle}
+        initialValue={initialTitle || data02b_PLIIb?.dairyname}
       />
     </ScrollView>
   );

@@ -8,10 +8,10 @@ import {
   Alert,
   ToastAndroid,
 } from 'react-native';
-import React, {useEffect, useContext,useState} from 'react';
+import React, { useEffect, useContext, useState } from 'react';
 import TongCucThuySanView from './item/TongCucThuySanView';
-import {UserContext} from '../../contexts/UserContext';
-import {useNetInfo} from '@react-native-community/netinfo';
+import { UserContext } from '../../contexts/UserContext';
+import { useNetInfo } from '@react-native-community/netinfo';
 import HeaderView from './item/HeaderView';
 import Spinner from 'react-native-loading-spinner-overlay';
 import AlertInputComponent from '../../utils/AlertInputComponent';
@@ -19,12 +19,12 @@ import { ExportPDF } from './pdfForm0102/ExportPDF';
 import data0102Empty from './models/data0102';
 import uploadFile from '../../axios/uploadFile';
 import Storage from '../../utils/storage';
-import {useNavigation} from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 import ChiTietNhomKhaiThac from './item/itemTongCucThuySan/ChiTietNhomKhaiThac';
 import TableCangca2 from './item/itemTongCucThuySan/TableCangca2';
 
 
-const Form01ad02 = ({route}) => {
+const Form01ad02 = ({ route }) => {
   const {
     getDetailForm0102Id,
     setData0102,
@@ -36,8 +36,8 @@ const Form01ad02 = ({route}) => {
   } = useContext(UserContext);
   const navigation = useNavigation();
   const [isPopupVisible, setPopupVisible] = useState(false);
-  const {isLoading} = useContext(UserContext);
-  const {initialTitle} = useContext(UserContext);
+  const { isLoading } = useContext(UserContext);
+  const { initialTitle } = useContext(UserContext);
   const netInfo = useNetInfo();
 
   let titleForm0102 = '';
@@ -59,7 +59,7 @@ const Form01ad02 = ({route}) => {
 
   const handleDataSubmit = tieuDe => {
     titleForm0102 = tieuDe;
-    if (data0102.id == undefined) {
+    if (id == undefined) {
       //neu la create thi field id khong ton tai
       handleCreateForm(tieuDe, 'create');
     } else {
@@ -71,33 +71,36 @@ const Form01ad02 = ({route}) => {
   };
 
   const handleCreateForm = async (tieuDe, string) => {
-    let objectPost = {...data0102};
+    let objectPost = { ...data0102 };
     objectPost.dairyname = tieuDe;
-
-    // console.log(JSON.stringify(objectPost, null, 2));
 
     const isConnect = netInfo.isConnected;
 
     // chưa có mạng thì lưu local
     if (!isConnect) {
       const dataForm = objectPost;
-      const result = await Storage.getItem('form01adx02');
-    if (result !== null) {
-        const data = JSON.parse(result);
-        data.push(dataForm);
-        await Storage.setItem('form01adx02', JSON.stringify(data));
-        ToastAndroid.show('Tạo thành công', ToastAndroid.SHORT);
-        setGoBackAlert(true);
-      } else {
-        const data = [];
-        data.push(dataForm);
-        await Storage.setItem('form01adx02', JSON.stringify(data));
-        ToastAndroid.show('Tạo thành công', ToastAndroid.SHORT);
-        setGoBackAlert(true);
+      let result = JSON.parse(await Storage.getItem('form01adx02'));
+
+      if (result === null || !Array.isArray(result)) {
+        result = [];
+      }
+      switch (string) {
+        case 'create':
+          result.push(dataForm);
+          await Storage.setItem('form01adx02', JSON.stringify(result));
+          ToastAndroid.show('Tạo thành công', ToastAndroid.SHORT);
+          setGoBackAlert(true);
+          break;
+        case 'update':
+          result[id] = dataForm;
+          await Storage.setItem('form01adx02', JSON.stringify(result));
+          ToastAndroid.show('Cập nhật thành công', ToastAndroid.SHORT);
+          setGoBackAlert(true);
+          break;
       }
     } else if (string == 'create') {
 
-        await postForm0102(modifyThongTinKhaiThac(objectPost));
+      await postForm0102(modifyThongTinKhaiThac(objectPost));
 
     } else if (string == 'update') {
       await updateForm0102(modifyThongTinKhaiThac(objectPost));
@@ -128,36 +131,7 @@ const Form01ad02 = ({route}) => {
   };
 
   const modifyThongTinKhaiThac = data0102 => {
-    const modifiedKhaiThac = {...data0102}; 
-
-    // if (modifiedKhaiThac.tau_chieudailonnhat === '') {
-    //   modifiedKhaiThac.tau_chieudailonnhat = 0;
-    // }    
-    // if (modifiedKhaiThac.tau_tongcongsuatmaychinh === '') {
-    //   modifiedKhaiThac.tau_tongcongsuatmaychinh = 0;
-    // }
-    
-    // if (modifiedKhaiThac.chuyenbien_so === '') {
-    //   modifiedKhaiThac.chuyenbien_so = 0;
-    // }
-    // if (modifiedKhaiThac.nam === '') {
-    //   modifiedKhaiThac.nam = 0;
-    // }
-    // if (modifiedKhaiThac.tongsolaodong === '') {
-    //   modifiedKhaiThac.tongsolaodong = 0;
-    // }
-    // if (modifiedKhaiThac.songaykhaithac === '') {
-    //   modifiedKhaiThac.songaykhaithac = 0;
-    // }
-    // if (modifiedKhaiThac.so_meluoi === '') {
-    //   modifiedKhaiThac.so_meluoi = 0;
-    // }
-    // if (modifiedKhaiThac.tongsanluong === '') {
-    //   modifiedKhaiThac.tongsanluong = 0;
-    // }
-    // if (modifiedKhaiThac.songayhoatdong === '') {
-    //   modifiedKhaiThac.songayhoatdong = 0;
-    // }
+    const modifiedKhaiThac = { ...data0102 };
 
     console.log('modifiedKhaiThac:', JSON.stringify(modifiedKhaiThac, null, 2));
 
@@ -166,7 +140,7 @@ const Form01ad02 = ({route}) => {
 
   // check ko có wifi thì update local
   const handleUpdateDiaryLocal = async () => {
-    const dataForm = {...data0102};
+    const dataForm = { ...data0102 };
     dataForm.dairyname = titleForm0102;
     const result = await Storage.getItem('form01adx02');
     if (result !== null) {
@@ -202,7 +176,7 @@ const Form01ad02 = ({route}) => {
           <TouchableOpacity
             style={[styles.actionCreate, styles.button]}
             onPress={() => {
-              netInfo.isConnected ? handleUpdate() : handleUpdateDiaryLocal();
+              handleUpdate();
             }}>
             <Text style={styles.actionText}>Cập nhật</Text>
           </TouchableOpacity>
@@ -215,12 +189,12 @@ const Form01ad02 = ({route}) => {
         )}
         <TouchableOpacity
           style={[styles.actionDownload, styles.button]}
-          onPress={ async () => {
+          onPress={async () => {
             let dataFix = data0102;
             dataFix.dairyname = 'filemau';
             const exportPDF = await ExportPDF(dataFix);
             console.log(exportPDF);
-             if(exportPDF)
+            if (exportPDF)
               navigation.navigate('ViewPDF')
             else
               Alert.alert('Thất bại', `không thể xem file pdf`);
@@ -231,15 +205,15 @@ const Form01ad02 = ({route}) => {
         </TouchableOpacity>
         <TouchableOpacity
           style={[styles.actionExportPDF, styles.button]}
-          onPress={async() => {
-            if(!netInfo.isConnected){
+          onPress={async () => {
+            if (!netInfo.isConnected) {
               ToastAndroid.show('Vui lòng kết nối internet.', ToastAndroid.SHORT);
               return;
             }
             let dataFix = data0102;
             dataFix.dairyname = 'filemau';
             const exportPDF = await ExportPDF(dataFix);
-            if(exportPDF==true)
+            if (exportPDF == true)
               uploadFile(`/storage/emulated/0/Android/data/com.khanhhoiapp/files/pdf/filemau.pdf`);
             else
               Alert.alert('Thất bại', `không thể xuất file pdf`);
@@ -253,12 +227,12 @@ const Form01ad02 = ({route}) => {
 
   return (
     <ScrollView>
-      <HeaderView/>
+      <HeaderView />
       <TongCucThuySanView />
-      <ChiTietNhomKhaiThac/>
-      <TableCangca2/>
-      <View style={{backgroundColor:'#fff'}}>
-      {_renderActionView()}
+      <ChiTietNhomKhaiThac />
+      <TableCangca2 />
+      <View style={{ backgroundColor: '#fff' }}>
+        {_renderActionView()}
 
       </View>
       <Spinner
@@ -282,7 +256,7 @@ const Form01ad02 = ({route}) => {
             ]);
           } else handleDataSubmit(tieuDe);
         }}
-        initialValue={initialTitle}
+        initialValue={initialTitle||data0102.dairyname}
       />
     </ScrollView>
   );
@@ -295,7 +269,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor:'#fff'
+    backgroundColor: '#fff'
   },
   button: {
     borderRadius: 5,
