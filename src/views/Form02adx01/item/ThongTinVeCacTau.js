@@ -14,6 +14,7 @@ import Table1 from './itemThongTinChungVeTauCa/Table1';
 import ThongTinChiTietHoatDong from './B_ThongTinVeTauCa/ThongTinChiTietHoatDong';
 import {useContext} from 'react';
 import {UserContext} from '../../../contexts/UserContext';
+import makeid from '../../others/makeid';
 
 const ThongTinVeCacTau = () => {
   const moment = require('moment');
@@ -110,7 +111,7 @@ const ThongTinVeCacTau = () => {
       const newId = lastId + 1;
 
       const obj = {
-        id: new Date(),
+        id: makeid(7),
         // dairy_id: data0201.id,
         id_tau: '',
         tau_bs: '',
@@ -125,7 +126,7 @@ const ThongTinVeCacTau = () => {
         tg_khaithac_denngay: formattedDate,
         thongtinhoatdong: [
           {
-            id: 0,
+            id: makeid(7),
             // dairy_id: 0,
             methu: '1',
             thoidiem_tha: formattedDate,

@@ -14,6 +14,7 @@ import CustomDatePicker from '../others/CustomDatePicker';
 import moment from 'moment';
 import {useContext} from 'react';
 import {UserContext} from '../../contexts/UserContext';
+import makeid from '../others/makeid';
 
 const widthTT = 60;
 const widthSoDkTauca = 200;
@@ -37,7 +38,7 @@ const KetQuaThuMua = () => {
   const handleThemDong = () => {
     try {
       const objectAdd = {
-        id: new Date(),
+        id: makeid(id),
         ngaythang: formattedDate,
         id_tau: '',
         tau_bs: '',

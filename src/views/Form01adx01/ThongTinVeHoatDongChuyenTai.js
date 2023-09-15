@@ -14,6 +14,8 @@ import CustomDatePicker from '../others/CustomDatePicker';
 import moment from 'moment';
 import {useContext} from 'react';
 import {UserContext} from '../../contexts/UserContext';
+import makeid from '../others/makeid';
+import CustomDateTimePicker from '../others/CustomDateTimePicker';
 
 const widthTT = 60;
 const widthSoDkTauca = 200;
@@ -21,56 +23,58 @@ const widthThoiGian = 200;
 const widthToaDo = 150;
 const widthLoai = 100;
 const widthTongKhoiLuong = 200;
-const widthTongKhoiLuongTong =
-  widthToaDo * 2 + widthTT + widthSoDkTauca + widthThoiGian;
+const widthTongKhoiLuongTong = widthToaDo * 5 + widthTT + widthSoDkTauca;
 
-const A_KetQuaThuMua = () => {
+const ThongTinVeHoatDongChuyenTai = () => {
   const [selectedItemIndex, setSelectedItemIndex] = useState(-1);
   const {data0101, setData0101} = useContext(UserContext);
-  let lastItem = data0101.thumua[data0101.thumua.length - 1];
-  let uniqueId = lastItem.id + 1;
 
   const moment = require('moment');
-  const currentDate = moment();
-  const formattedDate = currentDate.format('YYYY-MM-DDTHH:mm:ss');
-
   const handleThemDong = () => {
     try {
       const objectAdd = {
-        id: new Date(),
-        ngaythang: formattedDate,
-        id_tau: '',
-        tau_bs: '',
-        tm_ct_vt_vido: '',
-        tm_ct_vt_kinhdo: '',
+        id: makeid(7),
+        methu: '1',
+        thoidiem_tha: moment().format('YYYY-MM-DDTHH:mm'),
+        vido_tha: '',
+        kinhdo_tha: '',
+        thoidiem_thu: moment().format('YYYY-MM-DDTHH:mm'),
+        vido_thu: '',
+        kinhdo_thu: '',
         loai_1: '',
         loai_2: '',
         loai_3: '',
         loai_4: '',
         loai_5: '',
         loai_6: '',
+        loai_7: '',
+        loai_8: '',
+        loai_9: '',
         loai_1_kl: '',
         loai_2_kl: '',
         loai_3_kl: '',
         loai_4_kl: '',
         loai_5_kl: '',
         loai_6_kl: '',
+        loai_7_kl: '',
+        loai_8_kl: '',
+        loai_9_kl: '',
         tongsanluong: '',
       };
 
       // Add objectAdd to the thumua array
-      const updatedData0201 = {...data0101};
+      const updatedData0101 = {...data0101};
 
       //create se khong co field isdelete, get ve de update thi se co field isdelete
-      // if (updatedData0201.thumua[0].isdelete != undefined) {
+      // if (updatedData0101.thumua[0].isdelete != undefined) {
       //   //trong scope nay la update
       //   objectAdd.id = 0;
       // }
-      if (updatedData0201.thumua) {
-        updatedData0201.thumua.push(objectAdd);
+      if (updatedData0101.thumua) {
+        updatedData0101.thumua.push(objectAdd);
       }
 
-      setData0101(updatedData0201);
+      setData0101(updatedData0101);
     } catch (error) {
       console.log('ERROR ', error);
       ToastAndroid.show('Lỗi', ToastAndroid.SHORT);
@@ -100,25 +104,25 @@ const A_KetQuaThuMua = () => {
         if (itemToRemove.hasOwnProperty('isdelete')) {
           itemToRemove.isdelete = 1;
           // Update data0101 with the modified itemToRemove
-          const updatedData0201 = {
+          const updatedData0101 = {
             ...data0101,
             thumua: data0101.thumua.map(item =>
               item.id === itemToRemove.id ? itemToRemove : item,
             ),
           };
-          setData0101(updatedData0201);
+          setData0101(updatedData0101);
         } else {
           // Item doesn't have isdelete field, remove it by filtering
           const updatedThumua = data0101.thumua.filter(
             item => item.id !== itemToRemove.id,
           );
 
-          const updatedData0201 = {
+          const updatedData0101 = {
             ...data0101,
             thumua: updatedThumua,
           };
 
-          setData0101(updatedData0201);
+          setData0101(updatedData0101);
         }
       } else {
         Alert.alert('Cần chọn dòng', '', [{text: 'OK'}]);
@@ -136,16 +140,16 @@ const A_KetQuaThuMua = () => {
 
   const handleChangeViDo = (text, id) => {
     try {
-      const updatedData0201 = {...data0101};
+      const updatedData0101 = {...data0101};
 
-      updatedData0201.thumua = updatedData0201.thumua.map(item => {
+      updatedData0101.thumua = updatedData0101.thumua.map(item => {
         if (item.id === id) {
           return {...item, tm_ct_vt_vido: text};
         }
         return item;
       });
 
-      setData0101(updatedData0201);
+      setData0101(updatedData0101);
     } catch (error) {
       console.log('ERROR ', error);
       ToastAndroid.show('Lỗi', ToastAndroid.SHORT);
@@ -154,102 +158,77 @@ const A_KetQuaThuMua = () => {
 
   const handleChangeKinhDo = (text, id) => {
     try {
-      const updatedData0201 = {...data0101};
+      const updatedData0101 = {...data0101};
 
-      updatedData0201.thumua = updatedData0201.thumua.map(item => {
+      updatedData0101.thumua = updatedData0101.thumua.map(item => {
         if (item.id === id) {
           return {...item, tm_ct_vt_kinhdo: text};
         }
         return item;
       });
 
-      setData0101(updatedData0201);
+      setData0101(updatedData0101);
     } catch (error) {
       console.log('ERROR ', error);
       ToastAndroid.show('Lỗi', ToastAndroid.SHORT);
     }
   };
 
-  const handleChangeKhoiLuongLoai = (khoiluong, id, loai) => {
+  const handleChangeTenLoai = (text, id) => {
     try {
-      // Create a copy of data0101
-      const updatedData0201 = {...data0101};
+      const updatedData0101 = {...data0101};
 
-      // Map over the thumua array inside data0101 and update the relevant item
-      updatedData0201.thumua = updatedData0201.thumua.map(item => {
-        if (item.id === id && item.isdelete != 1) {
-          // Update the specific property based on 'loai'
-          if (loai === 'loai_1_kl') {
-            item.loai_1_kl = khoiluong;
-          } else if (loai === 'loai_2_kl') {
-            item.loai_2_kl = khoiluong;
-          } else if (loai === 'loai_3_kl') {
-            item.loai_3_kl = khoiluong;
-          } else if (loai === 'loai_4_kl') {
-            item.loai_4_kl = khoiluong;
-          } else if (loai === 'loai_5_kl') {
-            item.loai_5_kl = khoiluong;
-          } else if (loai === 'loai_6_kl') {
-            item.loai_6_kl = khoiluong;
-          }
-
-          // Calculate the new total sanluong
-          const newTongSanLuong =
-            (parseInt(item.loai_1_kl) || 0) +
-            (parseInt(item.loai_2_kl) || 0) +
-            (parseInt(item.loai_3_kl) || 0) +
-            (parseInt(item.loai_4_kl) || 0) +
-            (parseInt(item.loai_5_kl) || 0) +
-            (parseInt(item.loai_6_kl) || 0);
-
-          // Update the 'tongsanluong' property
-          item.tongsanluong = newTongSanLuong.toString();
-
-          return item;
+      updatedData0101.thumua = updatedData0101.thumua.map(item => {
+        if (item.id === id) {
+          return {...item, daban_ct_loai: text};
         }
         return item;
       });
 
-      // Update data0101 with the modified thumua
-      setData0101(updatedData0201);
+      setData0101(updatedData0101);
     } catch (error) {
       console.log('ERROR ', error);
       ToastAndroid.show('Lỗi', ToastAndroid.SHORT);
     }
   };
-  const handleChangeLoai = (text, loai) => {
+
+  const handleChangeKhoiLuong = (text, id) => {
     try {
-      const updatedData0201 = {...data0101};
+      const updatedData0101 = {...data0101};
 
-      updatedData0201.thumua = updatedData0201.thumua.map(item => ({
-        ...item,
-        [loai]: text,
-      }));
+      updatedData0101.thumua = updatedData0101.thumua.map(item => {
+        if (item.id === id) {
+          return {...item, daban_ct_khoiluong: text};
+        }
+        return item;
+      });
 
-      // Update data0101 with the modified thumua
-      setData0101(updatedData0201);
+      setData0101(updatedData0101);
     } catch (error) {
       console.log('ERROR ', error);
       ToastAndroid.show('Lỗi', ToastAndroid.SHORT);
     }
   };
+
 
   const handleChangeDate = (date, id) => {
     try {
       // Create a copy of data0101
-      const updatedData0201 = {...data0101};
+      const updatedData0101 = {...data0101};
 
       // Map over the thumua array inside data0101 and update the relevant property
-      updatedData0201.thumua = updatedData0201.thumua.map(item => {
+      updatedData0101.thumua = updatedData0101.thumua.map(item => {
         if (item.id === id) {
           // Update the specific property
-          return {...item, ngaythang: moment(date).format('YYYY-MM-DD')};
+          return {
+            ...item,
+            ngaythang: moment(date).format('YYYY-MM-DDTHH:mm'),
+          };
         }
         return item;
       });
 
-      // Update data0101 with the modified thumua
-      setData0101(updatedData0201);
+      setData0101(updatedData0101);
     } catch (error) {
       console.log('ERROR ', error);
       ToastAndroid.show('Lỗi', ToastAndroid.SHORT);
@@ -258,19 +237,31 @@ const A_KetQuaThuMua = () => {
 
   const handleChangeSoDkTau = (soDk, id) => {
     try {
-      // Create a copy of data0101
-      const updatedData0201 = {...data0101};
-
-      // Map over the thumua array inside data0101 and update the relevant property
-      updatedData0201.thumua = updatedData0201.thumua.map(item => {
+      const updatedData0101 = {...data0101};
+      updatedData0101.thumua = updatedData0101.thumua.map(item => {
         if (item.id === id) {
-          return {...item, tau_bs: soDk};
+          return {...item, tm_ct_bstau: soDk};
         }
         return item;
       });
 
-      // Update data0101 with the modified thumua
-      setData0101(updatedData0201);
+      setData0101(updatedData0101);
+    } catch (error) {
+      console.log('ERROR ', error);
+      ToastAndroid.show('Lỗi', ToastAndroid.SHORT);
+    }
+  };
+  const handleChangeGPKT = (soGPKT, id) => {
+    try {
+      const updatedData0101 = {...data0101};
+      updatedData0101.thumua = updatedData0101.thumua.map(item => {
+        if (item.id === id) {
+          return {...item, tm_ct_gpkt: soGPKT};
+        }
+        return item;
+      });
+
+      setData0101(updatedData0101);
     } catch (error) {
       console.log('ERROR ', error);
       ToastAndroid.show('Lỗi', ToastAndroid.SHORT);
@@ -316,19 +307,15 @@ const A_KetQuaThuMua = () => {
       }
       return (
         <Pressable
-          key={index}
+          key={item.id}
           onPress={() => handleChonItem(rootIndex)}
           style={[
             {flexDirection: 'row', backgroundColor: 'white'},
             isSelected && {backgroundColor: 'lightblue'},
           ]}>
           <Text style={styles.textTT}>{index + 1}</Text>
-          <TextInput
-            keyboardType="numeric"
-            style={styles.textSoDkTauCa}
-            value={item.tau_bs}
-            onChangeText={text => handleChangeSoDkTau(text, item.id)}
-          />
+
+          {/* Picker ngay */}
           <View
             style={[
               styles.inputNgay,
@@ -341,13 +328,27 @@ const A_KetQuaThuMua = () => {
             <TextInput
               keyboardType="numeric"
               style={styles.textDate}
-              value={moment(item.ngaythang).format('DD/MM/YYYY')}
+              value={moment(item.ngaythang).format('DD/MM/YYYY hh:mm')}
               onChangeText={text => handleChangeDate(text, item.id)}
             />
-            <CustomDatePicker
-              onDateChange={date => handleChangeDate(date, item.id)}
+            <CustomDateTimePicker
+              onDateChange={date => {
+                handleChangeDate(date, item.id);
+              }}
             />
           </View>
+          <TextInput
+            style={styles.inputToaDo}
+            value={item.tm_ct_bstau}
+            onChangeText={text => handleChangeSoDkTau(text, item.id)}
+          />
+          <TextInput
+            keyboardType="numeric"
+            style={styles.inputToaDo}
+            value={item.tm_ct_gpkt}
+            onChangeText={text => handleChangeGPKT(text, item.id)}
+          />
+
           <TextInput
             keyboardType="numeric"
             style={styles.inputToaDo}
@@ -361,54 +362,22 @@ const A_KetQuaThuMua = () => {
             onChangeText={text => handleChangeKinhDo(text, item.id)}
           />
           <TextInput
-            keyboardType="numeric"
-            style={styles.inputKhoiLuongLoai}
-            value={item.loai_1_kl}
-            onChangeText={text =>
-              handleChangeKhoiLuongLoai(text, item.id, 'loai_1_kl')
-            }
+            style={styles.inputToaDo}
+            value={item.daban_ct_loai}
+            onChangeText={text => handleChangeTenLoai(text, item.id)}
           />
           <TextInput
             keyboardType="numeric"
-            style={styles.inputKhoiLuongLoai}
-            value={item.loai_2_kl}
-            onChangeText={text =>
-              handleChangeKhoiLuongLoai(text, item.id, 'loai_2_kl')
-            }
+            style={styles.inputToaDo}
+            value={item.daban_ct_khoiluong}
+            onChangeText={text => handleChangeKhoiLuong(text, item.id)}
           />
           <TextInput
             keyboardType="numeric"
-            style={styles.inputKhoiLuongLoai}
-            value={item.loai_3_kl}
-            onChangeText={text =>
-              handleChangeKhoiLuongLoai(text, item.id, 'loai_3_kl')
-            }
+            editable={false}
+            style={styles.inputToaDo}
+            value={item.tm_ct_thuyentruong}
           />
-          <TextInput
-            keyboardType="numeric"
-            style={styles.inputKhoiLuongLoai}
-            value={item.loai_4_kl}
-            onChangeText={text =>
-              handleChangeKhoiLuongLoai(text, item.id, 'loai_4_kl')
-            }
-          />
-          <TextInput
-            keyboardType="numeric"
-            style={styles.inputKhoiLuongLoai}
-            value={item.loai_5_kl}
-            onChangeText={text =>
-              handleChangeKhoiLuongLoai(text, item.id, 'loai_5_kl')
-            }
-          />
-          <TextInput
-            keyboardType="numeric"
-            style={styles.inputKhoiLuongLoai}
-            value={item.loai_6_kl}
-            onChangeText={text =>
-              handleChangeKhoiLuongLoai(text, item.id, 'loai_6_kl')
-            }
-          />
-          <Text style={styles.textTongKhoiLuong}>{item.tongsanluong}</Text>
         </Pressable>
       );
     } catch (error) {
@@ -422,12 +391,12 @@ const A_KetQuaThuMua = () => {
       <Text
         style={{
           fontWeight: 'bold',
-          fontSize: 22,
+          fontSize: 20,
           lineHeight: 28,
           color: 'black',
           marginVertical: 15,
         }}>
-        A. KẾT QUẢ THU MUA, CHUYỂN TẢI CẢU CHUYẾN BIỂN
+        II. THÔNG TIN VỀ HOẠT ĐỘNG CHUYỂN TẢI (nếu có)
       </Text>
       <ScrollView>
         <ScrollView horizontal={true} style={{}}>
@@ -439,13 +408,20 @@ const A_KetQuaThuMua = () => {
               }}>
               <Text style={styles.textTT}>TT</Text>
 
-              <Text style={styles.textSoDkTauCa}>Số đăng ký tàu cá</Text>
-              <Text style={styles.textNgayThang}>
-                Thời gian {'\n'} (ngày, tháng, năm)
-              </Text>
+              <Text style={styles.textNgayThang}>Ngày, tháng</Text>
               <View style={{flexDirection: 'column'}}>
                 <Text style={styles.textViTriThuMua}>
-                  Vị trí thu mua, chuyển tải
+                  Thông tin tàu thu mua/chuyển tải
+                </Text>
+                <View style={{flexDirection: 'row'}}>
+                  <Text style={styles.textToaDo}>Số đăng ký tàu</Text>
+                  <Text style={styles.textToaDo}>Số giấy phép khai thác</Text>
+                </View>
+              </View>
+
+              <View style={{flexDirection: 'column'}}>
+                <Text style={styles.textViTriThuMua}>
+                  Vị trí thu mua/chuyển tải
                 </Text>
                 <View style={{flexDirection: 'row'}}>
                   <Text style={styles.textToaDo}>Vĩ độ</Text>
@@ -453,73 +429,17 @@ const A_KetQuaThuMua = () => {
                 </View>
               </View>
               <View style={{flexDirection: 'column'}}>
-                <Text style={styles.textKhoiLuongThuySanDaMua}>
-                  Khối lượng loài thủy sản đã thu mua, chuyển tải (kg)
-                </Text>
+                <Text style={styles.textViTriThuMua}>Đã bán/chuyển tải</Text>
                 <View style={{flexDirection: 'row'}}>
-                  {/* View Loai 1 */}
-                  <View style={{flexDirection: 'column'}}>
-                    <Text style={styles.textKhoiLuong}>Loài</Text>
-                    <TextInput
-                      style={styles.inputKhoiLuong}
-                      value={data0101.thumua[0].loai_1}
-                      onChangeText={text =>
-                        handleChangeLoai(text, 'loai_1')
-                      }></TextInput>
-                  </View>
-                  {/* View Loài 2 */}
-                  <View style={{flexDirection: 'column'}}>
-                    <Text style={styles.textKhoiLuong}>Loài</Text>
-                    <TextInput
-                      style={styles.inputKhoiLuong}
-                      value={data0101.thumua[0].loai_2}
-                      onChangeText={text =>
-                        handleChangeLoai(text, 'loai_2')
-                      }></TextInput>
-                  </View>
-                  {/* View Loài 3 */}
-                  <View style={{flexDirection: 'column'}}>
-                    <Text style={styles.textKhoiLuong}>Loài</Text>
-                    <TextInput
-                      style={styles.inputKhoiLuong}
-                      value={data0101.thumua[0].loai_3}
-                      onChangeText={text =>
-                        handleChangeLoai(text, 'loai_3')
-                      }></TextInput>
-                  </View>
-                  {/* View Loài 4 */}
-                  <View style={{flexDirection: 'column'}}>
-                    <Text style={styles.textKhoiLuong}>Loài</Text>
-                    <TextInput
-                      style={styles.inputKhoiLuong}
-                      value={data0101.thumua[0].loai_4}
-                      onChangeText={text =>
-                        handleChangeLoai(text, 'loai_4')
-                      }></TextInput>
-                  </View>
-                  {/* View Loài 5 */}
-                  <View style={{flexDirection: 'column'}}>
-                    <Text style={styles.textKhoiLuong}>Loài</Text>
-                    <TextInput
-                      style={styles.inputKhoiLuong}
-                      value={data0101.thumua[0].loai_5}
-                      onChangeText={text =>
-                        handleChangeLoai(text, 'loai_5')
-                      }></TextInput>
-                  </View>
-                  {/* View Loài 6 */}
-                  <View style={{flexDirection: 'column'}}>
-                    <Text style={styles.textKhoiLuong}>Loài</Text>
-                    <TextInput
-                      style={styles.inputKhoiLuong}
-                      value={data0101.thumua[0].loai_6}
-                      onChangeText={text =>
-                        handleChangeLoai(text, 'loai_6')
-                      }></TextInput>
-                  </View>
+                  <Text style={styles.textToaDo}>Tên loài thủy sản</Text>
+                  <Text style={styles.textToaDo}>Khối lượng (kg)</Text>
                 </View>
               </View>
-              <Text style={styles.textTongKhoiLuong}>Tổng khối lượng (kg)</Text>
+
+              <Text style={styles.textTongKhoiLuong}>
+                {' '}
+                Thuyền trưởng tàu thu mua/chuyển tải (ký, ghi gõ họ tên)
+              </Text>
             </View>
             {/* <View style={{flexDirection: 'column'}}>
                 {thumua.map((item, index) => (
@@ -535,27 +455,11 @@ const A_KetQuaThuMua = () => {
             />
             <View style={{flexDirection: 'row', height: 50}}>
               <Text style={styles.textTongKhoiLuongTong}>Tổng khối lượng</Text>
-              <Text style={styles.textKhoiLuongTong}>
-                {calculateTongKhoiLuong('loai_1_kl')}
-              </Text>
-              <Text style={styles.textKhoiLuongTong}>
-                {calculateTongKhoiLuong('loai_2_kl')}
-              </Text>
-              <Text style={styles.textKhoiLuongTong}>
-                {calculateTongKhoiLuong('loai_3_kl')}
-              </Text>
-              <Text style={styles.textKhoiLuongTong}>
-                {calculateTongKhoiLuong('loai_4_kl')}
-              </Text>
-              <Text style={styles.textKhoiLuongTong}>
-                {calculateTongKhoiLuong('loai_5_kl')}
-              </Text>
-              <Text style={styles.textKhoiLuongTong}>
-                {calculateTongKhoiLuong('loai_6_kl')}
-              </Text>
+
               <Text style={styles.textTongKhoiLuong}>
-                {calculateTongKhoiLuong('tongsanluong')}
+                {calculateTongKhoiLuong('daban_ct_khoiluong')}
               </Text>
+              <View style={styles.textTongKhoiLuong} />
             </View>
           </View>
         </ScrollView>
@@ -575,7 +479,7 @@ const A_KetQuaThuMua = () => {
   );
 };
 
-export default A_KetQuaThuMua;
+export default ThongTinVeHoatDongChuyenTai;
 
 const styles = StyleSheet.create({
   container: {
@@ -606,7 +510,7 @@ const styles = StyleSheet.create({
   },
   text: {
     fontWeight: '400',
-    fontSize: 23,
+    fontSize: 18,
     lineHeight: 25,
     borderColor: '#0099FF',
     borderWidth: 0,
@@ -616,17 +520,17 @@ const styles = StyleSheet.create({
   },
   textBtn: {
     fontWeight: '200',
-    fontSize: 20,
+    fontSize: 18,
     lineHeight: 25,
     fontWeight: 'bold',
     color: 'white',
   },
   textKhoiLuong: {
     fontWeight: '400',
-    fontSize: 23,
+    fontSize: 18,
     lineHeight: 25,
     borderColor: '#0099FF',
-    borderWidth: 0.6,
+    borderWidth: 1,
     width: widthLoai,
     height: 40,
     color: 'black',
@@ -635,7 +539,7 @@ const styles = StyleSheet.create({
   },
   textKhoiLuongTong: {
     fontWeight: '400',
-    fontSize: 23,
+    fontSize: 18,
     lineHeight: 25,
     borderColor: '#0099FF',
     borderWidth: 1,
@@ -648,10 +552,10 @@ const styles = StyleSheet.create({
 
   textKhoiLuongThuySanDaMua: {
     fontWeight: '400',
-    fontSize: 23,
+    fontSize: 18,
     lineHeight: 25,
     borderColor: '#0099FF',
-    borderWidth: 0.6,
+    borderWidth: 1,
     width: 600,
     height: 40,
     color: 'black',
@@ -660,10 +564,10 @@ const styles = StyleSheet.create({
   },
   textViTriThuMua: {
     fontWeight: '400',
-    fontSize: 23,
+    fontSize: 18,
     lineHeight: 25,
     borderColor: '#0099FF',
-    borderWidth: 0.6,
+    borderWidth: 1,
     width: 300,
     height: 80,
     color: 'black',
@@ -672,22 +576,22 @@ const styles = StyleSheet.create({
   },
   textToaDo: {
     fontWeight: '400',
-    fontSize: 23,
+    fontSize: 18,
     lineHeight: 25,
     borderColor: '#0099FF',
-    borderWidth: 0.6,
+    borderWidth: 1,
     width: widthToaDo,
-    height: 50,
+    height: 55,
     color: 'black',
     textAlign: 'center', // Center text horizontally
     textAlignVertical: 'center',
   },
   textNgayThang: {
     fontWeight: '400',
-    fontSize: 23,
+    fontSize: 18,
     lineHeight: 25,
     borderColor: '#0099FF',
-    borderWidth: 0.6,
+    borderWidth: 1,
     width: widthSoDkTauca,
     color: 'black',
     textAlign: 'center', // Center text horizontally
@@ -695,10 +599,10 @@ const styles = StyleSheet.create({
   },
   textTT: {
     fontWeight: '400',
-    fontSize: 23,
+    fontSize: 18,
     lineHeight: 25,
     borderColor: '#0099FF',
-    borderWidth: 0.6,
+    borderWidth: 1,
     width: widthTT,
     color: 'black',
     textAlign: 'center', // Center text horizontally
@@ -706,10 +610,10 @@ const styles = StyleSheet.create({
   },
   textSoDkTauCa: {
     fontWeight: '400',
-    fontSize: 23,
+    fontSize: 18,
     lineHeight: 25,
     borderColor: '#0099FF',
-    borderWidth: 0.6,
+    borderWidth: 1,
     width: widthSoDkTauca,
     color: 'black',
     textAlign: 'center', // Center text horizontally
@@ -717,18 +621,18 @@ const styles = StyleSheet.create({
   },
   textTongKhoiLuong: {
     fontWeight: '400',
-    fontSize: 23,
+    fontSize: 18,
     lineHeight: 25,
     borderColor: '#0099FF',
     borderWidth: 1,
-    width: widthTongKhoiLuong,
+    width: widthToaDo,
     color: 'black',
     textAlign: 'center', // Center text horizontally
     textAlignVertical: 'center',
   },
   textTongKhoiLuongTong: {
     fontWeight: '400',
-    fontSize: 23,
+    fontSize: 18,
     lineHeight: 25,
     borderColor: '#0099FF',
     borderWidth: 1,
@@ -749,48 +653,48 @@ const styles = StyleSheet.create({
   },
   inputKhoiLuong: {
     fontWeight: '400',
-    fontSize: 23,
+    fontSize: 18,
     lineHeight: 25,
     backgroundColor: 'white',
     color: 'black',
     width: 100,
-    borderWidth: 0.6,
+    borderWidth: 1,
     borderColor: '#0099FF',
     textAlign: 'center',
     textAlignVertical: 'center',
   },
   inputToaDo: {
     fontWeight: '400',
-    fontSize: 23,
+    fontSize: 18,
     lineHeight: 25,
-    backgroundColor: 'white',
+
     color: 'black',
     width: widthToaDo,
-    borderWidth: 0.6,
+    borderWidth: 1,
     borderColor: '#0099FF',
     textAlign: 'center',
     textAlignVertical: 'center',
   },
   inputKhoiLuongLoai: {
     fontWeight: '400',
-    fontSize: 23,
+    fontSize: 18,
     lineHeight: 25,
-    backgroundColor: 'white',
+
     color: 'black',
     width: widthLoai,
-    borderWidth: 0.6,
+    borderWidth: 1,
     borderColor: '#0099FF',
     textAlign: 'center',
     textAlignVertical: 'center',
   },
   inputNgay: {
     fontWeight: '400',
-    fontSize: 23,
+    fontSize: 18,
     lineHeight: 25,
-    backgroundColor: 'white',
+
     color: 'black',
     width: widthSoDkTauca,
-    borderWidth: 0.6,
+    borderWidth: 1,
     borderColor: '#0099FF',
     textAlign: 'center',
     textAlignVertical: 'center',

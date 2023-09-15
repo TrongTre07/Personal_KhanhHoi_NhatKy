@@ -5,28 +5,12 @@ import {UserContext, UserProvider} from './src/contexts/UserContext';
 import {NavigationContainer} from '@react-navigation/native';
 import 'react-native-gesture-handler';
 
-import {FormProvider} from './src/contexts/FormContext';
 import AppNavigation from './src/views/Navigations/AppNavigation';
 
-import Form02ad01 from './src/views/Form02adx01/Form02adx01';
-import ThongTinVeCacTau from './src/views/Form02adx01/item/ThongTinVeCacTau';
-import ThongTinChiTietHoatDong from './src/views/Form02adx01/item/B_ThongTinVeTauCa/ThongTinChiTietHoatDong';
-import Form03ad01 from './src/views/Form03adx01/Form03adx01';
-import ChiTietNhomKhaiThac from './src/views/Form03adx01/item/itemTongCucThuySan/ChiTietNhomKhaiThac';
-import Form01ad02 from './src/views/Form01adx02/Form01adx02';
-import ChiTietVeSanLuongThuySan from './src/views/Form02adx02/item/itemTongCucThuySan/ChiTietVeSanLuongThuySan';
-import XacNhanKhoiLuongThuySanConLai from './src/views/Form02adx02/item/itemTongCucThuySan/XacNhanKhoiLuongThuySanConLai';
-import Form02ad02 from './src/views/Form02adx02/Form02adx02';
-import TongCucThuySanView from './src/views/Form03_PLII/TongCucThuySanView';
-import TableForm03PL2 from './src/views/Form03_PLII/TableForm03PL2';
-import KiemTraSanLuongKhaiThac from './src/views/Form03_PLII/KiemTraSanLuongKhaiThac';
-import TableForm04PL2 from './src/views/Form04_PLII/TableForm04PL2';
-import TableKiemTraThucTe from './src/views/Form04_PLII/TableKiemTraThucTe';
-import TableForm02PL2B from './src/views/Form02b_PLIIb/TableForm02PL2B';
-import HeaderForm04_PL2_03 from './src/views/Form04_PLIII_03/HeaderForm04_PL3_03';
-import TableForm04_PL2_03 from './src/views/Form04_PLIII_03/TableForm04_PL3_03';
-import TableReport from './src/views/Form04_PLIII_03/TableReport';
-import A_KetQuaThuMua from './src/views/Form01adx01/A_KetQuaThuMua';
+import ThongTinVeHoatDongChuyenTai from './src/views/Form01adx01/ThongTinVeHoatDongChuyenTai';
+import KetQuaKhaiThac from './src/views/Form01adx01/KetQuaKhaiThac';
+import HeaderView from './src/views/Form01adx01/HeaderView';
+import TongCucThuySanView from './src/views/Form01adx01/TongCucThuySanView';
 const AppNav = () => {
   const {isLoggedIn, setIsLoggedIn} = useContext(UserContext);
   // if(AsyncStorage.getItem('token'))
@@ -44,11 +28,9 @@ const AppNav = () => {
 const App = () => {
   return (
     <UserProvider>
-      <FormProvider>
-        <View style={styles.container}>
-          <A_KetQuaThuMua />
-        </View>
-      </FormProvider>
+      <View style={styles.container}>
+        <AppNav />
+      </View>
     </UserProvider>
   );
 };

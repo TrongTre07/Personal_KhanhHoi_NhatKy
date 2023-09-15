@@ -165,6 +165,7 @@ const UserProvider = ({children}) => {
 
   const getDetailForm0101_Id = async id => {
     try {
+      setIsLoading(true);
       if (!id) {
         setInitialTitle('');
       }
@@ -175,9 +176,11 @@ const UserProvider = ({children}) => {
 
         setInitialTitle(response.data.dairy_name);
         setData0101(await response.data);
+        setIsLoading(false);
         return response.data;
       }
     } catch (error) {
+      setIsLoading(false);
       if (error.response.status === 401) {
         getAlert401();
       }
@@ -1569,19 +1572,19 @@ const UserProvider = ({children}) => {
       login,
       token,
       setToken,
-      postForm,
+      postForm0101,
       postForm0201,
       isLoading,
       setIsLoading,
       isErrorPost,
       setIsErrorPost,
-      getDiaryForm,
-      deleteFormId,
+      getDiaryForm0101,
+      deleteForm0101_Id,
       dataInfShip,
-      data,
-      setData,
-      getDetailFormId,
-      updateForm,
+      data0101,
+      setData0101,
+      getDetailForm0101_Id,
+      updateForm0101,
       initialTitle,
       setInitialTitle,
       setDataInfShip,

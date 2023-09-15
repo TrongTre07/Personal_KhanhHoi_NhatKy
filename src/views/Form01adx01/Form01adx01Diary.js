@@ -8,9 +8,9 @@ import {
   RefreshControl,
   ToastAndroid,
 } from 'react-native';
-import React, { useContext, useEffect, useState, useCallback } from 'react';
-import { UserContext } from '../../contexts/UserContext';
-import  {ExportPDF}  from './pdfForm01/ExportPDF';
+import React, {useContext, useEffect, useState, useCallback} from 'react';
+import {UserContext} from '../../contexts/UserContext';
+import {ExportPDF} from './pdfForm01/ExportPDF';
 import {
   Table,
   TableWrapper,
@@ -18,18 +18,16 @@ import {
   Rows,
   Col,
 } from 'react-native-table-component';
-import { useFocusEffect, useNavigation } from '@react-navigation/native';
-import { useNetInfo } from '@react-native-community/netinfo';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
+import {useNetInfo} from '@react-native-community/netinfo';
 import Storage from '../../utils/storage';
-import {
-  convertStringToDateHour,
-} from './item/itemTongCucThuySan/formatdate';
-import { PrintfPDF } from './pdfForm01/PrintfPDF';
-const Form01adx01Diary = ({ navigation }) => {
+import {PrintfPDF} from './pdfForm01/PrintfPDF';
+import moment from 'moment';
+const Form01adx01Diary = ({navigation}) => {
   const [dataDiary, setDataDiary] = useState([]);
 
   const {
-    getDiaryForm,
+    getDiaryForm0101,
     deleteFormId,
     dataInfShip,
     isLoggedIn,
@@ -43,8 +41,6 @@ const Form01adx01Diary = ({ navigation }) => {
 
   const netInfo = useNetInfo();
   const [refreshing, setRefreshing] = React.useState(false);
-
-  
 
   useEffect(() => {
     if (!isLoggedIn) {
@@ -61,13 +57,12 @@ const Form01adx01Diary = ({ navigation }) => {
     }, [netInfo.isConnected]),
   );
 
-
   const autoPostForm = async () => {
     const form = await Storage.getItem('form01adx01');
     if (form !== null) {
       let data = JSON.parse(form);
       const newData = [];
-  
+
       for (const item of data) {
         const result = await postForm(item);
         if (result) {
@@ -83,14 +78,14 @@ const Form01adx01Diary = ({ navigation }) => {
   const fetchdata = async () => {
     //sap xep lai danh sach theo thoi gian update
     setRefreshing(true);
-    const rawDiary = await getDiaryForm();
+    const rawDiary = await getDiaryForm0101();
     try {
       if (rawDiary != undefined) {
         await rawDiary.sort(sortListForm);
       }
       setDataDiary(rawDiary);
       setRefreshing(false);
-    } catch (error) { }
+    } catch (error) {}
   };
 
   const sortListForm = (a, b) => {
@@ -99,12 +94,11 @@ const Form01adx01Diary = ({ navigation }) => {
     return dateA - dateB;
   };
 
-
   //tranh goi ham nhieu lan khi o ben ngoai
   // const [template, setTemplate] = useState(false);
   // const handleGeneratePDF = id => {
   //   getDetailFormId(id);
-    
+
   //   if (netInfo.isConnected) {
   //     setTemplate(true);
   //   } else {
@@ -114,7 +108,7 @@ const Form01adx01Diary = ({ navigation }) => {
   //       const formData = dataDiary[formIndex];
   //       ExportPDF(formData); // Assuming ExportPDF generates the PDF
   //     }
-  //   }  
+  //   }
   // };
   // let checkForm=false;
   // const [checkForm, setCheckForm] = useState(false);
@@ -135,22 +129,19 @@ const Form01adx01Diary = ({ navigation }) => {
   //   // checkForm=false;
   // }, [data, setTemplate]);
 
+  // // dùng useEffect data để in
+  //   const [printf, setPrintf] = useState(false);
+  //   const handerlePrintPDF = (id) => {
+  //     getDetailFormId(id);
+  //     setPrintf(true);
+  //   };
 
-
-
-// // dùng useEffect data để in
-//   const [printf, setPrintf] = useState(false);
-//   const handerlePrintPDF = (id) => {
-//     getDetailFormId(id);
-//     setPrintf(true);
-//   };
-
-//   useEffect(() => {
-//     if (data && printf) {
-//       PrintfPDF(data);
-//       setPrintf(false);
-//     }
-//   }, [data, setPrintf]);
+  //   useEffect(() => {
+  //     if (data && printf) {
+  //       PrintfPDF(data);
+  //       setPrintf(false);
+  //     }
+  //   }, [data, setPrintf]);
 
   const getDataLocal = async () => {
     const result = await Storage.getItem('form01adx01');
@@ -164,11 +155,8 @@ const Form01adx01Diary = ({ navigation }) => {
   // nếu không có wifi, lấy data từ local
   useFocusEffect(
     React.useCallback(() => {
-      if (netInfo.isConnected)
-         fetchdata();
-      else 
-         getDataLocal();
-
+      if (netInfo.isConnected) fetchdata();
+      else getDataLocal();
     }, [netInfo.isConnected]),
   );
 
@@ -189,7 +177,7 @@ const Form01adx01Diary = ({ navigation }) => {
           },
         },
       ],
-      { cancelable: false },
+      {cancelable: false},
     );
   };
 
@@ -213,9 +201,8 @@ const Form01adx01Diary = ({ navigation }) => {
           },
         },
       ],
-      { cancelable: false },
+      {cancelable: false},
     );
-
   };
 
   const elementButton = (id, index) => (
@@ -224,81 +211,88 @@ const Form01adx01Diary = ({ navigation }) => {
         // disabled={true}
         onPress={async () => {
           let dataTemp;
-          if(netInfo.isConnected){
+          if (netInfo.isConnected) {
             dataTemp = await getDetailFormId(id);
-            dataTemp.dairy_name= 'filemau';
-
-          }else{
+            dataTemp.dairy_name = 'filemau';
+          } else {
             const result = await Storage.getItem('form01adx01');
             if (result !== null) {
               const dataLocal = JSON.parse(result);
-              dataTemp= dataLocal[index];
-              dataTemp.dairy_name= 'filemau';
+              dataTemp = dataLocal[index];
+              dataTemp.dairy_name = 'filemau';
             }
           }
           const result = await ExportPDF(dataTemp);
-          result?navigation.navigate('ViewPDF'): Alert.alert('Thất bại', `không thể xem file pdf`);
+          result
+            ? navigation.navigate('ViewPDF')
+            : Alert.alert('Thất bại', `không thể xem file pdf`);
           // setCheckForm(true);
           // handleGeneratePDF(id);
-
-
         }}>
-        <View style={[styles.btn, { backgroundColor: '#99FF33' }]}>
+        <View style={[styles.btn, {backgroundColor: '#99FF33'}]}>
           <Text style={styles.btnText}>Xem</Text>
         </View>
       </TouchableOpacity>
       <TouchableOpacity
-        onPress={() => navigation.navigate('form01adx01', { id: !netInfo.isConnected ? index : id })}>
-        <View style={[styles.btn, { backgroundColor: '#00FFFF' }]}>
+        onPress={() =>
+          navigation.navigate('form01adx01', {
+            id: !netInfo.isConnected ? index : id,
+          })
+        }>
+        <View style={[styles.btn, {backgroundColor: '#00FFFF'}]}>
           <Text style={styles.btnText}>Sửa</Text>
         </View>
       </TouchableOpacity>
       <TouchableOpacity
-        onPress={ async () => {
+        onPress={async () => {
           let tempData;
-          if(netInfo.isConnected){
-            tempData = await getDetailFormId(id); 
-          }else{
+          if (netInfo.isConnected) {
+            tempData = await getDetailFormId(id);
+          } else {
             const result = await Storage.getItem('form01adx01');
             if (result !== null) {
               const dataLocal = JSON.parse(result);
-              tempData= dataLocal[index];
+              tempData = dataLocal[index];
             }
           }
           ExportPDF(tempData);
         }}>
-        <View style={[styles.btn, { backgroundColor: '#FF99FF' }]}>
+        <View style={[styles.btn, {backgroundColor: '#FF99FF'}]}>
           <Text style={styles.btnText}>Tải xuống</Text>
         </View>
       </TouchableOpacity>
-      <TouchableOpacity onPress={() => { !netInfo.isConnected ? handleDeleteFormLocal(index) : handleDelete(id) }}>
-        <View style={[styles.btn, { backgroundColor: '#FF3333' }]}>
+      <TouchableOpacity
+        onPress={() => {
+          !netInfo.isConnected
+            ? handleDeleteFormLocal(index)
+            : handleDelete(id);
+        }}>
+        <View style={[styles.btn, {backgroundColor: '#FF3333'}]}>
           <Text style={styles.btnText}>Xoá</Text>
         </View>
       </TouchableOpacity>
-      <TouchableOpacity onPress={async () =>{
+      <TouchableOpacity
+        onPress={async () => {
           // if(!netInfo.isConnected){
           //   ToastAndroid.show('Vui lòng kết nối internet.', ToastAndroid.SHORT);
-          //   return; 
+          //   return;
           // }
           // handerlePrintPDF(id)
 
           let tempData;
-          if(netInfo.isConnected){
+          if (netInfo.isConnected) {
             tempData = await getDetailFormId(id);
-          }else{
+          } else {
             const result = await Storage.getItem('form01adx01');
             if (result !== null) {
               const dataLocal = JSON.parse(result);
-              tempData= dataLocal[index];
+              tempData = dataLocal[index];
             }
           }
           // console.log('tempData: ', tempData);
-          if(tempData)
-            PrintfPDF(tempData);
-          else
-            Alert.alert('Thất bại', `không thể in file pdf`);
-      } }>
+          if (tempData) PrintfPDF(tempData);
+          else Alert.alert('Thất bại', `không thể in file pdf`);
+        }}>
         <View style={[styles.btn, {backgroundColor: '#C0C0C0'}]}>
           <Text style={styles.btnText}>In</Text>
         </View>
@@ -312,8 +306,10 @@ const Form01adx01Diary = ({ navigation }) => {
     item.tau_bs,
     item.ten_thuyentruong,
     item.chuyenbien_so,
-    convertStringToDateHour(item.date_create),
-    convertStringToDateHour(item.date_modified),
+    moment(item.date_create).format('DD/MM/YYYY HH:mm'),
+    !item.date_modified
+      ? ''
+      : moment(item.date_modified).format('DD/MM/YYYY HH:mm'),
     elementButton(item.id, index),
   ]);
 
@@ -334,14 +330,16 @@ const Form01adx01Diary = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <ScrollView 
-        
+      <ScrollView
         // onRefresh={fetchdata}
         showsVerticalScrollIndicator={false}
         refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={()=>fetchdata()} />
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={() => fetchdata()}
+          />
         }>
-        <Table borderStyle={{ borderWidth: 1 }}>
+        <Table borderStyle={{borderWidth: 1}}>
           <Row
             data={state.tableHead}
             flexArr={[0.8, 1, 2, 1.5, 1.5, 2, 2, 3.5]}
