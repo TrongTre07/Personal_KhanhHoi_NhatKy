@@ -62,7 +62,7 @@ const Form03_PLII = ({route}) => {
 
   const handleDataSubmit = tieuDe => {
     titleForm03_PLII = tieuDe;
-    if (data03_PLII.id == undefined) {
+    if (id == undefined) {
       //neu la create thi field id khong ton tai
       handleCreateForm(tieuDe, 'create');
     } else {
@@ -84,19 +84,27 @@ const Form03_PLII = ({route}) => {
     // chưa có mạng thì lưu local
     if (!isConnect) {
       const dataForm = objectPost;
-      const result = await Storage.getItem('form03_PLII');
-      if (result !== null) {
-        const data = JSON.parse(result);
-        data.push(dataForm);
-        await Storage.setItem('form03_PLII', JSON.stringify(data));
-        ToastAndroid.show('Tạo thành công', ToastAndroid.SHORT);
-        setGoBackAlert(true);
-      } else {
-        const data = [];
-        data.push(dataForm);
-        await Storage.setItem('form03_PLII', JSON.stringify(data));
-        ToastAndroid.show('Tạo thành công', ToastAndroid.SHORT);
-        setGoBackAlert(true);
+      let result = JSON.parse(await Storage.getItem('form03_PLII'));
+    
+      if (result === null || !Array.isArray(result)) {
+        result = [];
+      }
+    
+      switch (string) {
+        case 'create':
+      // console.log('ID:', id);
+
+          result.push(dataForm);
+          await Storage.setItem('form03_PLII', JSON.stringify(result));
+          ToastAndroid.show('Tạo thành công', ToastAndroid.SHORT);
+          setGoBackAlert(true);
+          break;
+        case 'update':
+          result[id] = dataForm;
+          await Storage.setItem('form03_PLII', JSON.stringify(result));
+          ToastAndroid.show('Cập nhật thành công', ToastAndroid.SHORT);
+          setGoBackAlert(true);
+          break;
       }
     } else if (string == 'create') {
       await postForm03_PLII(modifyForm03_PL2(objectPost));
@@ -199,7 +207,7 @@ const Form03_PLII = ({route}) => {
           <TouchableOpacity
             style={[styles.actionCreate, styles.button]}
             onPress={() => {
-              netInfo.isConnected ? handleUpdate() : handleUpdateDiaryLocal();
+              handleUpdate();
             }}>
             <Text style={styles.actionText}>Cập nhật</Text>
           </TouchableOpacity>
@@ -275,7 +283,7 @@ const Form03_PLII = ({route}) => {
             ]);
           } else handleDataSubmit(tieuDe);
         }}
-        initialValue={initialTitle}
+        initialValue={initialTitle||data03_PLII?.dairyname}
       />
     </ScrollView>
   );

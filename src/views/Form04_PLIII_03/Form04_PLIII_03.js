@@ -8,25 +8,26 @@ import {
   Alert,
   ToastAndroid,
 } from 'react-native';
-import React, {useEffect, useContext,useState} from 'react';
+import React, {useEffect, useContext, useState} from 'react';
 // import TongCucThuySanView from './item/TongCucThuySanView';
 import {UserContext} from '../../contexts/UserContext';
 import {useNetInfo} from '@react-native-community/netinfo';
 // import HeaderView from './item/HeaderView';
 import Spinner from 'react-native-loading-spinner-overlay';
 import AlertInputComponent from '../../utils/AlertInputComponent';
-import { ExportPDF } from './pdfForm04_PLIII_03/ExportPDF';
+import {ExportPDF} from './pdfForm04_PLIII_03/ExportPDF';
 import data04_PLIII_03Empty from './models/data04_PLIII_03';
 import uploadFile from '../../axios/uploadFile';
 import Storage from '../../utils/storage';
 import {useNavigation} from '@react-navigation/native';
+import TableForm04_PL2_03 from './TableForm04_PL3_03';
+import HeaderForm04_PL2_03 from './HeaderForm04_PL3_03';
 // import ChiTietNhomKhaiThac from './item/itemTongCucThuySan/ChiTietNhomKhaiThac';
 // import TableCangca2 from './item/itemTongCucThuySan/TableCangca2';
 
-
 const Form04_PLIII_03 = ({route}) => {
   const {
-    getDetailForm04_PLIII_03Id,
+    getDetailForm04_PLIII_03_Id,
     setData04_PLIII_03,
     data04_PLIII_03,
     goBackAlert,
@@ -59,7 +60,7 @@ const Form04_PLIII_03 = ({route}) => {
 
   const handleDataSubmit = tieuDe => {
     titleForm04_PLIII_03 = tieuDe;
-    if (data04_PLIII_03.id == undefined) {
+    if (id == undefined) {
       //neu la create thi field id khong ton tai
       handleCreateForm(tieuDe, 'create');
     } else {
@@ -77,30 +78,36 @@ const Form04_PLIII_03 = ({route}) => {
     // console.log(JSON.stringify(objectPost, null, 2));
 
     const isConnect = netInfo.isConnected;
-
+    
     // chưa có mạng thì lưu local
     if (!isConnect) {
       const dataForm = objectPost;
-      const result = await Storage.getItem('form04_PLIII_03');
-    if (result !== null) {
-        const data = JSON.parse(result);
-        data.push(dataForm);
-        await Storage.setItem('form04_PLIII_03', JSON.stringify(data));
-        ToastAndroid.show('Tạo thành công', ToastAndroid.SHORT);
-        setGoBackAlert(true);
-      } else {
-        const data = [];
-        data.push(dataForm);
-        await Storage.setItem('form04_PLIII_03', JSON.stringify(data));
-        ToastAndroid.show('Tạo thành công', ToastAndroid.SHORT);
-        setGoBackAlert(true);
+      let result = JSON.parse(await Storage.getItem('form04_PLIII_03'));
+    
+      if (result === null || !Array.isArray(result)) {
+        result = [];
+      }
+    
+      switch (string) {
+        case 'create':
+      // console.log('ID:', id);
+
+          result.push(dataForm);
+          await Storage.setItem('form04_PLIII_03', JSON.stringify(result));
+          ToastAndroid.show('Tạo thành công', ToastAndroid.SHORT);
+          setGoBackAlert(true);
+          break;
+        case 'update':
+          result[id] = dataForm;
+          await Storage.setItem('form04_PLIII_03', JSON.stringify(result));
+          ToastAndroid.show('Cập nhật thành công', ToastAndroid.SHORT);
+          setGoBackAlert(true);
+          break;
       }
     } else if (string == 'create') {
-
-        await postForm04_PLIII_03(modifyThongTinKhaiThac(objectPost));
-
+      await postForm04_PLIII_03(modifyForm04_PL3_03(objectPost));
     } else if (string == 'update') {
-      await updateForm04_PLIII_03(modifyThongTinKhaiThac(objectPost));
+      await updateForm04_PLIII_03(modifyForm04_PL3_03(objectPost));
     }
   };
 
@@ -108,7 +115,7 @@ const Form04_PLIII_03 = ({route}) => {
 
   useEffect(() => {
     if (id != undefined) {
-      if (netInfo.isConnected) getDetailForm04_PLIII_03Id(id);
+      if (netInfo.isConnected) getDetailForm04_PLIII_03_Id(id);
       else getDataLocal();
     } else {
       setData04_PLIII_03(data04_PLIII_03Empty);
@@ -127,73 +134,27 @@ const Form04_PLIII_03 = ({route}) => {
     }
   };
 
-  const modifyThongTinKhaiThac = data04_PLIII_03 => {
-    const modifiedKhaiThac = {...data04_PLIII_03}; 
+  const modifyForm04_PL3_03 = data04_PLIII_03 => {
+    // Modify thumua array
+    const modifiedThumua = data04_PLIII_03.tbl_xacnhancamket_ls.map(item => {
+      if (!item.hasOwnProperty('isdelete')) {
+        // Item has isdelete field with a value of 1, update id to 0
+        return {...item, id: 0};
+      }
+      return item;
+    });
 
-    // if (modifiedKhaiThac.tau_chieudailonnhat === '') {
-    //   modifiedKhaiThac.tau_chieudailonnhat = 0;
-    // }    
-    // if (modifiedKhaiThac.tau_tongcongsuatmaychinh === '') {
-    //   modifiedKhaiThac.tau_tongcongsuatmaychinh = 0;
-    // }
-    
-    // if (modifiedKhaiThac.chuyenbien_so === '') {
-    //   modifiedKhaiThac.chuyenbien_so = 0;
-    // }
-    // if (modifiedKhaiThac.nam === '') {
-    //   modifiedKhaiThac.nam = 0;
-    // }
-    // if (modifiedKhaiThac.tongsolaodong === '') {
-    //   modifiedKhaiThac.tongsolaodong = 0;
-    // }
-    // if (modifiedKhaiThac.songaykhaithac === '') {
-    //   modifiedKhaiThac.songaykhaithac = 0;
-    // }
-    // if (modifiedKhaiThac.so_meluoi === '') {
-    //   modifiedKhaiThac.so_meluoi = 0;
-    // }
-    // if (modifiedKhaiThac.tongsanluong === '') {
-    //   modifiedKhaiThac.tongsanluong = 0;
-    // }
-    // if (modifiedKhaiThac.songayhoatdong === '') {
-    //   modifiedKhaiThac.songayhoatdong = 0;
-    // }
-
-    console.log('modifiedKhaiThac:', JSON.stringify(modifiedKhaiThac, null, 2));
-
-    return modifiedKhaiThac;
-  };
-
-  // check ko có wifi thì update local
-  const handleUpdateDiaryLocal = async () => {
-    const dataForm = {...data04_PLIII_03};
-    dataForm.dairyname = titleForm04_PLIII_03;
-    const result = await Storage.getItem('form04_PLIII_03');
-    if (result !== null) {
-      const data = JSON.parse(result);
-      data[id] = dataForm;
-      await Storage.setItem('form04_PLIII_03', JSON.stringify(data));
-      console.log('STORAGE:', JSON.stringify(data, null, 2));
-    }
-    ToastAndroid.show('Cập nhật thành công', ToastAndroid.SHORT);
-    // setData04_PLIII_03(data04_PLIII_03Empty);
-    setGoBackAlert(true);
-  };
-
-  React.useEffect(() => {
-    const backAction = () => {
-      setData04_PLIII_03(data04_PLIII_03Empty);
-      navigation.goBack();
-      return true;
+    // Update data0202 with the modified thumua and thongtintaudc_thumua arrays
+    const updatedData04_PL3_03 = {
+      ...data04_PLIII_03,
+      tbl_xacnhancamket_ls: modifiedThumua,
     };
 
-    const backHandler = BackHandler.addEventListener(
-      'hardwareBackPress',
-      backAction,
-    );
+    console.log('MODIFY:', JSON.stringify(updatedData04_PL3_03, null, 2));
 
-    return () => backHandler.remove();
-  }, []);
+    return updatedData04_PL3_03;
+  };
+
 
   const _renderActionView = () => {
     return (
@@ -202,7 +163,7 @@ const Form04_PLIII_03 = ({route}) => {
           <TouchableOpacity
             style={[styles.actionCreate, styles.button]}
             onPress={() => {
-              netInfo.isConnected ? handleUpdate() : handleUpdateDiaryLocal();
+              handleUpdate();
             }}>
             <Text style={styles.actionText}>Cập nhật</Text>
           </TouchableOpacity>
@@ -215,36 +176,35 @@ const Form04_PLIII_03 = ({route}) => {
         )}
         <TouchableOpacity
           style={[styles.actionDownload, styles.button]}
-          onPress={ async () => {
+          onPress={async () => {
             let dataFix = data04_PLIII_03;
             dataFix.dairyname = 'filemau';
             const exportPDF = await ExportPDF(dataFix);
             console.log(exportPDF);
-             if(exportPDF)
-              navigation.navigate('ViewPDF')
-            else
-              Alert.alert('Thất bại', `không thể xem file pdf`);
-
-          }}
-        >
+            if (exportPDF) navigation.navigate('ViewPDF');
+            else Alert.alert('Thất bại', `không thể xem file pdf`);
+          }}>
           <Text style={styles.actionText}>Xem mẫu</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={[styles.actionExportPDF, styles.button]}
-          onPress={async() => {
-            if(!netInfo.isConnected){
-              ToastAndroid.show('Vui lòng kết nối internet.', ToastAndroid.SHORT);
+          onPress={async () => {
+            if (!netInfo.isConnected) {
+              ToastAndroid.show(
+                'Vui lòng kết nối internet.',
+                ToastAndroid.SHORT,
+              );
               return;
             }
             let dataFix = data04_PLIII_03;
             dataFix.dairyname = 'filemau';
             const exportPDF = await ExportPDF(dataFix);
-            if(exportPDF==true)
-              uploadFile(`/storage/emulated/0/Android/data/com.khanhhoiapp/files/pdf/filemau.pdf`);
-            else
-              Alert.alert('Thất bại', `không thể xuất file pdf`);
-          }}
-        >
+            if (exportPDF == true)
+              uploadFile(
+                `/storage/emulated/0/Android/data/com.khanhhoiapp/files/pdf/filemau.pdf`,
+              );
+            else Alert.alert('Thất bại', `không thể xuất file pdf`);
+          }}>
           <Text style={styles.actionText}>Xuất file</Text>
         </TouchableOpacity>
       </View>
@@ -252,15 +212,10 @@ const Form04_PLIII_03 = ({route}) => {
   };
 
   return (
-    <ScrollView>
-      {/* <HeaderView/> */}
-      {/* <TongCucThuySanView /> */}
-      {/* <ChiTietNhomKhaiThac/> */}
-      {/* <TableCangca2/> */}
-      <View style={{backgroundColor:'#fff'}}>
-      {_renderActionView()}
-
-      </View>
+    <ScrollView style={{backgroundColor: 'white'}}>
+      <HeaderForm04_PL2_03 />
+      <TableForm04_PL2_03 />
+      <View style={{backgroundColor: '#fff'}}>{_renderActionView()}</View>
       <Spinner
         visible={isLoading}
         textContent={'Đang tải...'}
@@ -282,7 +237,7 @@ const Form04_PLIII_03 = ({route}) => {
             ]);
           } else handleDataSubmit(tieuDe);
         }}
-        initialValue={initialTitle}
+        initialValue={initialTitle||data04_PLIII_03?.dairyname}
       />
     </ScrollView>
   );
@@ -295,7 +250,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor:'#fff'
+    backgroundColor: '#fff',
   },
   button: {
     borderRadius: 5,

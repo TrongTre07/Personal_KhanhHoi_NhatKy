@@ -61,7 +61,7 @@ const Form04_PLII = ({route}) => {
 
   const handleDataSubmit = tieuDe => {
     titleForm04_PLII = tieuDe;
-    if (data04_PLII.id == undefined) {
+    if (id == undefined) {
       //neu la create thi field id khong ton tai
       handleCreateForm(tieuDe, 'create');
     } else {
@@ -79,23 +79,30 @@ const Form04_PLII = ({route}) => {
     // console.log(JSON.stringify(objectPost, null, 2));
 
     const isConnect = netInfo.isConnected;
-
+    
     // chưa có mạng thì lưu local
     if (!isConnect) {
       const dataForm = objectPost;
-      const result = await Storage.getItem('form04_PLII');
-      if (result !== null) {
-        const data = JSON.parse(result);
-        data.push(dataForm);
-        await Storage.setItem('form04_PLII', JSON.stringify(data));
-        ToastAndroid.show('Tạo thành công', ToastAndroid.SHORT);
-        setGoBackAlert(true);
-      } else {
-        const data = [];
-        data.push(dataForm);
-        await Storage.setItem('form04_PLII', JSON.stringify(data));
-        ToastAndroid.show('Tạo thành công', ToastAndroid.SHORT);
-        setGoBackAlert(true);
+      let result = JSON.parse(await Storage.getItem('form04_PLII'));
+    
+      if (result === null || !Array.isArray(result)) {
+        result = [];
+      }
+    
+      switch (string) {
+        case 'create':
+
+          result.push(dataForm);
+          await Storage.setItem('form04_PLII', JSON.stringify(result));
+          ToastAndroid.show('Tạo thành công', ToastAndroid.SHORT);
+          setGoBackAlert(true);
+          break;
+        case 'update':
+          result[id] = dataForm;
+          await Storage.setItem('form04_PLII', JSON.stringify(result));
+          ToastAndroid.show('Cập nhật thành công', ToastAndroid.SHORT);
+          setGoBackAlert(true);
+          break;
       }
     } else if (string == 'create') {
       await postForm04_PLII(objectPost);
@@ -127,58 +134,6 @@ const Form04_PLII = ({route}) => {
     }
   };
 
-  const modifyThongTinKhaiThac = data04_PLII => {
-    const modifiedKhaiThac = {...data04_PLII};
-
-    // if (modifiedKhaiThac.tau_chieudailonnhat === '') {
-    //   modifiedKhaiThac.tau_chieudailonnhat = 0;
-    // }
-    // if (modifiedKhaiThac.tau_tongcongsuatmaychinh === '') {
-    //   modifiedKhaiThac.tau_tongcongsuatmaychinh = 0;
-    // }
-
-    // if (modifiedKhaiThac.chuyenbien_so === '') {
-    //   modifiedKhaiThac.chuyenbien_so = 0;
-    // }
-    // if (modifiedKhaiThac.nam === '') {
-    //   modifiedKhaiThac.nam = 0;
-    // }
-    // if (modifiedKhaiThac.tongsolaodong === '') {
-    //   modifiedKhaiThac.tongsolaodong = 0;
-    // }
-    // if (modifiedKhaiThac.songaykhaithac === '') {
-    //   modifiedKhaiThac.songaykhaithac = 0;
-    // }
-    // if (modifiedKhaiThac.so_meluoi === '') {
-    //   modifiedKhaiThac.so_meluoi = 0;
-    // }
-    // if (modifiedKhaiThac.tongsanluong === '') {
-    //   modifiedKhaiThac.tongsanluong = 0;
-    // }
-    // if (modifiedKhaiThac.songayhoatdong === '') {
-    //   modifiedKhaiThac.songayhoatdong = 0;
-    // }
-
-    console.log('modifiedKhaiThac:', JSON.stringify(modifiedKhaiThac, null, 2));
-
-    return modifiedKhaiThac;
-  };
-
-  // check ko có wifi thì update local
-  const handleUpdateDiaryLocal = async () => {
-    const dataForm = {...data04_PLII};
-    dataForm.dairyname = titleForm04_PLII;
-    const result = await Storage.getItem('form04_PLII');
-    if (result !== null) {
-      const data = JSON.parse(result);
-      data[id] = dataForm;
-      await Storage.setItem('form04_PLII', JSON.stringify(data));
-      console.log('STORAGE:', JSON.stringify(data, null, 2));
-    }
-    ToastAndroid.show('Cập nhật thành công', ToastAndroid.SHORT);
-    // setData04_PLII(data04_PLIIEmpty);
-    setGoBackAlert(true);
-  };
 
   React.useEffect(() => {
     const backAction = () => {
@@ -202,7 +157,7 @@ const Form04_PLII = ({route}) => {
           <TouchableOpacity
             style={[styles.actionCreate, styles.button]}
             onPress={() => {
-              netInfo.isConnected ? handleUpdate() : handleUpdateDiaryLocal();
+              handleUpdate();
             }}>
             <Text style={styles.actionText}>Cập nhật</Text>
           </TouchableOpacity>
@@ -277,7 +232,7 @@ const Form04_PLII = ({route}) => {
             ]);
           } else handleDataSubmit(tieuDe);
         }}
-        initialValue={initialTitle}
+        initialValue={initialTitle||data04_PLII?.dairyname}
       />
     </ScrollView>
   );

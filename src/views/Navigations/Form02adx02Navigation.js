@@ -10,13 +10,14 @@ import Storage from '../../utils/storage';
 import {useNetInfo} from '@react-native-community/netinfo';
 import {UserContext} from '../../contexts/UserContext';
 import Icon from 'react-native-vector-icons/AntDesign';
+import data0202Empty from '../Form02adx02/models/data0202';
 
 const Stack = createStackNavigator();
 const Form02adx02Navigation = () => {
   const navigation = useNavigation();
   const netInfo = useNetInfo();
 
-  const {setData} = useContext(UserContext);
+  const {setData0202} = useContext(UserContext);
 
   const handleNavigateForm02adx02 = async () => {
     navigation.navigate('form02adx02');
@@ -27,7 +28,7 @@ const Form02adx02Navigation = () => {
       <TouchableOpacity
         onPress={() => {
           navigation.pop();
-          setData({});
+          setData0202(data0202Empty);
         }}>
         <Icon name="arrowleft" size={30} color="#000" />
       </TouchableOpacity>

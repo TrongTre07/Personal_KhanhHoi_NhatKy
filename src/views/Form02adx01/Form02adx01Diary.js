@@ -31,7 +31,6 @@ const Form02adx01Diary = ({navigation}) => {
     deleteForm0201Id,
     dataInfShip,
     isLoggedIn,
-    postForm0201,
     getDetailForm0201Id,
     data0201,
     setData0201,
@@ -48,32 +47,6 @@ const Form02adx01Diary = ({navigation}) => {
     }
   }, [isLoggedIn]);
 
-  // check neu co wifi thi post file o local len server
-  useFocusEffect(
-    React.useCallback(() => {
-      if (netInfo.isConnected) {
-        autoPostForm();
-      }
-    }, [netInfo.isConnected]),
-  );
-
-  const autoPostForm = async () => {
-    const form = await Storage.getItem('form02adx01');
-    if (form !== null) {
-      let data = JSON.parse(form);
-      const newData = [];
-
-      for (const item of data) {
-        const result = await postForm0201(item);
-        if (result) {
-        } else {
-          newData.push(item);
-        }
-      }
-      await Storage.setItem('form02adx01', JSON.stringify(newData));
-      setDataDiary(newData);
-    }
-  };
 
   const fetchdata = async () => {
     //sap xep lai danh sach theo thoi gian update
@@ -96,62 +69,6 @@ const Form02adx01Diary = ({navigation}) => {
     return dateA - dateB;
   };
 
-  //tranh goi ham nhieu lan khi o ben ngoai
-  // const [template, setTemplate] = useState(false);
-  // const handleGeneratePDF = id => {
-  //   getDetailForm0201Id(id);
-
-  //   if (netInfo.isConnected) {
-  //     setTemplate(true);
-  //   } else {
-  //     // Handle PDF generation locally without internet
-  //     const formIndex = dataDiary.findIndex(item => item.id === id);
-  //     if (formIndex !== -1) {
-  //       const formData = dataDiary[formIndex];
-  //       ExportPDF(formData); // Assuming ExportPDF generates the PDF
-  //     }
-  //   }
-  // };
-
-  //xem file pdf
-  // const [checkForm, setCheckForm] = useState(false);
-
-  // const festExportPDF = async (dataTemp) => {
-  //   dataTemp= {...data0201, dairy_name: 'filemau'};
-  //   const result = await ExportPDF(dataTemp);
-
-  //   result?navigation.navigate('ViewPDF'): Alert.alert('Thất bại', `không thể xem file pdf`);
-  //   setTemplate(false);
-  // }
-
-  // useEffect(() => {
-  //   if (data0201 && template) {
-  //     let dataTemp = data0201;
-  //     if(checkForm==true){
-  //       festExportPDF(dataTemp);
-  //       setCheckForm(false);
-  //     }else{
-  //       ExportPDF(dataTemp);
-  //       setTemplate(false);
-  //     }
-  //   }
-  //   // checkForm=false;
-  // }, [data0201, setTemplate]);
-
-  // dùng useEffect data để in
-  // const [printf, setPrintf] = useState(false);
-  // const handerlePrintPDF = (id) => {
-  //   getDetailForm0201Id(id);
-  //   setPrintf(true);
-  // };
-
-  // useEffect(() => {
-  //   console.log('data0201: ', data0201);
-  //   if (data0201 && printf) {
-  //     PrintfPDF(data0201);
-  //     setPrintf(false);
-  //   }
-  // }, [data0201, setPrintf]);
 
   const getDataLocal = async () => {
     const result = await Storage.getItem('form02adx01');

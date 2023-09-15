@@ -46,7 +46,8 @@ const ThongTinChiTietHoatDong = ({selectedItem}) => {
   const handleThemDong = () => {
     try {
       const objectAdd = {
-        id: new Date(),
+        id: makeid(7),
+
         // dairy_id: data0201.id,
         methu: (
           data0201.thongtintaudc_thumua[selectedItem].thongtinhoatdong.length +

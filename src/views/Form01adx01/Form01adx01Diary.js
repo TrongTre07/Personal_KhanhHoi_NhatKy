@@ -56,28 +56,46 @@ const Form01adx01Diary = ({ navigation }) => {
   useFocusEffect(
     React.useCallback(() => {
       if (netInfo.isConnected) {
-        autoPostForm();
+        autoPostForm('form01adx01',postForm);
       }
     }, [netInfo.isConnected]),
   );
 
 
-  const autoPostForm = async () => {
-    const form = await Storage.getItem('form01adx01');
-    if (form !== null) {
+  const autoPostForm = async (nameLocal,funtionUpload) => {
+    const form = await Storage.getItem(nameLocal);
+
+    if(form !== null) {
       let data = JSON.parse(form);
       const newData = [];
   
       for (const item of data) {
-        const result = await postForm(item);
+        const result = await funtionUpload(item);
+        console.log('resutl ...',result);
         if (result) {
         } else {
           newData.push(item);
         }
       }
       await Storage.setItem('form01adx01', JSON.stringify(newData));
-      setDataDiary(newData);
+      // const num= await Storage.getItem('form01adx01');
+      // Alert.alert('Thông báo', `Đã gửi ${data.length - newData.length} bản ghi lên server`);
+      // setDataDiary(newData);
     }
+    // if (form !== null) {
+    //   let data = JSON.parse(form);
+    //   const newData = [];
+  
+    //   for (const item of data) {
+    //     const result = await postForm(item);
+    //     if (result) {
+    //     } else {
+    //       newData.push(item);
+    //     }
+    //   }
+    //   await Storage.setItem('form01adx01', JSON.stringify(newData));
+    //   setDataDiary(newData);
+    // }
   };
 
   const fetchdata = async () => {

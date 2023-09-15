@@ -60,7 +60,7 @@ const Form02ad02 = ({route}) => {
 
   const handleDataSubmit = tieuDe => {
     titleForm0202 = tieuDe;
-    if (data0202.dairyid == undefined) {
+    if (id == undefined) {
       //neu la create thi field id khong ton tai
       handleCreateForm(tieuDe, 'create');
     } else {
@@ -82,19 +82,25 @@ const Form02ad02 = ({route}) => {
     // chưa có mạng thì lưu local
     if (!isConnect) {
       const dataForm = objectPost;
-      const result = await Storage.getItem('form02adx02');
-      if (result !== null) {
-        const data = JSON.parse(result);
-        data.push(dataForm);
-        await Storage.setItem('form02adx02', JSON.stringify(data));
-        ToastAndroid.show('Tạo thành công', ToastAndroid.SHORT);
-        setGoBackAlert(true);
-      } else {
-        const data = [];
-        data.push(dataForm);
-        await Storage.setItem('form02adx02', JSON.stringify(data));
-        ToastAndroid.show('Tạo thành công', ToastAndroid.SHORT);
-        setGoBackAlert(true);
+      let result = JSON.parse(await Storage.getItem('form02adx02'));
+    
+      if (result === null || !Array.isArray(result)) {
+        result = [];
+      }
+    
+      switch (string) {
+        case 'create':
+          result.push(dataForm);
+          await Storage.setItem('form02adx02', JSON.stringify(result));
+          ToastAndroid.show('Tạo thành công', ToastAndroid.SHORT);
+          setGoBackAlert(true);
+          break;
+        case 'update':
+          result[id] = dataForm;
+          await Storage.setItem('form02adx02', JSON.stringify(result));
+          ToastAndroid.show('Cập nhật thành công', ToastAndroid.SHORT);
+          setGoBackAlert(true);
+          break;
       }
     } else if (string == 'create') {
       await postForm0202(modifyForm0202(objectPost));
@@ -128,38 +134,6 @@ const Form02ad02 = ({route}) => {
 
   const modifyThongTinKhaiThac = data0202 => {
     const modifiedKhaiThac = {...data0202};
-
-    // if (modifiedKhaiThac.tau_chieudailonnhat === '') {
-    //   modifiedKhaiThac.tau_chieudailonnhat = 0;
-    // }
-    // if (modifiedKhaiThac.tau_tongcongsuatmaychinh === '') {
-    //   modifiedKhaiThac.tau_tongcongsuatmaychinh = 0;
-    // }
-
-    // if (modifiedKhaiThac.chuyenbien_so === '') {
-    //   modifiedKhaiThac.chuyenbien_so = 0;
-    // }
-    // if (modifiedKhaiThac.nam === '') {
-    //   modifiedKhaiThac.nam = 0;
-    // }
-    // if (modifiedKhaiThac.tongsolaodong === '') {
-    //   modifiedKhaiThac.tongsolaodong = 0;
-    // }
-    // if (modifiedKhaiThac.songaykhaithac === '') {
-    //   modifiedKhaiThac.songaykhaithac = 0;
-    // }
-    // if (modifiedKhaiThac.so_meluoi === '') {
-    //   modifiedKhaiThac.so_meluoi = 0;
-    // }
-    // if (modifiedKhaiThac.tongsanluong === '') {
-    //   modifiedKhaiThac.tongsanluong = 0;
-    // }
-    // if (modifiedKhaiThac.songayhoatdong === '') {
-    //   modifiedKhaiThac.songayhoatdong = 0;
-    // }
-
-    console.log('modifiedKhaiThac:', JSON.stringify(modifiedKhaiThac, null, 2));
-
     return modifiedKhaiThac;
   };
 
@@ -238,7 +212,7 @@ const Form02ad02 = ({route}) => {
           <TouchableOpacity
             style={[styles.actionCreate, styles.button]}
             onPress={() => {
-              netInfo.isConnected ? handleUpdate() : handleUpdateDiaryLocal();
+              handleUpdate()
             }}>
             <Text style={styles.actionText}>Cập nhật</Text>
           </TouchableOpacity>
@@ -313,7 +287,7 @@ const Form02ad02 = ({route}) => {
             ]);
           } else handleDataSubmit(tieuDe);
         }}
-        initialValue={initialTitle}
+        initialValue={initialTitle||data0202?.dairy_name}
       />
     </ScrollView>
   );

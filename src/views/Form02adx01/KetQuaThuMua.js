@@ -37,7 +37,7 @@ const KetQuaThuMua = () => {
   const handleThemDong = () => {
     try {
       const objectAdd = {
-        id: new Date(),
+        id: makeid(7),
         ngaythang: formattedDate,
         id_tau: '',
         tau_bs: '',
