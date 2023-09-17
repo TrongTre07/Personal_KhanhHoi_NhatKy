@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
   },
   txtHeader: {
     color: 'black',
-    fontSize: 26,
+    fontSize: 20,
     fontWeight: 'bold',
   },
   txtGiayBienNhan: {
@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   text: {
-    fontSize: 22,
+    fontSize: 18,
     color: 'black',
     fontWeight: '500',
   },

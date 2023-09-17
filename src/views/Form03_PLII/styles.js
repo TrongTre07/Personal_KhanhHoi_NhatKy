@@ -19,12 +19,12 @@ const styles = StyleSheet.create({
   },
   txtHeader: {
     color: 'black',
-    fontSize: 26,
+    fontSize: 22,
     fontWeight: 'bold',
   },
   txtGiayBienNhan: {
     color: 'black',
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: '400',
     fontStyle: 'italic',
     marginBottom: 20
@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
   },
   txtHeaderDate: {
     color: 'black',
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: 'bold',
     fontStyle: 'italic',
   },
@@ -45,12 +45,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   text: {
-    fontSize: 22,
+    fontSize: 18,
     color: 'black',
     fontWeight: '400',
   },
   textBold: {
-    fontSize: 22,
+    fontSize: 18,
     color: 'black',
     fontWeight: '600',
   },

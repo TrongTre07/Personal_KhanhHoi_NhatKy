@@ -12,23 +12,12 @@ import {
 import React, {useContext, useState} from 'react';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {UserContext} from '../../../../contexts/UserContext';
+import makeid from '../../../others/makeid';
 
 const ChiTietNhomKhaiThac = () => {
   const [selectedItemIndex, setSelectedItemIndex] = useState(-1);
   const {data0301, setData0301} = useContext(UserContext);
 
-  const makeid = length => {
-    let result = '';
-    const characters =
-      'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    const charactersLength = characters.length;
-    let counter = 0;
-    while (counter < length) {
-      result += characters.charAt(Math.floor(Math.random() * charactersLength));
-      counter += 1;
-    }
-    return result;
-  };
 
   const handleChangeTenLoai = (tenLoai, id) => {
     try {
@@ -278,7 +267,7 @@ export default ChiTietNhomKhaiThac;
 const styles = StyleSheet.create({
   textTongKhoiLuongTong: {
     fontWeight: '400',
-    fontSize: 23,
+    fontSize: 18,
     lineHeight: 25,
     borderColor: '#0099FF',
     borderWidth: 1,
@@ -289,7 +278,7 @@ const styles = StyleSheet.create({
   },
   textTT: {
     fontWeight: '400',
-    fontSize: 23,
+    fontSize: 18,
     lineHeight: 25,
     borderColor: '#0099FF',
     borderWidth: 0.6,
@@ -300,7 +289,7 @@ const styles = StyleSheet.create({
   },
   textTenLoaiThuySan: {
     fontWeight: '400',
-    fontSize: 23,
+    fontSize: 18,
     lineHeight: 25,
     borderColor: '#0099FF',
     borderWidth: 0.6,
@@ -312,7 +301,7 @@ const styles = StyleSheet.create({
   },
   textSanLuong: {
     fontWeight: '400',
-    fontSize: 23,
+    fontSize: 18,
     lineHeight: 25,
     borderColor: '#0099FF',
     borderWidth: 1,

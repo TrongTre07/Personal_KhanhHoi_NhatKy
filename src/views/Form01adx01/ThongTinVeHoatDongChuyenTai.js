@@ -343,7 +343,7 @@ const ThongTinVeHoatDongChuyenTai = () => {
             onChangeText={text => handleChangeSoDkTau(text, item.id)}
           />
           <TextInput
-            keyboardType="numeric"
+            
             style={styles.inputToaDo}
             value={item.tm_ct_gpkt}
             onChangeText={text => handleChangeGPKT(text, item.id)}

@@ -225,7 +225,7 @@ const KiemTraSanLuongKhaiThac = () => {
   return (
     <View style={{flex: 1, backgroundColor: 'white'}}>
       <ScrollView style={{marginVertical: 5}}>
-        <ScrollView
+        <View
           horizontal={true}
           showsHorizontalScrollIndicator={false}
           style={{width: '100%'}}>
@@ -260,7 +260,7 @@ const KiemTraSanLuongKhaiThac = () => {
               </Text>
             </View>
           </View>
-        </ScrollView>
+        </View>
       </ScrollView>
 
       <View style={{flexDirection: 'row'}}>
@@ -289,7 +289,7 @@ const styles = StyleSheet.create({
     marginTop: 5,
   },
   text: {
-    fontSize: 22,
+    fontSize: 18,
     color: 'black',
     fontWeight: '500',
   },
@@ -300,45 +300,45 @@ const styles = StyleSheet.create({
   },
   textTongKhoiLuongTong: {
     fontWeight: '500',
-    fontSize: 22,
+    fontSize: 18,
 
     borderColor: '#0099FF',
     borderWidth: 1,
-    width: 560,
+    width: '40%',
     color: 'black',
     textAlign: 'center', // Center text horizontally
     textAlignVertical: 'center',
   },
   textTT: {
     fontWeight: '500',
-    fontSize: 22,
+    fontSize: 18,
 
     borderColor: '#0099FF',
     borderWidth: 1,
-    width: 60,
+    width: '10%',
     color: 'black',
     textAlign: 'center', // Center text horizontally
     textAlignVertical: 'center',
   },
   textTenLoaiThuySan: {
     fontWeight: '500',
-    fontSize: 22,
+    fontSize: 18,
     // lineHeight: 22,
     padding: 8,
     borderColor: '#0099FF',
     borderWidth: 1,
-    width: 500,
+    width: '30%',
     color: 'black',
     textAlign: 'center', // Center text horizontally
     textAlignVertical: 'center',
   },
   textSanLuong: {
     fontWeight: '500',
-    fontSize: 22,
+    fontSize: 18,
 
     borderColor: '#0099FF',
     borderWidth: 1,
-    width: 500,
+    width: '30%',
     color: 'black',
     textAlign: 'center', // Center text horizontally
     textAlignVertical: 'center',
@@ -367,7 +367,7 @@ const styles = StyleSheet.create({
   },
   textBtn: {
     fontWeight: '200',
-    fontSize: 20,
+    fontSize: 18,
     lineHeight: 25,
     fontWeight: 'bold',
     color: 'white',

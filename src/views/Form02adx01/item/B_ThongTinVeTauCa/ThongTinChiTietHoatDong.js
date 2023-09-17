@@ -16,6 +16,7 @@ import {useEffect} from 'react';
 import {UserContext} from '../../../../contexts/UserContext';
 import CustomDateTimePicker from '../../../others/CustomDateTimePicker';
 import {v4 as uuidv4} from 'uuid';
+import makeid from '../../../others/makeid';
 
 const widthTT = 60;
 const widthSoDkTauca = 200;
@@ -36,12 +37,6 @@ const ThongTinChiTietHoatDong = ({selectedItem}) => {
   if (selectedItem >= data0201?.thongtintaudc_thumua?.length) {
     selectedItem--;
   }
-  // const lastItem =
-  //   data0201.thongtintaudc_thumua[selectedItem].thongtinhoatdong[
-  //     data0201.thongtintaudc_thumua[selectedItem].thongtinhoatdong.length - 1
-  //   ];
-
-  // let uniqueId = lastItem.id + 1;
 
   const handleThemDong = () => {
     try {
@@ -775,7 +770,7 @@ const styles = StyleSheet.create({
   },
   note: {
     fontWeight: '400',
-    fontSize: 23,
+    fontSize: 20,
     lineHeight: 25,
     borderColor: '#0099FF',
     color: 'black',
@@ -789,7 +784,7 @@ const styles = StyleSheet.create({
   },
   text: {
     fontWeight: '400',
-    fontSize: 23,
+    fontSize: 18,
     lineHeight: 25,
     borderColor: '#0099FF',
     borderWidth: 0,
@@ -816,7 +811,7 @@ const styles = StyleSheet.create({
   },
   textKhoiLuong: {
     fontWeight: '400',
-    fontSize: 23,
+    fontSize: 18,
     lineHeight: 25,
     borderColor: '#0099FF',
     borderWidth: 0.6,
@@ -828,7 +823,7 @@ const styles = StyleSheet.create({
   },
   textKhoiLuongTong: {
     fontWeight: '400',
-    fontSize: 23,
+    fontSize: 18,
     lineHeight: 25,
     borderColor: '#0099FF',
     borderWidth: 1,
@@ -840,7 +835,7 @@ const styles = StyleSheet.create({
   },
   textKhoiLuongThuySanDaMua: {
     fontWeight: '400',
-    fontSize: 23,
+    fontSize: 18,
     lineHeight: 25,
     borderColor: '#0099FF',
     borderWidth: 0.6,
@@ -852,7 +847,7 @@ const styles = StyleSheet.create({
   },
   textViTriThuMua: {
     fontWeight: '400',
-    fontSize: 23,
+    fontSize: 18,
     lineHeight: 25,
     borderColor: '#0099FF',
     borderWidth: 0.6,
@@ -864,7 +859,7 @@ const styles = StyleSheet.create({
   },
   textToaDo: {
     fontWeight: '400',
-    fontSize: 23,
+    fontSize: 18,
     lineHeight: 25,
     borderColor: '#0099FF',
     borderWidth: 0.6,
@@ -876,7 +871,7 @@ const styles = StyleSheet.create({
   },
   textNgayThang: {
     fontWeight: '400',
-    fontSize: 23,
+    fontSize: 18,
     lineHeight: 25,
     borderColor: '#0099FF',
     borderWidth: 0.6,
@@ -887,7 +882,7 @@ const styles = StyleSheet.create({
   },
   textTT: {
     fontWeight: '400',
-    fontSize: 23,
+    fontSize: 18,
     lineHeight: 25,
     borderColor: '#0099FF',
     borderWidth: 0.6,
@@ -898,7 +893,7 @@ const styles = StyleSheet.create({
   },
   textSoDkTauCa: {
     fontWeight: '400',
-    fontSize: 23,
+    fontSize: 18,
     lineHeight: 25,
     borderColor: '#0099FF',
     borderWidth: 0.6,
@@ -909,7 +904,7 @@ const styles = StyleSheet.create({
   },
   textTongKhoiLuong: {
     fontWeight: '400',
-    fontSize: 23,
+    fontSize: 18,
     lineHeight: 25,
     borderColor: '#0099FF',
     borderWidth: 1,
@@ -920,7 +915,7 @@ const styles = StyleSheet.create({
   },
   textTongKhoiLuongTong: {
     fontWeight: '400',
-    fontSize: 23,
+    fontSize: 18,
     lineHeight: 25,
     borderColor: '#0099FF',
     borderWidth: 1,
@@ -931,9 +926,9 @@ const styles = StyleSheet.create({
   },
   inputKhoiLuong: {
     fontWeight: '400',
-    fontSize: 23,
+    fontSize: 18,
     lineHeight: 25,
-    backgroundColor: 'white',
+    // backgroundColor: 'white',
     color: 'black',
     width: 100,
     borderWidth: 0.6,
@@ -943,9 +938,9 @@ const styles = StyleSheet.create({
   },
   inputToaDo: {
     fontWeight: '400',
-    fontSize: 23,
+    fontSize: 18,
     lineHeight: 25,
-    backgroundColor: 'white',
+    // backgroundColor: 'white',
     color: 'black',
     width: widthToaDo,
     borderWidth: 0.6,
@@ -955,9 +950,9 @@ const styles = StyleSheet.create({
   },
   inputKhoiLuongLoai: {
     fontWeight: '400',
-    fontSize: 23,
+    fontSize: 18,
     lineHeight: 25,
-    backgroundColor: 'white',
+    // backgroundColor: 'white',
     color: 'black',
     width: widthLoai,
     borderWidth: 0.6,
@@ -967,9 +962,9 @@ const styles = StyleSheet.create({
   },
   inputNgay: {
     fontWeight: '400',
-    fontSize: 23,
+    fontSize: 18,
     lineHeight: 25,
-    backgroundColor: 'white',
+    // backgroundColor: 'white',
     color: 'black',
     width: widthSoDkTauca,
     borderWidth: 0.6,

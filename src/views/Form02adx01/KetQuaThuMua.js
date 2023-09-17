@@ -323,7 +323,7 @@ const KetQuaThuMua = () => {
           ]}>
           <Text style={styles.textTT}>{index + 1}</Text>
           <TextInput
-            keyboardType="numeric"
+            
             style={styles.textSoDkTauCa}
             value={item.tau_bs}
             onChangeText={text => handleChangeSoDkTau(text, item.id)}
@@ -605,7 +605,7 @@ const styles = StyleSheet.create({
   },
   text: {
     fontWeight: '400',
-    fontSize: 23,
+    fontSize: 18,
     lineHeight: 25,
     borderColor: '#0099FF',
     borderWidth: 0,
@@ -622,7 +622,7 @@ const styles = StyleSheet.create({
   },
   textKhoiLuong: {
     fontWeight: '400',
-    fontSize: 23,
+    fontSize: 18,
     lineHeight: 25,
     borderColor: '#0099FF',
     borderWidth: 0.6,
@@ -634,7 +634,7 @@ const styles = StyleSheet.create({
   },
   textKhoiLuongTong: {
     fontWeight: '400',
-    fontSize: 23,
+    fontSize: 18,
     lineHeight: 25,
     borderColor: '#0099FF',
     borderWidth: 1,
@@ -647,7 +647,7 @@ const styles = StyleSheet.create({
 
   textKhoiLuongThuySanDaMua: {
     fontWeight: '400',
-    fontSize: 23,
+    fontSize: 18,
     lineHeight: 25,
     borderColor: '#0099FF',
     borderWidth: 0.6,
@@ -659,7 +659,7 @@ const styles = StyleSheet.create({
   },
   textViTriThuMua: {
     fontWeight: '400',
-    fontSize: 23,
+    fontSize: 18,
     lineHeight: 25,
     borderColor: '#0099FF',
     borderWidth: 0.6,
@@ -671,7 +671,7 @@ const styles = StyleSheet.create({
   },
   textToaDo: {
     fontWeight: '400',
-    fontSize: 23,
+    fontSize: 18,
     lineHeight: 25,
     borderColor: '#0099FF',
     borderWidth: 0.6,
@@ -683,7 +683,7 @@ const styles = StyleSheet.create({
   },
   textNgayThang: {
     fontWeight: '400',
-    fontSize: 23,
+    fontSize: 18,
     lineHeight: 25,
     borderColor: '#0099FF',
     borderWidth: 0.6,
@@ -694,7 +694,7 @@ const styles = StyleSheet.create({
   },
   textTT: {
     fontWeight: '400',
-    fontSize: 23,
+    fontSize: 18,
     lineHeight: 25,
     borderColor: '#0099FF',
     borderWidth: 0.6,
@@ -705,7 +705,7 @@ const styles = StyleSheet.create({
   },
   textSoDkTauCa: {
     fontWeight: '400',
-    fontSize: 23,
+    fontSize: 18,
     lineHeight: 25,
     borderColor: '#0099FF',
     borderWidth: 0.6,
@@ -716,7 +716,7 @@ const styles = StyleSheet.create({
   },
   textTongKhoiLuong: {
     fontWeight: '400',
-    fontSize: 23,
+    fontSize: 18,
     lineHeight: 25,
     borderColor: '#0099FF',
     borderWidth: 1,
@@ -727,7 +727,7 @@ const styles = StyleSheet.create({
   },
   textTongKhoiLuongTong: {
     fontWeight: '400',
-    fontSize: 23,
+    fontSize: 18,
     lineHeight: 25,
     borderColor: '#0099FF',
     borderWidth: 1,
@@ -748,9 +748,9 @@ const styles = StyleSheet.create({
   },
   inputKhoiLuong: {
     fontWeight: '400',
-    fontSize: 23,
+    fontSize: 18,
     lineHeight: 25,
-    backgroundColor: 'white',
+    // backgroundColor: 'white',
     color: 'black',
     width: 100,
     borderWidth: 0.6,
@@ -760,9 +760,9 @@ const styles = StyleSheet.create({
   },
   inputToaDo: {
     fontWeight: '400',
-    fontSize: 23,
+    fontSize: 18,
     lineHeight: 25,
-    backgroundColor: 'white',
+    // backgroundColor: 'white',
     color: 'black',
     width: widthToaDo,
     borderWidth: 0.6,
@@ -772,9 +772,9 @@ const styles = StyleSheet.create({
   },
   inputKhoiLuongLoai: {
     fontWeight: '400',
-    fontSize: 23,
+    fontSize: 18,
     lineHeight: 25,
-    backgroundColor: 'white',
+    // backgroundColor: 'white',
     color: 'black',
     width: widthLoai,
     borderWidth: 0.6,
@@ -784,9 +784,9 @@ const styles = StyleSheet.create({
   },
   inputNgay: {
     fontWeight: '400',
-    fontSize: 23,
+    fontSize: 18,
     lineHeight: 25,
-    backgroundColor: 'white',
+    // backgroundColor: 'white',
     color: 'black',
     width: widthSoDkTauca,
     borderWidth: 0.6,

@@ -77,8 +77,8 @@ const TongCucThuySanView = () => {
           }}>
           <Text style={styles.txtHeader}>CHUYẾN SỐ:</Text>
           <TextInput
-            keyboardType="numeric"
-            value={data0301.chuyenbien_so.toString()}
+            
+            value={data0301?.chuyenbien_so.toString()}
             style={styles.txtHeader}
             placeholder='.........'
             onChangeText={text =>

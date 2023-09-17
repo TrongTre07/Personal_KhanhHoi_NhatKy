@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
   },
   txtHeader: {
     color: 'black',
-    fontSize: 26,
+    fontSize: 22,
     fontWeight: 'bold',
   },
 });

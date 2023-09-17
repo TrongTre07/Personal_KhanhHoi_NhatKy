@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
   },
   titleText: {
     fontWeight: 'bold',
-    fontSize: 20,
+    fontSize: 18,
     color: 'black',
   },
   mauSoText: {

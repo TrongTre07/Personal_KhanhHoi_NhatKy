@@ -69,12 +69,10 @@ const TongCucThuySanView = () => {
           <Text style={styles.txtHeader}>SỐ:</Text>
           <TextInput
             keyboardType="numeric"
-            // value={data0202.chuyenbien_so.toString()}
+            value={data0202?.sobiennhan.toString()}
             style={styles.txtHeader}
             placeholder="........."
-            onChangeText={text =>
-              setData0202({...data0202, sobiennhan: text})
-            }
+            onChangeText={text => setData0202({...data0202, sobiennhan: text})}
           />
         </View>
 

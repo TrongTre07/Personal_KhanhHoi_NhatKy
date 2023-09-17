@@ -238,7 +238,7 @@ const XacNhanKhoiLuongThuySanConLai = () => {
         <Text
           style={{
             fontWeight: 'bold',
-            fontSize: 26,
+            fontSize: 20,
 
             color: 'black',
           }}>
@@ -266,14 +266,7 @@ const XacNhanKhoiLuongThuySanConLai = () => {
             flexDirection: 'column',
             marginVertical: 10,
           }}>
-          <View
-            style={[
-              styles.row,
-              {
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-              },
-            ]}>
+          <View style={{flexDirection: 'row'}}>
             <Text style={styles.text}>.........,ngày:</Text>
             <TextInput
               onDateChange={date => {
@@ -304,39 +297,35 @@ const XacNhanKhoiLuongThuySanConLai = () => {
                 });
               }}
             />
-            <Text style={styles.text}>
-              xác nhận khối lượng thủy sản còn lại trong Giấy biên nhận thủy sản
-              bốc dỡ
-            </Text>
           </View>
+          <Text style={[styles.text, {marginTop: 5}]}>
+            xác nhận khối lượng thủy sản còn lại trong Giấy biên nhận thủy sản
+            bốc dỡ
+          </Text>
+        </View>
 
-          <View style={{flexDirection: 'row', justifyContent: 'flex-start'}}>
-            <Text style={styles.text} numberOfLines={2}>
-              qua cảng sau khi cấp Giấy xác nhận nguyên liệu thủy sản khai thác
-              số
-            </Text>
-            <TextInput
-              style={[styles.text, styles.input]}
-              value={data0202.xacnhan.soxacnhannguyenlieukhaithac}
-              onChangeText={text => {
-                setData0202({
-                  ...data0202,
-                  xacnhan: {
-                    ...data0202.xacnhan,
-                    soxacnhannguyenlieukhaithac: text,
-                  },
-                });
-              }}
-            />
-          </View>
+        <View style={{flexDirection: 'row', justifyContent: 'flex-start'}}>
+          <Text style={styles.text} numberOfLines={2}>
+            qua cảng sau khi cấp Giấy xác nhận nguyên liệu thủy sản khai thác số
+          </Text>
+          <TextInput
+            style={[styles.text, styles.input]}
+            value={data0202.xacnhan.soxacnhannguyenlieukhaithac}
+            onChangeText={text => {
+              setData0202({
+                ...data0202,
+                xacnhan: {
+                  ...data0202.xacnhan,
+                  soxacnhannguyenlieukhaithac: text,
+                },
+              });
+            }}
+          />
         </View>
       </View>
 
       <ScrollView style={{marginVertical: 5}}>
-        <ScrollView
-          horizontal={true}
-          showsHorizontalScrollIndicator={false}
-          style={{width: '100%'}}>
+        <View style={{flexDirection: 'row'}}>
           <View style={{flexDirection: 'column'}}>
             <View
               style={{
@@ -374,7 +363,7 @@ const XacNhanKhoiLuongThuySanConLai = () => {
               </Text>
             </View>
           </View>
-        </ScrollView>
+        </View>
       </ScrollView>
 
       <View style={{flexDirection: 'row'}}>
@@ -403,7 +392,7 @@ const styles = StyleSheet.create({
     marginTop: 5,
   },
   text: {
-    fontSize: 22,
+    fontSize: 18,
     color: 'black',
     fontWeight: '500',
   },
@@ -414,45 +403,45 @@ const styles = StyleSheet.create({
   },
   textTongKhoiLuongTong: {
     fontWeight: '500',
-    fontSize: 22,
+    fontSize: 18,
 
     borderColor: '#0099FF',
     borderWidth: 1,
-    width: 460,
+    width: '31%',
     color: 'black',
     textAlign: 'center', // Center text horizontally
     textAlignVertical: 'center',
   },
   textTT: {
     fontWeight: '500',
-    fontSize: 22,
+    fontSize: 18,
 
     borderColor: '#0099FF',
     borderWidth: 1,
-    width: 60,
+    width: '8%',
     color: 'black',
     textAlign: 'center', // Center text horizontally
     textAlignVertical: 'center',
   },
   textTenLoaiThuySan: {
     fontWeight: '500',
-    fontSize: 22,
+    fontSize: 18,
     // lineHeight: 22,
     padding: 8,
     borderColor: '#0099FF',
     borderWidth: 1,
-    width: 400,
+    width: '23%',
     color: 'black',
     textAlign: 'center', // Center text horizontally
     textAlignVertical: 'center',
   },
   textSanLuong: {
     fontWeight: '500',
-    fontSize: 22,
+    fontSize: 18,
 
     borderColor: '#0099FF',
     borderWidth: 1,
-    width: 400,
+    width: '23%',
     color: 'black',
     textAlign: 'center', // Center text horizontally
     textAlignVertical: 'center',

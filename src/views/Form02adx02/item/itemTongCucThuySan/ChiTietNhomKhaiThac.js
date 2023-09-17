@@ -276,7 +276,7 @@ export default ChiTietNhomKhaiThac;
 const styles = StyleSheet.create({
   textTongKhoiLuongTong: {
     fontWeight: '400',
-    fontSize: 20,
+    fontSize: 18,
     lineHeight: 22,
     borderColor: '#0099FF',
     borderWidth: 1,
@@ -287,7 +287,7 @@ const styles = StyleSheet.create({
   },
   textTT: {
     fontWeight: '400',
-    fontSize: 20,
+    fontSize: 18,
     lineHeight: 22,
     borderColor: '#0099FF',
     borderWidth: 0.6,
@@ -298,7 +298,7 @@ const styles = StyleSheet.create({
   },
   textTenLoaiThuySan: {
     fontWeight: '400',
-    fontSize: 20,
+    fontSize: 18,
     // lineHeight: 22,
     padding: 8,
     borderColor: '#0099FF',
@@ -310,7 +310,7 @@ const styles = StyleSheet.create({
   },
   textSanLuong: {
     fontWeight: '400',
-    fontSize: 20,
+    fontSize: 18,
     lineHeight: 22,
     borderColor: '#0099FF',
     borderWidth: 0.6,
@@ -343,7 +343,7 @@ const styles = StyleSheet.create({
   },
   textBtn: {
     fontWeight: '200',
-    fontSize: 20,
+    fontSize: 18,
     lineHeight: 25,
     fontWeight: 'bold',
     color: 'white',

@@ -17,7 +17,7 @@ const Form04adx01Navigation = () => {
   const navigation = useNavigation();
   const netInfo = useNetInfo();
 
-  const {setData04adx01} = useContext(UserContext);
+  const {setData0401} = useContext(UserContext);
 
   const handleNavigateForm04adx01 = async () => {
     navigation.navigate('form04adx01');
@@ -28,7 +28,7 @@ const Form04adx01Navigation = () => {
       <TouchableOpacity
         onPress={() => {
           navigation.pop();
-          setData04adx01(data0401Empty);
+          setData0401(data0401Empty);
         }}>
         <Icon name="arrowleft" size={30} color="#000" />
       </TouchableOpacity>

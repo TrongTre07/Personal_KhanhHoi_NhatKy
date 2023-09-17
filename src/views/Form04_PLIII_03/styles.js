@@ -19,12 +19,12 @@ const styles = StyleSheet.create({
   },
   txtHeader: {
     color: 'black',
-    fontSize: 26,
+    fontSize: 22,
     fontWeight: 'bold',
   },
   txtGiayBienNhan: {
     color: 'black',
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: '400',
     fontStyle: 'italic',
     marginBottom: 20,
@@ -51,19 +51,19 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
   },
   text: {
-    fontSize: 22,
+    fontSize: 18,
     color: 'black',
     fontWeight: '400',
   },
   textBold: {
-    fontSize: 22,
+    fontSize: 18,
     color: 'black',
     fontWeight: '600',
   },
   input: {
     flex: 1,
     height: 22,
-    fontSize: 22,
+    fontSize: 18,
     // backgroundColor:'red',
     borderColor: 'gray',
     borderBottomWidth: 1,
@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
   inputCheckBox: {
     flex: 1,
 
-    fontSize: 22,
+    fontSize: 18,
     // backgroundColor:'red',
     borderColor: 'gray',
     borderBottomWidth: 1,
@@ -101,7 +101,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   textSignature:{
-    fontSize: 22,
+    fontSize: 18,
     color: 'black',
     fontWeight: '400',
     textAlign:'center',

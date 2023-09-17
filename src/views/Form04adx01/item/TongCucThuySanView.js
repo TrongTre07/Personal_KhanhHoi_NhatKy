@@ -66,7 +66,7 @@ const TongCucThuySanView = () => {
           }}>
             <Text style={[styles.txtHeader, { fontWeight: "400" }]}>CHUYẾN SỐ:</Text>
             <TextInput
-              keyboardType="numeric"
+              
               value={data0401?.chuyenbien_so?.toString()}
               style={[styles.txtHeader,{ fontSize:16,fontWeight: "400",height:30, paddingVertical:0, borderColor: 'gray',
               borderBottomWidth: 1,

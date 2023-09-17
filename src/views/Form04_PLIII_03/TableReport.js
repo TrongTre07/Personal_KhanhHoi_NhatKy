@@ -345,7 +345,7 @@ const styles = StyleSheet.create({
     marginTop: 5,
   },
   text: {
-    fontSize: 22,
+    fontSize: 18,
     color: 'black',
     fontWeight: '500',
   },
@@ -356,7 +356,7 @@ const styles = StyleSheet.create({
   },
   textTongKhoiLuongTong: {
     fontWeight: '500',
-    fontSize: 22,
+    fontSize: 18,
 
     borderColor: '#0099FF',
     borderWidth: 1,
@@ -367,7 +367,7 @@ const styles = StyleSheet.create({
   },
   textTT: {
     fontWeight: '500',
-    fontSize: 22,
+    fontSize: 18,
 
     borderColor: '#0099FF',
     borderWidth: 1,
@@ -378,20 +378,20 @@ const styles = StyleSheet.create({
   },
   textTenLoaiThuySan: {
     fontWeight: '500',
-    fontSize: 22,
+    fontSize: 18,
 
     // lineHeight: 22,
     padding: 8,
     borderColor: '#0099FF',
     borderWidth: 1,
-    width: 500,
+    width: 300,
     color: 'black',
     textAlign: 'center', // Center text horizontally
     textAlignVertical: 'center',
   },
   textSanLuong: {
     fontWeight: '500',
-    fontSize: 22,
+    fontSize: 18,
 
     borderColor: '#0099FF',
     borderWidth: 1,

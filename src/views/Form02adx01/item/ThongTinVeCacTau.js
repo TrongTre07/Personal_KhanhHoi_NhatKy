@@ -104,12 +104,6 @@ const ThongTinVeCacTau = () => {
 
   const handleAddButton = () => {
     try {
-      const lastId = data0201?.thongtintaudc_thumua.reduce((maxId, item) => {
-        return item.id > maxId ? item.id : maxId;
-      }, -1);
-
-      const newId = lastId + 1;
-
       const obj = {
         id: makeid(7),
         // dairy_id: data0201.id,

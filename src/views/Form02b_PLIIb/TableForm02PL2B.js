@@ -176,7 +176,7 @@ const TableForm02PL2B = () => {
         </Text>
       </View>
 
-      <ScrollView horizontal={true}>
+      <View style={{flexDirection: 'row'}}>
         <View
           style={[
             styles.row,
@@ -184,7 +184,7 @@ const TableForm02PL2B = () => {
               height: 180,
               borderWidth: 1,
               borderColor: '#0099FF',
-              width: 450,
+              width: '25%',
               flexDirection: 'column',
               justifyContent: 'flex-start',
             },
@@ -201,7 +201,7 @@ const TableForm02PL2B = () => {
               height: 180,
               borderWidth: 1,
               borderColor: '#0099FF',
-              width: 450,
+              width: '25%',
               flexDirection: 'column',
               justifyContent: 'space-between',
               alignItems: 'center',
@@ -214,7 +214,7 @@ const TableForm02PL2B = () => {
             style={[
               styles.input,
               styles.text,
-              {marginBottom: 10, width: '80%', marginHorizontal: '15'},
+              {marginBottom: 10, width: '90%', marginHorizontal: '15'},
             ]}
             onChangeText={text => {
               setData02b_PLIIb({...data02b_PLIIb, tennhaxuatkhau: text});
@@ -229,7 +229,7 @@ const TableForm02PL2B = () => {
               height: 180,
               borderWidth: 1,
               borderColor: '#0099FF',
-              width: 450,
+              width: '25%',
               flexDirection: 'column',
               justifyContent: 'space-between',
               alignItems: 'center',
@@ -240,7 +240,7 @@ const TableForm02PL2B = () => {
             style={[
               styles.input,
               styles.text,
-              {marginBottom: 10, width: '80%', marginHorizontal: '15'},
+              {marginBottom: 10, width: '90%', marginHorizontal: '15'},
             ]}
             onChangeText={text => {
               setData02b_PLIIb({...data02b_PLIIb, diachi: text});
@@ -255,7 +255,7 @@ const TableForm02PL2B = () => {
               height: 180,
               borderWidth: 1,
               borderColor: '#0099FF',
-              width: 450,
+              width: '25%',
               flexDirection: 'column',
               justifyContent: 'space-between',
               alignItems: 'center',
@@ -263,7 +263,7 @@ const TableForm02PL2B = () => {
           ]}>
           <Text style={[styles.text, {marginLeft: 10}]}>Chữ ký/Signature</Text>
         </View>
-      </ScrollView>
+      </View>
     </View>
   );
 };

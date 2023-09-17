@@ -4,20 +4,18 @@ import styles from './itemTongCucThuySan/styles';
 import Table1 from './itemTongCucThuySan/Table1';
 import Table2 from './itemTongCucThuySan/Table2';
 import Table3 from './itemTongCucThuySan/Table3';
-import { UserContext } from '../../contexts/UserContext';
-
+import {UserContext} from '../../contexts/UserContext';
 
 const TongCucThuySanView = () => {
-
-  const {getDiaryForm, data0101Ship, data0101, setData0101} = useContext(UserContext);
+  const {getDiaryForm, data0101Ship, data0101, setData0101} =
+    useContext(UserContext);
 
   const handleNgheChinh = value => {
-    const updatedThongTinTau = {...thongTinTau};
+    const updatedThongTinTau = {...data0101};
     updatedThongTinTau.nghechinh = value;
     setThongTinTau(updatedThongTinTau);
     setData0101(updatedThongTinTau);
   };
-
 
   return (
     <View style={styles.container}>
