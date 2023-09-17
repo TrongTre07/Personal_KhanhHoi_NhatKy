@@ -82,8 +82,8 @@ const Form02ad01 = ({route}) => {
 
     // chưa có mạng thì lưu local
     if (!isConnect) {
-      const dataForm = objectPost;
-      const result = JSON.parse(await Storage.getItem('form02adx01'));
+      const dataForm = modifyThongTinTauDCThumua(objectPost);
+      let result = JSON.parse(await Storage.getItem('form02adx01'));
       console.log('RESULT:', data0201.dairy_name);
       if (!dataForm.id_tau) {
         Alert.alert('Lỗi', 'Bạn phải chọn tàu!', [

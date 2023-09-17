@@ -8,9 +8,9 @@ import {
   RefreshControl,
   ToastAndroid,
 } from 'react-native';
-import React, {useContext, useEffect, useState, useCallback} from 'react';
-import {UserContext} from '../../contexts/UserContext';
-import {ExportPDF} from './pdfForm01/ExportPDF';
+import React, { useContext, useEffect, useState, useCallback } from 'react';
+import { UserContext } from '../../contexts/UserContext';
+import { ExportPDF } from './pdfForm01/ExportPDF';
 import {
   Table,
   TableWrapper,
@@ -18,25 +18,20 @@ import {
   Rows,
   Col,
 } from 'react-native-table-component';
-import {useFocusEffect, useNavigation} from '@react-navigation/native';
-import {useNetInfo} from '@react-native-community/netinfo';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import { useNetInfo } from '@react-native-community/netinfo';
 import Storage from '../../utils/storage';
-import {PrintfPDF} from './pdfForm01/PrintfPDF';
+import { PrintfPDF } from './pdfForm01/PrintfPDF';
 import moment from 'moment';
-const Form01adx01Diary = ({navigation}) => {
+const Form01adx01Diary = ({ navigation }) => {
   const [dataDiary, setDataDiary] = useState([]);
 
   const {
     getDiaryForm0101,
-    deleteFormId,
-    dataInfShip,
+    deleteForm0101_Id,
     isLoggedIn,
-    postForm,
-    getDetailFormId,
-    data,
-    setData,
-    checkViewPDF,
-    setCheckViewPDF,
+    getDetailForm0101_Id,
+    postForm0101,
   } = useContext(UserContext);
 
   const netInfo = useNetInfo();
@@ -49,31 +44,50 @@ const Form01adx01Diary = ({navigation}) => {
   }, [isLoggedIn]);
 
   // check neu co wifi thi post file o local len server
-  useFocusEffect(
-    React.useCallback(() => {
-      if (netInfo.isConnected) {
-        autoPostForm();
-      }
-    }, [netInfo.isConnected]),
-  );
+  // useFocusEffect(
+  //   React.useCallback(() => {
+  //     if (netInfo.isConnected) {
+  //       autoPostForm('form01adx01', postForm0101);
+  //     }
+  //   }, [netInfo.isConnected]),
+  // );
 
-  const autoPostForm = async () => {
-    const form = await Storage.getItem('form01adx01');
-    if (form !== null) {
-      let data = JSON.parse(form);
-      const newData = [];
 
-      for (const item of data) {
-        const result = await postForm(item);
-        if (result) {
-        } else {
-          newData.push(item);
-        }
-      }
-      await Storage.setItem('form01adx01', JSON.stringify(newData));
-      setDataDiary(newData);
-    }
-  };
+  // const autoPostForm = async (nameLocal, funtionUpload) => {
+  //   const form = await Storage.getItem(nameLocal);
+  
+  //   if (form !== null) {
+  //     let data = JSON.parse(form);
+  //     const newData = [];
+  
+  //     for (const item of data) {
+  //       let retryCount = 0;
+  //       let success = false;
+  
+  //       while (retryCount < 3 && !success) {
+  //         const result = await funtionUpload(item);
+  //         console.log('result ...', result);
+  
+  //         if (result) {
+  //           success = true; // Tải lên thành công, thoát khỏi vòng lặp
+  //         } else {
+  //           retryCount++; // Tăng số lần thử lại nếu tải lên thất bại
+  //         }
+  //       }
+  
+  //       if (!success) {
+  //         newData.push(item); // Nếu tải lên không thành công sau 3 lần thử, lưu lại dữ liệu
+  //       }
+  //     }
+  
+  //     await Storage.setItem('form01adx01', JSON.stringify(newData));
+  
+  //     if (newData.length < data.length) {
+  //       Alert.alert('Thông báo', `Đã gửi ${data.length - newData.length} bản ghi lên server`);
+  //     }
+  //   }
+  // }
+  
 
   const fetchdata = async () => {
     //sap xep lai danh sach theo thoi gian update
@@ -85,7 +99,7 @@ const Form01adx01Diary = ({navigation}) => {
       }
       setDataDiary(rawDiary);
       setRefreshing(false);
-    } catch (error) {}
+    } catch (error) { }
   };
 
   const sortListForm = (a, b) => {
@@ -97,7 +111,7 @@ const Form01adx01Diary = ({navigation}) => {
   //tranh goi ham nhieu lan khi o ben ngoai
   // const [template, setTemplate] = useState(false);
   // const handleGeneratePDF = id => {
-  //   getDetailFormId(id);
+  //   getDetailForm0101_Id(id);
 
   //   if (netInfo.isConnected) {
   //     setTemplate(true);
@@ -132,7 +146,7 @@ const Form01adx01Diary = ({navigation}) => {
   // // dùng useEffect data để in
   //   const [printf, setPrintf] = useState(false);
   //   const handerlePrintPDF = (id) => {
-  //     getDetailFormId(id);
+  //     getDetailForm0101_Id(id);
   //     setPrintf(true);
   //   };
 
@@ -172,12 +186,12 @@ const Form01adx01Diary = ({navigation}) => {
         {
           text: 'Xoá',
           onPress: async () => {
-            await deleteFormId(id);
+            await deleteForm0101_Id(id);
             fetchdata();
           },
         },
       ],
-      {cancelable: false},
+      { cancelable: false },
     );
   };
 
@@ -201,7 +215,7 @@ const Form01adx01Diary = ({navigation}) => {
           },
         },
       ],
-      {cancelable: false},
+      { cancelable: false },
     );
   };
 
@@ -212,7 +226,7 @@ const Form01adx01Diary = ({navigation}) => {
         onPress={async () => {
           let dataTemp;
           if (netInfo.isConnected) {
-            dataTemp = await getDetailFormId(id);
+            dataTemp = await getDetailForm0101_Id(id);
             dataTemp.dairy_name = 'filemau';
           } else {
             const result = await Storage.getItem('form01adx01');
@@ -229,7 +243,7 @@ const Form01adx01Diary = ({navigation}) => {
           // setCheckForm(true);
           // handleGeneratePDF(id);
         }}>
-        <View style={[styles.btn, {backgroundColor: '#99FF33'}]}>
+        <View style={[styles.btn, { backgroundColor: '#99FF33' }]}>
           <Text style={styles.btnText}>Xem</Text>
         </View>
       </TouchableOpacity>
@@ -239,7 +253,7 @@ const Form01adx01Diary = ({navigation}) => {
             id: !netInfo.isConnected ? index : id,
           })
         }>
-        <View style={[styles.btn, {backgroundColor: '#00FFFF'}]}>
+        <View style={[styles.btn, { backgroundColor: '#00FFFF' }]}>
           <Text style={styles.btnText}>Sửa</Text>
         </View>
       </TouchableOpacity>
@@ -247,7 +261,7 @@ const Form01adx01Diary = ({navigation}) => {
         onPress={async () => {
           let tempData;
           if (netInfo.isConnected) {
-            tempData = await getDetailFormId(id);
+            tempData = await getDetailForm0101_Id(id);
           } else {
             const result = await Storage.getItem('form01adx01');
             if (result !== null) {
@@ -257,7 +271,7 @@ const Form01adx01Diary = ({navigation}) => {
           }
           ExportPDF(tempData);
         }}>
-        <View style={[styles.btn, {backgroundColor: '#FF99FF'}]}>
+        <View style={[styles.btn, { backgroundColor: '#FF99FF' }]}>
           <Text style={styles.btnText}>Tải xuống</Text>
         </View>
       </TouchableOpacity>
@@ -267,7 +281,7 @@ const Form01adx01Diary = ({navigation}) => {
             ? handleDeleteFormLocal(index)
             : handleDelete(id);
         }}>
-        <View style={[styles.btn, {backgroundColor: '#FF3333'}]}>
+        <View style={[styles.btn, { backgroundColor: '#FF3333' }]}>
           <Text style={styles.btnText}>Xoá</Text>
         </View>
       </TouchableOpacity>
@@ -281,7 +295,7 @@ const Form01adx01Diary = ({navigation}) => {
 
           let tempData;
           if (netInfo.isConnected) {
-            tempData = await getDetailFormId(id);
+            tempData = await getDetailForm0101_Id(id);
           } else {
             const result = await Storage.getItem('form01adx01');
             if (result !== null) {
@@ -293,7 +307,7 @@ const Form01adx01Diary = ({navigation}) => {
           if (tempData) PrintfPDF(tempData);
           else Alert.alert('Thất bại', `không thể in file pdf`);
         }}>
-        <View style={[styles.btn, {backgroundColor: '#C0C0C0'}]}>
+        <View style={[styles.btn, { backgroundColor: '#C0C0C0' }]}>
           <Text style={styles.btnText}>In</Text>
         </View>
       </TouchableOpacity>
@@ -339,7 +353,7 @@ const Form01adx01Diary = ({navigation}) => {
             onRefresh={() => fetchdata()}
           />
         }>
-        <Table borderStyle={{borderWidth: 1}}>
+        <Table borderStyle={{ borderWidth: 1 }}>
           <Row
             data={state.tableHead}
             flexArr={[0.8, 1, 2, 1.5, 1.5, 2, 2, 3.5]}
