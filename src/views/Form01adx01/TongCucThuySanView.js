@@ -9,12 +9,11 @@ import { UserContext } from '../../contexts/UserContext';
 
 const TongCucThuySanView = () => {
 
-  const {getDiaryForm, data0101Ship, data0101, setData0101} = useContext(UserContext);
+  const { data0101, setData0101} = useContext(UserContext);
 
   const handleNgheChinh = value => {
-    const updatedThongTinTau = {...thongTinTau};
+    const updatedThongTinTau = {...data0101};
     updatedThongTinTau.nghechinh = value;
-    setThongTinTau(updatedThongTinTau);
     setData0101(updatedThongTinTau);
   };
 
