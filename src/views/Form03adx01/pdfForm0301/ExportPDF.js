@@ -223,36 +223,36 @@ export const ExportPDF = async (data) => {
                             <div class="s2">
                                 <div style="margin: 0 0 0 0;">
                                     <div style="display: flex; margin-top: 8pt;height: 13px;">
-                                        1. Họ và tên chủ tàu/thuyền trưởng: ${duLieu?.ten_chutau_thuyentruong||'................................................................................................................'}
+                                        1. Họ và tên chủ tàu/thuyền trưởng: ${duLieu?.ten_chutau_thuyentruong||'......................................................................................................................'}
                                     </div>
                                     <div style="display: flex; margin-top: 8pt;">
-                                        2. Địa chỉ: ${duLieu?.diachi||'....................................................................................................................'};
+                                        2. Địa chỉ: ${duLieu?.diachi||'.......................................................................................................................................................................'}
                                     </div>
                                     <div style="display: flex; margin-top: 8pt;">
                                         <div style="width: 50%;">
-                                            3. Số đăng ký tàu: ${duLieu?.tau_bs||'.............................'}
+                                            3. Số đăng ký tàu: ${duLieu?.tau_bs||'.............................................................'}
                                         </div>
                                         <div style="width: 50%;">
                                             ;4. Tổng công suất máy chính: ${duLieu?.tau_tongcongsuatmaychinh||'..............'} CV;
                                         </div>
                                     </div>
                                     <div style="display: flex; margin-top: 8pt;">
-                                        5. Chiều dài lớn nhất của tàu: ${duLieu?.tau_chieudailonnhat+''||'..............'} m
+                                        5. Chiều dài lớn nhất của tàu: ${duLieu?.tau_chieudailonnhat!=0?duLieu?.tau_chieudailonnhat+'':'............................'} m
                                     </div>
                                     <div style="display: flex;margin-top: 8pt;">
                                         <div style="width: 50%;">
-                                            6. Nghề khai thác thủy sản: ${duLieu?.nghekhaithac||'..........................'}
+                                            6. Nghề khai thác thủy sản: ${duLieu?.nghekhaithac||'.........................................'}
                                         </div>
                                         <div style="width: 50%;">
-                                            ; 7. Tổng số lao động: ${duLieu?.tongsolaodong+''||'..........................'}
+                                            ; 7. Tổng số lao động: ${duLieu?.tongsolaodong!=0?duLieu?.tongsolaodong+'':'.......................................'}
                                         </div>
                                     </div>
                                     <div style="display: flex;margin-top: 8pt;">
                                         <div style="width: 50%;">
-                                            8. Số ngày thực tế khai thác: ${duLieu?.songaykhaithac+''||'..........................'}
+                                            8. Số ngày thực tế khai thác: ${duLieu?.songaykhaithac!=0?duLieu?.songaykhaithac+'':'.......................................'}
                                         </div>
                                         <div style="width: 50%;">
-                                            ; 9. Số mẻ lưới trong chuyến: ${duLieu?.so_meluoi+''||'..........................'}
+                                            ; 9. Số mẻ lưới trong chuyến: ${duLieu?.so_meluoi!=0?duLieu?.so_meluoi+'':'.......................................'}
                                         </div>
                                     </div>
                                     <div style="width: 100%; margin-top: 8pt;">
@@ -280,7 +280,7 @@ export const ExportPDF = async (data) => {
                                         </div>
                                     </div>
                                     <div style="display: flex; margin-top: 8pt;">
-                                        11. Tổng sản lượng khai thác thủy sản: ${duLieu?.tongsanluong+''||'..............'} kg
+                                        11. Tổng sản lượng khai thác thủy sản: ${duLieu?.tongsanluong!=0?duLieu?.tongsanluong+'':'...................'} kg
                                     </div>
 
                                 </div>
@@ -325,7 +325,7 @@ export const ExportPDF = async (data) => {
                                     ${line?.tenloai}
                                 </td>
                                 <td class="s5 center-table">
-                                    ${line?.sanluong}
+                                    ${line?.sanluong!=0?line?.sanluong+'':''}
                                 </td>
                             </tr>
                             `).join('')}

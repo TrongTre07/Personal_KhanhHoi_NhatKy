@@ -220,7 +220,7 @@ export const PrintfPDF = async (data) => {
                             
                                     <div style="display: flex; margin-top: 8pt; margin-bottom: 15pt;">
                                         Thời gian:
-                                        ${duLieu?.thoigiankt || '....................................................................................................................'};
+                                        ${duLieu?.thoigiankt?moment(duLieu?.thoigiankt).format('hh [giờ] mm [phút,] [ngày] DD/MM/YYYY'): '....................................................................................................................'};
                                     </div>
                                 </div>
                             </div>
@@ -229,38 +229,38 @@ export const PrintfPDF = async (data) => {
                             <div class="s2" style="height: auto;">
                                 <div style="margin: 0 20pt 0 20pt;">
                                     <div class="s1" style="display: flex; margin-top: 8pt;">
-                                        1. Đơn vị kiểm tra: ${duLieu?.donvikt || '................................................................................................................'}
+                                        1. Đơn vị kiểm tra: ${duLieu?.donvikt || '............................................................................................................................'}
                                     </div>
                                     <div style="display: flex; margin-top: 8pt;">
                                         <div style="width: 50%;">
-                                            Người kiểm tra: ${duLieu?.kt1 || '..................................................'}
+                                            Người kiểm tra: ${duLieu?.kt1 || '..............................................'}
                                         </div>
                                         <div style="width: 50%;">
-                                            ; Chức vụ: ${duLieu?.cv1 || '........................................................'};
-                                        </div>
-                                    </div>
-                                    <div style="display: flex; margin-top: 8pt;">
-                                        <div style="width: 50%;">
-                                            Người kiểm tra: ${duLieu?.kt2 || '..................................................'}
-                                        </div>
-                                        <div style="width: 50%;">
-                                            ; Chức vụ: ${duLieu?.cv2 || '........................................................'};
+                                            ; Chức vụ: ${duLieu?.cv1 || '..............................................'}
                                         </div>
                                     </div>
                                     <div style="display: flex; margin-top: 8pt;">
                                         <div style="width: 50%;">
-                                            Người kiểm tra: ${duLieu?.kt3 || '..................................................'}
+                                            Người kiểm tra: ${duLieu?.kt2 || '..............................................'}
                                         </div>
                                         <div style="width: 50%;">
-                                            ; Chức vụ: ${duLieu?.cv3 || '........................................................'};
+                                            ; Chức vụ: ${duLieu?.cv2 || '..............................................'}
                                         </div>
                                     </div>
                                     <div style="display: flex; margin-top: 8pt;">
                                         <div style="width: 50%;">
-                                            Người kiểm tra: ${duLieu?.kt4 || '..................................................'}
+                                            Người kiểm tra: ${duLieu?.kt3 || '..............................................'}
                                         </div>
                                         <div style="width: 50%;">
-                                            ; Chức vụ: ${duLieu?.cv4 || '........................................................'};
+                                            ; Chức vụ: ${duLieu?.cv3 || '..............................................'}
+                                        </div>
+                                    </div>
+                                    <div style="display: flex; margin-top: 8pt;">
+                                        <div style="width: 50%;">
+                                            Người kiểm tra: ${duLieu?.kt4 || '..............................................'}
+                                        </div>
+                                        <div style="width: 50%;">
+                                            ; Chức vụ: ${duLieu?.cv4 || '..............................................'}
                                         </div>
                                     </div>
                                 </div>
@@ -272,18 +272,18 @@ export const PrintfPDF = async (data) => {
                                     </div>
                                     <div style="display: flex; margin-top: 8pt;">
                                         <div style="width: 50%;">
-                                            Tên tàu: ${duLieu?.tentau || '..................................................'}
+                                            Tên tàu: ${duLieu?.tentau || '............................................................'}
                                         </div>
                                         <div style="width: 50%;">
-                                            ; Số đăng ký tàu: ${duLieu?.sodangkytau || '........................................................'};
+                                            ; Số đăng ký tàu: ${duLieu?.sodangkytau || '...........................................'}
                                         </div>
                                     </div>
                                     <div style="margin-top: 8pt;">
-                                        Loại nghề khai thác thủy sản: ${duLieu?.nghekhaithac || '..................................................'}
+                                        Loại nghề khai thác thủy sản: ${duLieu?.nghekhaithac || '.................................................................................................'}
                                     </div>
                                     <div style="display: flex; margin-top: 8pt;">
                                         <div style="width: 50%;">
-                                            Họ tên chủ tàu: ${duLieu?.tenchutau || '..................................................'}
+                                            Họ tên chủ tàu: ${duLieu?.tenchutau || '................................................'}
                                         </div>
                                         <div style="width: 50%;">
                                             ; Địa chỉ: ${duLieu?.diachichutau || '........................................................'};
@@ -291,7 +291,7 @@ export const PrintfPDF = async (data) => {
                                     </div>
                                     <div style="display: flex; margin-top: 8pt;">
                                         <div style="width: 50%;">
-                                            Họ và tên thuyền trưởng: ${duLieu?.thuyentruong || '..................................................'}
+                                            Họ và tên thuyền trưởng: ${duLieu?.thuyentruong || '............................'}
                                         </div>
                                         <div style="width: 50%;">
                                             ; Địa chỉ: ${duLieu?.diachithuytruong || '........................................................'};
@@ -375,7 +375,7 @@ export const PrintfPDF = async (data) => {
                             <!-- 2 thong tin -->
                             <div class="s1" style="margin: 8pt 20pt 0 16pt; ">
                         
-                        5. Kết luận kiểm tra: <label class="s2" >${duLieu?.ketluan || '..................................................................'}</label>
+                                5. Kết luận kiểm tra: <label class="s2" >${duLieu?.ketluan || '...................................................................................................................'}</label>
                             </div>
                             <!-- end -->
                             <div style="display: flex; justify-content: space-between;">

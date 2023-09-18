@@ -35,7 +35,7 @@ export const ExportPDF = async (data) => {
                     font-style: normal;
                     font-weight: bold;
                     text-decoration: none;
-                    font-size: 11pt;
+                    font-size: 13pt;
                     vertical-align: 11pt;
                 }
         
@@ -46,7 +46,7 @@ export const ExportPDF = async (data) => {
                     font-style: normal;
                     font-weight: bold;
                     text-decoration: none;
-                    font-size: 9pt;
+                    font-size: 11pt;
                 }
         
                 .s1 {
@@ -55,7 +55,7 @@ export const ExportPDF = async (data) => {
                     font-style: normal;
                     font-weight: bold;
                     text-decoration: none;
-                    font-size: 9pt;
+                    font-size: 11pt;
                 }
         
                 .s2 {
@@ -63,7 +63,7 @@ export const ExportPDF = async (data) => {
                     font-family: "Times New Roman", serif;
                     font-style: normal;
                     font-weight: normal;
-                    font-size: 9pt;
+                    font-size: 11pt;
                 }
         
                 .s3 {
@@ -72,7 +72,7 @@ export const ExportPDF = async (data) => {
                     font-style: italic;
                     font-weight: normal;
                     text-decoration: none;
-                    font-size: 9pt;
+                    font-size: 11pt;
                 }
         
                 .s4 {
@@ -81,7 +81,7 @@ export const ExportPDF = async (data) => {
                     font-style: normal;
                     font-weight: bold;
                     text-decoration: none;
-                    font-size: 9pt;
+                    font-size: 11pt;
                     word-wrap: break-word;
                 }
         
@@ -91,7 +91,7 @@ export const ExportPDF = async (data) => {
                     font-style: normal;
                     font-weight: normal;
                     text-decoration: none;
-                    font-size: 9pt;
+                    font-size: 11pt;
                     word-wrap: break-word;
                 }
         
@@ -101,7 +101,7 @@ export const ExportPDF = async (data) => {
                     font-style: italic;
                     font-weight: normal;
                     text-decoration: none;
-                    font-size: 9pt;
+                    font-size: 11pt;
                 }
         
                 table,
@@ -224,33 +224,33 @@ export const ExportPDF = async (data) => {
                             <div class="s2">
                                 <div style="margin: 0 0 0 0;">
                                     <div style="display: flex; margin-top: 8pt;">
-                                        1. Họ và tên chủ tàu/thuyền trưởng: ${duLieu?.ten_chutau_thuyentruong||'................................................................................................................'}
+                                        1. Họ và tên chủ tàu/thuyền trưởng: ${duLieu?.ten_chutau_thuyentruong||'.................................................................................................................'}
                                     </div>
                                     <div style="display: flex; margin-top: 8pt;">
-                                        2. Địa chỉ: ${duLieu?.diachi||'....................................................................................................................'};
+                                        2. Địa chỉ: ${duLieu?.diachi||'...................................................................................................................................................................'}
                                     </div>
                                     <div style="display: flex; margin-top: 8pt;">
                                         <div style="width: 50%;">
-                                            3. Số đăng ký tàu: ${duLieu?.tau_bs||'.............................'}
+                                            3. Số đăng ký tàu: ${duLieu?.tau_bs||'..........................................................'}
                                         </div>
                                         <div style="width: 50%;">
-                                            ;4. Tổng công suất máy chính: ${duLieu?.tau_tongcongsuatmaychinh||'..............'} CV;
+                                            ;4. Tổng công suất máy chính: ${duLieu?.tau_tongcongsuatmaychinh||'......................'} CV;
                                         </div>
                                     </div>
                                     <div style="display: flex; margin-top: 8pt;">
-                                        5. Chiều dài lớn nhất của tàu: ${duLieu?.tau_chieudailonnhat+''||'..............'} m
+                                        5. Chiều dài lớn nhất của tàu: ${duLieu?.tau_chieudailonnhat!=0?duLieu?.tau_chieudailonnhat +'':'.................'} m
                                     </div>
                                     <div style="display: flex;margin-top: 8pt;">
                                         <div style="width: 65%;">
-                                            6.  Nghề (thăm dò/tìm kiếm/dẫn dụ): ${duLieu?.nghe||'..........................'}
+                                            6.  Nghề (thăm dò/tìm kiếm/dẫn dụ): ${duLieu?.nghe||'.......................................................'}
                                         </div> 
                                         <div style="width: 35%;">
-                                            ; 7. Số lao động: ${duLieu?.tongsolaodong+''||'..........................'}
+                                            ; 7. Số lao động: ${duLieu?.tongsolaodong!=0?duLieu?.tongsolaodong+'':'..........................'}
                                         </div>
                                     </div>
                                     <div style="display: flex;margin-top: 8pt;">
                                         <div style="width: 100%;">
-                                            8. Số ngày hoạt động: ${duLieu?.songayhoatdong+''||'..........................'}
+                                            8. Số ngày hoạt động: ${duLieu?.songayhoatdong!=0?duLieu?.songayhoatdong+'':'..........................'}
                                         </div>
                                     </div>
                                     <div style="width: 100%; margin-top: 8pt;">
@@ -279,7 +279,7 @@ export const ExportPDF = async (data) => {
                                     </div>
 
                                     <div style="width: 100%; margin-top: 8pt;">
-                                        10: Hợp tác với tàu khai thác thủy sản: Số đăng ký tàu khai thác: ${duLieu?.bs_tauhoptackhaithac||'..........................'}
+                                        10: Hợp tác với tàu khai thác thủy sản: Số đăng ký tàu khai thác: ${duLieu?.bs_tauhoptackhaithac||'....................................................'}
                                         <div class="checkbox-container" style="margin-top: 4pt; justify-content: space-around;">
                                             <label class="checkbox-label">
                                                 Ăn chia sản phẩm <input type="checkbox"  name="vinh-bac-bo" value="Vịnh Bắc Bộ" ${duLieu?.anchia?'checked':''}>
@@ -292,7 +292,7 @@ export const ExportPDF = async (data) => {
                                     </div>
 
                                     <div style="display: flex; margin-top: 8pt;">
-                                        11. Tổng sản lượng khai thác thủy sản: ${duLieu?.tongsanluong+''||'..............'} kg
+                                        11. Tổng sản lượng khai thác thủy sản: ${duLieu?.tongsanluong!=0?duLieu?.tongsanluong+'':'......................................'} kg
                                     </div>
 
                                 </div>

@@ -280,22 +280,22 @@ export const PrintfPDF = async (data) => {
                                 <div style="margin: 0 20pt 0 20pt;">
                                     <div style="display: flex; margin-top: 6pt;">
                                         Tên và địa chỉ của cơ sở chế biến/Name and address of the processing plant: <br>
-                                        ${duLieu?.tenvadiachicosochebien || '..................................................................'}
+                                        ${duLieu?.tenvadiachicosochebien || '....................................................................................................................................................................... ....................................................................................................................................................................... .......................................................................................................................................................................'}
                                     </div>
                                     <div style="display: flex; margin-top: 6pt;">
                                         Tên và địa chỉ của nhà xuất khẩu (nếu khác với nhà máy chế biến)/Name and address of the
                                         exporter (if different from the processing plant):
                                         <br>
-                                        ${duLieu?.tenvadiachinhaxuatkhau || '..................................................................'};
+                                        ${duLieu?.tenvadiachinhaxuatkhau || '....................................................................................................................................................................... ....................................................................................................................................................................... .......................................................................................................................................................................'}
                                     </div>
                                     <div style="display: flex; margin-top: 6pt;">
                                         Mã số cơ sở chế biến/Approval number of the processing plant: <br>
-                                        ${duLieu?.macosochebien || '..................................................................'}
+                                        ${duLieu?.macosochebien ||   '....................................................................................................................................................................... ....................................................................................................................................................................... .......................................................................................................................................................................'}
                                     </div>
                                     <div style="display: flex; margin-top: 6pt;">
                                         Số giấy chứng nhận chất lượng, vệ sinh an toàn thực phẩm (Chứng thư vệ sinh) và ngày
                                         cấp/Health certificate number and date: <br>
-                                        ${duLieu?.giayphiepantoanthucphamvangaycap || '..................................................................'}
+                                        ${duLieu?.giayphiepantoanthucphamvangaycap ||   '....................................................................................................................................................................... ....................................................................................................................................................................... .......................................................................................................................................................................'}
                                     </div>
                                 </div>
                             </div>
@@ -339,16 +339,16 @@ export const PrintfPDF = async (data) => {
                             <!-- 2 thong tin -->
                             <div class="s2">
                                 <div style="margin: 0 20pt 0 20pt;">
-                                    <div style="display: flex; margin-top: 6pt;">
+                                    <div style="display: flex; margin-top: 16pt;">
                                         Xác nhận của cơ quan có thẩm quyền/Endorsement by the competent authority: <br>
                                     </div>
-                                    <div style="display: flex; margin-top: 3pt;">
-                                        Số xác nhận/Statement No : ${duLieu?.soxacnhan || '...........................'};
+                                    <div style="display: flex; margin-top: 6pt;">
+                                        Số xác nhận/Statement No : ${duLieu?.soxacnhan || '..................................'};
                                     </div>
                             </div>
                             <!-- end -->
                             <!-- 2 table -->
-                            <table cellspacing="0" style="page-break-after: avoid;margin-top: 12pt; width:100%; height: auto; overflow-wrap: break-word;">
+                            <table cellspacing="0" style="page-break-after: avoid;margin-top: 16pt; width:100%; height: auto; overflow-wrap: break-word;">
                                 <tr>
                                     <td class="s2 center-table" colspan="1" style="width: 23%; vertical-align:top;">
                                         Thủ trưởng cơ quan có thẩm quyền xác nhận/Public authority

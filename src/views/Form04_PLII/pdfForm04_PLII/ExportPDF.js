@@ -186,7 +186,7 @@ export const ExportPDF = async (data) => {
                         Số 21 /2018/TT-BNNPTNT
                     </h1>
                     <h1 style="margin: 0;">
-                        Mẫu số 03 (Phụ lục II)
+                        Mẫu số 04 (Phụ lục II)
                     </h1>
                 </div>
                 <h1 style="padding-top: 6pt; text-align: center;width: 100%;">
@@ -226,7 +226,7 @@ export const ExportPDF = async (data) => {
                         
                                 <div style="display: flex; margin-top: 8pt; margin-bottom: 15pt;">
                                     Thời gian:
-                                    ${duLieu?.thoigiankt || '....................................................................................................................'};
+                                    ${duLieu?.thoigiankt?moment(duLieu?.thoigiankt).format('hh [giờ] mm [phút,] [ngày] DD/MM/YYYY'): '....................................................................................................................'};
                                 </div>
                             </div>
                         </div>
@@ -241,7 +241,7 @@ export const ExportPDF = async (data) => {
                                 <div style="display: flex; margin-top: 8pt;">
                                     <div style="width: 50%;">
                                         Người kiểm tra:
-                                        ${duLieu?.kt1||'..................................................'}
+                                        ${duLieu?.kt1||'...........................................................'}
                                     </div>
                                     <div style="width: 50%;">
                                         ; Chức vụ:
@@ -251,7 +251,7 @@ export const ExportPDF = async (data) => {
                                 <div style="display: flex; margin-top: 8pt;">
                                     <div style="width: 50%;">
                                         Người kiểm tra:
-                                        ${duLieu?.kt2||'..................................................'}
+                                        ${duLieu?.kt2||'...........................................................'}
                                     </div>
                                     <div style="width: 50%;">
                                         ; Chức vụ:
@@ -261,7 +261,7 @@ export const ExportPDF = async (data) => {
                                 <div style="display: flex; margin-top: 8pt;">
                                     <div style="width: 50%;">
                                         Người kiểm tra:
-                                        ${duLieu?.kt3||'..................................................'}
+                                        ${duLieu?.kt3||'...........................................................'}
                                     </div>
                                     <div style="width: 50%;">
                                         ; Chức vụ:
@@ -271,7 +271,7 @@ export const ExportPDF = async (data) => {
                                 <div style="display: flex; margin-top: 8pt;">
                                     <div style="width: 50%;">
                                         Người kiểm tra:
-                                        ${duLieu?.kt4||'..................................................'}
+                                        ${duLieu?.kt4||'...........................................................'}
                                     </div>
                                     <div style="width: 50%;">
                                         ; Chức vụ:
@@ -288,31 +288,31 @@ export const ExportPDF = async (data) => {
                                 <div style="display: flex; margin-top: 8pt;">
                                     <div style="width: 50%;">
                                         Tên tàu:
-                                        ${duLieu?.tentau||'..................................................'}
+                                        ${duLieu?.tentau||'.........................................................................'}
                                     </div>
                                     <div style="width: 50%;">
                                         ; Số đăng ký tàu:
-                                        ${duLieu?.sodangkytau||'........................................................'};
+                                        ${duLieu?.sodangkytau||'.............................................'};
                                     </div>
                                 </div>
                                 <div style="display: flex; margin-top: 8pt;">
                                     <div style="width: 50%;">
                                         Họ tên chủ tàu:
-                                        ${duLieu?.tenchutau||'..................................................'}
+                                        ${duLieu?.tenchutau||'............................................................'}
                                     </div>
                                     <div style="width: 50%;">
                                         ; Địa chỉ:
-                                        ${duLieu?.diachichutau||'........................................................'};
+                                        ${duLieu?.diachichutau||'...........................................................'};
                                     </div>
                                 </div>
                                 <div style="display: flex; margin-top: 8pt;">
                                     <div style="width: 50%;">
                                         Họ và tên thuyền trưởng:
-                                        ${duLieu?.thuyentruong||'..................................................'}
+                                        ${duLieu?.thuyentruong||'.........................................'}
                                     </div>
                                     <div style="width: 50%;">
                                         ; Địa chỉ:
-                                        ${duLieu?.diachithuytruong||'........................................................'};
+                                        ${duLieu?.diachithuytruong||'...........................................................'};
                                     </div>
                                 </div>
                             </div>
@@ -556,7 +556,7 @@ export const ExportPDF = async (data) => {
                         </table>
                     </div>   
                     <div class="s1" style="margin: 8pt 20pt 0 20pt; ">
-                        6. Kết luận kiểm tra: <label class="s2" >${duLieu?.ketluan || '..................................................................'}</label>
+                        6. Kết luận kiểm tra: <label class="s2" >${duLieu?.ketluan || '...........................................................................................................................'}</label>
                     </div>
                     <!-- end -->
                     <div style="display: flex; justify-content: space-between;">
