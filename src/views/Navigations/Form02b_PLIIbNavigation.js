@@ -1,5 +1,12 @@
-import { View, Text, TouchableOpacity, StyleSheet, Image, ToastAndroid } from 'react-native'
-import React, { useContext, useEffect } from 'react';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  Image,
+  ToastAndroid,
+} from 'react-native';
+import React, {useContext, useEffect} from 'react';
 
 import Form02b_PLIIb from '../Form02b_PLIIb/Form02b_PLIIb';
 import {createStackNavigator} from '@react-navigation/stack';
@@ -48,7 +55,7 @@ const Form02b_PLIIbNavigation = () => {
                 justifyContent: 'space-between',
               }}>
               <Text style={[styles.btnText, {color: 'red'}]}>
-              Biên nhận thủy sản bốc dỡ qua cảng
+                Biên nhận thủy sản bốc dỡ qua cảng
               </Text>
               <TouchableOpacity
                 style={{}}
