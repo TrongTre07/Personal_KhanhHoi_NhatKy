@@ -369,7 +369,7 @@ const ThongTinVeHoatDongChuyenTai = () => {
           <TextInput
             keyboardType="numeric"
             style={styles.inputToaDo}
-            value={item.daban_ct_khoiluong}
+            value={item.daban_ct_khoiluong.toString()}
             onChangeText={text => handleChangeKhoiLuong(text, item.id)}
           />
           <TextInput

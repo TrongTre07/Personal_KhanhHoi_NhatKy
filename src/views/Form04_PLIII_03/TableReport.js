@@ -217,6 +217,7 @@ const TableReport = () => {
         />
 
         <TextInput
+          keyboardType="numeric"
           onFocus={() => handleChonItem(index)}
           style={styles.textTenLoaiThuySan}
           value={item.tongkhoiluongkhaithac.toString()}
@@ -234,6 +235,7 @@ const TableReport = () => {
           }}
         />
         <TextInput
+          keyboardType="numeric"
           onFocus={() => handleChonItem(index)}
           style={styles.textTenLoaiThuySan}
           value={item.khoiluongthuysankhaithacchebien.toString()}
@@ -251,6 +253,7 @@ const TableReport = () => {
           }}
         />
         <TextInput
+          keyboardType="numeric"
           onFocus={() => handleChonItem(index)}
           style={styles.textTenLoaiThuySan}
           value={item.sanphamsaukhichebien.toString()}

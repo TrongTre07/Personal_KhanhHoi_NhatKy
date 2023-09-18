@@ -488,7 +488,7 @@ const ThongTinChiTietHoatDong = ({selectedItem}) => {
           <TextInput
             keyboardType="numeric"
             style={styles.inputKhoiLuongLoai}
-            value={item.loai_1_kl}
+            value={item.loai_1_kl.toString()}
             onChangeText={text =>
               handleChangeKhoiLuongLoai(text, item.id, 'loai_1_kl')
             }
@@ -496,7 +496,7 @@ const ThongTinChiTietHoatDong = ({selectedItem}) => {
           <TextInput
             keyboardType="numeric"
             style={styles.inputKhoiLuongLoai}
-            value={item.loai_2_kl}
+            value={item.loai_2_kl.toString()}
             onChangeText={text =>
               handleChangeKhoiLuongLoai(text, item.id, 'loai_2_kl')
             }
@@ -504,7 +504,7 @@ const ThongTinChiTietHoatDong = ({selectedItem}) => {
           <TextInput
             keyboardType="numeric"
             style={styles.inputKhoiLuongLoai}
-            value={item.loai_3_kl}
+            value={item.loai_3_kl.toString()}
             onChangeText={text =>
               handleChangeKhoiLuongLoai(text, item.id, 'loai_3_kl')
             }
@@ -512,7 +512,7 @@ const ThongTinChiTietHoatDong = ({selectedItem}) => {
           <TextInput
             keyboardType="numeric"
             style={styles.inputKhoiLuongLoai}
-            value={item.loai_4_kl}
+            value={item.loai_4_kl.toString()}
             onChangeText={text =>
               handleChangeKhoiLuongLoai(text, item.id, 'loai_4_kl')
             }
@@ -520,7 +520,7 @@ const ThongTinChiTietHoatDong = ({selectedItem}) => {
           <TextInput
             keyboardType="numeric"
             style={styles.inputKhoiLuongLoai}
-            value={item.loai_5_kl}
+            value={item.loai_5_kl.toString()}
             onChangeText={text =>
               handleChangeKhoiLuongLoai(text, item.id, 'loai_5_kl')
             }
@@ -528,7 +528,7 @@ const ThongTinChiTietHoatDong = ({selectedItem}) => {
           <TextInput
             keyboardType="numeric"
             style={styles.inputKhoiLuongLoai}
-            value={item.loai_6_kl}
+            value={item.loai_6_kl.toString()}
             onChangeText={text =>
               handleChangeKhoiLuongLoai(text, item.id, 'loai_6_kl')
             }
