@@ -239,7 +239,7 @@ const Form04ad01 = ({route}) => {
           onPress={ async () => {
             let dataFix = data0401;
             dataFix.dairyname = 'filemau';
-            const exportPDF = await ExlporPDF(dataFix);
+            const exportPDF = await ExportPDF(dataFix);
             console.log(exportPDF);
              if(exportPDF)
               navigation.navigate('ViewPDF')

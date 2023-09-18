@@ -45,9 +45,12 @@ const Form01adx01 = ({route}) => {
 
   const id = route.params?.id;
 
-  useEffect(() => {
-    console.log('id: ', id);
-  }, [id]);
+  // useEffect(() => {
+  //   console.log('id: ', id);
+  // }, [id]);
+  // if(id==undefined){
+  //   setData0101(data0101Empty);
+  // }
 
   useEffect(() => {
     if (id != undefined) {

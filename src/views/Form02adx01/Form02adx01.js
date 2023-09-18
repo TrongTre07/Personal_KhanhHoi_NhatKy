@@ -25,6 +25,8 @@ import {useNavigation} from '@react-navigation/native';
 import data0201Empty from './models/data0201';
 import { ExportPDF } from '../Form02adx01/pdfForm0201/ExportPDF';
 import uploadFile from '../../axios/uploadFile';
+import dataPDF0201 from '../Form02adx01/pdfForm0201/dataPDF0201';
+
 const Form02ad01 = ({route}) => {
   const navigation = useNavigation();
   const [isPopupVisible, setPopupVisible] = useState(false);
@@ -245,9 +247,10 @@ const Form02ad01 = ({route}) => {
         <TouchableOpacity
           style={[styles.actionDownload, styles.button]}
           onPress={ async () => {
-            let dataFix = data0201;
-            dataFix.dairy_name = 'filemau';
+            let dataFix = dataPDF0201;
+            // dataFix.dairy_name = 'filemau';
             const exportPDF = await ExportPDF(dataFix);
+            
             console.log(exportPDF);
              if(exportPDF)
               navigation.navigate('ViewPDF')

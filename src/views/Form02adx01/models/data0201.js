@@ -1,6 +1,7 @@
 const moment = require('moment');
 
-const data0201Empty = {
+const data0201Empty = ()=>{
+  const data={
   dairy_name: '',
   ten_chutau: '',
   ten_thuyentruong: '',
@@ -88,5 +89,6 @@ const data0201Empty = {
   ],
   isdraft: false,
 };
+return data;}
 
 export default data0201Empty;

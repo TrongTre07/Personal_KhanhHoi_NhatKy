@@ -269,9 +269,8 @@ const Table1 = ({selectedItem}) => {
             onChangeText={text => {
               handleChangeThoiHan(text);
             }}
-            value={moment(
-              data0201.thongtintaudc_thumua[selectedItem].gpkt_thoihan,
-            ).format('DD/MM/YYYY')}
+            value={
+              data0201.thongtintaudc_thumua[selectedItem].gpkt_thoihan}
             style={[styles.input, styles.text]}
             // editable={false}
           />

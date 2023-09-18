@@ -5,37 +5,8 @@ import RNHTMLtoPDF from 'react-native-html-to-pdf';
 import { checkUndefine } from './checkUndefine';
 import moment from 'moment';
 import vi from "moment/locale/vi";
-export const ExportPDF = async (data) => {
+export const ExportPDFMau = async () => {
 
-    // const duLieu = checkUndefine(data)
-    const duLieu= data;
-    console.log('duLieu: ', JSON.stringify(duLieu));
-    moment.updateLocale("vi",vi);
-
-    let totalByType = [0,0,0,0,0,0];
-    for (let i = 0; i < 6; i++) {
-        totalByType[0] += Number(duLieu?.thumua[i]?.loai_1_kl||0)||0;//string number
-        totalByType[1] += Number(duLieu?.thumua[i]?.loai_2_kl||0)||0;//string number
-        totalByType[2] += Number(duLieu?.thumua[i]?.loai_3_kl||0)||0;//string number
-        totalByType[3] += Number(duLieu?.thumua[i]?.loai_4_kl||0)||0;//string number
-        totalByType[4] += Number(duLieu?.thumua[i]?.loai_5_kl||0)||0;//string number
-        totalByType[5] += Number(duLieu?.thumua[i]?.loai_6_kl||0)||0;//string number
-    }
-    const bigdatatotal = [];
-
-    duLieu?.thongtintaudc_thumua?.forEach(item => {
-
-        const totalByTypea = [0,0,0,0,0,0];
-        for (let i = 0; i < 6; i++) {
-            totalByTypea[0] += Number(item?.thongtinhoatdong[i]?.loai_1_kl||0)||0;//string number
-            totalByTypea[1] += Number(item?.thongtinhoatdong[i]?.loai_2_kl||0)||0;//string number
-            totalByTypea[2] += Number(item?.thongtinhoatdong[i]?.loai_3_kl||0)||0;//string number
-            totalByTypea[3] += Number(item?.thongtinhoatdong[i]?.loai_4_kl||0)||0;//string number
-            totalByTypea[4] += Number(item?.thongtinhoatdong[i]?.loai_5_kl||0)||0;//string number
-            totalByTypea[5] += Number(item?.thongtinhoatdong[i]?.loai_6_kl||0)||0;//string number
-        }
-        bigdatatotal.push(totalByTypea);
-    });
     try {
         const html = `<!DOCTYPE html>
         <html>
@@ -453,7 +424,7 @@ export const ExportPDF = async (data) => {
                             </td>
                             <td class="center-table">
                                 <p style="width: 100%;" class="s5">
-                                    ${line?.ngaythang?moment(line?.ngaythang).format('DD-MM-YYYY'):''}
+                                    ${line?.ngaythang?moment(line?.ngaythang).format('DD-MM-YYYY'):'.......'}
                                 </p>
                             </td>
                             <td class="s5 center-table">
@@ -651,117 +622,115 @@ export const ExportPDF = async (data) => {
                                 </td>
                                 <td style="width: 7%;" class="s4 center-table" bgcolor="#D1D6DB">
                                     Loài<br>
-                                    ${item.thongtinhoatdong[0]?.loai_1}
+                                    <br>
             
                                 </td>
                                 <td style="width: 7%;" class="s4 center-table" bgcolor="#D1D6DB">
             
                                     Loài<br>
-                                    ${item.thongtinhoatdong[0]?.loai_2}
+                                    <br>
             
                                 </td>
                                 <td style="width: 7%;" class="s4 center-table" bgcolor="#D1D6DB">
                                     Loài<br>
-                                    ${item.thongtinhoatdong[0]?.loai_3}
+                                    <br>
             
             
                                 </td>
                                 <td style="width: 7%;" class="s4 center-table" bgcolor="#D1D6DB">
                                     Loài<br>
-                                    ${item.thongtinhoatdong[0]?.loai_4}
+                                    <br>
             
                                 </td>
                                 <td style="width: 7%;" class="s4 center-table" bgcolor="#D1D6DB">
                                     Loài<br>
-                                    ${item.thongtinhoatdong[0]?.loai_5}
+                                    <br>
             
                                 </td>
                                 <td style="width: 7%;" class="s4 center-table" bgcolor="#D1D6DB">
                                     Loài<br>
-                                    ${item.thongtinhoatdong[0]?.loai_6}
+                                    <br>
                                 </td>
             
             
                             </tr>
-                            ${item.thongtinhoatdong?.map((line,index) => `
+                            
                             <tr>
                                 <td style="width: 7%;" class="s5 center-table">
-                                    ${index+1}
+                                <br>
                                 </td>
                                 <td style="width: 7%;" class="s5 center-table">
-                                    ${line?.thoidiem_tha?moment(line?.thoidiem_tha).format('hh:mm DD-MM-YYYY'):''}
+                                    $<br>
 
                                 </td>
                                 <td class="s5 center-table">
-                                    ${line?.vido_tha}
+                                <br>
                                 </td>
                                 <td class="s5 center-table">
-                                    ${line?.kinhdo_tha}
+                                <br>
                                 </td>
                                 <td style="width: 7%;" class="center-table">
                                     <p style="width: 100%;" class="s5">
-                                    ${line?.thoidiem_thu?moment(line?.thoidiem_thu).format('hh:mm DD-MM-YYYY'):''}
+                                    <br>
                                     </p>
             
                                 </td>
                                 <td class="s5 center-table">
-                                    ${line?.vido_thu}
+                                <br>
                                 </td>
                                 <td class="s5 center-table">
-                                    ${line?.kinhdo_thu}
+                                <br>
                                 </td>
                                 <td class="s5 center-table">
-                                    ${line?.loai_1_kl}
+                                <br>
                                 </td>
                                 <td class="s5 center-table">
-                                    ${line?.loai_2_kl}
+                                <br>
                                 </td>
                                 <td class="s5 center-table">
-                                    ${line?.loai_3_kl}
+                                <br>
                                 </td>
                                 <td class="s5 center-table">
-                                    ${line?.loai_4_kl}
+                                <br>
                                 </td>
                                 <td class="s5 center-table">
-                                    ${line?.loai_5_kl}
+                                <br>
                                 </td>
                                 <td class="s5 center-table">
-                                    ${line?.loai_6_kl}
+                                <br>
                                 </td>
             
                                 <td class="s5 center-table">
-                                    ${line?.tongsanluong}
+                                <br>
                                 </td>
             
                             </tr>
-                            `).join('')}
+                            
                             <tr>
                                 <td class="s5 center-table" colspan="7">
                                     Tổng khối lượng
                                 </td>
             
                                 <td class="center-table s5">
-                                    ${bigdatatotal[index][0]==0?'':bigdatatotal[index][0]}
+                                <br>
                                 </td>
                                 <td class="center-table s5">
-                                    ${bigdatatotal[index][1]==0?'':bigdatatotal[index][1]}
+                                <br>
                                 </td>
                                 <td class="center-table s5">
-                                    ${bigdatatotal[index][2]==0?'':bigdatatotal[index][2]}
+                                <br>
                                 </td>
                                 <td class="center-table s5">
-                                    ${bigdatatotal[index][3]==0?'':bigdatatotal[index][3]}
+                                <br>
                                 </td>
                                 <td class="center-table s5">
-                                    ${bigdatatotal[index][4]==0?'':bigdatatotal[index][4]}
+                                <br>
                                 </td>
                                 <td class="center-table s5">
-                                    ${bigdatatotal[index][5]==0?'':bigdatatotal[index][5]}
-                                </td>
+                                <br>
                                 </td>
                                 <td class="center-table s5">
-                                
-                                    ${(bigdatatotal[index][0]+bigdatatotal[index][1]+bigdatatotal[index][2]+bigdatatotal[index][3]+bigdatatotal[index][4]+bigdatatotal[index][5])==0?'':(bigdatatotal[index][0]+bigdatatotal[index][1]+bigdatatotal[index][2]+bigdatatotal[index][3]+bigdatatotal[index][4]+bigdatatotal[index][5])}
+                                    <br>
                                 </td>
                             </tr>
                         </table>
@@ -819,13 +788,10 @@ export const ExportPDF = async (data) => {
         </html>`;
         const options = {
             html,
-            fileName: `${duLieu?.dairy_name}`,
+            fileName: 'filemau',
             directory: 'pdf',
         };
         const file = await RNHTMLtoPDF.convert(options);
-        if(duLieu?.dairy_name!=='filemau'){
-            Alert.alert('Thành công', `PDF lưu tại ${file.filePath}`);
-        }
         return true;
         // setCheckViewPDF(false);
 

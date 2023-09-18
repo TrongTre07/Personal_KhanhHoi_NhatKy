@@ -2,7 +2,8 @@ import makeid from '../../others/makeid';
 
 const moment = require('moment');
 
-const data0101Empty = {
+ const data0101Empty = ()=>{
+  const data={
   isdraft: false,
   dairy_name: '',
   nghechinh: '',
@@ -78,4 +79,8 @@ const data0101Empty = {
   ],
 };
 
+return data;
+}
+
 export default data0101Empty;
+

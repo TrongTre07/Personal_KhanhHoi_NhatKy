@@ -3,769 +3,796 @@ import { Alert, Pressable, StyleSheet, Text, View } from 'react-native';
 import { UserContext } from '../../../contexts/UserContext';
 import RNHTMLtoPDF from 'react-native-html-to-pdf';
 import { checkUndefine } from './checkUndefine';
+import moment from 'moment';
+import vi from 'moment/locale/vi';
 
 export const ExportPDF = async (data) => {
     
     // const {checkViewPDF,setCheckViewPDF} = useContext(UserContext);
-    const duLieu = checkUndefine(data)
-    let count = 1;
-    let countfirst = 1;
+    const duLieu = data;
+    let klg = 0;
+
+    moment.updateLocale("vi",vi);
+
+    console.log('duLieu',duLieu);
+
+    let totalByType = [0,0,0,0,0,0,0,0,0];
+    for (let i = 0; i < 9; i++) {
+        totalByType[0] += Number(duLieu?.khaithac[i]?.loai_1_kl||0)||0;//string number
+        totalByType[1] += Number(duLieu?.khaithac[i]?.loai_2_kl||0)||0;//string number
+        totalByType[2] += Number(duLieu?.khaithac[i]?.loai_3_kl||0)||0;//string number
+        totalByType[3] += Number(duLieu?.khaithac[i]?.loai_4_kl||0)||0;//string number
+        totalByType[4] += Number(duLieu?.khaithac[i]?.loai_5_kl||0)||0;//string number
+        totalByType[5] += Number(duLieu?.khaithac[i]?.loai_6_kl||0)||0;//string number
+        totalByType[6] += Number(duLieu?.khaithac[i]?.loai_7_kl||0)||0;//string number
+        totalByType[7] += Number(duLieu?.khaithac[i]?.loai_8_kl||0)||0;//string number
+        totalByType[8] += Number(duLieu?.khaithac[i]?.loai_9_kl||0)||0;//string number
+    }
+    // const bigdatatotal = [];
+
+    // duLieu?.thongtintaudc_thumua?.forEach(item => {
+
+    //     const totalByTypea = [0,0,0,0,0,0];
+    //     for (let i = 0; i < 6; i++) {
+    //         totalByTypea[0] += Number(item?.thongtinhoatdong[i]?.loai_1_kl||0)||0;//string number
+    //         totalByTypea[1] += Number(item?.thongtinhoatdong[i]?.loai_2_kl||0)||0;//string number
+    //         totalByTypea[2] += Number(item?.thongtinhoatdong[i]?.loai_3_kl||0)||0;//string number
+    //         totalByTypea[3] += Number(item?.thongtinhoatdong[i]?.loai_4_kl||0)||0;//string number
+    //         totalByTypea[4] += Number(item?.thongtinhoatdong[i]?.loai_5_kl||0)||0;//string number
+    //         totalByTypea[5] += Number(item?.thongtinhoatdong[i]?.loai_6_kl||0)||0;//string number
+    //     }
+    //     bigdatatotal.push(totalByTypea);
+    // });
     
-    const ngayDiParts = duLieu?.ngay_di.split('-');
-    var ngayDi = ngayDiParts[2];
-    if (ngayDi == undefined) {
-        ngayDi = '.....';
-    }
-    var thangDi = ngayDiParts[1];
-    if (thangDi == undefined) {
-        thangDi = '.....';
-    }
-    var namDi = ngayDiParts[0];
-    if (namDi == undefined) {
-        namDi = '.....';
-    }
-    const ngayVeParts = duLieu?.ngay_ve.split('-');
-    var ngayVe = ngayVeParts[2];
-    if (ngayVe == undefined) {
-        ngayVe = '.....';
-    }
-    var thangVe = ngayVeParts[1];
-    if (thangVe == undefined) {
-        thangVe = '.....';
-    }
-    var namVe = ngayVeParts[0];
-    if (namVe == undefined) {
-        namVe = '.....';
-    }
-    const ngayNopParts = duLieu?.ngaynop.split('-');
-    var ngayNop = ngayNopParts[2];
-    if (ngayNop == undefined) {
-        ngayNop = '.....';
-    }
-    var thangNop = ngayNopParts[1];
-    if (thangNop == undefined) {
-        thangNop = '.....';
-    }
-    var namNop = ngayNopParts[0];
-    if (namNop == undefined) {
-        namNop = '.....';
-    }
-
-    const tongkhoiluong = duLieu.khaithac;
-
-    const totalByType = {};
-    for (let i = 1; i <= 9; i++) {
-        const typeKey = `loai_${i}_kl`;
-        totalByType[typeKey] = tongkhoiluong.reduce((total, item) => total + parseInt(item[typeKey] || 0), 0);
-    }
-    const tongsanluong = Object.values(totalByType).reduce((total, item) => total + parseInt(item || 0), 0);
-
-    const tongThuMua = duLieu?.thumua.reduce((total, item) => total + parseInt(item?.daban_ct_khoiluong || 0), 0);
     try {
-        const html = `
-        <!DOCTYPE html
-        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-    <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="vi" lang="vi">
-    
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        <title>NHẬT KÝ KHAI THÁC THỦY SẢN</title>
-        <style type="text/css">
-            * {
-                margin: 0;
-                padding: 0;
-                text-indent: 0;
-            }
-    
-            h1 {
-                color: black;
-                font-family: "Times New Roman", serif;
-                font-style: normal;
-                font-weight: bold;
-                text-decoration: none;
-                font-size: 8pt;
-                vertical-align: 11pt;
-            }
-    
-            .p,
-            p {
-                color: black;
-                font-family: "Times New Roman", serif;
-                font-style: normal;
-                font-weight: bold;
-                text-decoration: none;
-                font-size: 8pt;
-            }
-    
-            .s1 {
-                color: black;
-                font-family: "Times New Roman", serif;
-                font-style: normal;
-                font-weight: bold;
-                text-decoration: none;
-                font-size: 8pt;
-            }
-    
-            .s2 {
-                color: black;
-                font-family: "Times New Roman", serif;
-                font-style: normal;
-                font-weight: normal;
-                text-decoration: none;
-                font-size: 8pt;
-            }
-    
-            .s3 {
-                color: black;
-                font-family: "Times New Roman", serif;
-                font-style: italic;
-                font-weight: normal;
-                text-decoration: none;
-                font-size: 8pt;
-            }
-    
-            .s4 {
-                color: black;
-                font-family: "Times New Roman", serif;
-                font-style: normal;
-                font-weight: bold;
-                text-decoration: none;
-                font-size: 7pt;
-            }
-    
-            .s5 {
-                color: black;
-                font-family: "Times New Roman", serif;
-                font-style: normal;
-                font-weight: normal;
-                text-decoration: none;
-                font-size: 8pt;
-            }
-    
-            .s6 {
-                color: black;
-                font-family: "Times New Roman", serif;
-                font-style: italic;
-                font-weight: normal;
-                text-decoration: none;
-                font-size: 8pt;
-            }
-    
-            li {
-                display: block;
-            }
-    
-            #l1 {
-                padding-left: 0pt;
-                counter-reset: c1 9;
-            }
-    
-            #l1>li>*:first-child:before {
-                counter-increment: c1;
-                content: counter(c1, decimal)". ";
-                color: black;
-                font-family: "Times New Roman", serif;
-                font-style: normal;
-                font-weight: normal;
-                text-decoration: none;
-                font-size: 8pt;
-            }
-    
-            #l1>li:first-child>*:first-child:before {
-                counter-increment: c1 0;
-            }
-    
-            #l2 {
-                padding-left: 0pt;
-                counter-reset: c2 1;
-            }
-    
-            #l2>li>*:first-child:before {
-                counter-increment: c2;
-                content: counter(c2, lower-latin)". ";
-                color: black;
-                font-family: "Times New Roman", serif;
-                font-style: normal;
-                font-weight: normal;
-                text-decoration: none;
-                font-size: 8pt;
-            }
-    
-            #l2>li:first-child>*:first-child:before {
-                counter-increment: c2 0;
-            }
-    
-            li {
-                display: block;
-            }
-    
-            #l3 {
-                padding-left: 0pt;
-                counter-reset: d1 1;
-            }
-    
-            #l3>li>*:first-child:before {
-                counter-increment: d1;
-                content: counter(d1, upper-roman)". ";
-                color: black;
-                font-family: "Times New Roman", serif;
-                font-style: normal;
-                font-weight: bold;
-                text-decoration: none;
-                font-size: 8pt;
-            }
-    
-            #l3>li:first-child>*:first-child:before {
-                counter-increment: d1 0;
-            }
-    
-            table,
-            tbody {
-                vertical-align: top;
-                overflow: visible;
-            }
-    
-            /* Ngắt trang sau phần tử có class="new-page" */
-            .new-page {
-                page-break-after: always;
-            }
-    
-            .s4 {
-                text-align: center;
-            }
-    
-            table {
-                border-collapse: collapse;
-                margin-left: 0;
-            }
-    
-            table td {
-                border: 1pt solid #2B3D4F;
-
-                text-align: center;
-            }
-    
-            .table-header {
-                border: 1pt solid #2B3D4F;
-                background-color: #D1D6DB;
-                text-align: center;
-                padding-top: 5pt;
-                padding-bottom: 5pt;
-                
-            }
-    
-            border-table {
-                border-top-style: solid;
-                border-top-width: 1pt;
-                border-top-color: #2B3D4F;
-                border-left-style: solid;
-                border-left-width: 1pt;
-                border-left-color: #2B3D4F;
-                border-bottom-style: solid;
-                border-bottom-width: 1pt;
-                border-bottom-color: #2B3D4F;
-                border-right-style: solid;
-                border-right-width: 1pt;
-                border-right-color: #2B3D4F
-            }
-        </style>
-    </head>
-    
-    <body>
-        <h1 style="padding-top: 6pt;padding-left: 22pt;text-indent: 0pt;text-align: left;">Số 21 /2018/TT-BNNPTNT<br>
-            <span class="p" style="padding-left:30%; width: 100%;">
-                MẪU NHẬT KÝ KHAI THÁC THỦY SẢN</span>
-        </h1>
-        <br/>
-        <table class="new-page" style=" border-collapse:collapse; height:100%; witdh:100%;"
-            cellspacing="0">
-            <tr style="height:100%; witdh:100%;">
-                <td style="width:100%;border-top-style:solid;border-top-width:1pt;border-left-style:solid;border-left-width:1pt;border-bottom-style:solid;border-bottom-width:1pt;border-right-style:solid;border-right-width:1pt"
-                    colspan="2">
-                    <p class="s1"
-                        style="padding-top: 4pt;width: 100%;text-indent: 0pt;line-height: 15pt;">
-                        TỔNG CỤC THỦY SẢN
-                    </p>
-                    <p class="s1" style="width: 100%;text-indent: 0pt;line-height: 15pt;">
-                        --------------------</p>
-                    <p class="s1"
-                        style="padding-top: 10pt; width: 100%;text-indent: -6pt;line-height: 152%;">
-                        NHẬT KÝ KHAI THÁC THỦY SẢN <br><span class="s2">(NGHỀ CHÍNH:${duLieu?.nghechinh})</span></p>
-                        <div class="s2" style="padding-top: 5pt; flex-direction: column; text-align: start; margin-left: 15dp; text-indent: 10pt;">
-                            <div style=" display: inline-block; width: 40%;">
-                                1. Họ và tên chủ tàu: ${duLieu?.ten_chutau};
+        const html = `<!DOCTYPE html>
+        <html>
+        
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>khai thac thuy san</title>
+        
+            <style type="text/css">
+                * {
+                    margin: 0;
+                    padding: 0;
+                    text-indent: 0;
+                }
+        
+                h1 {
+                    color: black;
+                    font-family: "Times New Roman", serif;
+                    font-style: normal;
+                    font-weight: bold;
+                    text-decoration: none;
+                    font-size: 10pt;
+                    vertical-align: 11pt;
+                }
+        
+                .p,
+                p {
+                    color: black;
+                    font-family: "Times New Roman", serif;
+                    font-style: normal;
+                    font-weight: bold;
+                    text-decoration: none;
+                    font-size: 8pt;
+                }
+        
+                .s1 {
+                    color: black;
+                    font-family: "Times New Roman", serif;
+                    font-style: normal;
+                    font-weight: bold;
+                    text-decoration: none;
+                    font-size: 8pt;
+                }
+        
+                .s2 {
+                    color: black;
+                    font-family: "Times New Roman", serif;
+                    font-style: normal;
+                    font-weight: normal;
+                    font-size: 8.5pt;
+                }
+        
+                .s3 {
+                    color: black;
+                    font-family: "Times New Roman", serif;
+                    font-style: italic;
+                    font-weight: normal;
+                    text-decoration: none;
+                    font-size: 8pt;
+                }
+        
+                .s4 {
+                    color: black;
+                    font-family: "Times New Roman", serif;
+                    font-style: normal;
+                    font-weight: bold;
+                    text-decoration: none;
+                    font-size: 8pt;
+                    word-wrap: break-word;
+                }
+        
+                .s5 {
+                    color: black;
+                    font-family: "Times New Roman", serif;
+                    font-style: normal;
+                    font-weight: normal;
+                    text-decoration: none;
+                    font-size: 8pt;
+                    word-wrap: break-word;
+                }
+        
+                .s6 {
+                    color: black;
+                    font-family: "Times New Roman", serif;
+                    font-style: italic;
+                    font-weight: normal;
+                    text-decoration: none;
+                    font-size: 9pt;
+                }
+        
+                /* li {
+                    display: block;
+                }
+        
+                #l1 {
+                    padding-left: 0pt;
+                    counter-reset: c1 9;
+                }
+        
+                #l1>li>*:first-child:before {
+                    counter-increment: c1;
+                    content: counter(c1, decimal)". ";
+                    color: black;
+                    font-family: "Times New Roman", serif;
+                    font-style: normal;
+                    font-weight: normal;
+                    text-decoration: none;
+                    font-size: 8pt;
+                }
+        
+                #l1>li:first-child>*:first-child:before {
+                    counter-increment: c1 0;
+                } */
+        
+                /* #l2 {
+                    padding-left: 0pt;
+                    counter-reset: c2 1;
+                }
+        
+                #l2>li>*:first-child:before {
+                    counter-increment: c2;
+                    content: counter(c2, lower-latin)". ";
+                    color: black;
+                    font-family: "Times New Roman", serif;
+                    font-style: normal;
+                    font-weight: normal;
+                    text-decoration: none;
+                    font-size: 8pt;
+                }
+        
+                #l2>li:first-child>*:first-child:before {
+                    counter-increment: c2 0;
+                }
+        
+                li {
+                    display: block;
+                } */
+        
+                /* #l3 {
+                    padding-left: 0pt;
+                    counter-reset: d1 1;
+                }
+        
+                #l3>li>*:first-child:before {
+                    counter-increment: d1;
+                    content: counter(d1, upper-roman)". ";
+                    color: black;
+                    font-family: "Times New Roman", serif;
+                    font-style: normal;
+                    font-weight: bold;
+                    text-decoration: none;
+                    font-size: 8pt;
+                } */
+        
+                /* #l3>li:first-child>*:first-child:before {
+                    counter-increment: d1 0;
+                } */
+        
+                table,
+                tbody {
+                    vertical-align: top;
+                    overflow: visible;
+                }
+        
+                /* Ngắt trang sau phần tử có class="new-page" */
+                .new-page {
+                    page-break-after: always;
+                }
+        
+                table {
+                    border-collapse: collapse;
+                    margin-left: 0;
+                }
+        
+                table td {
+                    border: 1pt solid #2B3D4F;
+                }
+        
+                .table-header {
+                    border: 1pt solid #2B3D4F;
+                    background-color: #D1D6DB;
+                    text-align: center;
+                    padding-top: 5pt;
+                    padding-bottom: 5pt;
+        
+                }
+        
+                .center-table {
+                    text-align: center;
+                    vertical-align: middle;
+                    padding: 5pt;
+                }
+        
+                .chuKy {
+                    text-align: center;
+                    /* vertical-align: middle; */
+                    padding: 5pt;
+                }
+            </style>
+        </head>
+        
+        <body>
+            <div>
+                <h1 style="padding-top: 20pt; text-align: center;width: 100%;">
+                    MẪU NHẬT KÝ KHAI THÁC THỦY SẢN
+                </h1>
+                <br />
+                <table class="new-page" style=" 
+                                    border-collapse:collapse; height:100%; width:100%;">
+                    <!-- header -->
+                    <div>
+        
+                        <div style="
+                                        padding: 8pt;
+                                        border: 1pt solid #2B3D4F;">
+                            <h1 style="padding-top: 4pt; text-align: center;width: 100%;">
+                                TỔNG CỤC THỦY SẢN
+                            </h1>
+                            <h1 style="padding-top: 0pt; text-align: center;width: 100%;">
+                                --------------------
+                            </h1>
+                            <h1 style="padding-top: 8pt; text-align: center;width: 100%;">
+                                NHẬT KÝ KHAI THÁC THỦY SẢN
+                            </h1>
+                            <h1 style="padding-top: 8pt; text-align: center;width: 100%;font-style: normal;
+                                        font-weight: normal;">
+                                (NGHỀ CHÍNH: ...............................)
+                            </h1>
+                            <!-- end -->
+        
+                            <!-- body -->
+                            <div class="s2">
+                                <div style="margin: 16pt 16pt 0 0;">
+                                    <div style="display: flex;">
+                                        <div style="width: 50%;">
+                                            1. Họ và tên chủ tàu: ${duLieu?.ten_chutau||'......................................................'}
+                                        </div>
+                                        <div style="width: 50%;">
+                                            ;2. Họ và tên thuyền trưởng: ${duLieu?.ten_thuyentruong||'..........................................................'};
+                                        </div>
+                                    </div>
+        
+                                    <div style="display: flex; margin-top: 8pt;">
+                                        <div style="width: 33%;">
+                                            3. Số đăng ký tàu: ${duLieu?.tau_bs||'.............................'}
+                                        </div>
+                                        <div style="width: 33%;">
+                                            4. Chiều dài lớn nhất của tàu: ${duLieu?.tau_chieudailonnhat||'..............'} m
+                                        </div>
+        
+                                        <div style="width: 34%;">
+                                            ;5. Tổng công suất máy chính: ${duLieu?.tau_tongcongsuatmaychinh||'..............'} CV;
+                                        </div>
+                                    </div>
+        
+                                    <div style="display: flex;margin-top: 8pt;">
+                                        <div style="width: 50%;">
+                                            6. Số giấy phép khai thác thủy sản: ${duLieu?.gpkt_so||'..........................'}
+                                        </div>
+                                        <div style="width: 50%;">
+                                            ;Thời hạn đến: ${duLieu?.gpkt_thoihan||'..........................'}
+                                        </div>
+                                    </div>
+                                    <div style="display: flex;margin-top: 8pt;">
+                                        <div style="width: 50%;">
+                                            7. Nghề phụ 1: ${duLieu?.nghephu1||'..........................'}
+                                        </div>
+                                        <div style="width: 50%;">
+                                            ; 8. Nghề phụ 2: ${duLieu?.nghephu2||'..........................'}
+                                        </div>
+                                    </div>
+                                    <div style="display: flex;margin-top: 8pt;">
+                                        9. Kích thước chủ yếu của ngư cụ  <label class="s3" style="padding-left: 12pt;" >(ghi cụ thể theo nghề chính):</label>
+                                    </div>
+                                    <div style="display: flex;margin-top: 8pt;">
+                                        <div style="width: 60%;">
+                                            a. Nghề câu: Chiều dài toàn bộ vàng câu:  ${duLieu?.ncau_chieudaivangcau||'..........................'}
+                                        </div>
+                                        <div style="width: 40%;">
+                                            m; Số lưỡi câu: ${duLieu?.ncau_soluoicau||'..........................'} lưỡi
+                                        </div>
+                                    </div>
+                                    <div style="display: flex;margin-top: 8pt;">
+                                        <div style="width: 60%;">
+                                            b. Nghề lưới vây, rê: Chiều dài toàn bộ lưới:  ${duLieu?.nluoivay_chieudailuoi||'..........................'}
+                                        </div>
+                                        <div style="width: 40%;">
+                                            m; Chiều cao lưới: ${duLieu?.nluoivay_chieucaoluoi||'..........................'} m
+                                        </div>
+                                    </div>
+                                    <div style="display: flex;margin-top: 8pt;">
+                                        <div style="width: 60%;">
+                                            c. Nghề lưới chụp: Chu vi miệng lưới:  ${duLieu?.nluoichup_chuvimiengluoi||'..........................'}
+                                        </div>
+                                        <div style="width: 40%;">
+                                            m; Chiều cao lưới: ${duLieu?.nluoichup_chieucaoluoi||'..........................'} m
+                                        </div>
+                                    </div>
+                                    <div style="display: flex;margin-top: 8pt;">
+                                        <div style="width: 60%;">
+                                            d. Nghề lưới kéo: Chiều dài giềng phao  ${duLieu?.nluoikeo_chieudaigiengphao||'..........................'}
+                                        </div>
+                                        <div style="width: 40%;">
+                                            m; Chiều cao lưới:  ${duLieu?.nluoikeo_chieudaitoanboluoi||'..........................'} m
+                                        </div>
+                                    </div>
+                                    <div style="display: flex;margin-top: 8pt;">
+                                        e. Nghề khác: ${duLieu?.nkhac||'..........................'}
+                                    </div>
+                                </div>
                             </div>
-                            <div style=" display: inline-block;width: 40%;">
-                                2. Họ và tên thuyền trưởng: ${duLieu?.ten_thuyentruong};
+                            <!-- end -->
+        
+                        </div>
+                        <div style="display: flex;">
+                            <div class="s2" style="
+                                        width: 30%;
+                                        padding: 4pt 0 8pt 8pt;
+                                        border-left: 1pt solid #2B3D4F;
+                                        border-right: 1pt solid #2B3D4F;
+                                        border-bottom: 1pt solid #2B3D4F;
+                                        
+                                        ">
+                                <div>
+                                    <h1 style="font-size: 9pt;">Chuyến biển số: ${duLieu?.chuyenbien_so||'..............................'}</h1>
+                                    <div style="font-style: italic; width: 100%;text-align: center;">(Ghi chuyến biển số
+                                        mấy
+                                        trong năm)</div>
+                                </div>
+                            </div>
+                            <div class="s2" style="
+                                            width: 70%;
+                                            padding: 4pt 0 6pt 6pt;
+                                            border-right: 1pt solid #2B3D4F;
+                                            border-bottom: 1pt solid #2B3D4F;">
+                                <div style="display: flex">
+                                    <div style="width: 50%;">
+                                        10: Cảng đi: ${duLieu?.cang_di||'............................................................'}
+                                    </div>
+                                    <div style="width: 50%;">
+                                        ; Thời gian đi: Ngày ${duLieu?.ngay_di?moment(duLieu?.ngay_di).format('LL'):'.......'} 
+                                    </div>
+                                </div>
+                                <div style="display: flex;margin-top: 4pt;">
+                                    <div style="width: 50%;">
+                                        11: Cảng về: ${duLieu?.cang_ve||'............................................................'}
+                                    </div>
+                                    <div style="width: 50%;">
+                                        ; Thời gian cập: Ngày  ${duLieu?.ngay_ve?moment(duLieu?.ngay_ve).format('LL'):'.......'} 
+                                    </div>
+                                </div>
+                                <div style="display: flex;margin-top: 4pt;">
+                                    <div style="width: 50%;">
+                                        12: Nộp Nhật ký: Ngày ${duLieu?.ngaynop?moment(duLieu?.ngaynop).format('LL'):'.......'} 
+                                    </div>
+                                    <div style="width: 50%;">
+                                        ; Vào Sổ số: ${duLieu?.vaoso_so||'.........................................'}
+                                    </div>
+                                </div>
+        
                             </div>
                         </div>
-                        <div class="s2" style="padding-top: 5pt; flex-direction: column; text-align: start; text-indent: 10pt; margin-left: 15dp;">
-                            <div style="display: inline-block;width: auto;">3. Số đăng ký tàu: ${duLieu?.tau_bs};</div>
-                            <div style="display: inline-block;width: auto;">4. Chiều dài lớn nhất của tàu: ${duLieu?.tau_chieudailonnhat} m;</div>
-                            <div style="display: inline-block;width: auto;">5. Tổng công suất máy chính: ${duLieu?.tau_tongcongsuatmaychinh} CV</div>
-                        </div>
-                        <div class="s2" style="padding-top: 5pt;text-indent: 10pt;   flex-direction: column; text-align: start; margin-left: 15dp;">
-                            <div style=" display: inline-block; width: 40%;">
-                                6. Số giấy phép khai thác thủy sản: ${duLieu?.gpkt_so} ;
-                            </div>
-                            <div style=" display: inline-block;width: 40%;">
-                                Thời hạn đến: ${duLieu?.gpkt_thoihan}
-                            </div>
-                        </div>
-                    
-                        <div class="s2" style="padding-top: 5pt;text-indent: 10pt;   flex-direction: column; text-align: start; margin-left: 15dp;">
-                            <div style="display: inline-block;width: 40%;">7. Nghề phụ 1: ${duLieu?.nghephu1};</div>
-                            <div style="display: inline-block;width: 40%;">8. Nghề phụ 2: ${duLieu?.nghephu2}</div>
-                        </div>
-                    <ol id="l1">
-                        <li nhatKy-list-text="9.">
-                            <p class="s2" style="padding-top: 5pt;text-indent: 10pt;   flex-direction: column; text-align: start;">
-                                Kích thước chủ yếu của ngư cụ <i>(ghi cụ thể theo nghề chính):</i></p>
-                            <ol id="l2">
-                                <li nhatKy-list-text="a.">
-                                    <div class="s2"
-                                        style="padding-top: 5pt;text-indent: 10pt;   flex-direction: column; text-align: start; margin-left: 15dp">
-                                        <div style="display: inline-block;width: 45%;">Nghề câu: Chiều dài toàn bộ vàng câu: ${duLieu?.ncau_chieudaivangcau} m;</div>
-                                        <div style="display: inline-block;width: 45%;">Số lưỡi câu lưỡi: ${duLieu?.ncau_soluoicau} lưỡi</div>
-                                        
-                                        
-                                    </div>
-                                </li>
-                                <li nhatKy-list-text="b.">
-                                    <div class="s2"
-                                        style="padding-top: 5pt;text-indent: 10pt;   flex-direction: column; text-align: start; margin-left: 15dp;">
-                                        <div style="display: inline-block;width: 45%;">Nghề lưới vây, rê: Chiều dài toàn bộ lưới: ${duLieu?.nluoivay_chieudailuoi} m;</div>
-                                        <div style="display: inline-block;width: 45%;">Chiều cao lưới: ${duLieu?.nluoivay_chieucaoluoi} m</div>
-                                         
-                                        
-                                    </div>
-                                </li>
-                                <li nhatKy-list-text="c.">
-                                    <div class="s2"
-                                        style="padding-top: 5pt;text-indent: 10pt;   flex-direction: column; text-align: start; margin-left: 15dp">
-                                        <div style="display: inline-block;width: 45%;">Nghề lưới chụp: Chu vi miệng lưới ${duLieu?.nluoichup_chuvimiengluoi} m;</div>
-                                        <div style="display: inline-block;width: 45%;">Chiều cao lưới: ${duLieu?.nluoichup_chieucaoluoi} m</div>
-                                         
-                                        
-                                    </div>
-                                </li>
-                                <li nhatKy-list-text="d.">
-                                    <div class="s2"
-                                        style="padding-top: 5pt;text-indent: 10pt;   flex-direction: column; text-align: start; margin-left: 15dp">
-                                        <div style="display: inline-block;width: 45%;">Nghề lưới kéo: Chiều dài giềng phao ${duLieu?.nluoikeo_chieudaigiengphao} m;</div>
-                                        <div style="display: inline-block;width: 45%;">Chiều cao lưới: ${duLieu?.nluoikeo_chieudaitoanboluoi} m</div>
-                                         
-                                        
-                                    </div>
-                                </li>
-                                <li nhatKy-list-text="e.">
-                                    <p class="s2"
-                                        style="padding-top: 5pt;text-indent: 10pt;   flex-direction: column; text-align: start;margin-bottom: 5pt;">
-                                        Nghề khác: ${duLieu?.nkhac}
-                                    </p>
-                                </li>
-                            </ol>
-                        </li>
-                    </ol>
-                </td>
-            </tr>
-            <tr style="height:100%">
-                <td
-                    style="width:204pt;border-top-style:solid;border-top-width:1pt;border-left-style:solid;border-left-width:1pt;border-bottom-style:solid;border-bottom-width:1pt;border-right-style:solid;border-right-width:1pt">
-                    <p class="s1" style="padding-top: 4pt;padding-left: 5pt;text-indent: 0pt;text-align: left;">
-                        Chuyến biển số: ${duLieu?.chuyenbien_so} </p>
-                    <p class="s3" style="padding-top: 7pt;padding-left: 5pt;text-indent: 0pt;text-align: left;">
-                        (Ghi chuyến biển số mấy trong năm)</p>
-                </td>
-                <td
-                    style="width:536pt;border-top-style:solid;border-top-width:1pt;border-left-style:solid;border-left-width:1pt;border-bottom-style:solid;border-bottom-width:1pt;border-right-style:solid;border-right-width:1pt">
-                    <p class="s2" style="padding-top: 4pt;padding-left: 5pt;text-indent: 0pt;text-align: left;">
-                        10: Cảng đi: ${duLieu?.cang_di} ; Thời gian đi: Ngày ${ngayDi} tháng ${thangDi} năm ${namDi} </p>
-                    <p class="s2" style="padding-top: 7pt;padding-left: 5pt;text-indent: 0pt;text-align: left;">
-                        11: Cảng về: ${duLieu?.cang_ve} ; Thời gian cập: Ngày ${ngayVe} tháng ${thangVe} năm ${namVe} </p>
-                    <p class="s2" style="padding-top: 7pt;padding-left: 5pt;text-indent: 0pt;text-align: left; margin-bottom: 5pt;">
-                        12: Nộp Nhật ký: Ngày ${ngayNop} tháng ${thangNop} năm ${namNop} Vào Sổ số: ${duLieu?.vaoso_so}
-                    </p>
-                </td>
-            </tr>
-        </table>
-        <ol id="l3">
-            <li nhatKy-list-text="I.">
-                <p style="padding-top: 7pt;padding-left: 34pt;text-indent: -11pt;text-align: left;">
-                    THÔNG TIN VỀ HOẠT ĐỘNG KHAI THÁC THỦY SẢN</p>
-                <p style="text-indent: 0pt;text-align: center;"></p>
+                        <!-- end thong tin  -->
+        
+                        <!--  -->
+                    </div>
+        
+                </table>
+            </div>
+        
+            <!-- end -->
+            <div class="new-page">
+                <h1 style="padding-top: 7pt;padding-left: 18pt;text-align: left;">
+                    I. THÔNG TIN VỀ HOẠT ĐỘNG KHAI THÁC THỦY SẢN
+                </h1>
                 <div style="overflow-x:auto;">
-                    <table cellspacing="0" >
-                        <tr >
-                            <td style="height:100%; width: 15dp; align-items: center;"
-                                class="border-table" rowspan="2" bgcolor="#D1D6DB">
-                                <div class="s4" style="width: 100%;text-align: center; padding-top: 10pt">
+                    <table cellspacing="0"
+                        style="width:100%; height: auto; table-layout: fixed; overflow-wrap: break-word;">
+                        <tr>
+                            <td style="text-align: center; vertical-align: middle; width: 5%;" rowspan="2"
+                                bgcolor="#D1D6DB">
+                                <div class="s4">
                                     Mẻ thứ
                                 </div>
                             </td>
-                            <td style="align-items: center;" class="border-table" rowspan="2" bgcolor="#D1D6DB">
-                                <p class="s4" style="width: 100%;text-align: center;text-indent: 0pt; padding:">
+                            <td style="text-align: center; vertical-align: middle; width: 7%;" rowspan="2"
+                                bgcolor="#D1D6DB">
+                                <p class="s4">
                                     Thời điểm thả (giờ, phút, ngày, tháng)</p>
                             </td>
-                            <td style="" class="border-table" colspan="2" bgcolor="#D1D6DB">
-                                <p style="text-indent: 0pt;text-align: center;"></p>
-                                <p class="s4" style="width: 100%;text-align: center;text-indent: 0pt;">
-                                    Vị trí thả
-                                </p>
-                            </td>
-                            <td style="" class="border-table" rowspan="2" bgcolor="#D1D6DB">
-                                <p class="s4" style="width: 100%;text-indent: 0pt;text-align: center;">
-                                    Thời điểm thu (giờ, phút, ngày, tháng)</p>
-                            </td>
-                            <td style="" class="border-table" colspan="2" bgcolor="#D1D6DB">
-                                <p style="text-indent: 0pt;text-align: center;"></p>
-                                <p class="s4" style="width: 100%;text-indent: 0pt;text-align: center;">
-                                    Vị trí thu
-                                </p>
-                            </td>
-                            <td style="width: 100%" class="border-table" colspan="9"
+        
+                            <td style="text-align: center; vertical-align: middle; width: 12%;" colspan="2"
                                 bgcolor="#D1D6DB">
-                                <p style="width: 100%;text-indent: 0pt;text-align: center;"></p>
-                                <p class="s4" style="width: 100%;text-indent: 0pt;text-align: center;">
-                                    Sản lượng các loài thủy sản chủ yếu (kg)</p>
+                                <p class="s4">
+                                    Vị trí thả </p>
                             </td>
-                            <td style=" padding: 5pt" class="border-table" rowspan="2" bgcolor="#D1D6DB">
-                                <p class="s4" style="width: 100%;text-indent: 0pt;text-align: center;">
-                                    Tổng sản lượng (kg)</p>
+                            <td style="text-align: center; vertical-align: middle; width: 7%;" rowspan="2" bgcolor="#D1D6DB">
+                                <p class="s4">
+                                    Thời điểm thu (giờ, phút, ngày, tháng)
+                                     </p>
+                            </td>
+        
+                            <td class="center-table" style="width: 12%;" colspan="2" bgcolor="#D1D6DB">
+                                <p class="s4">
+                                    Vị trí thu</p>
+                            </td>
+                            <td style="width: 47%;" class="center-table" colspan="9" bgcolor="#D1D6DB">
+                                <p class="s4">
+                                    Sản lượng các loài thủy sản chủ yếu (kg) </p>
+                            </td>
+                            <td style="width: 10%;" class="center-table" rowspan="2" bgcolor="#D1D6DB">
+                                <p class="s4">
+                                    Tổng sản lượng (kg) </p>
                             </td>
                         </tr>
-                        <tr style="height:100%">
-                            <td style="width: 8ch; align-item= center;" class="border-table" bgcolor="#D1D6DB">
-                                <p style=" text-indent: 0pt;text-align: center;"></p>
-                                <p class="s4" style="width: 8ch; text-indent: 0pt;text-align: center; padding-top: 10pt">
-                                    Vĩ độ
-                                </p>
-                            </td>
-                            <td style="width: 8ch;" class="border-table" bgcolor="#D1D6DB">
-                                <p style="text-indent: 0pt;text-align: center;"></p>
-                                <p class="s4" style="width: 8ch; text-indent: 0pt;text-align: center; padding-top: 10pt">
-                                    Kinh độ
-                                </p>
-                            </td>
-                            <td style="width: 8ch;" class="border-table" bgcolor="#D1D6DB">
-                                <p style="text-indent: 0pt;text-align: center;"></p>
-                                <p class="s4" style="width: 8ch; text-indent: 0pt;text-align: center;padding-top: 10pt">
-                                    Vĩ độ
-                                </p>
-                            </td>
-                            <td style="width: 8ch;" class="border-table" bgcolor="#D1D6DB" >
-                                <p style="text-indent: 0pt;text-align: center;"></p>
-                                <p class="s4" style="width: 8ch; text-indent: 0pt; text-align: center;padding-top: 10pt">
-                                    Kinh độ
-                                </p>
-                            </td>
-                            
-                            <td style="width: 10ch;" class="border-table" bgcolor="#D1D6DB">
-                                <p class="s4" style="text-indent: 0pt;text-align: center;padding-top: 10pt">
-                                    Loài
-                                </p>
-                                <p class="s4" style="text-indent: 0pt;text-align: center;"> ${duLieu?.khaithac[0].loai_1} </p>
-    
-                            </td>
-                            <td style="width: 10ch;" class="border-table" bgcolor="#D1D6DB">
-                                <p class="s4" style="text-indent: 0pt;text-align: center;padding-top: 10pt">
-                                    Loài
-                                </p>
-                                <p class="s4" style="text-indent: 0pt;text-align: center;"> ${duLieu?.khaithac[0].loai_2} </p>
-    
-                            </td>
-                            <td style="width: 10ch;" class="border-table" bgcolor="#D1D6DB">
-                                <p class="s4" style="text-indent: 0pt;text-align: center;padding-top: 10pt">
-                                    Loài
-                                </p>
-                                <p class="s4" style="text-indent: 0pt;text-align: center;"> ${duLieu?.khaithac[0].loai_3} </p>
-    
-                            </td>
-                            <td style="width: 10ch;" class="border-table" bgcolor="#D1D6DB">
-                                <p class="s4" style="text-indent: 0pt;text-align: center;padding-top: 10pt">
-                                    Loài
-                                </p>
-                                <p class="s4" style="text-indent: 0pt;text-align: center;"> ${duLieu?.khaithac[0].loai_4} </p>
-    
-                            </td>
-                            <td style="width: 10ch;" class="border-table" bgcolor="#D1D6DB">
-                                <p class="s4" style="text-indent: 0pt;text-align: center;padding-top: 10pt">
-                                    Loài
-                                </p>
-                                <p class="s4" style="text-indent: 0pt;text-align: center;"> ${duLieu?.khaithac[0].loai_5} </p>
-    
-                            </td>
-                            <td style="width: 10ch;" class="border-table" bgcolor="#D1D6DB">
-                                <p class="s4" style="text-indent: 0pt;text-align: center;padding-top: 10pt">
-                                    Loài
-                                </p>
-                                <p class="s4" style="text-indent: 0pt;text-align: center;"> ${duLieu?.khaithac[0].loai_6} </p>
-    
-                            </td>
-                            <td style="width: 10ch;" class="border-table" bgcolor="#D1D6DB">
-                                <p class="s4" style="text-indent: 0pt;text-align: center;padding-top: 10pt">
-                                    Loài
-                                </p>
-                                <p class="s4" style="text-indent: 0pt;text-align: center;"> ${duLieu?.khaithac[0].loai_7} </p>
-    
-                            </td>
-                            <td style="width: 10ch;" class="border-table" bgcolor="#D1D6DB">
-                                <p class="s4" style="text-indent: 0pt;text-align: center;padding-top: 10pt">
-                                    Loài
-                                </p>
-                                <p class="s4" style="text-indent: 0pt;text-align: center;"> ${duLieu?.khaithac[0].loai_8} </p>
-    
-                            </td>
-                            <td style="width: 10ch;" class="border-table" bgcolor="#D1D6DB">
-                                <p class="s4" style="text-indent: 0pt;text-align: center;padding-top: 10pt">
-                                    Loài
-                                </p>
-                                <p class="s4" style="text-indent: 0pt;text-align: center;"> ${duLieu?.khaithac[0].loai_9} </p>
-    
-                            </td>
-                            
-    
-                        </tr>
-                        ${duLieu?.khaithac.map(line => `
                         <tr>
-                            <td  class="border-table" >
-                                <p style="width: 10dp; text-indent: 0pt;text-align: center; padding-top: 10pt;">${count++}</p>
+                            <td style="width: 7%;" class="s4 center-table" bgcolor="#D1D6DB">
+                                Vĩ độ
                             </td>
-                            <td  class="border-table" style="padding: 2pt; width: 30dp;">
-                                <p style=" text-indent: 0pt;text-align: center; ">${line?.thoidiem_tha.slice(0, 10)}</p>
+                            <td style="width: 7%;" class="s4 center-table" bgcolor="#D1D6DB">
+                                Kinh độ
                             </td>
-                            <td  class="border-table" style="max-width: 20dp;">
-                                <p style="max-width: 20dp; text-indent: 0pt;text-align: center;padding-top: 10pt;">${line?.vido_tha}</p>
+                            <td style="width: 7%;" class="s4 center-table" bgcolor="#D1D6DB">
+                                Vĩ độ
                             </td>
-                            <td  class="border-table" style="max-width: 20dp;">
-                                <p style="max-width: 20dp; text-indent: 0pt;text-align: center;padding-top: 10pt;">${line?.kinhdo_tha}</p>
+                            <td style="width: 7%;" class="s4 center-table" bgcolor="#D1D6DB">
+                                Kinh độ
                             </td>
-                            <td  class="border-table" style="padding: 2pt;">
-                                <p style="width: 30dp; text-indent: 0pt;text-align: center;">${line?.thoidiem_thu.slice(0, 10)}</p>
-                            </td>   
-                            <td class="border-table"style = "max-width: 20dp;">
-                                <p style="max-width: 20dp; text-indent: 0pt;text-align: center;padding-top: 10pt;">${line?.vido_thu}</p>
+        
+                            <td style="width: 7%;" class="s4 center-table" bgcolor="#D1D6DB">
+                                Loài<br>
+                                ${duLieu?.thumua[0]?.loai_1}
+        
                             </td>
-                            <td class="border-table"style = "max-width: 20dp;">
-                                <p style="max-width: 20dp; text-indent: 0pt;text-align: center;padding-top: 10pt;">${line?.kinhdo_thu}</p>
+                            <td style="width: 7%;" class="s4 center-table" bgcolor="#D1D6DB">
+        
+                                Loài<br>
+                                ${duLieu?.thumua[0]?.loai_2}
+        
                             </td>
-                            <td class="border-table"style = "padding: 3pt; width: 22pt;">
-                                <p style="width: 22pt; text-indent: 0pt;text-align: center;padding-top: 10pt;">${line?.loai_1_kl}</p>
+                            <td style="width: 7%;" class="s4 center-table" bgcolor="#D1D6DB">
+                                Loài<br>
+                                ${duLieu?.thumua[0]?.loai_3}
+        
+        
                             </td>
-                            <td class="border-table" style = "padding: 3pt; width: 22pt;">
-                                <p style="width: 22pt; text-indent: 0pt;text-align: center;padding-top: 10pt;">${line?.loai_2_kl}</p>
+                            <td style="width: 7%;" class="s4 center-table" bgcolor="#D1D6DB">
+                                Loài<br>
+                                ${duLieu?.thumua[0]?.loai_4}
+        
                             </td>
-                            <td class="border-table"style = "padding: 3pt; width: 22pt;">
-                                <p style="width: 22pt; text-indent: 0pt;text-align: center;padding-top: 10pt;">${line?.loai_3_kl}</p>
+                            <td style="width: 7%;" class="s4 center-table" bgcolor="#D1D6DB">
+                                Loài <br>
+                                ${duLieu?.thumua[0]?.loai_5}
+        
                             </td>
-                            <td class="border-table"style = "padding: 3pt; width: 22pt;">
-                                <p style="width: 22pt; text-indent: 0pt;text-align: center;padding-top: 10pt;">${line?.loai_4_kl}</p>
+                            <td style="width: 7%;" class="s4 center-table" bgcolor="#D1D6DB">
+                                Loài<br>
+                                ${duLieu?.thumua[0]?.loai_6}
                             </td>
-                            <td class="border-table"style = "padding: 3pt; width: 22pt;">
-                                <p style="width: 22pt; text-indent: 0pt;text-align: center;padding-top: 10pt;">${line?.loai_5_kl}</p>
+                            <td style="width: 7%;" class="s4 center-table" bgcolor="#D1D6DB">
+                                Loài<br>
+                                ${duLieu?.thumua[0]?.loai_7}
                             </td>
-                            <td class="border-table"style = "padding: 3pt; width: 22pt;">
-                                <p style="width: 22pt; text-indent: 0pt;text-align: center;padding-top: 10pt;">${line?.loai_6_kl}</p>
+                            <td style="width: 7%;" class="s4 center-table" bgcolor="#D1D6DB">
+                                Loài<br>
+                                ${duLieu?.thumua[0]?.loai_8}
                             </td>
-                            <td class="border-table"style = "padding: 3pt; width: 22pt;">
-                                <p style="width: 22pt; text-indent: 0pt;text-align: center;padding-top: 10pt;">${line?.loai_7_kl}</p>
+                            <td style="width: 7%;" class="s4 center-table" bgcolor="#D1D6DB">
+                                Loài<br>
+                                ${duLieu?.thumua[0]?.loai_9}
                             </td>
-                            <td class="border-table"style = "padding: 3pt; width: 22pt;">
-                                <p style="width: 22pt; text-indent: 0pt;text-align: center;padding-top: 10pt;">${line?.loai_8_kl}</p>
+        
+        
+                        </tr>
+                        ${duLieu?.khaithac.map((line,index) => `
+                        <tr>
+                            <td class="s5 center-table">
+                                ${index+1}
                             </td>
-                            <td class="border-table"style = "padding: 3pt; width: 22pt;">
-                                <p style="width: 22pt; text-indent: 0pt;text-align: center;padding-top: 10pt;">${line?.loai_9_kl}</p>
+        
+                            <td class="center-table">
+                                <p style="width: 100%;" class="s5">
+                                    ${line?.ngaythang?moment(line?.ngaythang).format('DD-MM-YYYY'):''}
+                                </p>
                             </td>
-    
-                            <td class="border-table" style = "padding: 3pt; width: 10ch;">
-                                <p style=" width: 10ch; word-wrap: break-word; text-align: center; text-indent: 0pt;">${line?.tongsanluong}</p>
+                            <td class="s5 center-table">
+                                ${line?.tm_ct_vt_vido||''}
                             </td>
-    
+                            <td class="s5 center-table">
+                                ${line?.tm_ct_vt_kinhdo||''}
+                            </td>
+                            <td class="center-table">
+                                <p style="width: 100%;" class="s5">
+                                    ${line?.ngaythang?moment(line?.ngaythang).format('DD-MM-YYYY'):''}
+                                </p>
+                            </td>
+                            <td class="s5 center-table">
+                                ${line?.tm_ct_vt_vido||''}
+                            </td>
+                            <td class="s5 center-table">
+                                ${line?.tm_ct_vt_kinhdo||''}
+                            </td>
+                            <td class="s5 center-table">
+                                ${line?.loai_1_kl==0?'':line?.loai_1_kl}
+                            </td>
+                            <td class="s5 center-table">
+                                ${line?.loai_2_kl==0?'':line?.loai_2_kl}
+                            </td>
+                            <td class="s5 center-table">
+                                ${line?.loai_3_kl==0?'':line?.loai_3_kl}
+                            </td>
+                            <td class="s5 center-table">
+                                ${line?.loai_4_kl==0?'':line?.loai_4_kl}
+                            </td>
+                            <td class="s5 center-table">
+                                ${line?.loai_5_kl==0?'':line?.loai_5_kl}
+                            </td>
+                            <td class="s5 center-table">
+                                ${line?.loai_6_kl==0?'':line?.loai_6_kl}
+                            </td>
+                            <td class="s5 center-table">
+                                ${line?.loai_7_kl==0?'':line?.loai_7_kl}
+                            </td>
+                            <td class="s5 center-table">
+                                ${line?.loai_8_kl==0?'':line?.loai_8_kl}
+                            </td>
+                            <td class="s5 center-table">
+                                ${line?.loai_9_kl==0?'':line?.loai_9_kl}
+                            </td>
+                            <td class="s5 center-table">
+                                ${line?.tongsanluong==0?'':line?.tongsanluong}
+                            </td>
                         </tr>
                         `).join('')}
-                        <tr style=" " class="border-table" bgcolor="#D1D6DB">
-                            <td colspan="7" bgcolor="#D1D6DB" style="text-align: center; padding:5pt;">
-                                <p class="s4" style="width: 100%;text-align: center; center-indent: 0pt;">
-                                    Tổng khối lượng
-                                </p>
+        
+                        <tr>
+                            <td class="s5 center-table" colspan="7">
+                                Tổng khối lượng
                             </td>
-                            
-                            <td style="width:22pt; padding: 3pt" class="border-table">
-                                <p style="text-indent: 0pt;text-align: center;">${totalByType.loai_1_kl}</p>
+        
+                            <td class="center-table s5">
+                                ${totalByType[0]==0?'':totalByType[0]}
                             </td>
-                            <td style="width:22pt; padding: 3pt" class="border-table">
-                                <p style="width: 22pt; text-indent: 0pt;text-align: center;">${totalByType.loai_2_kl}</p>
+                            <td class="center-table s5">
+                                ${totalByType[1]==0?'':totalByType[1]}
                             </td>
-                            <td style="width:22pt; padding: 3pt" class="border-table">
-                                <p style="width: 22pt; text-indent: 0pt;text-align: center;">${totalByType.loai_3_kl}</p>
+                            <td class="center-table s5">
+                                ${totalByType[2]==0?'':totalByType[2]}
                             </td>
-                            <td style="width:22pt; padding: 3pt" class="border-table">
-                                <p style="width: 22pt; text-indent: 0pt;text-align: center;">${totalByType.loai_4_kl}</p>
+                            <td class="center-table s5">
+                                ${totalByType[3]==0?'':totalByType[3]}
                             </td>
-                            <td style="width:22pt; padding: 3pt" class="border-table">
-                                <p style="width: 22pt; text-indent: 0pt;text-align: center;">${totalByType.loai_5_kl}</p>
+                            <td class="center-table s5">
+                                ${totalByType[4]==0?'':totalByType[4]}
                             </td>
-                            <td style="width:22pt; padding: 3pt" class="border-table">
-                                <p style="width: 22pt; text-indent: 0pt;text-align: center;">${totalByType.loai_6_kl}</p>
+                            <td class="center-table s5">
+                                ${totalByType[5]==0?'':totalByType[5]}
                             </td>
-                            <td style="width:22pt; padding: 3pt" class="border-table">
-                                <p style="width: 22pt; text-indent: 0pt;text-align: center;">${totalByType.loai_7_kl}</p>
+                            <td class="center-table s5">
+                                ${totalByType[6]==0?'':totalByType[6]}
                             </td>
-                            <td style="width:22pt; padding: 3pt" class="border-table">
-                                <p style="width: 22pt; text-indent: 0pt;text-align: center;">${totalByType.loai_8_kl}</p>
+                            <td class="center-table s5">
+                                ${totalByType[7]==0?'':totalByType[7]}
                             </td>
-                            <td style="width:22pt; padding: 3pt" class="border-table">
-                                <p style="width: 22pt; text-indent: 0pt;text-align: center;">${totalByType.loai_9_kl}</p>
+                            <td class="center-table s5">
+                                ${totalByType[8]==0?'':totalByType[8]}
                             </td>
-                            <td style="width: 10ch; padding: 3pt" class="border-table">
-                                <p style="width: 10ch; text-indent: 0pt;text-align: center;word-wrap: break-word;">${tongsanluong}</p>
+                            <td class="center-table s5">
+                                ${totalByType[0]+totalByType[1]+totalByType[2]+totalByType[3]+totalByType[4]+totalByType[5]==0?'':totalByType[0]+totalByType[1]+totalByType[2]+totalByType[3]+totalByType[4]+totalByType[5]+totalByType[6]+totalByType[7]+totalByType[8]}
                             </td>
                         </tr>
                     </table>
-    
-                    <p style="text-indent: 0pt;text-align: left;"></p>
-                    <p style="padding-top: 6pt;padding-left: 22pt;text-indent: 0pt;text-align: left;">Ghi chú:</p>
-                    <p class="s5" style="padding-top: 7pt;padding-left: 22pt;text-indent: 0pt;text-align: left;">
-                        * Đối với nghề lưới kéo, ghi cụ thể tên loài thủy sản có thể xuất khẩu và các loài khác:
-                    </p>
-                    <p class="s6"
-                        style="padding-top: 6pt;padding-left: 65%;text-indent: 0pt;text-align: center;font-size: 10pt;">
-                        Ngày ...... tháng ....... năm .......
-                    </p>
-                    <p class="new-page"
-                        style="padding-top: 7pt;padding-left: 60%;text-indent: 0pt;line-height: 113%;text-align: center;font-size: 10pt;">
-                        Thuyền trưởng
-                        <i>(ký, ghi rõ họ và tên)</i>
-                    </p>
-            </li>
-            <li nhatKy-list-text="II.">
-                <p style="padding-top: 7pt;padding-left: 39pt;text-indent: -16pt;text-align: left;">
-                    THÔNG TIN VỀ HOẠT ĐỘNG CHUYỂN TẢI (nếu có)
-                </p>
-            </li>
-        </ol>
-        <p style="text-indent: 0pt;text-align: left;"></p>
-        <table style="border-collapse:collapse;margin-left:6.09154pt;align-items: center;" cellspacing="0">
-            <tr style="height:37pt">
-                <td style="width:28pt;padding-top: 10pt"" class="border-table" rowspan="2" bgcolor="#D1D6DB">
-                    <p style="text-indent: 0pt;text-align: left;"></p>
-                    <p class="s4" style="width: 100%;text-align: center; text-indent: 0pt;">
-                        TT
-                    </p>
-                </td>
-                <td style="width:85pt;padding-top: 10pt" class="border-table" rowspan="2" bgcolor="#D1D6DB">
-                    <p style="text-indent: 0pt;text-align: left;"></p>
-                    <p class="s4" style="width: 100%;text-align: center; text-indent: 0pt;">
-                        Ngày, tháng
-                    </p>
-                </td>
-                <td style="width:142pt;padding-top: 5pt" class="border-table" colspan="2" bgcolor="#D1D6DB">
-                    <p class="s4" style="width: 100%;text-align: center; text-indent: -5pt;">
-                        Thông tin tàu thu mua/chuyển tải
-                    </p>
-                </td>
-                <td style="width:170pt;padding-top: 3pt" class="border-table" colspan="2" bgcolor="#D1D6DB">
-                    <p class="s4" style="width: 100%;text-align: center; text-indent: 0pt;">
-                        Vị trí thu mua/chuyển tải</p>
-                </td>
-                <td style="width:224pt;padding-top: 5pt" class="border-table" colspan="2" bgcolor="#D1D6DB">
-                    <p class="s4" style="width: 100%;text-align: center; text-indent: 0pt;">
-                        Đã bán/chuyển tải</p>
-                </td>
-                <td style="width:113pt;padding-top: 5pt;" class="border-table" rowspan="2" bgcolor="#D1D6DB">
-                    <p style="width: 100%;text-align: center; text-indent: 0pt;"></p>
-                    <p class="s4" style="width: 100%;text-align: center; text-indent: 0pt;">
-                        Thuyền trưởng tàu thu mua/chuyển tải (ký, ghi gõ họ tên)</p>
-                </td>
-            </tr>
-            <tr>
-                <td style="width:85pt;" class="border-table" bgcolor="#D1D6DB">
-                    <p class="s4" style="width: 100%;text-align: center; text-indent: 0pt;">
-                        Số đăng ký tàu</p>
-                </td>
-                <td style="width:57pt;" class="border-table" bgcolor="#D1D6DB">
-                    <p class="s4" style="width: 100%;text-align: center; text-indent: 0pt;text-align: center;">
-                        Số giấy phép khai thác</p>
-                </td>
-                <td style="width:85pt;padding-top: 4pt" class="border-table" bgcolor="#D1D6DB">
-                    <p style="text-indent: 0pt;text-align: left;"></p>
-                    <p class="s4" style="width: 100%;text-align: center; text-indent: 0pt;">
-                        Vĩ độ
-                    </p>
-                </td>
-                <td style="width:85pt; padding-top: 4pt" class="border-table" bgcolor="#D1D6DB">
-                    <p style="width: 100%;text-align: center; text-indent: 0pt;"></p>
-                    <p class="s4" style="width: 100%;text-align: center; text-indent: 0pt;">
-                        Kinh độ
-                    </p>
-                </td>
-                <td style="width:139pt;padding-top: 2pt" class="border-table" bgcolor="#D1D6DB">
-                    <p style="text-indent: 0pt;text-align: left;"></p>
-                    <p class="s4" style="width: 100%;text-align: center; text-indent: 0pt;">
-                        Tên loài thủy sản
-                    </p>
-                </td>
-                <td style="width:85pt; padding-top: 5pt" class="border-table" bgcolor="#D1D6DB">
-                    <p class="s4" style="width: 100%;text-align: center; text-indent: 0pt;">
-                        Khối lượng (kg)</p>
-                </td>
-            </tr>
-            ${duLieu?.thumua.map(line => `
-            <tr style="height:24pt">
-                <td style="width:28pt; padding: 5pt"" class="border-table">
-                    <p style="width: 100%;text-align: center; text-indent: 0pt;">${countfirst++}</p>
-                </td>
-                <td style="width:85pt;padding: 5pt"" class="border-table">
-                    <p style="width: 100%;text-align: center; text-indent: 0pt;">${line?.ngaythang}</p>
-                </td>
-                <td style="width:85pt;padding: 5pt"" class="border-table">
-                    <p style="width: 100%;text-align: center; text-indent: 0pt;">${line?.tm_ct_bstau}</p>
-                </td>
-                <td style="width:57pt;padding: 5pt"" class="border-table">
-                    <p style="width: 100%;text-align: center; text-indent: 0pt;">${line?.tm_ct_gpkt}</p>
-                </td>
-                <td style="width:85pt;padding: 5pt"" class="border-table">
-                    <p style="width: 100%;text-align: center; text-indent: 0pt;">${line?.tm_ct_vt_vido}</p>
-                </td>
-                <td style="width:85pt;padding: 5pt"" class="border-table">
-                    <p style="width: 100%;text-align: center; text-indent: 0pt;">${line?.tm_ct_vt_kinhdo}</p>
-                </td>
-                <td style="width:139pt;padding: 5pt"" class="border-table">
-                    <p style="width: 100%;text-align: center; text-indent: 0pt;">${line?.daban_ct_loai}</p>
-                </td>
-                <td style="width:85pt;padding: 5pt"" class="border-table">
-                    <p style="width: 100%;text-align: center; text-indent: 0pt;">${line?.daban_ct_khoiluong}</p>
-                </td>
-                <td style="width:113pt;padding: 5pt"" class="border-table">
-                    <p style="width: 100%;text-align: center; text-indent: 0pt;">${line?.tm_ct_thuyentruong}</p>
-                </td>
-    
-            </tr>
-            `).join('')}
-            <tr style="height: 25pt; " class="border-table" bgcolor="#D1D6DB">
-                <td colspan="7" bgcolor="#D1D6DB" style="text-align: center;">
-                    <p class="s4" style="text-indent: 0pt;padding-top: 5pt">
-                        Tổng sản lượng các loài thủy sản chủ yếu (kg)</p>
-                </td>
-                <td style="width:139pt; padding-top: 5pt" class="border-table">
-                    <p style="width: 100%;text-align: center; text-indent: 0pt;">${tongThuMua} </p>
-                </td>
-                <td style="width:139pt;" class="border-table">
-                    <p style="width: 100%;text-align: center; text-indent: 0pt;"></p>
-                </td>
-            </tr>
-        </table>
-        </div>
-        <p class="s6" style="padding-top: 6pt;padding-left: 65%;text-indent: 0pt;text-align: center;font-size: 10pt;">
-            Ngày ...... tháng ....... năm .......</p>
-        <p
-            style="padding-top: 7pt;padding-left: 60%;text-indent: 0pt;line-height: 113%;text-align: center;font-size: 10pt;">
-            Thuyền trưởng <i>(ký, ghi rõ họ và tên)</i></p>
-    </body>
-    
-    </html>
+        
+                </div>
+                <!-- end -->
+        
+                <div style="float: right;">
+                    <div class="chuKy">
+                        <div class="s6">
+                            Ngày ...... tháng ...... năm ......
+        
+                        </div>
+                        <h1>
+                            Thuyền trưởng
+        
+                        </h1>
+                        <div class="s6 new-page">
+                            (ký, ghi rõ họ và tên)
+                        </div>
+                    </div>
+                </div>
+                <div style="float: left;margin: 8pt 8pt 8pt 8pt ">
+                    <div>
+                        <h1>
+                            Ghi chú:
+                        </h1>
+                        <div class="s2 new-page">
+                            * Đối với nghề lưới kéo, ghi cụ thể tên loài thủy sản có thể xuất khẩu và các loài khác:
+                        </div>
+                    </div>
+                </div>
+                <br><br><br>
+            </div>
+            <!-- end -->
+            <div class="new-page">
+                <h1 style="padding-top: 7pt;padding-left: 18pt;text-align: left;">
+                    II. THÔNG TIN VỀ HOẠT ĐỘNG CHUYỂN TẢI (nếu có)
+                </h1>
+                <div style="overflow-x:auto;">
+                    <table cellspacing="0"
+                        style="width:100%; height: auto; table-layout: fixed; overflow-wrap: break-word;">
+                        <tr>
+                            <td style="text-align: center; vertical-align: middle; width: 10%;" rowspan="2"
+                                bgcolor="#D1D6DB">
+                                <div class="s4">
+                                   TT
+                                </div>
+                            </td>
+                            <td style="text-align: center; vertical-align: middle; width: 14%;" rowspan="2"
+                                bgcolor="#D1D6DB">
+                                <p class="s4">
+                                    Ngày, tháng</p>
+                            </td>
+        
+                            <td style="text-align: center; vertical-align: middle; width: 19%;" colspan="2"
+                                bgcolor="#D1D6DB">
+                                <p class="s4">
+                                    Thông tin tàu thu mua/chuyển tải </p>
+                            </td>
+        
+                            <td style="width: 19%;" class="center-table" colspan="2" bgcolor="#D1D6DB">
+                                <p class="s4">
+                                    Vị trí thu mua/chuyển tải</p>
+                            </td>
+                            <td style="width: 19%;" class="center-table" colspan="2" bgcolor="#D1D6DB">
+                                <p class="s4">
+                                    Đã bán/chuyển tải</p>
+                            </td>
+                            <td style="width: 19%;" class="center-table" rowspan="2" bgcolor="#D1D6DB">
+                                <p class="s4">
+                                    Thuyền trưởng tàu thu mua/chuyển tải (ký, ghi gõ họ tên)</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width: 7%;" class="s4 center-table" bgcolor="#D1D6DB">
+                                Số đăng ký tàu
+        
+                            </td>
+                            <td style="width: 7%;" class="s4 center-table" bgcolor="#D1D6DB">
+                                Số giấy phép khai thác
+                            </td>
+                            <td style="width: 7%;" class="s4 center-table" bgcolor="#D1D6DB">
+                                Vĩ độ
+                            </td>
+                            <td style="width: 7%;" class="s4 center-table" bgcolor="#D1D6DB">
+                                Kinh độ
+                            </td>
+        
+                            <td style="width: 7%;" class="s4 center-table" bgcolor="#D1D6DB">
+                                Tên loài thủy sản
+        
+                            </td>
+                            <td style="width: 7%;" class="s4 center-table" bgcolor="#D1D6DB">
+                                Khối lượng (kg)
+                            </td>  
+                        </tr>
+                        ${duLieu?.thumua.map((line,index) => {
 
-  `;
+                            klg+=Number(line?.daban_ct_khoiluong);
+                            
+                        return `
+                        <tr>
+                            <td class="s5 center-table">
+                                ${index+1}
+                            </td>
+        
+                            <td class="center-table">
+                                <p style="width: 100%;" class="s5">
+                                    ${line?.ngaythang?moment(line?.ngaythang).format('DD-MM-YYYY'):''}
+                                </p>
+                            </td>
+                            <td class="s5 center-table">
+                                ${line?.tm_ct_bstau}
+                            </td>
+                            <td class="s5 center-table">
+                                ${line?.tm_ct_gpkt}
+                            </td>
+                            <td class="center-table">
+                                <p style="width: 100%;" class="s5">
+                                ${line?.tm_ct_vt_vido}
+                                </p>
+                            </td>
+                            <td class="s5 center-table">
+                                ${line?.tm_ct_vt_kinhdo}
+                            </td>
+                            <td class="s5 center-table">
+                                ${line?.daban_ct_loai}
+                            </td>
+                            <td class="s5 center-table">
+                                ${line?.daban_ct_khoiluong==0?'':line?.daban_ct_khoiluong}
+                            </td>
+                            <td class="s5 center-table">
+                                ${line?.tm_ct_thuyentruong}
+                            </td>
+                            
+                        </tr>
+                        `}).join('')}
+        
+                        <tr>
+                            <td class="s5 center-table" colspan="7">
+                                Tổng khối lượng
+                            </td>
+        
+                            <td class="center-table s5">
+                                ${klg==0?'':klg}
+                            </td>
+                            <td class="center-table s5">
+                                <br>
+                            </td>
+                        </tr>
+                    </table>
+        
+                </div>
+                <!-- end -->
+        
+                <div style="float: right;">
+                    <div class="chuKy">
+                        <div class="s6">
+                            Ngày ...... tháng ...... năm ......
+        
+                        </div>
+                        <h1>
+                            Thuyền trưởng
+        
+                        </h1>
+                        <div class="s6 new-page">
+                            (ký, ghi rõ họ và tên)
+                        </div>
+                    </div>
+                </div>
+        
+                <br><br><br>
+            </div>
+        
+            </body>
+        
+        </html>`;
         const options = {
             html,
             fileName: `${duLieu?.dairy_name}`,
@@ -780,6 +807,7 @@ export const ExportPDF = async (data) => {
 
         // setIsLoading(false);
     } catch (error) {
+        console.log(error);
         return false;
         Alert.alert('Lỗiiiiiii', error.message);
     }
