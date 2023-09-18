@@ -599,8 +599,10 @@ export const PrintfPDF = async (data) => {
                                     ${totalByType[8]==0?'':totalByType[8]}
                                 </td>
                                 <td class="center-table s5">
-                                    ${totalByType[0]+totalByType[1]+totalByType[2]+totalByType[3]+totalByType[4]+totalByType[5]==0?'':totalByType[0]+totalByType[1]+totalByType[2]+totalByType[3]+totalByType[4]+totalByType[5]+totalByType[6]+totalByType[7]+totalByType[8]}
-                                </td>
+                                ${(totalByType[0] + totalByType[1] + totalByType[2] + totalByType[3] + totalByType[4] + totalByType[5] + totalByType[6] + totalByType[7] + totalByType[8])
+                                    ==0?'':
+                                (totalByType[0] + totalByType[1] + totalByType[2] + totalByType[3] + totalByType[4] + totalByType[5] + totalByType[6] + totalByType[7] + totalByType[8])}
+                            </td>
                             </tr>
                         </table>
             
@@ -713,27 +715,27 @@ export const PrintfPDF = async (data) => {
                                     </p>
                                 </td>
                                 <td class="s5 center-table">
-                                    ${line?.tm_ct_bstau}
+                                    ${line?.tm_ct_bstau||''}
                                 </td>
                                 <td class="s5 center-table">
-                                    ${line?.tm_ct_gpkt}
+                                    ${line?.tm_ct_gpkt||''}
     </td>
                                 <td class="center-table">
                                     <p style="width: 100%;" class="s5">
-                                    ${line?.tm_ct_vt_vido}
+                                    ${line?.tm_ct_vt_vido||''}
                                     </p>
                                 </td>
                                 <td class="s5 center-table">
-                                    ${line?.tm_ct_vt_kinhdo}
+                                    ${line?.tm_ct_vt_kinhdo||''}
                                 </td>
                                 <td class="s5 center-table">
-                                    ${line?.daban_ct_loai}
+                                    ${line?.daban_ct_loai||''}
                                 </td>
                                 <td class="s5 center-table">
-                                    ${line?.daban_ct_khoiluong==0?'':line?.daban_ct_khoiluong}
+                                    ${line?.daban_ct_khoiluong==0?'':line?.daban_ct_khoiluong||''}
                                 </td>
                                 <td class="s5 center-table">
-                                    ${line?.tm_ct_thuyentruong}
+                                    ${line?.tm_ct_thuyentruong||''}
                                 </td>
                                 
                             </tr>
@@ -745,7 +747,7 @@ export const PrintfPDF = async (data) => {
                                 </td>
             
                                 <td class="center-table s5">
-                                    ${klg==0?'':klg}
+                                    ${klg==0?'':klg||''}
                                 </td>
                                 <td class="center-table s5">
                                     <br>
