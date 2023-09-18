@@ -815,7 +815,7 @@ const styles = StyleSheet.create({
     borderColor: '#0099FF',
     borderWidth: 1,
     width: widthLoai,
-    height: 40,
+    height: 44,
     color: 'black',
     textAlign: 'center', // Center text horizontally
     textAlignVertical: 'center',
