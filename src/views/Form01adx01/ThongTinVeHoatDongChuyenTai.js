@@ -328,7 +328,7 @@ const ThongTinVeHoatDongChuyenTai = () => {
             <TextInput
               keyboardType="numeric"
               style={styles.textDate}
-              value={moment(item.ngaythang).format('DD/MM/YYYY hh:mm')}
+              value={moment(item.ngaythang).format('DD/MM/YYYY')}
               onChangeText={text => handleChangeDate(text, item.id)}
             />
             <CustomDateTimePicker

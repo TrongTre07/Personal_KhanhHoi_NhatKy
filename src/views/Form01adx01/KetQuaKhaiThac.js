@@ -420,7 +420,7 @@ const KetQuaKhaiThac = () => {
             <TextInput
               keyboardType="numeric"
               style={styles.textDate}
-              value={moment(item.thoidiem_tha).format('DD/MM/YYYY hh:mm')}
+              value={moment(item.thoidiem_tha).format('DD/MM/YYYY HH:mm')}
               onChangeText={text => handleChangeDateTha(text, item.id)}
             />
             <CustomDateTimePicker
@@ -455,7 +455,7 @@ const KetQuaKhaiThac = () => {
             <TextInput
               keyboardType="numeric"
               style={styles.textDate}
-              value={moment(item.thoidiem_thu).format('DD/MM/YYYY hh:mm')}
+              value={moment(item.thoidiem_thu).format('DD/MM/YYYY HH:mm')}
               onChangeText={text => handleChangeDateThu(text, item.id)}
             />
             <CustomDateTimePicker
