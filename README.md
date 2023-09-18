@@ -1,14 +1,32 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+# This is a React Native Project developed in Tablet flatform :tada:
 
-# Getting Started
 
->**Note**: Make sure you have completed the [React Native - Environment Setup](https://reactnative.dev/docs/environment-setup) instructions till "Creating a new application" step, before proceeding.
+# KhanhHoi Personal - React Native Tablet Project :rocket:
 
-## Step 1: Start the Metro Server
 
-First, you will need to start **Metro**, the JavaScript _bundler_ that ships _with_ React Native.
+## Project Overview
 
-To start Metro, run the following command from the _root_ of your React Native project:
+<div align="center">
+  <img src="https://github.com/TrongTre07/KhanhHoi_Personel/assets/97241232/bcfaa941-6c3d-4a32-881c-7aef13030f9c" width="30%"/>
+  <img src="https://github.com/TrongTre07/KhanhHoi_Personel/assets/97241232/a39ab903-0c93-45ab-8f6b-17e3992f6e08" width="30%"/>
+  <img src="https://github.com/TrongTre07/KhanhHoi_Personel/assets/97241232/3121b938-08e4-416c-88d5-6ac7eae5a827" width="30%"/>
+  <img src="https://github.com/TrongTre07/KhanhHoi_Personel/assets/97241232/a8e1abf0-aa6e-4387-8e31-9275bb44f4a9" width="30%"/>
+  <img src="https://github.com/TrongTre07/Personal_KhanhHoi_NhatKy/assets/97241232/77a541f9-84ee-405c-8950-c25e8085929c" width="30%"/>
+  <img src="https://github.com/TrongTre07/Personal_KhanhHoi_NhatKy/assets/97241232/590b8389-bc5d-402d-976b-85f3f9dc8333" width="30%"/>
+  <img src="https://github.com/TrongTre07/Personal_KhanhHoi_NhatKy/assets/97241232/d1b44652-c846-4638-86cb-e87944db73c5" width="30%"/>
+  <img src="https://github.com/TrongTre07/Personal_KhanhHoi_NhatKy/assets/97241232/230148e0-61e5-4758-8c41-24b7f57a97bb" width="30%"/>
+  <img src="https://github.com/TrongTre07/Personal_KhanhHoi_NhatKy/assets/97241232/b6972a1f-22a6-4a8e-875c-1a9f61f4dc54" width="30%"/>
+
+
+</div>
+
+## Getting Started :memo:
+
+> **Note**: Make sure you have completed the [React Native - Environment Setup](https://reactnative.dev/docs/environment-setup) instructions up to the "Creating a new application" step before proceeding.
+
+### Step 1: Start the Metro Server
+
+First, you need to start **Metro**, the JavaScript bundler that ships with React Native. To start Metro, run the following command from the root of your React Native project:
 
 ```bash
 # using npm
@@ -16,7 +34,7 @@ npm start
 
 # OR using Yarn
 yarn start
-```
+
 
 ## Step 2: Start your Application
 
@@ -59,21 +77,3 @@ Now that you have successfully run the app, let's modify it.
 
 You've successfully run and modified your React Native App. :partying_face:
 
-### Now what?
-
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [Introduction to React Native](https://reactnative.dev/docs/getting-started).
-
-# Troubleshooting
-
-If you can't get this to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
-
-# Learn More
-
-To learn more about React Native, take a look at the following resources:
-
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
