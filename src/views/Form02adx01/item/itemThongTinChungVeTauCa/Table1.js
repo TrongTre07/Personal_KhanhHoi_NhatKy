@@ -230,7 +230,7 @@ const Table1 = ({selectedItem}) => {
             }}
             keyboardType="numeric"
             value={
-              data0201.thongtintaudc_thumua[selectedItem].tau_chieudailonnhat
+              data0201.thongtintaudc_thumua[selectedItem]?.tau_chieudailonnhat
             }
             style={[styles.input, styles.text]}
           />
@@ -244,7 +244,7 @@ const Table1 = ({selectedItem}) => {
             handleChangeTongCongSuatMayChinh(text);
           }}
           value={
-            data0201.thongtintaudc_thumua[selectedItem].tau_tongcongsuatmaychinh
+            data0201.thongtintaudc_thumua[selectedItem]?.tau_tongcongsuatmaychinh
           }
           style={[styles.input, styles.text]}
         />
@@ -258,7 +258,7 @@ const Table1 = ({selectedItem}) => {
             onChangeText={text => {
               handleChangeSoGiayPhepKhaiThac(text);
             }}
-            value={data0201.thongtintaudc_thumua[selectedItem].gpkt_so}
+            value={data0201.thongtintaudc_thumua[selectedItem]?.gpkt_so}
             style={[styles.input, styles.text]}
           />
           <Text style={styles.text}>;</Text>
@@ -270,7 +270,7 @@ const Table1 = ({selectedItem}) => {
               handleChangeThoiHan(text);
             }}
             value={moment(
-              data0201.thongtintaudc_thumua[selectedItem].gpkt_thoihan,
+              data0201.thongtintaudc_thumua[selectedItem]?.gpkt_thoihan,
             ).format('DD/MM/YYYY')}
             style={[styles.input, styles.text]}
             // editable={false}
@@ -291,7 +291,7 @@ const Table1 = ({selectedItem}) => {
           onChangeText={text => {
             handleChangeNgheKhaiThac(text);
           }}
-          value={data0201.thongtintaudc_thumua[selectedItem].nghekt}
+          value={data0201.thongtintaudc_thumua[selectedItem]?.nghekt}
           style={[styles.input, styles.text]}
         />
         <Text style={styles.text}>;</Text>
@@ -304,7 +304,7 @@ const Table1 = ({selectedItem}) => {
             onChangeText={text => {
               handleChangeCangDi(text);
             }}
-            value={data0201.thongtintaudc_thumua[selectedItem].cang_di}
+            value={data0201.thongtintaudc_thumua[selectedItem]?.cang_di}
             style={[styles.input, styles.text]}
           />
           <Text style={styles.text}>;</Text>
@@ -316,7 +316,7 @@ const Table1 = ({selectedItem}) => {
               handleChangeNgayDi(text);
             }}
             value={moment(
-              data0201.thongtintaudc_thumua[selectedItem].ngay_di,
+              data0201.thongtintaudc_thumua[selectedItem]?.ngay_di,
             ).format('DD/MM/YYYY')}
             style={[styles.input, styles.text]}
           />
@@ -339,7 +339,7 @@ const Table1 = ({selectedItem}) => {
               handleChangeKhaiThacTuNgay(text);
             }}
             value={moment(
-              data0201.thongtintaudc_thumua[selectedItem].tg_khaithac_tungay,
+              data0201.thongtintaudc_thumua[selectedItem]?.tg_khaithac_tungay,
             ).format('DD/MM/YYYY')}
             style={[styles.input, styles.text]}
             // editable={false}
@@ -357,7 +357,7 @@ const Table1 = ({selectedItem}) => {
               handleChangeKhaiThacDenNgay(text);
             }}
             value={moment(
-              data0201.thongtintaudc_thumua[selectedItem].tg_khaithac_denngay,
+              data0201.thongtintaudc_thumua[selectedItem]?.tg_khaithac_denngay,
             ).format('DD/MM/YYYY')}
             style={[styles.input, styles.text]}
             // editable={false}

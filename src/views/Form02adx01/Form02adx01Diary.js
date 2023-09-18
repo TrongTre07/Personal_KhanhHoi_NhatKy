@@ -66,8 +66,20 @@ const Form02adx01Diary = ({navigation}) => {
   };
 
   const sortListForm = (a, b) => {
-    const dateA = new Date(a.date_modified);
-    const dateB = new Date(b.date_modified);
+    let a_date;
+    if (new Date(a.date_create) > new Date(a.date_modified)) {
+      a_date = new Date(a.date_create);
+    } else {
+      a_date = new Date(a.date_modified);
+    }
+    let b_date;
+    if (new Date(b.date_create) > new Date(b.date_modified)) {
+      b_date = new Date(b.date_create);
+    } else {
+      b_date = new Date(b.date_modified);
+    }
+    const dateA = new Date(a_date);
+    const dateB = new Date(b_date);
     return dateA - dateB;
   };
 
@@ -100,10 +112,10 @@ const Form02adx01Diary = ({navigation}) => {
         {
           text: 'Xoá',
           onPress: async () => {
-            setIsPDFLoading(true)
+            setIsPDFLoading(true);
             await deleteForm0201Id(id);
             fetchdata();
-            setIsPDFLoading(false)
+            setIsPDFLoading(false);
           },
         },
       ],
@@ -146,7 +158,7 @@ const Form02adx01Diary = ({navigation}) => {
           // }
           // setCheckForm(true);
           // handleGeneratePDF(id);
-setIsPDFLoading(true)
+          setIsPDFLoading(true);
           let dataTemp;
           if (netInfo.isConnected) {
             dataTemp = await getDetailForm0201Id(id);
@@ -160,7 +172,7 @@ setIsPDFLoading(true)
             }
           }
           const result = await ExportPDF(dataTemp);
-          setIsPDFLoading(false)
+          setIsPDFLoading(false);
           result
             ? navigation.navigate('ViewPDF')
             : Alert.alert('Thất bại', `không thể xem file pdf`);
@@ -186,7 +198,7 @@ setIsPDFLoading(true)
           //   return;
           // }
           // handleGeneratePDF(id);
-setIsPDFLoading(true)
+          setIsPDFLoading(true);
           let tempData;
           if (netInfo.isConnected) {
             tempData = await getDetailForm0201Id(id);
@@ -199,7 +211,7 @@ setIsPDFLoading(true)
           }
           if (tempData) ExportPDF(tempData);
           else Alert.alert('Thất bại', `không thể tải file pdf`);
-          setIsPDFLoading(false)
+          setIsPDFLoading(false);
         }}>
         <View style={[styles.btn, {backgroundColor: '#FF99FF'}]}>
           <Text style={styles.btnText}>Tải xuống</Text>
@@ -222,7 +234,7 @@ setIsPDFLoading(true)
           //   return;
           // }
           // handerlePrintPDF(id)
-          setIsPDFLoading(true)
+          setIsPDFLoading(true);
           let tempData;
           if (netInfo.isConnected) {
             tempData = await getDetailForm0201Id(id);
@@ -236,7 +248,7 @@ setIsPDFLoading(true)
           console.log('tempData: ', tempData);
           if (tempData) PrintfPDF(tempData);
           else Alert.alert('Thất bại', `không thể in file pdf`);
-          setIsPDFLoading(false)
+          setIsPDFLoading(false);
         }}>
         <View style={[styles.btn, {backgroundColor: '#C0C0C0'}]}>
           <Text style={styles.btnText}>In</Text>

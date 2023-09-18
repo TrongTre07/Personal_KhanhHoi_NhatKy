@@ -8,9 +8,9 @@ import {
   RefreshControl,
   ToastAndroid,
 } from 'react-native';
-import React, { useContext, useEffect, useState, useCallback } from 'react';
-import { UserContext } from '../../contexts/UserContext';
-import { ExportPDF } from './pdfForm0401/ExportPDF';
+import React, {useContext, useEffect, useState, useCallback} from 'react';
+import {UserContext} from '../../contexts/UserContext';
+import {ExportPDF} from './pdfForm0401/ExportPDF';
 import {
   Table,
   TableWrapper,
@@ -19,14 +19,14 @@ import {
   Col,
 } from 'react-native-table-component';
 
-import { useFocusEffect, useNavigation } from '@react-navigation/native';
-import { useNetInfo } from '@react-native-community/netinfo';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
+import {useNetInfo} from '@react-native-community/netinfo';
 import Storage from '../../utils/storage';
 
 import moment from 'moment';
-import { PrintfPDF } from './pdfForm0401/PrintfPDF';
+import {PrintfPDF} from './pdfForm0401/PrintfPDF';
 import Spinner from 'react-native-loading-spinner-overlay';
-const Form04adx01Diary = ({ navigation }) => {
+const Form04adx01Diary = ({navigation}) => {
   const [dataDiary, setDataDiary] = useState([]);
 
   const {
@@ -40,8 +40,6 @@ const Form04adx01Diary = ({ navigation }) => {
 
   const netInfo = useNetInfo();
   const [refreshing, setRefreshing] = React.useState(false);
-
-  
 
   useEffect(() => {
     if (!isLoggedIn) {
@@ -59,15 +57,26 @@ const Form04adx01Diary = ({ navigation }) => {
       }
       setDataDiary(rawDiary);
       setRefreshing(false);
-    } catch (error) { }
+    } catch (error) {}
   };
 
   const sortListForm = (a, b) => {
-    const dateA = new Date(a.dateedit);
-    const dateB = new Date(b.dateedit);
+    let a_date;
+    if (new Date(a.datecreate) >= new Date(a.dateedit)) {
+      a_date = new Date(a.datecreate);
+    } else {
+      a_date = new Date(a.dateedit);
+    }
+    let b_date;
+    if (new Date(b.datecreate) >= new Date(b.dateedit)) {
+      b_date = new Date(b.datecreate);
+    } else {
+      b_date = new Date(b.dateedit);
+    }
+    const dateA = new Date(a_date);
+    const dateB = new Date(b_date);
     return dateA - dateB;
   };
-
 
   const getDataLocal = async () => {
     const result = await Storage.getItem('form04adx01');
@@ -81,11 +90,8 @@ const Form04adx01Diary = ({ navigation }) => {
   // nếu không có wifi, lấy data từ local
   useFocusEffect(
     useCallback(() => {
-      if (netInfo.isConnected)
-         fetchdata();
-      else 
-         getDataLocal();
-
+      if (netInfo.isConnected) fetchdata();
+      else getDataLocal();
     }, [netInfo.isConnected]),
   );
 
@@ -102,14 +108,14 @@ const Form04adx01Diary = ({ navigation }) => {
         {
           text: 'Xoá',
           onPress: async () => {
-            setIsPDFLoading(true)
+            setIsPDFLoading(true);
             await deleteForm0401Id(id);
             fetchdata();
-            setIsPDFLoading(false)
+            setIsPDFLoading(false);
           },
         },
       ],
-      { cancelable: false },
+      {cancelable: false},
     );
   };
 
@@ -134,9 +140,8 @@ const Form04adx01Diary = ({ navigation }) => {
           },
         },
       ],
-      { cancelable: false },
+      {cancelable: false},
     );
-
   };
 
   //btn
@@ -144,7 +149,7 @@ const Form04adx01Diary = ({ navigation }) => {
     <View style={styles.boxbtn}>
       <TouchableOpacity
         onPress={async () => {
-setIsPDFLoading(true)
+          setIsPDFLoading(true);
           let dataTemp;
           if (netInfo.isConnected) {
             dataTemp = await getDetailForm0401Id(id);
@@ -158,7 +163,7 @@ setIsPDFLoading(true)
             }
           }
           const result = await ExportPDF(dataTemp);
-          setIsPDFLoading(false)
+          setIsPDFLoading(false);
           result
             ? navigation.navigate('ViewPDF')
             : Alert.alert('Thất bại', `không thể xem file pdf`);
@@ -179,7 +184,7 @@ setIsPDFLoading(true)
       </TouchableOpacity>
       <TouchableOpacity
         onPress={async () => {
-          setIsPDFLoading(true)
+          setIsPDFLoading(true);
           let tempData;
           if (netInfo.isConnected) {
             tempData = await getDetailForm0401Id(id);
@@ -192,7 +197,7 @@ setIsPDFLoading(true)
           }
           if (tempData) ExportPDF(tempData);
           else Alert.alert('Thất bại', `không thể tải file pdf`);
-          setIsPDFLoading(false)
+          setIsPDFLoading(false);
         }}>
         <View style={[styles.btn, {backgroundColor: '#FF99FF'}]}>
           <Text style={styles.btnText}>Tải xuống</Text>
@@ -210,7 +215,7 @@ setIsPDFLoading(true)
       </TouchableOpacity>
       <TouchableOpacity
         onPress={async () => {
-          setIsPDFLoading(true)
+          setIsPDFLoading(true);
           let tempData;
           if (netInfo.isConnected) {
             tempData = await getDetailForm0401Id(id);
@@ -224,7 +229,7 @@ setIsPDFLoading(true)
           console.log('tempData: ', tempData);
           if (tempData) PrintfPDF(tempData);
           else Alert.alert('Thất bại', `không thể in file pdf`);
-          setIsPDFLoading(false)
+          setIsPDFLoading(false);
         }}>
         <View style={[styles.btn, {backgroundColor: '#C0C0C0'}]}>
           <Text style={styles.btnText}>In</Text>
@@ -243,7 +248,7 @@ setIsPDFLoading(true)
     moment(item.tungay).format('DD/MM/YYYY'),
     moment(item.denngay).format('DD/MM/YYYY'),
     moment(item.datecreate).format('DD/MM/YYYY HH:mm'),
-    !item.dateedit?'':moment(item.dateedit).format('DD/MM/YYYY HH:mm'),
+    !item.dateedit ? '' : moment(item.dateedit).format('DD/MM/YYYY HH:mm'),
     elementButton(item.id, index),
   ]);
 
@@ -267,25 +272,28 @@ setIsPDFLoading(true)
 
   return (
     <View style={styles.container}>
-      <ScrollView 
+      <ScrollView
         // style={{width:800}}
         vertical={true}
         // onRefresh={fetchdata}
         showsVerticalScrollIndicator={false}
         refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={()=>fetchdata()} />
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={() => fetchdata()}
+          />
         }>
-        <Table borderStyle={{ borderWidth: 1}}>
+        <Table borderStyle={{borderWidth: 1}}>
           <Row
             data={state.tableHead}
-            flexArr={[0.8,2,2,2,2,2,2,2,2,2,3 ]}
+            flexArr={[0.8, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3]}
             style={styles.head}
             textStyle={styles.textHead}
           />
           <TableWrapper style={styles.wrapper}>
             <Rows
               data={state.tableColum}
-              flexArr={[0.8,2,2,2,2,2,2,2,2,2,3 ]}
+              flexArr={[0.8, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3]}
               style={styles.row}
               textStyle={styles.text}
             />
@@ -324,7 +332,7 @@ const styles = StyleSheet.create({
   text: {
     textAlign: 'center',
     padding: 3,
-    fontSize: 12, 
+    fontSize: 12,
     color: '#000',
   },
   textHead: {

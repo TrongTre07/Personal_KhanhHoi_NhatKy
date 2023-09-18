@@ -102,6 +102,7 @@ const UserProvider = ({children}) => {
         return false;
       }
       setIsLoading(false);
+      setInitialTitle('');
       return true;
     } catch (error) {
       setIsLoading(false);
@@ -109,6 +110,7 @@ const UserProvider = ({children}) => {
       //   getAlert401();
       // }
       console.log('POST 0101 ERROR: ', error);
+      setInitialTitle('');
       return false;
     }
   };
@@ -169,6 +171,7 @@ const UserProvider = ({children}) => {
       if (error.response.status === 401) {
         getAlert401();
       }
+      setInitialTitle('');
       console.log('ERROR: ', error);
     }
   };
@@ -192,6 +195,7 @@ const UserProvider = ({children}) => {
         ]);
       }
       setIsLoading(false);
+      setInitialTitle('');
     } catch (error) {
       setIsLoading(false);
       console.log('ERROR UPDATE: ', error);
@@ -206,6 +210,7 @@ const UserProvider = ({children}) => {
             },
           },
         ]);
+      setInitialTitle('');
     }
   };
   //end
@@ -262,6 +267,7 @@ const UserProvider = ({children}) => {
       }
       console.log('ERROR: ', error);
       setIsLoading(false);
+      setInitialTitle('');
     }
   };
 
@@ -275,6 +281,8 @@ const UserProvider = ({children}) => {
         return false;
       }
       setIsLoading(false);
+      setInitialTitle('');
+
       return true;
     } catch (error) {
       setIsLoading(false);
@@ -291,6 +299,7 @@ const UserProvider = ({children}) => {
             },
           },
         ]);
+      setInitialTitle('');
       console.log('POST ERROR: ', error);
       return false;
     }
@@ -314,6 +323,7 @@ const UserProvider = ({children}) => {
           },
         ]);
       }
+      setInitialTitle('');
     } catch (error) {
       console.log('ERROR UPDATE: ', error);
       if (error.response.status === 401) {
@@ -327,6 +337,7 @@ const UserProvider = ({children}) => {
             },
           },
         ]);
+      setInitialTitle('');
     }
   };
 
@@ -399,6 +410,8 @@ const UserProvider = ({children}) => {
         return false;
       }
       setIsLoading(false);
+      setInitialTitle('');
+
       return true;
     } catch (error) {
       setIsLoading(false);
@@ -416,6 +429,8 @@ const UserProvider = ({children}) => {
           },
         ]);
       console.log('POST ERROR: ', error);
+      setInitialTitle('');
+
       return false;
     }
   };
@@ -440,6 +455,7 @@ const UserProvider = ({children}) => {
           },
         ]);
       }
+      setInitialTitle('');
     } catch (error) {
       setIsLoading(false);
 
@@ -455,6 +471,7 @@ const UserProvider = ({children}) => {
             },
           },
         ]);
+      setInitialTitle('');
     }
   };
   //end
@@ -524,6 +541,8 @@ const UserProvider = ({children}) => {
         return false;
       }
       setIsLoading(false);
+      setInitialTitle('');
+
       return true;
     } catch (error) {
       setIsLoading(false);
@@ -540,6 +559,8 @@ const UserProvider = ({children}) => {
           },
         ]);
       console.log('POST ERROR: ', error);
+      setInitialTitle('');
+
       return false;
     }
   };
@@ -563,9 +584,10 @@ const UserProvider = ({children}) => {
           },
         ]);
       }
+      setInitialTitle('');
     } catch (error) {
       setIsLoading(false);
-
+      setInitialTitle('');
       console.log('ERROR UPDATE: ', error);
       if (error.response.status === 401) {
         getAlert401();
@@ -578,6 +600,7 @@ const UserProvider = ({children}) => {
             },
           },
         ]);
+      setInitialTitle('');
     }
   };
   //end
@@ -649,6 +672,8 @@ const UserProvider = ({children}) => {
         return false;
       }
       setIsLoading(false);
+      setInitialTitle('');
+
       return true;
     } catch (error) {
       setIsLoading(false);
@@ -665,6 +690,8 @@ const UserProvider = ({children}) => {
           },
         ]);
       console.log('POST ERROR: ', error);
+      setInitialTitle('');
+
       return false;
     }
   };
@@ -688,6 +715,7 @@ const UserProvider = ({children}) => {
           },
         ]);
       }
+      setInitialTitle('');
     } catch (error) {
       setIsLoading(false);
 
@@ -703,6 +731,7 @@ const UserProvider = ({children}) => {
             },
           },
         ]);
+      setInitialTitle('');
     }
   };
   //end
@@ -774,6 +803,8 @@ const UserProvider = ({children}) => {
         return false;
       }
       setIsLoading(false);
+      setInitialTitle('');
+
       return true;
     } catch (error) {
       setIsLoading(false);
@@ -790,6 +821,8 @@ const UserProvider = ({children}) => {
           },
         ]);
       console.log('POST ERROR: ', error);
+      setInitialTitle('');
+
       return false;
     }
   };
@@ -814,6 +847,7 @@ const UserProvider = ({children}) => {
           },
         ]);
       }
+      setInitialTitle('');
     } catch (error) {
       setIsLoading(false);
 
@@ -829,6 +863,7 @@ const UserProvider = ({children}) => {
             },
           },
         ]);
+      setInitialTitle('');
     }
   };
   //end
@@ -900,6 +935,8 @@ const UserProvider = ({children}) => {
         return false;
       }
       setIsLoading(false);
+      setInitialTitle('');
+
       return true;
     } catch (error) {
       setIsLoading(false);
@@ -916,6 +953,8 @@ const UserProvider = ({children}) => {
           },
         ]);
       console.log('POST ERROR: ', error);
+      setInitialTitle('');
+
       return false;
     }
   };
@@ -939,6 +978,7 @@ const UserProvider = ({children}) => {
           },
         ]);
       }
+      setInitialTitle('');
     } catch (error) {
       setIsLoading(false);
 
@@ -954,6 +994,7 @@ const UserProvider = ({children}) => {
             },
           },
         ]);
+      setInitialTitle('');
     }
   };
   //end
@@ -1025,6 +1066,8 @@ const UserProvider = ({children}) => {
         return false;
       }
       setIsLoading(false);
+      setInitialTitle('');
+
       return true;
     } catch (error) {
       setIsLoading(false);
@@ -1041,6 +1084,8 @@ const UserProvider = ({children}) => {
           },
         ]);
       console.log('POST ERROR: ', error);
+      setInitialTitle('');
+
       return false;
     }
   };
@@ -1064,6 +1109,7 @@ const UserProvider = ({children}) => {
           },
         ]);
       }
+      setInitialTitle('');
     } catch (error) {
       setIsLoading(false);
 
@@ -1079,6 +1125,7 @@ const UserProvider = ({children}) => {
             },
           },
         ]);
+      setInitialTitle('');
     }
   };
   //end
@@ -1155,6 +1202,8 @@ const UserProvider = ({children}) => {
         return false;
       }
       setIsLoading(false);
+      setInitialTitle('');
+
       return true;
     } catch (error) {
       setIsLoading(false);
@@ -1171,6 +1220,8 @@ const UserProvider = ({children}) => {
           },
         ]);
       console.log('POST ERROR: ', error);
+      setInitialTitle('');
+
       return false;
     }
   };
@@ -1195,6 +1246,7 @@ const UserProvider = ({children}) => {
           },
         ]);
       }
+      setInitialTitle('');
     } catch (error) {
       setIsLoading(false);
 
@@ -1210,6 +1262,7 @@ const UserProvider = ({children}) => {
             },
           },
         ]);
+      setInitialTitle('');
     }
   };
   //end
@@ -1286,6 +1339,8 @@ const UserProvider = ({children}) => {
         return false;
       }
       setIsLoading(false);
+      setInitialTitle('');
+
       return true;
     } catch (error) {
       setIsLoading(false);
@@ -1302,6 +1357,8 @@ const UserProvider = ({children}) => {
           },
         ]);
       console.log('POST ERROR: ', error);
+      setInitialTitle('');
+
       return false;
     }
   };
@@ -1326,6 +1383,7 @@ const UserProvider = ({children}) => {
           },
         ]);
       }
+      setInitialTitle('');
     } catch (error) {
       setIsLoading(false);
 
@@ -1341,6 +1399,7 @@ const UserProvider = ({children}) => {
             },
           },
         ]);
+      setInitialTitle('');
     }
   };
   //end

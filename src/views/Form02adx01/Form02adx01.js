@@ -231,8 +231,8 @@ const Form02ad01 = ({route}) => {
 
   React.useEffect(() => {
     const backAction = () => {
-      setData0201(data0201Empty);
       navigation.goBack();
+      setData0201(data0201Empty);
       return true;
     };
 

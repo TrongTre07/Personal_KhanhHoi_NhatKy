@@ -104,8 +104,20 @@ const Form01adx01Diary = ({navigation}) => {
   };
 
   const sortListForm = (a, b) => {
-    const dateA = new Date(a.date_modified);
-    const dateB = new Date(b.date_modified);
+    let a_date;
+    if (new Date(a.date_create) > new Date(a.date_modified)) {
+      a_date = new Date(a.date_create);
+    } else {
+      a_date = new Date(a.date_modified);
+    }
+    let b_date;
+    if (new Date(b.date_create) > new Date(b.date_modified)) {
+      b_date = new Date(b.date_create);
+    } else {
+      b_date = new Date(b.date_modified);
+    }
+    const dateA = new Date(a_date);
+    const dateB = new Date(b_date);
     return dateA - dateB;
   };
 
