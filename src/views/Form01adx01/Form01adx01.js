@@ -38,7 +38,7 @@ const Form01adx01 = ({route}) => {
   const [initialValue, setInitialValue] = useState('');
 
   const {isLoading} = useContext(UserContext);
-  const {initialTitle} = useContext(UserContext);
+  const {initialTitle, setInitialTitle} = useContext(UserContext);
 
   const netInfo = useNetInfo();
   const navigation = useNavigation();
@@ -54,6 +54,7 @@ const Form01adx01 = ({route}) => {
       if (netInfo.isConnected) getDetailForm0101_Id(id);
       else getDataLocal();
     } else {
+      setInitialTitle('')
       setData0101(data0101Empty);
     }
   }, [netInfo, id, setData0101]);

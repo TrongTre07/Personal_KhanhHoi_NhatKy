@@ -34,7 +34,7 @@ const Form04ad01 = ({route}) => {
   const navigation = useNavigation();
   const [isPopupVisible, setPopupVisible] = useState(false);
   const {isLoading} = useContext(UserContext);
-  const {initialTitle} = useContext(UserContext);
+  const {initialTitle, setInitialTitle} = useContext(UserContext);
   const netInfo = useNetInfo();
 
   let titleForm0401 = '';
@@ -165,6 +165,7 @@ const Form04ad01 = ({route}) => {
       if (netInfo.isConnected) getDetailForm0401Id(id);
       else getDataLocal();
     } else {
+      setInitialTitle('');
       setData0401(data0401Empty);
     }
   }, [netInfo, id, setData0401]);

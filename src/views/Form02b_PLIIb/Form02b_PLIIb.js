@@ -38,7 +38,7 @@ const Form02b_PLIIb = ({route}) => {
   const navigation = useNavigation();
   const [isPopupVisible, setPopupVisible] = useState(false);
   const {isLoading} = useContext(UserContext);
-  const {initialTitle} = useContext(UserContext);
+  const {initialTitle, setInitialTitle} = useContext(UserContext);
   const netInfo = useNetInfo();
 
   let titleForm02b_PLIIb = '';
@@ -135,6 +135,7 @@ const Form02b_PLIIb = ({route}) => {
       if (netInfo.isConnected) getDetailForm02b_PLIIb_Id(id);
       else getDataLocal();
     } else {
+      setInitialTitle('')
       setData02b_PLIIb(data02b_PLIIbEmpty);
     }
   }, [netInfo, id, setData02b_PLIIb]);

@@ -40,7 +40,7 @@ const Form03_PLII = ({route}) => {
   const navigation = useNavigation();
   const [isPopupVisible, setPopupVisible] = useState(false);
   const {isLoading} = useContext(UserContext);
-  const {initialTitle} = useContext(UserContext);
+  const {initialTitle, setInitialTitle} = useContext(UserContext);
   const netInfo = useNetInfo();
 
   let titleForm03_PLII = '';
@@ -139,6 +139,7 @@ const Form03_PLII = ({route}) => {
       if (netInfo.isConnected) getDetailForm03_PLII_Id(id);
       else getDataLocal();
     } else {
+      setInitialTitle('')
       setData03_PLII(data03_PLIIEmpty);
     }
   }, [netInfo, id, setData03_PLII]);
