@@ -20,6 +20,9 @@ const CustomDateTimePicker = ({value, onDateChange}) => {
       {open && (
         <DatePicker
           modal
+          confirmText="Chọn"
+          cancelText="Hủy"
+          title="Chọn ngày"
           mode="datetime"
           locale="vi"
           is24hourSource="locale"

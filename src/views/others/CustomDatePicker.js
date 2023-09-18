@@ -20,6 +20,9 @@ const CustomDatePicker = ({value, onDateChange}) => {
       {open && (
         <DatePicker
           modal
+          confirmText="Chọn"
+          cancelText="Hủy"
+          title="Chọn ngày"
           locale="vi"
           mode="date"
           open={open}
