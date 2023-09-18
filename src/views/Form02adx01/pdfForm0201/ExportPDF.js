@@ -580,7 +580,7 @@ export const ExportPDF = async (data) => {
                                             6. Cảng đi ${item.cang_di||'......................................................................................................'}
                                         </div>
                                         <div style="width: 50%;">
-                                            ;Thời gian đi: ${item.ngay_di?'Ngày'+moment(item.ngay_di).format('LL'):'.................................................................................................'}
+                                            ;Thời gian đi: ${item.ngay_di?'Ngày '+moment(item.ngay_di).format('LL'):'.................................................................................................'}
                                         </div>
                                     </div>
                                     <div style="display: flex;margin-top: 8pt;">

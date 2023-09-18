@@ -243,7 +243,7 @@ export const ExportPDF = async (data) => {
                                 --------------------
                             </h1>
                             <div class="s5" style="padding-top: 6pt; text-align:center;width: 100%;">
-                                Kính gửi: ${duLieu?.kinhgui}
+                                Kính gửi: ${duLieu?.kinhgui||'.......................'}
                             </div>
                         </div>
                         <div class="s5" style="margin: 12pt 30pt 0 30pt">
