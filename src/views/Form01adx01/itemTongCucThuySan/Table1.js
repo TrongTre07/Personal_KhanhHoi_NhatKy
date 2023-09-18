@@ -158,7 +158,7 @@ const Table1 = () => {
             onChangeText={text => {
               setData0101({
                 ...data0101,
-                gpkt_thoihan: moment(text).format('DD/MM/YYYY'),
+                gpkt_thoihan: text,
               });
             }}
             value={data0101?.gpkt_thoihan}

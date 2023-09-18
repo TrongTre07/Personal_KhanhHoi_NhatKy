@@ -1,7 +1,7 @@
-import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native'
+import { View, Text, TouchableOpacity, StyleSheet, Image, Alert } from 'react-native'
 import React from 'react'
 import { createStackNavigator } from '@react-navigation/stack';
-import { NavigationContainer, useNavigation } from '@react-navigation/native';
+import { NavigationContainer, useFocusEffect, useNavigation } from '@react-navigation/native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import HeaderScreen from './HeaderScreen';
 import Form01Navigation from './Form01Navigation';
@@ -17,6 +17,9 @@ import Form03_PLIINavigation from './Form03_PLIINavigation';
 import Form04_PLIINavigation from './Form04_PLIINavigation';
 import Form02b_PLIIbNavigation from './Form02b_PLIIbNavigation';
 import Form04_PLIII_03Navigation from './Form04_PLIII_03Navigation';
+import { UserContext } from '../../contexts/UserContext';
+import { useNetInfo } from '@react-native-community/netinfo';
+import Storage from '../../utils/storage';
 
 
 const Stack = createStackNavigator();
@@ -24,6 +27,72 @@ const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
 
 const MainNavigation = () => {
+
+
+  const netInfo = useNetInfo();
+
+  const autoPostForm = async (nameLocal, funtionUpload) => {
+    const form = await Storage.getItem(nameLocal);
+  
+    if (form !== null) {
+      let data = JSON.parse(form);
+      const newData = [];
+  
+      for (const item of data) {
+        let retryCount = 0;
+        let success = false;
+  
+        while (retryCount < 3 && !success) {
+          const result = await funtionUpload(item);
+          console.log('result ...', result);
+  
+          if (result) {
+            success = true; // Tải lên thành công, thoát khỏi vòng lặp
+          } else {
+            retryCount++; // Tăng số lần thử lại nếu tải lên thất bại
+          }
+        }
+  
+        if (!success) {
+          newData.push(item); // Nếu tải lên không thành công sau 3 lần thử, lưu lại dữ liệu
+        }
+      }
+  
+      await Storage.setItem(nameLocal, JSON.stringify(newData));
+  
+      if (newData.length < data.length) {
+        Alert.alert('Thông báo', `Đã gửi ${data.length - newData.length} bản ghi lên server`);
+      }
+    }
+  }
+  
+  const { postForm0101,postForm0201,postForm0301,postForm0401,postForm0102,
+    postForm0202,postForm03_PLII,postForm04_PLII,postForm02b_PLIIb,postForm04_PLIII_03 } = React.useContext(UserContext);
+
+    let autoPostFormExecuted = false; // Biến để kiểm tra xem autoPostForm đã được thực hiện chưa
+
+    useFocusEffect(
+      React.useCallback(() => {
+        console.log('render');
+        if (netInfo.isConnected && !autoPostFormExecuted) {
+          Promise.all([
+            autoPostForm('form01adx01', postForm0101),
+            autoPostForm('form02adx01', postForm0201),
+            autoPostForm('form03adx01', postForm0301),
+            autoPostForm('form04adx01', postForm0401),
+            autoPostForm('form01adx02', postForm0102),
+            autoPostForm('form02adx02', postForm0202),
+            autoPostForm('form03_PLII', postForm03_PLII),
+            autoPostForm('form04_PLII', postForm04_PLII),
+            autoPostForm('form02b_PLIIb', postForm02b_PLIIb),
+            autoPostForm('form04_PLIII_03', postForm04_PLIII_03),
+          ]).then(() => {
+            autoPostFormExecuted = true; // Đánh dấu là autoPostForm đã được thực hiện
+          });
+            }
+      }, [netInfo.isConnected]),
+    );
+
   return (
     <Drawer.Navigator backBehavior="history">
       <Drawer.Screen

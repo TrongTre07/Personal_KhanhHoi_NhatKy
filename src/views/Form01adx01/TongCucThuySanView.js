@@ -13,7 +13,6 @@ const TongCucThuySanView = () => {
   const handleNgheChinh = value => {
     const updatedThongTinTau = {...data0101};
     updatedThongTinTau.nghechinh = value;
-    setThongTinTau(updatedThongTinTau);
     setData0101(updatedThongTinTau);
   };
 

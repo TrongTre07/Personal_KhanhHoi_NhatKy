@@ -78,7 +78,7 @@ const Form01ad02 = ({ route }) => {
 
     // chưa có mạng thì lưu local
     if (!isConnect) {
-      const dataForm = objectPost;
+      const dataForm = modifyThongTinKhaiThac(objectPost);
       let result = JSON.parse(await Storage.getItem('form01adx02'));
 
       if (result === null || !Array.isArray(result)) {

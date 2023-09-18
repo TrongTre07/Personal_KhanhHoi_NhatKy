@@ -117,7 +117,7 @@ const Form01adx01 = ({route}) => {
       thumua: modifiedThuMua,
     };
 
-    console.log('MODIFY:', JSON.stringify(updatedData0101, null, 2));
+    // console.log('MODIFY:', JSON.stringify(updatedData0101, null, 2));
 
     return updatedData0101;
   };
@@ -155,7 +155,7 @@ const Form01adx01 = ({route}) => {
           <TouchableOpacity
             style={[styles.actionCreate, styles.button]}
             onPress={() => {
-              netInfo.isConnected ? handleUpdate() : handleUpdateDiaryLocal();
+              handleUpdate()
             }}>
             <Text style={styles.actionText}>Cập nhật</Text>
           </TouchableOpacity>
@@ -214,8 +214,9 @@ const Form01adx01 = ({route}) => {
 
     // chưa có mạng thì lưu local
     if (!isConnect) {
-      const dataForm = objectPost;
-      const result = await Storage.getItem('form01adx01');
+      const dataForm = modifyForm0101(objectPost);
+      let result = JSON.parse(await Storage.getItem('form01adx01'));
+
       if (!dataForm.id_tau) {
         Alert.alert('Lỗi', 'Bạn phải chọn tàu!', [
           {
@@ -225,18 +226,25 @@ const Form01adx01 = ({route}) => {
             },
           },
         ]);
-      } else if (result !== null) {
-        const data = JSON.parse(result);
-        data.push(dataForm);
-        await Storage.setItem('form01adx01', JSON.stringify(data));
-        ToastAndroid.show('Tạo thành công', ToastAndroid.SHORT);
-        setGoBackAlert(true);
       } else {
-        const data = [];
-        data.push(dataForm);
-        await Storage.setItem('form01adx01', JSON.stringify(data));
-        ToastAndroid.show('Tạo thành công', ToastAndroid.SHORT);
-        setGoBackAlert(true);
+        if (result === null || !Array.isArray(result)) {
+          result = [];
+        }
+      
+        switch (string) {
+          case 'create':
+            result.push(dataForm);
+            await Storage.setItem('form01adx01', JSON.stringify(result));
+            ToastAndroid.show('Tạo thành công', ToastAndroid.SHORT);
+            setGoBackAlert(true);
+            break;
+          case 'update':
+            result[id] = dataForm;
+            await Storage.setItem('form01adx01', JSON.stringify(result));
+            ToastAndroid.show('Cập nhật thành công', ToastAndroid.SHORT);
+            setGoBackAlert(true);
+            break;
+        }
       }
     } else if (string == 'create') {
       console.log('CREATE');
@@ -269,19 +277,7 @@ const Form01adx01 = ({route}) => {
     }
   };
 
-  // check ko có wifi thì update local
-  const handleUpdateDiaryLocal = async () => {
-    const dataForm = modifyForm0101({...data0101});
-    const result = await Storage.getItem('form01adx01');
-    if (result !== null) {
-      const data = JSON.parse(result);
-      data[id] = dataForm;
-      await Storage.setItem('form01adx01', JSON.stringify(data));
-    }
-    ToastAndroid.show('Cập nhật thành công', ToastAndroid.SHORT);
-    setData0101(data0101Empty);
-    setGoBackAlert(true);
-  };
+
 
   React.useEffect(() => {
     const backAction = () => {
@@ -326,7 +322,7 @@ const Form01adx01 = ({route}) => {
             ]);
           } else handleDataSubmit(value);
         }}
-        initialValue={initialTitle}
+        initialValue={initialTitle||data0101.dairy_name}
       />
     </ScrollView>
   );

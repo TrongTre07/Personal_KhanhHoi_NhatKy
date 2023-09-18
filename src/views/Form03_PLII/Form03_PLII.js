@@ -83,7 +83,7 @@ const Form03_PLII = ({route}) => {
 
     // chưa có mạng thì lưu local
     if (!isConnect) {
-      const dataForm = objectPost;
+      const dataForm = modifyForm03_PL2(objectPost);
       let result = JSON.parse(await Storage.getItem('form03_PLII'));
     
       if (result === null || !Array.isArray(result)) {

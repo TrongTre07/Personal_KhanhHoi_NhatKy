@@ -92,6 +92,7 @@ const UserProvider = ({children}) => {
   //tạo form
   const postForm0101 = async obj => {
     try {
+      // console.log("obj",obj)
       setIsLoading(true);
       const response = await instance.post('api/FormAppendix/0101/create', obj);
 
@@ -113,19 +114,10 @@ const UserProvider = ({children}) => {
       setIsLoading(false);
       setIsErrorPost(true);
 
-      if (error.response.status === 401) {
-        getAlert401();
-      } else
-        Alert.alert('Lỗi', 'vui lòng vào ứng dụng lại!', [
-          {
-            text: 'OK',
-            onPress: () => {
-              RNRestart.restart();
-              // setIsErrorPost(false);
-            },
-          },
-        ]);
-      console.log('POST ERROR: ', error);
+      // if (error.response.status === 401) {
+      //   getAlert401();
+      // } 
+      console.log('POST 0101 ERROR: ', error);
     }
   };
 
@@ -144,6 +136,7 @@ const UserProvider = ({children}) => {
         return response.data;
       }
     } catch (error) {
+      console.log('getdiary 0101 ERROR: ', error);
       if (error.response.status === 401) {
         getAlert401();
       }

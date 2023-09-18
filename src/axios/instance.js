@@ -11,8 +11,19 @@ const instance = axios.create({
 instance.interceptors.request.use(
   async config => {
     try {
-      const APIKey = await Storage.getItem('token');
-      const Clientip = await DeviceInfo.getIpAddress();
+      const [APIKey, Clientip] = await Promise.all([
+        Storage.getItem('token'),
+        DeviceInfo.getIpAddress(),
+      ]);
+
+      // const [APIKey, Clientip] = Promise.all([ Storage.getItem('token'),  DeviceInfo.getIpAddress()]);
+
+      // const maxWaitTime = 10; 
+      // const startTime = Date.now();
+      // while (Clientip === "0.0.0.0" && (Date.now() - startTime) < maxWaitTime) {
+      //   Clientip = await DeviceInfo.getIpAddress();
+      // }
+
       config.headers['Clientip'] = Clientip;
       config.headers['APIKey'] = APIKey;
 
@@ -27,6 +38,5 @@ instance.interceptors.request.use(
     return Promise.reject(error);
   },
 );
-
 
 export default instance;
