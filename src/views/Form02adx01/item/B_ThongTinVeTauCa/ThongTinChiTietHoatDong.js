@@ -28,8 +28,6 @@ const widthTongKhoiLuongTong = widthToaDo * 4 + widthTT + widthThoiGian * 2;
 
 const ThongTinChiTietHoatDong = ({selectedItem}) => {
   const moment = require('moment');
-  const currentDate = moment();
-  const formattedDate = currentDate.format('YYYY-MM-DDTHH:mm:ss');
 
   const [selectedItemIndex, setSelectedItemIndex] = useState(-1);
   const {data0201, setData0201} = useContext(UserContext);
@@ -43,14 +41,11 @@ const ThongTinChiTietHoatDong = ({selectedItem}) => {
       const objectAdd = {
         id: makeid(7),
         // dairy_id: data0201.id,
-        methu: (
-          data0201.thongtintaudc_thumua[selectedItem].thongtinhoatdong.length +
-          1
-        ).toString(),
-        thoidiem_tha: formattedDate,
+        methu: '1',
+        thoidiem_tha: moment().format('YYYY-MM-DDTHH:mm'),
         vido_tha: '',
         kinhdo_tha: '',
-        thoidiem_thu: formattedDate,
+        thoidiem_thu: moment().format('YYYY-MM-DDTHH:mm'),
         vido_thu: '',
         kinhdo_thu: '',
         loai_1: '',
@@ -324,7 +319,7 @@ const ThongTinChiTietHoatDong = ({selectedItem}) => {
             if (item.id === id) {
               return {
                 ...item,
-                thoidiem_tha: date,
+                thoidiem_tha: moment(date).format('YYYY-MM-DDTHH:mm'),
               };
             }
             return item;
@@ -349,7 +344,7 @@ const ThongTinChiTietHoatDong = ({selectedItem}) => {
             if (item.id === id) {
               return {
                 ...item,
-                thoidiem_thu: date,
+                thoidiem_thu: moment(date).format('YYYY-MM-DDTHH:mm'),
               };
             }
             return item;
@@ -441,7 +436,7 @@ const ThongTinChiTietHoatDong = ({selectedItem}) => {
             ]}>
             <TextInput
               style={styles.textDate}
-              value={moment(item.thoidiem_tha).format('DD/MM/YYYY hh:mm A')}
+              value={moment(item.thoidiem_tha).format('DD/MM/YYYY HH:mm')}
               onChangeText={text => handleChangeDateTha(text, item.id)}
             />
             <CustomDateTimePicker
@@ -471,7 +466,7 @@ const ThongTinChiTietHoatDong = ({selectedItem}) => {
             ]}>
             <TextInput
               style={styles.textDate}
-              value={moment(item.thoidiem_thu).format('DD/MM/YYYY hh:mm A')}
+              value={moment(item.thoidiem_thu).format('DD/MM/YYYY HH:mm')}
               onChangeText={text => handleChangeDateThu(text, item.id)}
             />
             <CustomDateTimePicker

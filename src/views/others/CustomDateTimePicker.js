@@ -21,6 +21,8 @@ const CustomDateTimePicker = ({value, onDateChange}) => {
         <DatePicker
           modal
           mode="datetime"
+          locale="vi"
+          is24hourSource="locale"
           open={open}
           date={dateValue}
           onConfirm={date => {

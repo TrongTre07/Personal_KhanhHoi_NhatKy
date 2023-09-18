@@ -13,10 +13,9 @@ import CustomDatePicker from '../../../others/CustomDatePicker';
 import {dateNowFormat, convertStringToDate} from '../../../others/formatdate';
 import {UserContext} from '../../../../contexts/UserContext';
 import Moment from 'moment';
-const Table3 = ({
-}) => {
-
-  const {data0201,setData0201} = useContext(UserContext);
+import moment from 'moment';
+const Table3 = ({}) => {
+  const {data0201, setData0201} = useContext(UserContext);
 
   //date
   const handleDateChange = (name, date) => {
@@ -76,13 +75,25 @@ const Table3 = ({
               <TextInput
                 style={[styles.input, styles.text]}
                 onChangeText={text => {
-                  setData0201({...data0201, ngay_di: text});
+                  setData0201({
+                    ...data0201,
+                    ngay_di: moment(text).format('YYYY-MM-DDTHH:mm'),
+                  });
                 }}
-                value={data0201?.ngay_di===undefined?'':Moment(data0201?.ngay_di).format('DD/MM/YYYY')}
+                value={
+                  data0201?.ngay_di === undefined
+                    ? ''
+                    : moment(data0201?.ngay_di).format('DD/MM/YYYY')
+                }
               />
               <CustomDatePicker
                 value={data0201?.ngay_di}
-                onDateChange={date => handleDateChange('departurePort', date)}
+                onDateChange={date =>
+                  setData0201({
+                    ...data0201,
+                    ngay_di: moment(date).format('YYYY-MM-DDTHH:mm'),
+                  })
+                }
               />
             </View>
           </View>
@@ -112,13 +123,25 @@ const Table3 = ({
               <TextInput
                 style={[styles.input, styles.text]}
                 onChangeText={text => {
-                  setData0201({...data0201, ngay_ve: text});
+                  setData0201({
+                    ...data0201,
+                    ngay_ve: moment(text).format('YYYY-MM-DDTHH:mm'),
+                  });
                 }}
-                value={data0201?.ngay_ve===undefined?'':Moment(data0201?.ngay_ve).format('DD/MM/YYYY')}
+                value={
+                  data0201?.ngay_ve === undefined
+                    ? ''
+                    : moment(data0201?.ngay_ve).format('DD/MM/YYYY')
+                }
               />
               <CustomDatePicker
                 value={data0201?.ngay_ve}
-                onDateChange={date => handleDateChange('arrivalPort', date)}
+                onDateChange={date =>
+                  setData0201({
+                    ...data0201,
+                    ngay_ve: moment(date).format('YYYY-MM-DDTHH:mm'),
+                  })
+                }
               />
             </View>
           </View>
@@ -137,13 +160,25 @@ const Table3 = ({
               <TextInput
                 style={[styles.input, styles.text]}
                 onChangeText={text => {
-                  setData0201({...data0201, ngaynop: text});
+                  setData0201({
+                    ...data0201,
+                    ngaynop: moment(text).format('YYYY-MM-DDTHH:mm'),
+                  });
                 }}
-                value={data0201?.ngaynop===undefined?'':Moment(data0201?.ngaynop).format('DD/MM/YYYY')}
+                value={
+                  data0201?.ngaynop === undefined
+                    ? ''
+                    : moment(data0201?.ngaynop).format('DD/MM/YYYY')
+                }
               />
               <CustomDatePicker
                 value={data0201?.ngaynop}
-                onDateChange={date => handleDateChange('diary', date)}
+                onDateChange={date =>
+                  setData0201({
+                    ...data0201,
+                    ngaynop: moment(date).format('YYYY-MM-DDTHH:mm'),
+                  })
+                }
               />
             </View>
             <View style={[styles.row, {width: '50%'}]}>

@@ -20,6 +20,7 @@ const CustomDatePicker = ({value, onDateChange}) => {
       {open && (
         <DatePicker
           modal
+          locale="vi"
           mode="date"
           open={open}
           date={dateValue}

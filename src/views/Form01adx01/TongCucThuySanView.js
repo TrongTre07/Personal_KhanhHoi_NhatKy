@@ -7,8 +7,7 @@ import Table3 from './itemTongCucThuySan/Table3';
 import {UserContext} from '../../contexts/UserContext';
 
 const TongCucThuySanView = () => {
-  const {getDiaryForm, data0101Ship, data0101, setData0101} =
-    useContext(UserContext);
+  const {data0101, setData0101} = useContext(UserContext);
 
   const handleNgheChinh = value => {
     const updatedThongTinTau = {...data0101};

@@ -1,6 +1,4 @@
 const moment = require('moment');
-const currentDate = moment();
-const formattedDate = currentDate.format('YYYY-MM-DDTHH:mm:ss');
 
 const data0201Empty = {
   dairy_name: '',
@@ -11,20 +9,20 @@ const data0201Empty = {
   tau_chieudailonnhat: '',
   tau_tongcongsuatmaychinh: '',
   gpkt_so: '',
-  gpkt_thoihan: '',
+  gpkt_thoihan: moment().format('DD/MM/YYYY'),
   chuyenbien_so: '',
   cang_di: '',
-  ngay_di: formattedDate,
+  ngay_di: moment().format('YYYY-MM-DDTHH:mm'),
   cang_ve: '',
-  ngay_ve: formattedDate,
-  ngaynop: formattedDate,
+  ngay_ve: moment().format('YYYY-MM-DDTHH:mm'),
+  ngaynop: moment().format('YYYY-MM-DDTHH:mm'),
   vaoso_so: '',
-  date_create: formattedDate,
+  date_create: moment().format('YYYY-MM-DDTHH:mm'),
   thumua: [
     {
       id: 0,
       // dairy_id: data0201.id,
-      ngaythang: formattedDate,
+      ngaythang: moment().format('YYYY-MM-DD'),
       id_tau: '',
       tau_bs: '',
       tm_ct_vt_vido: '',
@@ -53,21 +51,21 @@ const data0201Empty = {
       tau_chieudailonnhat: '',
       tau_tongcongsuatmaychinh: '',
       gpkt_so: '',
-      gpkt_thoihan: formattedDate,
+      gpkt_thoihan: moment().format('YYYY-MM-DDTHH:mm'),
       nghekt: '',
       cang_di: '',
-      ngay_di: formattedDate,
-      tg_khaithac_tungay: formattedDate,
-      tg_khaithac_denngay: formattedDate,
+      ngay_di: moment().format('YYYY-MM-DDTHH:mm'),
+      tg_khaithac_tungay: moment().format('YYYY-MM-DDTHH:mm'),
+      tg_khaithac_denngay: moment().format('YYYY-MM-DDTHH:mm'),
       thongtinhoatdong: [
         {
           id: 0,
           // dairy_id: data0201.id,
           methu: '1',
-          thoidiem_tha: formattedDate,
+          thoidiem_tha: moment().format('YYYY-MM-DDTHH:mm'),
           vido_tha: '',
           kinhdo_tha: '',
-          thoidiem_thu: formattedDate,
+          thoidiem_thu: moment().format('YYYY-MM-DDTHH:mm'),
           vido_thu: '',
           kinhdo_thu: '',
           loai_1: '',

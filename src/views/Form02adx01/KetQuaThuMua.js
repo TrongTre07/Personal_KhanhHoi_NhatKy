@@ -30,14 +30,13 @@ const KetQuaThuMua = () => {
   const {data0201, setData0201} = useContext(UserContext);
 
   const moment = require('moment');
-  const currentDate = moment();
-  const formattedDate = currentDate.format('YYYY-MM-DDTHH:mm:ss');
+
 
   const handleThemDong = () => {
     try {
       const objectAdd = {
         id: makeid(7),
-        ngaythang: formattedDate,
+        ngaythang: moment().format('YYYY-MM-DD'),
         id_tau: '',
         tau_bs: '',
         tm_ct_vt_vido: '',

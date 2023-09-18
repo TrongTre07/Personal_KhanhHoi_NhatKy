@@ -1,20 +1,21 @@
-import { View, Text, TextInput, Image, Pressable } from 'react-native';
-import React, { useState, useMemo, useContext, useEffect } from 'react';
+import {View, Text, TextInput, Image, Pressable} from 'react-native';
+import React, {useState, useMemo, useContext, useEffect} from 'react';
 import styles from './styles';
 
 import DatePicker from 'react-native-date-picker';
-import { Picker } from '@react-native-picker/picker';
-import { dateNowFormat } from '../../../others/formatdate';
+import {Picker} from '@react-native-picker/picker';
+import {dateNowFormat} from '../../../others/formatdate';
 import CustomDatePicker from '../../../others/CustomDatePicker';
 
-import { UserContext } from '../../../../contexts/UserContext';
-import { useNetInfo } from '@react-native-community/netinfo';
+import {UserContext} from '../../../../contexts/UserContext';
+import {useNetInfo} from '@react-native-community/netinfo';
 import Storage from '../../../../utils/storage';
 
 import moment from 'moment';
-const Table1 = ({ }) => {
+const Table1 = ({}) => {
   //data
-  const { dataInfShip, setData0201, data0201, setDataInfShip } = useContext(UserContext);
+  const {dataInfShip, setData0201, data0201, setDataInfShip} =
+    useContext(UserContext);
   const netInfo = useNetInfo();
 
   // check ko có wifi thì lấy dataInfShip từ local
@@ -35,22 +36,22 @@ const Table1 = ({ }) => {
   return (
     <View>
       <View style={[styles.row]}>
-        <View style={[styles.row, { width: '50%' }]}>
+        <View style={[styles.row, {width: '50%'}]}>
           <Text style={styles.text}>1. Họ và tên chủ tàu:</Text>
           <TextInput
             onChangeText={text => {
-              setData0201({ ...data0201, ten_chutau: text });
+              setData0201({...data0201, ten_chutau: text});
             }}
             value={data0201?.ten_chutau}
             style={[styles.input, styles.text]}
           />
           <Text style={styles.text}>;</Text>
         </View>
-        <View style={[styles.row, { width: '50%' }]}>
+        <View style={[styles.row, {width: '50%'}]}>
           <Text style={styles.text}>2. Họ và tên thuyền trưởng:</Text>
           <TextInput
             onChangeText={text => {
-              setData0201({ ...data0201, ten_thuyentruong: text });
+              setData0201({...data0201, ten_thuyentruong: text});
             }}
             value={data0201?.ten_thuyentruong}
             style={[styles.input, styles.text]}
@@ -58,11 +59,11 @@ const Table1 = ({ }) => {
         </View>
       </View>
 
-      <View style={[styles.row, { height: 'auto' }]}>
-        <View style={[styles.row, { width: '33%', height: 'auto' }]}>
-          <View style={[styles.row, { width: '40%' }]}>
+      <View style={[styles.row, {height: 'auto'}]}>
+        <View style={[styles.row, {width: '33%', height: 'auto'}]}>
+          <View style={[styles.row, {width: '40%'}]}>
             <Text style={[styles.text]}>3. Số đăng ký tàu</Text>
-            <Text style={{ color: 'red' }}>*</Text>
+            <Text style={{color: 'red'}}>*</Text>
             <Text style={[styles.text]}>:</Text>
           </View>
           <Picker
@@ -71,6 +72,7 @@ const Table1 = ({ }) => {
             onValueChange={(itemValue, itemIndex) => {
               if (itemValue) {
                 const dataInf = dataInfShip[itemIndex - 1];
+
                 setData0201({
                   ...data0201,
                   ten_chutau: dataInf?.chutau,
@@ -101,28 +103,28 @@ const Table1 = ({ }) => {
             })}
           </Picker>
         </View>
-        <View style={[styles.row, { width: '33%', height: 'auto' }]}>
-          <Text style={[styles.text, { width: '65%' }]}>
+        <View style={[styles.row, {width: '33%', height: 'auto'}]}>
+          <Text style={[styles.text, {width: '65%'}]}>
             4. Chiều dài lớn nhất của tàu:
           </Text>
           <TextInput
             // editable={false}
             onChangeText={text => {
-              setData0201({ ...data0201, tau_chieudailonnhat: text });
+              setData0201({...data0201, tau_chieudailonnhat: text});
             }}
             value={data0201?.tau_chieudailonnhat}
             style={[styles.input, styles.text]}
           />
           <Text style={styles.text}>m; </Text>
         </View>
-        <View style={[styles.row, { width: '34%', height: 'auto' }]}>
-          <Text style={[styles.text, { width: '60%' }]}>
+        <View style={[styles.row, {width: '34%', height: 'auto'}]}>
+          <Text style={[styles.text, {width: '60%'}]}>
             5. Tổng công xuất máy chính:
           </Text>
           <TextInput
             // editable={false}
             onChangeText={text => {
-              setData0201({ ...data0201, tau_tongcongsuatmaychinh: text });
+              setData0201({...data0201, tau_tongcongsuatmaychinh: text});
             }}
             value={data0201?.tau_tongcongsuatmaychinh}
             style={[styles.input, styles.text]}
@@ -131,26 +133,32 @@ const Table1 = ({ }) => {
         </View>
       </View>
 
-      <View style={[styles.row,{marginBottom:10}]}>
-        <View style={[styles.row, { width: '50%' }]}>
+      <View style={[styles.row, {marginBottom: 10}]}>
+        <View style={[styles.row, {width: '50%'}]}>
           <Text style={styles.text}>
             6. Số giấy phép khai {'\n'} thác thuỷ sản:
           </Text>
           <TextInput
             // editable={false}
             onChangeText={text => {
-              setData0201({ ...data0201, gpkt_so: text });
+              setData0201({
+                ...data0201,
+                gpkt_so: moment(text).format('DD/MM/YYYY'),
+              });
             }}
             value={data0201?.gpkt_so}
             style={[styles.input, styles.text]}
           />
           <Text style={styles.text}>;</Text>
         </View>
-        <View style={[styles.row, { width: '50%' }]}>
+        <View style={[styles.row, {width: '50%'}]}>
           <Text style={styles.text}>Thời hạn đến:</Text>
           <TextInput
             onChangeText={text => {
-              // setData0201({...data, gpkt_thoihan: text});
+              setData0201({
+                ...data,
+                gpkt_thoihan: moment(text).format('DD/MM/YYYY'),
+              });
             }}
             value={data0201?.gpkt_thoihan}
             style={[styles.input, styles.text]}
