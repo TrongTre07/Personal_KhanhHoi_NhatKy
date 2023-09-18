@@ -4,25 +4,25 @@ import moment from 'moment';
 import vi from 'moment/locale/vi';
 
 export const ExportPDF = async (data) => {
-    
+
     const duLieu = data;
     let klg = 0;
 
-    moment.updateLocale("vi",vi);
+    moment.updateLocale("vi", vi);
 
-    console.log('duLieu',duLieu);
+    console.log('duLieu', duLieu);
 
-    let totalByType = [0,0,0,0,0,0,0,0,0];
+    let totalByType = [0, 0, 0, 0, 0, 0, 0, 0, 0];
     for (let i = 0; i < 9; i++) {
-        totalByType[0] += Number(duLieu?.khaithac[i]?.loai_1_kl||0)||0;//string number
-        totalByType[1] += Number(duLieu?.khaithac[i]?.loai_2_kl||0)||0;//string number
-        totalByType[2] += Number(duLieu?.khaithac[i]?.loai_3_kl||0)||0;//string number
-        totalByType[3] += Number(duLieu?.khaithac[i]?.loai_4_kl||0)||0;//string number
-        totalByType[4] += Number(duLieu?.khaithac[i]?.loai_5_kl||0)||0;//string number
-        totalByType[5] += Number(duLieu?.khaithac[i]?.loai_6_kl||0)||0;//string number
-        totalByType[6] += Number(duLieu?.khaithac[i]?.loai_7_kl||0)||0;//string number
-        totalByType[7] += Number(duLieu?.khaithac[i]?.loai_8_kl||0)||0;//string number
-        totalByType[8] += Number(duLieu?.khaithac[i]?.loai_9_kl||0)||0;//string number
+        totalByType[0] += Number(duLieu?.khaithac[i]?.loai_1_kl || 0) || 0;//string number
+        totalByType[1] += Number(duLieu?.khaithac[i]?.loai_2_kl || 0) || 0;//string number
+        totalByType[2] += Number(duLieu?.khaithac[i]?.loai_3_kl || 0) || 0;//string number
+        totalByType[3] += Number(duLieu?.khaithac[i]?.loai_4_kl || 0) || 0;//string number
+        totalByType[4] += Number(duLieu?.khaithac[i]?.loai_5_kl || 0) || 0;//string number
+        totalByType[5] += Number(duLieu?.khaithac[i]?.loai_6_kl || 0) || 0;//string number
+        totalByType[6] += Number(duLieu?.khaithac[i]?.loai_7_kl || 0) || 0;//string number
+        totalByType[7] += Number(duLieu?.khaithac[i]?.loai_8_kl || 0) || 0;//string number
+        totalByType[8] += Number(duLieu?.khaithac[i]?.loai_9_kl || 0) || 0;//string number
     }
 
     try {
@@ -252,7 +252,7 @@ MẪU NHẬT KÝ KHAI THÁC THỦY SẢN
                             </h1>
                             <h1 style="padding-top: 8pt; text-align: center;width: 100%;font-style: normal;
                                         font-weight: normal;">
-                                (NGHỀ CHÍNH: ${duLieu?.nghechinh||'...................'})
+                                (NGHỀ CHÍNH: ${duLieu?.nghechinh || '...................'})
                             </h1>
                             <!-- end -->
         
@@ -261,40 +261,40 @@ MẪU NHẬT KÝ KHAI THÁC THỦY SẢN
                                 <div style="margin: 16pt 16pt 0 0;">
                                     <div style="display: flex;">
                                         <div style="width: 50%;">
-                                            1. Họ và tên chủ tàu: ${duLieu?.ten_chutau||'......................................................'}
+                                            1. Họ và tên chủ tàu: ${duLieu?.ten_chutau || '......................................................'}
                                         </div>
                                         <div style="width: 50%;">
-                                            ;2. Họ và tên thuyền trưởng: ${duLieu?.ten_thuyentruong||'..........................................................'};
+                                            ;2. Họ và tên thuyền trưởng: ${duLieu?.ten_thuyentruong || '..........................................................'};
                                         </div>
                                     </div>
         
                                     <div style="display: flex; margin-top: 8pt;">
                                         <div style="width: 33%;">
-                                            3. Số đăng ký tàu: ${duLieu?.tau_bs||'.............................'}
+                                            3. Số đăng ký tàu: ${duLieu?.tau_bs || '.............................'}
                                         </div>
                                         <div style="width: 33%;">
-                                            4. Chiều dài lớn nhất của tàu: ${duLieu?.tau_chieudailonnhat||'..............'} m
+                                            4. Chiều dài lớn nhất của tàu: ${duLieu?.tau_chieudailonnhat || '..............'} m
                                         </div>
         
                                         <div style="width: 34%;">
-                                            ;5. Tổng công suất máy chính: ${duLieu?.tau_tongcongsuatmaychinh||'..............'} CV;
+                                            ;5. Tổng công suất máy chính: ${duLieu?.tau_tongcongsuatmaychinh || '..............'} CV;
                                         </div>
 </div>
         
                                     <div style="display: flex;margin-top: 8pt;">
                                         <div style="width: 50%;">
-                                            6. Số giấy phép khai thác thủy sản: ${duLieu?.gpkt_so||'..........................'}
+                                            6. Số giấy phép khai thác thủy sản: ${duLieu?.gpkt_so || '..........................'}
                                         </div>
                                         <div style="width: 50%;">
-                                            ;Thời hạn đến: ${duLieu?.gpkt_thoihan||'..........................'}
+                                            ;Thời hạn đến: ${duLieu?.gpkt_thoihan || '..........................'}
                                         </div>
                                     </div>
                                     <div style="display: flex;margin-top: 8pt;">
                                         <div style="width: 50%;">
-                                            7. Nghề phụ 1: ${duLieu?.nghephu1||'.......................................................................................'}
+                                            7. Nghề phụ 1: ${duLieu?.nghephu1 || '.......................................................................................'}
                                         </div>
                                         <div style="width: 50%;">
-                                            ; 8. Nghề phụ 2: ${duLieu?.nghephu2||'......................................................................'}
+                                            ; 8. Nghề phụ 2: ${duLieu?.nghephu2 || '......................................................................'}
                                         </div>
                                     </div>
                                     <div style="display: flex;margin-top: 8pt;">
@@ -302,38 +302,38 @@ MẪU NHẬT KÝ KHAI THÁC THỦY SẢN
                                     </div>
                                     <div style="display: flex;margin-top: 8pt;">
                                         <div style="width: 60%;">
-                                            a. Nghề câu: Chiều dài toàn bộ vàng câu:  ${duLieu?.ncau_chieudaivangcau||'.................................................................'}
+                                            a. Nghề câu: Chiều dài toàn bộ vàng câu:  ${duLieu?.ncau_chieudaivangcau || '.................................................................'}
                                         </div>
                                         <div style="width: 40%;">
-                                            m; Số lưỡi câu: ${duLieu?.ncau_soluoicau||'..........................................................'} lưỡi
+                                            m; Số lưỡi câu: ${duLieu?.ncau_soluoicau || '..........................................................'} lưỡi
                                         </div>
                                     </div>
                                     <div style="display: flex;margin-top: 8pt;">
                                         <div style="width: 60%;">
-                                            b. Nghề lưới vây, rê: Chiều dài toàn bộ lưới:  ${duLieu?.nluoivay_chieudailuoi||'...........................................................'}
+                                            b. Nghề lưới vây, rê: Chiều dài toàn bộ lưới:  ${duLieu?.nluoivay_chieudailuoi || '...........................................................'}
                                         </div>
                                         <div style="width: 40%;">
-                                            m; Chiều cao lưới: ${duLieu?.nluoivay_chieucaoluoi||'....................................................'} m
+                                            m; Chiều cao lưới: ${duLieu?.nluoivay_chieucaoluoi || '....................................................'} m
                                         </div>
                                     </div>
                                     <div style="display: flex;margin-top: 8pt;">
                                         <div style="width: 60%;">
-                                            c. Nghề lưới chụp: Chu vi miệng lưới:  ${duLieu?.nluoichup_chuvimiengluoi||'.......................................................................'}
+                                            c. Nghề lưới chụp: Chu vi miệng lưới:  ${duLieu?.nluoichup_chuvimiengluoi || '.......................................................................'}
                                         </div>
                                         <div style="width: 40%;">
-                                            m; Chiều cao lưới: ${duLieu?.nluoichup_chieucaoluoi||'....................................................'} m
+                                            m; Chiều cao lưới: ${duLieu?.nluoichup_chieucaoluoi || '....................................................'} m
                                         </div>
                                     </div>
                                     <div style="display: flex;margin-top: 8pt;">
                                         <div style="width: 60%;">
-                                            d. Nghề lưới kéo: Chiều dài giềng phao  ${duLieu?.nluoikeo_chieudaigiengphao||'....................................................................'}
+                                            d. Nghề lưới kéo: Chiều dài giềng phao  ${duLieu?.nluoikeo_chieudaigiengphao || '....................................................................'}
                                         </div>
                                         <div style="width: 40%;">
-                                            m; Chiều cao lưới:  ${duLieu?.nluoikeo_chieudaitoanboluoi||'.....................................................'} m
+                                            m; Chiều cao lưới:  ${duLieu?.nluoikeo_chieudaitoanboluoi || '.....................................................'} m
                                         </div>
                                     </div>
                                     <div style="display: flex;margin-top: 8pt;">
-                                        e. Nghề khác: ${duLieu?.nkhac||'...................................................................................................................................................................'}
+                                        e. Nghề khác: ${duLieu?.nkhac || '...................................................................................................................................................................'}
                                     </div>
                                 </div>
                             </div>
@@ -350,7 +350,7 @@ MẪU NHẬT KÝ KHAI THÁC THỦY SẢN
                                         
                                         ">
                                 <div>
-                                    <h1 style="font-size: 9pt;">Chuyến biển số: ${duLieu?.chuyenbien_so||'..............................'}</h1>
+                                    <h1 style="font-size: 9pt;">Chuyến biển số: ${duLieu?.chuyenbien_so || '..............................'}</h1>
                                     <div style="font-style: italic; width: 100%;text-align: center;">(Ghi chuyến biển số
                                         mấy
                                         trong năm)</div>
@@ -363,26 +363,26 @@ MẪU NHẬT KÝ KHAI THÁC THỦY SẢN
                                             border-bottom: 1pt solid #2B3D4F;">
                                 <div style="display: flex">
                                     <div style="width: 50%;">
-10: Cảng đi: ${duLieu?.cang_di||'............................................................'}
+10: Cảng đi: ${duLieu?.cang_di || '............................................................'}
                                     </div>
                                     <div style="width: 50%;">
-                                        ; Thời gian đi: Ngày ${duLieu?.ngay_di?moment(duLieu?.ngay_di).format('LL'):'.......'} 
-                                    </div>
-                                </div>
-                                <div style="display: flex;margin-top: 4pt;">
-                                    <div style="width: 50%;">
-                                        11: Cảng về: ${duLieu?.cang_ve||'............................................................'}
-                                    </div>
-                                    <div style="width: 50%;">
-                                        ; Thời gian cập: Ngày  ${duLieu?.ngay_ve?moment(duLieu?.ngay_ve).format('LL'):'.......'} 
+                                        ; Thời gian đi: Ngày ${duLieu?.ngay_di ? moment(duLieu?.ngay_di).format('LL') : '.......'} 
                                     </div>
                                 </div>
                                 <div style="display: flex;margin-top: 4pt;">
                                     <div style="width: 50%;">
-                                        12: Nộp Nhật ký: Ngày ${duLieu?.ngaynop?moment(duLieu?.ngaynop).format('LL'):'.......'} 
+                                        11: Cảng về: ${duLieu?.cang_ve || '............................................................'}
                                     </div>
                                     <div style="width: 50%;">
-                                        ; Vào Sổ số: ${duLieu?.vaoso_so||'.........................................'}
+                                        ; Thời gian cập: Ngày  ${duLieu?.ngay_ve ? moment(duLieu?.ngay_ve).format('LL') : '.......'} 
+                                    </div>
+                                </div>
+                                <div style="display: flex;margin-top: 4pt;">
+                                    <div style="width: 50%;">
+                                        12: Nộp Nhật ký: Ngày ${duLieu?.ngaynop ? moment(duLieu?.ngaynop).format('LL') : '.......'} 
+                                    </div>
+                                    <div style="width: 50%;">
+                                        ; Vào Sổ số: ${duLieu?.vaoso_so || '.........................................'}
                                     </div>
                                 </div>
         
@@ -474,7 +474,7 @@ MẪU NHẬT KÝ KHAI THÁC THỦY SẢN
                             </td>
                             <td style="width: 7%;" class="s4 center-table" bgcolor="#D1D6DB">
                                 Loài<br>
-${duLieu?.thumua[0]?.loai_4}
+                                ${duLieu?.thumua[0]?.loai_4}
         
                             </td>
                             <td style="width: 7%;" class="s4 center-table" bgcolor="#D1D6DB">
@@ -501,63 +501,63 @@ ${duLieu?.thumua[0]?.loai_4}
         
         
                         </tr>
-                        ${duLieu?.khaithac.map((line,index) => `
+                        ${duLieu?.khaithac.map((line, index) => `
                         <tr>
                             <td class="s5 center-table">
-                                ${index+1}
+                                ${index + 1}
                             </td>
         
                             <td class="center-table">
                                 <p style="width: 100%;" class="s5">
-                                    ${line?.ngaythang?moment(line?.ngaythang).format('DD-MM-YYYY'):''}
+                                    ${line?.ngaythang ? moment(line?.ngaythang).format('DD-MM-YYYY') : ''}
                                 </p>
                             </td>
                             <td class="s5 center-table">
-                                ${line?.tm_ct_vt_vido||''}
+                                ${line?.tm_ct_vt_vido || ''}
                             </td>
                             <td class="s5 center-table">
-                                ${line?.tm_ct_vt_kinhdo||''}
+                                ${line?.tm_ct_vt_kinhdo || ''}
                             </td>
                             <td class="center-table">
                                 <p style="width: 100%;" class="s5">
-                                    ${line?.ngaythang?moment(line?.ngaythang).format('DD-MM-YYYY'):''}
+                                    ${line?.ngaythang ? moment(line?.ngaythang).format('DD-MM-YYYY') : ''}
                                 </p>
                             </td>
                             <td class="s5 center-table">
-                                ${line?.tm_ct_vt_vido||''}
+                                ${line?.tm_ct_vt_vido || ''}
                             </td>
                             <td class="s5 center-table">
-                                ${line?.tm_ct_vt_kinhdo||''}
+                                ${line?.tm_ct_vt_kinhdo || ''}
                             </td>
                             <td class="s5 center-table">
-                                ${line?.loai_1_kl==0?'':line?.loai_1_kl}
+                                ${line?.loai_1_kl == 0 ? '' : line?.loai_1_kl}
                             </td>
                             <td class="s5 center-table">
-${line?.loai_2_kl==0?'':line?.loai_2_kl}
+                                ${line?.loai_2_kl == 0 ? '' : line?.loai_2_kl}
                             </td>
                             <td class="s5 center-table">
-                                ${line?.loai_3_kl==0?'':line?.loai_3_kl}
+                                ${line?.loai_3_kl == 0 ? '' : line?.loai_3_kl}
                             </td>
                             <td class="s5 center-table">
-                                ${line?.loai_4_kl==0?'':line?.loai_4_kl}
+                                ${line?.loai_4_kl == 0 ? '' : line?.loai_4_kl}
                             </td>
                             <td class="s5 center-table">
-                                ${line?.loai_5_kl==0?'':line?.loai_5_kl}
+                                ${line?.loai_5_kl == 0 ? '' : line?.loai_5_kl}
                             </td>
                             <td class="s5 center-table">
-                                ${line?.loai_6_kl==0?'':line?.loai_6_kl}
+                                ${line?.loai_6_kl == 0 ? '' : line?.loai_6_kl}
                             </td>
                             <td class="s5 center-table">
-                                ${line?.loai_7_kl==0?'':line?.loai_7_kl}
+                                ${line?.loai_7_kl == 0 ? '' : line?.loai_7_kl}
                             </td>
                             <td class="s5 center-table">
-                                ${line?.loai_8_kl==0?'':line?.loai_8_kl}
+                                ${line?.loai_8_kl == 0 ? '' : line?.loai_8_kl}
                             </td>
                             <td class="s5 center-table">
-                                ${line?.loai_9_kl==0?'':line?.loai_9_kl}
+                                ${line?.loai_9_kl == 0 ? '' : line?.loai_9_kl}
                             </td>
                             <td class="s5 center-table">
-                                ${line?.tongsanluong==0?'':line?.tongsanluong}
+                                ${line?.tongsanluong == 0 ? '' : line?.tongsanluong}
                             </td>
                         </tr>
                         `).join('')}
@@ -568,34 +568,36 @@ ${line?.loai_2_kl==0?'':line?.loai_2_kl}
                             </td>
         
                             <td class="center-table s5">
-                                ${totalByType[0]==0?'':totalByType[0]}
+                                ${totalByType[0] == 0 ? '' : totalByType[0]}
                             </td>
                             <td class="center-table s5">
-                                ${totalByType[1]==0?'':totalByType[1]}
+                                ${totalByType[1] == 0 ? '' : totalByType[1]}
                             </td>
                             <td class="center-table s5">
-                                ${totalByType[2]==0?'':totalByType[2]}
+                                ${totalByType[2] == 0 ? '' : totalByType[2]}
                             </td>
                             <td class="center-table s5">
-                                ${totalByType[3]==0?'':totalByType[3]}
+                                ${totalByType[3] == 0 ? '' : totalByType[3]}
                             </td>
                             <td class="center-table s5">
-                                ${totalByType[4]==0?'':totalByType[4]}
+                                ${totalByType[4] == 0 ? '' : totalByType[4]}
                             </td>
                             <td class="center-table s5">
-                                ${totalByType[5]==0?'':totalByType[5]}
+                                ${totalByType[5] == 0 ? '' : totalByType[5]}
                             </td>
                             <td class="center-table s5">
-                                ${totalByType[6]==0?'':totalByType[6]}
+                                ${totalByType[6] == 0 ? '' : totalByType[6]}
                             </td>
                             <td class="center-table s5">
-                                ${totalByType[7]==0?'':totalByType[7]}
-                            </td>
-<td class="center-table s5">
-                                ${totalByType[8]==0?'':totalByType[8]}
+                                ${totalByType[7] == 0 ? '' : totalByType[7]}
                             </td>
                             <td class="center-table s5">
-                                ${totalByType[0]+totalByType[1]+totalByType[2]+totalByType[3]+totalByType[4]+totalByType[5]==0?'':totalByType[0]+totalByType[1]+totalByType[2]+totalByType[3]+totalByType[4]+totalByType[5]+totalByType[6]+totalByType[7]+totalByType[8]}
+                                ${totalByType[8] == 0 ? '' : totalByType[8]}
+                            </td>
+                            <td class="center-table s5">
+                                ${(totalByType[0] + totalByType[1] + totalByType[2] + totalByType[3] + totalByType[4] + totalByType[5] + totalByType[6] + totalByType[7] + totalByType[8])
+                                    ==0?'':
+                                (totalByType[0] + totalByType[1] + totalByType[2] + totalByType[3] + totalByType[4] + totalByType[5] + totalByType[6] + totalByType[7] + totalByType[8])}
                             </td>
                         </tr>
                     </table>
@@ -693,19 +695,19 @@ Thông tin tàu thu mua/chuyển tải </p>
                                 Khối lượng (kg)
                             </td>  
                         </tr>
-                        ${duLieu?.thumua.map((line,index) => {
+                        ${duLieu?.thumua.map((line, index) => {
 
-                            klg+=Number(line?.daban_ct_khoiluong);
-                            
-                        return `
+            klg += Number(line?.daban_ct_khoiluong);
+
+            return `
                         <tr>
                             <td class="s5 center-table">
-                                ${index+1}
+                                ${index + 1}
                             </td>
         
                             <td class="center-table">
                                 <p style="width: 100%;" class="s5">
-                                    ${line?.ngaythang?moment(line?.ngaythang).format('DD-MM-YYYY'):''}
+                                    ${line?.ngaythang ? moment(line?.ngaythang).format('DD-MM-YYYY') : ''}
                                 </p>
                             </td>
                             <td class="s5 center-table">
@@ -713,7 +715,7 @@ Thông tin tàu thu mua/chuyển tải </p>
                             </td>
                             <td class="s5 center-table">
                                 ${line?.tm_ct_gpkt}
-</td>
+                                </td>
                             <td class="center-table">
                                 <p style="width: 100%;" class="s5">
                                 ${line?.tm_ct_vt_vido}
@@ -726,7 +728,7 @@ Thông tin tàu thu mua/chuyển tải </p>
                                 ${line?.daban_ct_loai}
                             </td>
                             <td class="s5 center-table">
-                                ${line?.daban_ct_khoiluong==0?'':line?.daban_ct_khoiluong}
+                                ${line?.daban_ct_khoiluong == 0 ? '' : line?.daban_ct_khoiluong}
                             </td>
                             <td class="s5 center-table">
                                 ${line?.tm_ct_thuyentruong}
@@ -741,7 +743,7 @@ Thông tin tàu thu mua/chuyển tải </p>
                             </td>
         
                             <td class="center-table s5">
-                                ${klg==0?'':klg}
+                                ${klg == 0 ? '' : klg}
                             </td>
                             <td class="center-table s5">
                                 <br>
@@ -780,7 +782,7 @@ Thông tin tàu thu mua/chuyển tải </p>
             directory: 'pdf',
         };
         const file = await RNHTMLtoPDF.convert(options);
-        if(duLieu?.dairy_name!=='filemau'){
+        if (duLieu?.dairy_name !== 'filemau') {
             Alert.alert('Thành công', `PDF lưu tại ${file.filePath}`);
         }
         return true;

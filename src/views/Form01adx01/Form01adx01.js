@@ -23,6 +23,7 @@ import TongCucThuySanView from './TongCucThuySanView';
 import KetQuaKhaiThac from './KetQuaKhaiThac';
 import ThongTinVeHoatDongChuyenTai from './ThongTinVeHoatDongChuyenTai';
 import data0101Empty from './models/data0101Empty';
+import { PrintfPDF } from './pdfForm01/PrintfPDF';
 const Form01adx01 = ({route}) => {
   const {
     getDetailForm0101_Id,
@@ -31,6 +32,7 @@ const Form01adx01 = ({route}) => {
     goBackAlert,
     setGoBackAlert,
     postForm0101,
+    setIsPDFLoading,
     updateForm0101,
   } = useContext(UserContext);
 
@@ -183,22 +185,27 @@ const Form01adx01 = ({route}) => {
           style={[styles.actionExportPDF, styles.button]}
           onPress={
             () => {
-              if (!netInfo.isConnected) {
-                ToastAndroid.show(
-                  'Vui lòng kết nối internet.',
-                  ToastAndroid.SHORT,
-                );
-                return;
-              }
+              // if (!netInfo.isConnected) {
+              //   ToastAndroid.show(
+              //     'Vui lòng kết nối internet.',
+              //     ToastAndroid.SHORT,
+              //   );
+              //   return;
+              // }
+              setIsPDFLoading(true);
+
               let dataFix = modifyForm0101({...data0101});
               dataFix.dairy_name = 'filemau';
-              ExportPDF(dataFix);
+              // ExportPDF(dataFix);
+              setIsPDFLoading(false);
 
-              setTimeout(() => {
-                uploadFile(
-                  `/storage/emulated/0/Android/data/com.khanhhoiapp/files/pdf/filemau.pdf`,
-                );
-              }, 3000);
+              PrintfPDF(dataFix);
+
+              // setTimeout(() => {
+              //   uploadFile(
+              //     `/storage/emulated/0/Android/data/com.khanhhoiapp/files/pdf/filemau.pdf`,
+              //   );
+              // }, 3000);
             }
             //data
           }>
