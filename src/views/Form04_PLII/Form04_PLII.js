@@ -79,19 +79,18 @@ const Form04_PLII = ({route}) => {
     // console.log(JSON.stringify(objectPost, null, 2));
 
     const isConnect = netInfo.isConnected;
-    
+
     // chưa có mạng thì lưu local
     if (!isConnect) {
       const dataForm = objectPost;
       let result = JSON.parse(await Storage.getItem('form04_PLII'));
-    
+
       if (result === null || !Array.isArray(result)) {
         result = [];
       }
-    
+
       switch (string) {
         case 'create':
-
           result.push(dataForm);
           await Storage.setItem('form04_PLII', JSON.stringify(result));
           ToastAndroid.show('Tạo thành công', ToastAndroid.SHORT);
@@ -105,7 +104,26 @@ const Form04_PLII = ({route}) => {
           break;
       }
     } else if (string == 'create') {
-      await postForm04_PLII(objectPost);
+      const result = await postForm04_PLII(objectPost);
+      if (result) {
+        Alert.alert('Thành công', 'Bạn đã tạo thành công!', [
+          {
+            text: 'OK',
+            onPress: () => {
+              setGoBackAlert(true);
+            },
+          },
+        ]);
+      } else {
+        Alert.alert('Lỗi! Đã có lỗi xảy ra', 'Vui lòng thử lại sau', [
+          {
+            text: 'OK',
+            onPress: () => {
+              setGoBackAlert(true);
+            },
+          },
+        ]);
+      }
     } else if (string == 'update') {
       await updateForm04_PLII(objectPost);
     }
@@ -133,7 +151,6 @@ const Form04_PLII = ({route}) => {
       }
     }
   };
-
 
   React.useEffect(() => {
     const backAction = () => {
@@ -232,7 +249,7 @@ const Form04_PLII = ({route}) => {
             ]);
           } else handleDataSubmit(tieuDe);
         }}
-        initialValue={initialTitle||data04_PLII?.dairyname}
+        initialValue={initialTitle || data04_PLII?.dairyname}
       />
     </ScrollView>
   );

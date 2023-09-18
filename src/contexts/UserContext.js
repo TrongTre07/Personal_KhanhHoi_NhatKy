@@ -37,10 +37,11 @@ const UserProvider = ({children}) => {
   const [token, setToken] = useState();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [isErrorPost, setIsErrorPost] = useState(false);
   const [initialTitle, setInitialTitle] = useState('');
   const [goBackAlert, setGoBackAlert] = useState(false);
   const [checkViewPDF, setCheckViewPDF] = useState(false);
+
+  const [isPDFLoading, setIsPDFLoading] = useState(false);
 
   const login = async (username, password) => {
     try {
@@ -97,27 +98,18 @@ const UserProvider = ({children}) => {
       const response = await instance.post('api/FormAppendix/0101/create', obj);
 
       if (response.data == false) {
-        setIsErrorPost(true);
-      } else {
-        Alert.alert('Thành công', 'Bạn đã tạo thành công!', [
-          {
-            text: 'OK',
-            onPress: () => {
-              setGoBackAlert(true);
-            },
-          },
-        ]);
+        setIsLoading(false);
+        return false;
       }
       setIsLoading(false);
-      return response.data;
+      return true;
     } catch (error) {
       setIsLoading(false);
-      setIsErrorPost(true);
-
       // if (error.response.status === 401) {
       //   getAlert401();
-      // } 
+      // }
       console.log('POST 0101 ERROR: ', error);
+      return false;
     }
   };
 
@@ -193,7 +185,7 @@ const UserProvider = ({children}) => {
           {
             text: 'OK',
             onPress: () => {
-              // setIsErrorPost(false);
+              // ;
               setGoBackAlert(true);
             },
           },
@@ -210,7 +202,7 @@ const UserProvider = ({children}) => {
           {
             text: 'OK',
             onPress: () => {
-              // setIsErrorPost(false);
+              // ;
             },
           },
         ]);
@@ -279,23 +271,13 @@ const UserProvider = ({children}) => {
       const response = await instance.post('api/FormAppendix/0201/create', obj);
 
       if (response.data == false) {
-        setIsErrorPost(true);
-      } else {
-        Alert.alert('Thành công', 'Bạn đã tạo thành công!', [
-          {
-            text: 'OK',
-            onPress: () => {
-              setData0201(data0201Empty);
-              setGoBackAlert(true);
-            },
-          },
-        ]);
+        setIsLoading(false);
+        return false;
       }
       setIsLoading(false);
-      return response.data;
+      return true;
     } catch (error) {
       setIsLoading(false);
-      setIsErrorPost(true);
 
       if (error.response.status === 401) {
         getAlert401();
@@ -305,11 +287,12 @@ const UserProvider = ({children}) => {
             text: 'OK',
             onPress: () => {
               RNRestart.restart();
-              // setIsErrorPost(false);
+              // ;
             },
           },
         ]);
       console.log('POST ERROR: ', error);
+      return false;
     }
   };
 
@@ -325,7 +308,7 @@ const UserProvider = ({children}) => {
           {
             text: 'OK',
             onPress: () => {
-              // setIsErrorPost(false);
+              // ;
               setGoBackAlert(true);
             },
           },
@@ -340,7 +323,7 @@ const UserProvider = ({children}) => {
           {
             text: 'OK',
             onPress: () => {
-              // setIsErrorPost(false);
+              // ;
             },
           },
         ]);
@@ -412,23 +395,13 @@ const UserProvider = ({children}) => {
       const response = await instance.post('api/FormAppendix/0301/create', obj);
 
       if (response.data == false) {
-        setIsErrorPost(true);
-      } else {
-        Alert.alert('Thành công', 'Bạn đã tạo thành công!', [
-          {
-            text: 'OK',
-            onPress: () => {
-              setData0301(data0301Empty);
-              setGoBackAlert(true);
-            },
-          },
-        ]);
+        setIsLoading(false);
+        return false;
       }
       setIsLoading(false);
-      return response.data;
+      return true;
     } catch (error) {
       setIsLoading(false);
-      setIsErrorPost(true);
 
       if (error.response.status === 401) {
         getAlert401();
@@ -438,11 +411,12 @@ const UserProvider = ({children}) => {
             text: 'OK',
             onPress: () => {
               RNRestart.restart();
-              // setIsErrorPost(false);
+              // ;
             },
           },
         ]);
       console.log('POST ERROR: ', error);
+      return false;
     }
   };
 
@@ -460,7 +434,7 @@ const UserProvider = ({children}) => {
           {
             text: 'OK',
             onPress: () => {
-              // setIsErrorPost(false);
+              // ;
               setGoBackAlert(true);
             },
           },
@@ -477,7 +451,7 @@ const UserProvider = ({children}) => {
           {
             text: 'OK',
             onPress: () => {
-              // setIsErrorPost(false);
+              // ;
             },
           },
         ]);
@@ -546,24 +520,13 @@ const UserProvider = ({children}) => {
       const response = await instance.post('api/FormAppendix/0401/create', obj);
 
       if (response.data == false) {
-        setIsErrorPost(true);
-      } else {
-        Alert.alert('Thành công', 'Bạn đã tạo thành công!', [
-          {
-            text: 'OK',
-            onPress: () => {
-              setData0401(data0401Empty);
-              setGoBackAlert(true);
-            },
-          },
-        ]);
+        setIsLoading(false);
+        return false;
       }
       setIsLoading(false);
-      return response.data;
+      return true;
     } catch (error) {
       setIsLoading(false);
-      setIsErrorPost(true);
-
       if (error.response.status === 401) {
         getAlert401();
       } else
@@ -572,11 +535,12 @@ const UserProvider = ({children}) => {
             text: 'OK',
             onPress: () => {
               RNRestart.restart();
-              // setIsErrorPost(false);
+              // ;
             },
           },
         ]);
       console.log('POST ERROR: ', error);
+      return false;
     }
   };
   const updateForm0401 = async obj => {
@@ -593,7 +557,7 @@ const UserProvider = ({children}) => {
           {
             text: 'OK',
             onPress: () => {
-              // setIsErrorPost(false);
+              // ;
               setGoBackAlert(true);
             },
           },
@@ -610,7 +574,7 @@ const UserProvider = ({children}) => {
           {
             text: 'OK',
             onPress: () => {
-              // setIsErrorPost(false);
+              // ;
             },
           },
         ]);
@@ -681,24 +645,13 @@ const UserProvider = ({children}) => {
       const response = await instance.post('api/FormAppendix/bcrs/create', obj);
 
       if (response.data == false) {
-        setIsErrorPost(true);
-      } else {
-        Alert.alert('Thành công', 'Bạn đã tạo thành công!', [
-          {
-            text: 'OK',
-            onPress: () => {
-              setData0102(data0102Empty);
-              setGoBackAlert(true);
-            },
-          },
-        ]);
+        setIsLoading(false);
+        return false;
       }
       setIsLoading(false);
-      return response.data;
+      return true;
     } catch (error) {
       setIsLoading(false);
-      setIsErrorPost(true);
-
       if (error.response.status === 401) {
         getAlert401();
       } else
@@ -707,11 +660,12 @@ const UserProvider = ({children}) => {
             text: 'OK',
             onPress: () => {
               RNRestart.restart();
-              // setIsErrorPost(false);
+              // ;
             },
           },
         ]);
       console.log('POST ERROR: ', error);
+      return false;
     }
   };
   const updateForm0102 = async obj => {
@@ -728,7 +682,7 @@ const UserProvider = ({children}) => {
           {
             text: 'OK',
             onPress: () => {
-              // setIsErrorPost(false);
+              // ;
               setGoBackAlert(true);
             },
           },
@@ -745,7 +699,7 @@ const UserProvider = ({children}) => {
           {
             text: 'OK',
             onPress: () => {
-              // setIsErrorPost(false);
+              // ;
             },
           },
         ]);
@@ -816,25 +770,13 @@ const UserProvider = ({children}) => {
       const response = await instance.post('api/FormAppendix/0202/create', obj);
 
       if (response.data == false) {
-        setIsErrorPost(true);
-      } else {
-        Alert.alert('Thành công', 'Bạn đã tạo thành công!', [
-          {
-            text: 'OK',
-            onPress: () => {
-              setData0202(data0202Empty);
-              setGoBackAlert(true);
-            },
-          },
-        ]);
+        setIsLoading(false);
+        return false;
       }
-      setData0202(data0202Empty);
       setIsLoading(false);
-      return response.data;
+      return true;
     } catch (error) {
       setIsLoading(false);
-      setIsErrorPost(true);
-
       if (error.response.status === 401) {
         getAlert401();
       } else
@@ -843,11 +785,12 @@ const UserProvider = ({children}) => {
             text: 'OK',
             onPress: () => {
               RNRestart.restart();
-              // setIsErrorPost(false);
+              // ;
             },
           },
         ]);
       console.log('POST ERROR: ', error);
+      return false;
     }
   };
   const updateForm0202 = async obj => {
@@ -864,7 +807,7 @@ const UserProvider = ({children}) => {
           {
             text: 'OK',
             onPress: () => {
-              // setIsErrorPost(false);
+              // ;
               setGoBackAlert(true);
               setData0202(data0202Empty);
             },
@@ -882,7 +825,7 @@ const UserProvider = ({children}) => {
           {
             text: 'OK',
             onPress: () => {
-              // setIsErrorPost(false);
+              // ;
             },
           },
         ]);
@@ -953,24 +896,13 @@ const UserProvider = ({children}) => {
       const response = await instance.post('api/FormAppendix/0203/create', obj);
 
       if (response.data == false) {
-        setIsErrorPost(true);
-      } else {
-        Alert.alert('Thành công', 'Bạn đã tạo thành công!', [
-          {
-            text: 'OK',
-            onPress: () => {
-              setData03_PLII(data03_PLIIEmpty);
-              setGoBackAlert(true);
-            },
-          },
-        ]);
+        setIsLoading(false);
+        return false;
       }
       setIsLoading(false);
-      return response.data;
+      return true;
     } catch (error) {
       setIsLoading(false);
-      setIsErrorPost(true);
-
       if (error.response.status === 401) {
         getAlert401();
       } else
@@ -979,11 +911,12 @@ const UserProvider = ({children}) => {
             text: 'OK',
             onPress: () => {
               RNRestart.restart();
-              // setIsErrorPost(false);
+              // ;
             },
           },
         ]);
       console.log('POST ERROR: ', error);
+      return false;
     }
   };
   const updateForm03_PLII = async obj => {
@@ -1000,7 +933,7 @@ const UserProvider = ({children}) => {
           {
             text: 'OK',
             onPress: () => {
-              // setIsErrorPost(false);
+              // ;
               setGoBackAlert(true);
             },
           },
@@ -1017,7 +950,7 @@ const UserProvider = ({children}) => {
           {
             text: 'OK',
             onPress: () => {
-              // setIsErrorPost(false);
+              // ;
             },
           },
         ]);
@@ -1088,24 +1021,13 @@ const UserProvider = ({children}) => {
       const response = await instance.post('api/FormAppendix/0204/create', obj);
 
       if (response.data == false) {
-        setIsErrorPost(true);
-      } else {
-        Alert.alert('Thành công', 'Bạn đã tạo thành công!', [
-          {
-            text: 'OK',
-            onPress: () => {
-              setData04_PLII(data04_PLIIEmpty);
-              setGoBackAlert(true);
-            },
-          },
-        ]);
+        setIsLoading(false);
+        return false;
       }
       setIsLoading(false);
-      return response.data;
+      return true;
     } catch (error) {
       setIsLoading(false);
-      setIsErrorPost(true);
-
       if (error.response.status === 401) {
         getAlert401();
       } else
@@ -1114,11 +1036,12 @@ const UserProvider = ({children}) => {
             text: 'OK',
             onPress: () => {
               RNRestart.restart();
-              // setIsErrorPost(false);
+              // ;
             },
           },
         ]);
       console.log('POST ERROR: ', error);
+      return false;
     }
   };
   const updateForm04_PLII = async obj => {
@@ -1135,7 +1058,7 @@ const UserProvider = ({children}) => {
           {
             text: 'OK',
             onPress: () => {
-              // setIsErrorPost(false);
+              // ;
               setGoBackAlert(true);
             },
           },
@@ -1152,7 +1075,7 @@ const UserProvider = ({children}) => {
           {
             text: 'OK',
             onPress: () => {
-              // setIsErrorPost(false);
+              // ;
             },
           },
         ]);
@@ -1228,24 +1151,13 @@ const UserProvider = ({children}) => {
       );
 
       if (response.data == false) {
-        setIsErrorPost(true);
-      } else {
-        Alert.alert('Thành công', 'Bạn đã tạo thành công!', [
-          {
-            text: 'OK',
-            onPress: () => {
-              setData02b_PLIIb(data02b_PLIIbEmpty);
-              setGoBackAlert(true);
-            },
-          },
-        ]);
+        setIsLoading(false);
+        return false;
       }
       setIsLoading(false);
-      return response.data;
+      return true;
     } catch (error) {
       setIsLoading(false);
-      setIsErrorPost(true);
-
       if (error.response.status === 401) {
         getAlert401();
       } else
@@ -1254,11 +1166,12 @@ const UserProvider = ({children}) => {
             text: 'OK',
             onPress: () => {
               RNRestart.restart();
-              // setIsErrorPost(false);
+              // ;
             },
           },
         ]);
       console.log('POST ERROR: ', error);
+      return false;
     }
   };
 
@@ -1276,7 +1189,7 @@ const UserProvider = ({children}) => {
           {
             text: 'OK',
             onPress: () => {
-              // setIsErrorPost(false);
+              // ;
               setGoBackAlert(true);
             },
           },
@@ -1293,7 +1206,7 @@ const UserProvider = ({children}) => {
           {
             text: 'OK',
             onPress: () => {
-              // setIsErrorPost(false);
+              // ;
             },
           },
         ]);
@@ -1369,24 +1282,13 @@ const UserProvider = ({children}) => {
       );
 
       if (response.data == false) {
-        setIsErrorPost(true);
-      } else {
-        Alert.alert('Thành công', 'Bạn đã tạo thành công!', [
-          {
-            text: 'OK',
-            onPress: () => {
-              setData04_PLIII_03(data04_PLIII_03Empty);
-              setGoBackAlert(true);
-            },
-          },
-        ]);
+        setIsLoading(false);
+        return false;
       }
       setIsLoading(false);
-      return response.data;
+      return true;
     } catch (error) {
       setIsLoading(false);
-      setIsErrorPost(true);
-
       if (error.response.status === 401) {
         getAlert401();
       } else
@@ -1395,11 +1297,12 @@ const UserProvider = ({children}) => {
             text: 'OK',
             onPress: () => {
               RNRestart.restart();
-              // setIsErrorPost(false);
+              // ;
             },
           },
         ]);
       console.log('POST ERROR: ', error);
+      return false;
     }
   };
 
@@ -1417,7 +1320,7 @@ const UserProvider = ({children}) => {
           {
             text: 'OK',
             onPress: () => {
-              // setIsErrorPost(false);
+              // ;
               setGoBackAlert(true);
             },
           },
@@ -1434,7 +1337,7 @@ const UserProvider = ({children}) => {
           {
             text: 'OK',
             onPress: () => {
-              // setIsErrorPost(false);
+              // ;
             },
           },
         ]);
@@ -1457,6 +1360,8 @@ const UserProvider = ({children}) => {
 
   const contextValues = useMemo(
     () => ({
+      isPDFLoading,
+      setIsPDFLoading,
       checkViewPDF,
       setCheckViewPDF,
       isLoggedIn,
@@ -1468,8 +1373,7 @@ const UserProvider = ({children}) => {
       postForm0201,
       isLoading,
       setIsLoading,
-      isErrorPost,
-      setIsErrorPost,
+
       dataInfShip,
 
       getDiaryForm0101,
@@ -1558,6 +1462,8 @@ const UserProvider = ({children}) => {
       updateForm04_PLIII_03,
     }),
     [
+      isPDFLoading,
+      setIsPDFLoading,
       checkViewPDF,
       setCheckViewPDF,
       isLoggedIn,
@@ -1569,8 +1475,7 @@ const UserProvider = ({children}) => {
       postForm0201,
       isLoading,
       setIsLoading,
-      isErrorPost,
-      setIsErrorPost,
+
       getDiaryForm0101,
       deleteForm0101_Id,
       dataInfShip,

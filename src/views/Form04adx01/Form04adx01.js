@@ -8,19 +8,18 @@ import {
   Alert,
   ToastAndroid,
 } from 'react-native';
-import React, {useEffect, useContext,useState} from 'react';
+import React, {useEffect, useContext, useState} from 'react';
 import TongCucThuySanView from './item/TongCucThuySanView';
 import {UserContext} from '../../contexts/UserContext';
 import {useNetInfo} from '@react-native-community/netinfo';
 import HeaderView from './item/HeaderView';
 import Spinner from 'react-native-loading-spinner-overlay';
 import AlertInputComponent from '../../utils/AlertInputComponent';
-import { ExportPDF } from './pdfForm0401/ExportPDF';
+import {ExportPDF} from './pdfForm0401/ExportPDF';
 import data0401Empty from './models/data0401';
 import uploadFile from '../../axios/uploadFile';
 import Storage from '../../utils/storage';
 import {useNavigation} from '@react-navigation/native';
-
 
 const Form04ad01 = ({route}) => {
   const {
@@ -94,11 +93,11 @@ const Form04ad01 = ({route}) => {
         if (result === null || !Array.isArray(result)) {
           result = [];
         }
-      
+
         switch (string) {
           case 'create':
-        // console.log('ID:', id);
-  
+            // console.log('ID:', id);
+
             result.push(dataForm);
             await Storage.setItem('form04adx01', JSON.stringify(result));
             ToastAndroid.show('Tạo thành công', ToastAndroid.SHORT);
@@ -123,7 +122,26 @@ const Form04ad01 = ({route}) => {
           },
         ]);
       } else {
-        await postForm0401(modifyThongTinKhaiThac(objectPost));
+        const result = await postForm0401(modifyThongTinKhaiThac(objectPost));
+        if (result) {
+          Alert.alert('Thành công', 'Bạn đã tạo thành công!', [
+            {
+              text: 'OK',
+              onPress: () => {
+                setGoBackAlert(true);
+              },
+            },
+          ]);
+        } else {
+          Alert.alert('Lỗi! Đã có lỗi xảy ra', 'Vui lòng thử lại sau', [
+            {
+              text: 'OK',
+              onPress: () => {
+                setGoBackAlert(true);
+              },
+            },
+          ]);
+        }
       }
     } else if (string == 'update') {
       await updateForm0401(modifyThongTinKhaiThac(objectPost));
@@ -164,15 +182,15 @@ const Form04ad01 = ({route}) => {
   };
 
   const modifyThongTinKhaiThac = data0401 => {
-    const modifiedKhaiThac = {...data0401}; 
+    const modifiedKhaiThac = {...data0401};
 
     if (modifiedKhaiThac.tau_chieudailonnhat === '') {
       modifiedKhaiThac.tau_chieudailonnhat = 0;
-    }    
+    }
     if (modifiedKhaiThac.tau_tongcongsuatmaychinh === '') {
       modifiedKhaiThac.tau_tongcongsuatmaychinh = 0;
     }
-    
+
     if (modifiedKhaiThac.chuyenbien_so === '') {
       modifiedKhaiThac.chuyenbien_so = 0;
     }
@@ -200,7 +218,6 @@ const Form04ad01 = ({route}) => {
     return modifiedKhaiThac;
   };
 
-
   React.useEffect(() => {
     const backAction = () => {
       setData0401(data0401Empty);
@@ -223,7 +240,7 @@ const Form04ad01 = ({route}) => {
           <TouchableOpacity
             style={[styles.actionCreate, styles.button]}
             onPress={() => {
-              handleUpdate()
+              handleUpdate();
             }}>
             <Text style={styles.actionText}>Cập nhật</Text>
           </TouchableOpacity>
@@ -236,36 +253,35 @@ const Form04ad01 = ({route}) => {
         )}
         <TouchableOpacity
           style={[styles.actionDownload, styles.button]}
-          onPress={ async () => {
+          onPress={async () => {
             let dataFix = data0401;
             dataFix.dairyname = 'filemau';
             const exportPDF = await ExlporPDF(dataFix);
             console.log(exportPDF);
-             if(exportPDF)
-              navigation.navigate('ViewPDF')
-            else
-              Alert.alert('Thất bại', `không thể xem file pdf`);
-
-          }}
-        >
+            if (exportPDF) navigation.navigate('ViewPDF');
+            else Alert.alert('Thất bại', `không thể xem file pdf`);
+          }}>
           <Text style={styles.actionText}>Xem mẫu</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={[styles.actionExportPDF, styles.button]}
-          onPress={async() => {
-            if(!netInfo.isConnected){
-              ToastAndroid.show('Vui lòng kết nối internet.', ToastAndroid.SHORT);
+          onPress={async () => {
+            if (!netInfo.isConnected) {
+              ToastAndroid.show(
+                'Vui lòng kết nối internet.',
+                ToastAndroid.SHORT,
+              );
               return;
             }
             let dataFix = data0401;
             dataFix.dairyname = 'filemau';
             const exportPDF = await ExportPDF(dataFix);
-            if(exportPDF==true)
-              uploadFile(`/storage/emulated/0/Android/data/com.khanhhoiapp/files/pdf/filemau.pdf`);
-            else
-              Alert.alert('Thất bại', `không thể xuất file pdf`);
-          }}
-        >
+            if (exportPDF == true)
+              uploadFile(
+                `/storage/emulated/0/Android/data/com.khanhhoiapp/files/pdf/filemau.pdf`,
+              );
+            else Alert.alert('Thất bại', `không thể xuất file pdf`);
+          }}>
           <Text style={styles.actionText}>Xuất file</Text>
         </TouchableOpacity>
       </View>
@@ -274,12 +290,9 @@ const Form04ad01 = ({route}) => {
 
   return (
     <ScrollView>
-      <HeaderView/>
+      <HeaderView />
       <TongCucThuySanView />
-      <View style={{backgroundColor:'#fff'}}>
-      {_renderActionView()}
-
-      </View>
+      <View style={{backgroundColor: '#fff'}}>{_renderActionView()}</View>
       <Spinner
         visible={isLoading}
         textContent={'Đang tải...'}
@@ -301,7 +314,7 @@ const Form04ad01 = ({route}) => {
             ]);
           } else handleDataSubmit(tieuDe);
         }}
-        initialValue={initialTitle||data0401?.dairyname}
+        initialValue={initialTitle || data0401?.dairyname}
       />
     </ScrollView>
   );
@@ -314,7 +327,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor:'#fff'
+    backgroundColor: '#fff',
   },
   button: {
     borderRadius: 5,

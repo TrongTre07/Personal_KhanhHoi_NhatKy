@@ -23,6 +23,7 @@ import {useNetInfo} from '@react-native-community/netinfo';
 import Storage from '../../utils/storage';
 import {PrintfPDF} from './pdfForm0201/PrintfPDF';
 import moment from 'moment';
+import Spinner from 'react-native-loading-spinner-overlay';
 const Form02adx01Diary = ({navigation}) => {
   const [dataDiary, setDataDiary] = useState([]);
 
@@ -36,6 +37,8 @@ const Form02adx01Diary = ({navigation}) => {
     setData0201,
     checkViewPDF,
     setCheckViewPDF,
+    isPDFLoading,
+    setIsPDFLoading,
   } = useContext(UserContext);
 
   const netInfo = useNetInfo();
@@ -46,7 +49,6 @@ const Form02adx01Diary = ({navigation}) => {
       setDataDiary([]);
     }
   }, [isLoggedIn]);
-
 
   const fetchdata = async () => {
     //sap xep lai danh sach theo thoi gian update
@@ -68,7 +70,6 @@ const Form02adx01Diary = ({navigation}) => {
     const dateB = new Date(b.date_modified);
     return dateA - dateB;
   };
-
 
   const getDataLocal = async () => {
     const result = await Storage.getItem('form02adx01');
@@ -99,8 +100,10 @@ const Form02adx01Diary = ({navigation}) => {
         {
           text: 'Xoá',
           onPress: async () => {
+            setIsPDFLoading(true)
             await deleteForm0201Id(id);
             fetchdata();
+            setIsPDFLoading(false)
           },
         },
       ],
@@ -143,7 +146,7 @@ const Form02adx01Diary = ({navigation}) => {
           // }
           // setCheckForm(true);
           // handleGeneratePDF(id);
-
+setIsPDFLoading(true)
           let dataTemp;
           if (netInfo.isConnected) {
             dataTemp = await getDetailForm0201Id(id);
@@ -157,6 +160,7 @@ const Form02adx01Diary = ({navigation}) => {
             }
           }
           const result = await ExportPDF(dataTemp);
+          setIsPDFLoading(false)
           result
             ? navigation.navigate('ViewPDF')
             : Alert.alert('Thất bại', `không thể xem file pdf`);
@@ -182,7 +186,7 @@ const Form02adx01Diary = ({navigation}) => {
           //   return;
           // }
           // handleGeneratePDF(id);
-
+setIsPDFLoading(true)
           let tempData;
           if (netInfo.isConnected) {
             tempData = await getDetailForm0201Id(id);
@@ -195,6 +199,7 @@ const Form02adx01Diary = ({navigation}) => {
           }
           if (tempData) ExportPDF(tempData);
           else Alert.alert('Thất bại', `không thể tải file pdf`);
+          setIsPDFLoading(false)
         }}>
         <View style={[styles.btn, {backgroundColor: '#FF99FF'}]}>
           <Text style={styles.btnText}>Tải xuống</Text>
@@ -217,6 +222,7 @@ const Form02adx01Diary = ({navigation}) => {
           //   return;
           // }
           // handerlePrintPDF(id)
+          setIsPDFLoading(true)
           let tempData;
           if (netInfo.isConnected) {
             tempData = await getDetailForm0201Id(id);
@@ -230,6 +236,7 @@ const Form02adx01Diary = ({navigation}) => {
           console.log('tempData: ', tempData);
           if (tempData) PrintfPDF(tempData);
           else Alert.alert('Thất bại', `không thể in file pdf`);
+          setIsPDFLoading(false)
         }}>
         <View style={[styles.btn, {backgroundColor: '#C0C0C0'}]}>
           <Text style={styles.btnText}>In</Text>
@@ -296,6 +303,12 @@ const Form02adx01Diary = ({navigation}) => {
           </TableWrapper>
         </Table>
       </ScrollView>
+      <Spinner
+        visible={isPDFLoading}
+        textContent={'Đang tải...'}
+        color="blue"
+        textStyle={styles.spinnerText}
+      />
     </View>
   );
 };

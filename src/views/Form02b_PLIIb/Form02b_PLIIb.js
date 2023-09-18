@@ -103,7 +103,26 @@ const Form02b_PLIIb = ({route}) => {
           break;
       }
     } else if (string == 'create') {
-      await postForm02b_PLIIb(objectPost);
+      const result = await postForm02b_PLIIb(objectPost);
+      if (result) {
+        Alert.alert('Thành công', 'Bạn đã tạo thành công!', [
+          {
+            text: 'OK',
+            onPress: () => {
+              setGoBackAlert(true);
+            },
+          },
+        ]);
+      } else {
+        Alert.alert('Lỗi! Đã có lỗi xảy ra', 'Vui lòng thử lại sau', [
+          {
+            text: 'OK',
+            onPress: () => {
+              setGoBackAlert(true);
+            },
+          },
+        ]);
+      }
     } else if (string == 'update') {
       await updateForm02b_PLIIb(objectPost);
     }

@@ -85,14 +85,14 @@ const Form03_PLII = ({route}) => {
     if (!isConnect) {
       const dataForm = modifyForm03_PL2(objectPost);
       let result = JSON.parse(await Storage.getItem('form03_PLII'));
-    
+
       if (result === null || !Array.isArray(result)) {
         result = [];
       }
-    
+
       switch (string) {
         case 'create':
-      // console.log('ID:', id);
+          // console.log('ID:', id);
 
           result.push(dataForm);
           await Storage.setItem('form03_PLII', JSON.stringify(result));
@@ -107,7 +107,26 @@ const Form03_PLII = ({route}) => {
           break;
       }
     } else if (string == 'create') {
-      await postForm03_PLII(modifyForm03_PL2(objectPost));
+      const result = await postForm03_PLII(modifyForm03_PL2(objectPost));
+      if (result) {
+        Alert.alert('Thành công', 'Bạn đã tạo thành công!', [
+          {
+            text: 'OK',
+            onPress: () => {
+              setGoBackAlert(true);
+            },
+          },
+        ]);
+      } else {
+        Alert.alert('Lỗi! Đã có lỗi xảy ra', 'Vui lòng thử lại sau', [
+          {
+            text: 'OK',
+            onPress: () => {
+              setGoBackAlert(true);
+            },
+          },
+        ]);
+      }
     } else if (string == 'update') {
       await updateForm03_PLII(modifyForm03_PL2(objectPost));
     }
@@ -283,7 +302,7 @@ const Form03_PLII = ({route}) => {
             ]);
           } else handleDataSubmit(tieuDe);
         }}
-        initialValue={initialTitle||data03_PLII?.dairyname}
+        initialValue={initialTitle || data03_PLII?.dairyname}
       />
     </ScrollView>
   );

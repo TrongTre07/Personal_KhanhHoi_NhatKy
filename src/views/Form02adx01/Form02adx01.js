@@ -23,7 +23,7 @@ import {useState} from 'react';
 import Storage from '../../utils/storage';
 import {useNavigation} from '@react-navigation/native';
 import data0201Empty from './models/data0201';
-import { ExportPDF } from '../Form02adx01/pdfForm0201/ExportPDF';
+import {ExportPDF} from '../Form02adx01/pdfForm0201/ExportPDF';
 import uploadFile from '../../axios/uploadFile';
 const Form02ad01 = ({route}) => {
   const navigation = useNavigation();
@@ -98,7 +98,7 @@ const Form02ad01 = ({route}) => {
         if (result === null || !Array.isArray(result)) {
           result = [];
         }
-      
+
         switch (string) {
           case 'create':
             result.push(dataForm);
@@ -125,7 +125,28 @@ const Form02ad01 = ({route}) => {
           },
         ]);
       } else {
-        await postForm0201(modifyThongTinTauDCThumua(objectPost));
+        const result = await postForm0201(
+          modifyThongTinTauDCThumua(objectPost),
+        );
+        if (result) {
+          Alert.alert('Thành công', 'Bạn đã tạo thành công!', [
+            {
+              text: 'OK',
+              onPress: () => {
+                setGoBackAlert(true);
+              },
+            },
+          ]);
+        } else {
+          Alert.alert('Lỗi! Đã có lỗi xảy ra', 'Vui lòng thử lại sau', [
+            {
+              text: 'OK',
+              onPress: () => {
+                setGoBackAlert(true);
+              },
+            },
+          ]);
+        }
       }
     } else if (string == 'update') {
       await updateForm0201(modifyThongTinTauDCThumua(objectPost));
@@ -208,7 +229,6 @@ const Form02ad01 = ({route}) => {
     return updatedData0201;
   };
 
-
   React.useEffect(() => {
     const backAction = () => {
       setData0201(data0201Empty);
@@ -244,36 +264,35 @@ const Form02ad01 = ({route}) => {
         )}
         <TouchableOpacity
           style={[styles.actionDownload, styles.button]}
-          onPress={ async () => {
+          onPress={async () => {
             let dataFix = data0201;
             dataFix.dairy_name = 'filemau';
             const exportPDF = await ExportPDF(dataFix);
             console.log(exportPDF);
-             if(exportPDF)
-              navigation.navigate('ViewPDF')
-            else
-              Alert.alert('Thất bại', `không thể xem file pdf`);
-
-          }}
-        >
+            if (exportPDF) navigation.navigate('ViewPDF');
+            else Alert.alert('Thất bại', `không thể xem file pdf`);
+          }}>
           <Text style={styles.actionText}>Xem mẫu</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={[styles.actionExportPDF, styles.button]}
-          onPress={async() => {
-            if(!netInfo.isConnected){
-              ToastAndroid.show('Vui lòng kết nối internet.', ToastAndroid.SHORT);
+          onPress={async () => {
+            if (!netInfo.isConnected) {
+              ToastAndroid.show(
+                'Vui lòng kết nối internet.',
+                ToastAndroid.SHORT,
+              );
               return;
             }
             let dataFix = data0201;
             dataFix.dairy_name = 'filemau';
             const exportPDF = await ExportPDF(dataFix);
-            if(exportPDF==true)
-              uploadFile(`/storage/emulated/0/Android/data/com.khanhhoiapp/files/pdf/filemau.pdf`);
-            else
-              Alert.alert('Thất bại', `không thể xuất file pdf`);
-          }}
-        >
+            if (exportPDF == true)
+              uploadFile(
+                `/storage/emulated/0/Android/data/com.khanhhoiapp/files/pdf/filemau.pdf`,
+              );
+            else Alert.alert('Thất bại', `không thể xuất file pdf`);
+          }}>
           <Text style={styles.actionText}>Xuất file</Text>
         </TouchableOpacity>
       </View>
@@ -308,7 +327,7 @@ const Form02ad01 = ({route}) => {
             ]);
           } else handleDataSubmit(tieuDe);
         }}
-        initialValue={initialTitle||data0201.dairy_name}
+        initialValue={initialTitle || data0201.dairy_name}
       />
     </ScrollView>
   );

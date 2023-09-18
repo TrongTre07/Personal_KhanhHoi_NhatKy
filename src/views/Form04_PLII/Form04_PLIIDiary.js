@@ -8,9 +8,9 @@ import {
   RefreshControl,
   ToastAndroid,
 } from 'react-native';
-import React, { useContext, useEffect, useState, useCallback } from 'react';
-import { UserContext } from '../../contexts/UserContext';
-import { ExportPDF } from './pdfForm04_PLII/ExportPDF';
+import React, {useContext, useEffect, useState, useCallback} from 'react';
+import {UserContext} from '../../contexts/UserContext';
+import {ExportPDF} from './pdfForm04_PLII/ExportPDF';
 import {
   Table,
   TableWrapper,
@@ -19,13 +19,14 @@ import {
   Col,
 } from 'react-native-table-component';
 
-import { useFocusEffect, useNavigation } from '@react-navigation/native';
-import { useNetInfo } from '@react-native-community/netinfo';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
+import {useNetInfo} from '@react-native-community/netinfo';
 import Storage from '../../utils/storage';
 
 import moment from 'moment';
-import { PrintfPDF } from './pdfForm04_PLII/PrintfPDF';
-const Form04_PLIIDiary = ({ navigation }) => {
+import {PrintfPDF} from './pdfForm04_PLII/PrintfPDF';
+import Spinner from 'react-native-loading-spinner-overlay';
+const Form04_PLIIDiary = ({navigation}) => {
   const [dataDiary, setDataDiary] = useState([]);
 
   const {
@@ -33,12 +34,12 @@ const Form04_PLIIDiary = ({ navigation }) => {
     deleteForm04_PLII_Id,
     getDetailForm04_PLII_Id,
     isLoggedIn,
+    isPDFLoading,
+    setIsPDFLoading,
   } = useContext(UserContext);
 
   const netInfo = useNetInfo();
   const [refreshing, setRefreshing] = React.useState(false);
-
-  
 
   useEffect(() => {
     if (!isLoggedIn) {
@@ -56,7 +57,7 @@ const Form04_PLIIDiary = ({ navigation }) => {
       }
       setDataDiary(rawDiary);
       setRefreshing(false);
-    } catch (error) { }
+    } catch (error) {}
   };
 
   const sortListForm = (a, b) => {
@@ -64,7 +65,6 @@ const Form04_PLIIDiary = ({ navigation }) => {
     const dateB = new Date(b.dateedit);
     return dateA - dateB;
   };
-
 
   const getDataLocal = async () => {
     const result = await Storage.getItem('form04_PLII');
@@ -78,11 +78,8 @@ const Form04_PLIIDiary = ({ navigation }) => {
   // nếu không có wifi, lấy data từ local
   useFocusEffect(
     useCallback(() => {
-      if (netInfo.isConnected)
-         fetchdata();
-      else 
-         getDataLocal();
-
+      if (netInfo.isConnected) fetchdata();
+      else getDataLocal();
     }, [netInfo.isConnected]),
   );
 
@@ -99,12 +96,14 @@ const Form04_PLIIDiary = ({ navigation }) => {
         {
           text: 'Xoá',
           onPress: async () => {
+            setIsPDFLoading(true);
             await deleteForm04_PLII_Id(id);
             fetchdata();
+            setIsPDFLoading(false);
           },
         },
       ],
-      { cancelable: false },
+      {cancelable: false},
     );
   };
 
@@ -129,9 +128,8 @@ const Form04_PLIIDiary = ({ navigation }) => {
           },
         },
       ],
-      { cancelable: false },
+      {cancelable: false},
     );
-
   };
 
   //btn
@@ -139,7 +137,7 @@ const Form04_PLIIDiary = ({ navigation }) => {
     <View style={styles.boxbtn}>
       <TouchableOpacity
         onPress={async () => {
-
+          setIsPDFLoading(true);
           let dataTemp;
           if (netInfo.isConnected) {
             dataTemp = await getDetailForm04_PLII_Id(id);
@@ -153,6 +151,7 @@ const Form04_PLIIDiary = ({ navigation }) => {
             }
           }
           const result = await ExportPDF(dataTemp);
+          setIsPDFLoading(false);
           result
             ? navigation.navigate('ViewPDF')
             : Alert.alert('Thất bại', `không thể xem file pdf`);
@@ -173,6 +172,7 @@ const Form04_PLIIDiary = ({ navigation }) => {
       </TouchableOpacity>
       <TouchableOpacity
         onPress={async () => {
+          setIsPDFLoading(true);
           let tempData;
           if (netInfo.isConnected) {
             tempData = await getDetailForm04_PLII_Id(id);
@@ -185,6 +185,7 @@ const Form04_PLIIDiary = ({ navigation }) => {
           }
           if (tempData) ExportPDF(tempData);
           else Alert.alert('Thất bại', `không thể tải file pdf`);
+          setIsPDFLoading(false);
         }}>
         <View style={[styles.btn, {backgroundColor: '#FF99FF'}]}>
           <Text style={styles.btnText}>Tải xuống</Text>
@@ -202,6 +203,7 @@ const Form04_PLIIDiary = ({ navigation }) => {
       </TouchableOpacity>
       <TouchableOpacity
         onPress={async () => {
+          setIsPDFLoading(true);
           let tempData;
           if (netInfo.isConnected) {
             tempData = await getDetailForm04_PLII_Id(id);
@@ -215,6 +217,7 @@ const Form04_PLIIDiary = ({ navigation }) => {
           console.log('tempData: ', tempData);
           if (tempData) PrintfPDF(tempData);
           else Alert.alert('Thất bại', `không thể in file pdf`);
+          setIsPDFLoading(false);
         }}>
         <View style={[styles.btn, {backgroundColor: '#C0C0C0'}]}>
           <Text style={styles.btnText}>In</Text>
@@ -224,18 +227,18 @@ const Form04_PLIIDiary = ({ navigation }) => {
   );
   //data
   const selectedData = dataDiary?.map((item, index) => {
-
     return [
-    index,
-    item.dairyname,
-    item.sobienban,
-    item.sodangkytau,
-    item.thuyentruong,
-    item.ketluan,
-    moment(item.datecreate).format('DD/MM/YYYY HH:mm'),
-    !item.dateedit?'':moment(item.dateedit).format('DD/MM/YYYY HH:mm'),
-    elementButton(item.id, index),
-  ]});
+      index,
+      item.dairyname,
+      item.sobienban,
+      item.sodangkytau,
+      item.thuyentruong,
+      item.ketluan,
+      moment(item.datecreate).format('DD/MM/YYYY HH:mm'),
+      !item.dateedit ? '' : moment(item.dateedit).format('DD/MM/YYYY HH:mm'),
+      elementButton(item.id, index),
+    ];
+  });
 
   //colum
   let state = {
@@ -255,31 +258,40 @@ const Form04_PLIIDiary = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <ScrollView 
+      <ScrollView
         // style={{width:800}}
         vertical={true}
         // onRefresh={fetchdata}
         showsVerticalScrollIndicator={false}
         refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={()=>fetchdata()} />
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={() => fetchdata()}
+          />
         }>
-        <Table borderStyle={{ borderWidth: 1}}>
+        <Table borderStyle={{borderWidth: 1}}>
           <Row
             data={state.tableHead}
-            flexArr={[0.8,4,2,2,2,2,2,2,3 ]}
+            flexArr={[0.8, 4, 2, 2, 2, 2, 2, 2, 3]}
             style={styles.head}
             textStyle={styles.textHead}
           />
           <TableWrapper style={styles.wrapper}>
             <Rows
               data={state.tableColum}
-              flexArr={[0.8,4,2,2,2,2,2,2,3 ]}
+              flexArr={[0.8, 4, 2, 2, 2, 2, 2, 2, 3]}
               style={styles.row}
               textStyle={styles.text}
             />
           </TableWrapper>
         </Table>
       </ScrollView>
+      <Spinner
+        visible={isPDFLoading}
+        textContent={'Đang tải...'}
+        color="blue"
+        textStyle={styles.spinnerText}
+      />
     </View>
   );
 };
@@ -306,7 +318,7 @@ const styles = StyleSheet.create({
   text: {
     textAlign: 'center',
     padding: 3,
-    fontSize: 12, 
+    fontSize: 12,
     color: '#000',
   },
   textHead: {

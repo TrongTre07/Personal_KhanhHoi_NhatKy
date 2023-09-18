@@ -125,7 +125,11 @@ const Table3 = ({}) => {
                     ngay_ve: moment(text).format('YYYY-MM-DD'),
                   });
                 }}
-                value={moment(data0101?.ngay_ve).format('DD/MM/YYYY')}
+                value={
+                  !data0101?.ngay_ve == ''
+                    ? moment(data0101?.ngay_ve).format('DD/MM/YYYY')
+                    : ''
+                }
               />
               <CustomDatePicker
                 // value={moment(data0101?.ngay_ve).format('DD/MM/YYYY')}

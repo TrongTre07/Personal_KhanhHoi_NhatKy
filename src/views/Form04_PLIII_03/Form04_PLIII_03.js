@@ -78,19 +78,19 @@ const Form04_PLIII_03 = ({route}) => {
     // console.log(JSON.stringify(objectPost, null, 2));
 
     const isConnect = netInfo.isConnected;
-    
+
     // chưa có mạng thì lưu local
     if (!isConnect) {
       const dataForm = modifyForm04_PL3_03(objectPost);
       let result = JSON.parse(await Storage.getItem('form04_PLIII_03'));
-    
+
       if (result === null || !Array.isArray(result)) {
         result = [];
       }
-    
+
       switch (string) {
         case 'create':
-      // console.log('ID:', id);
+          // console.log('ID:', id);
 
           result.push(dataForm);
           await Storage.setItem('form04_PLIII_03', JSON.stringify(result));
@@ -105,7 +105,26 @@ const Form04_PLIII_03 = ({route}) => {
           break;
       }
     } else if (string == 'create') {
-      await postForm04_PLIII_03(modifyForm04_PL3_03(objectPost));
+      const result = await postForm04_PLIII_03(modifyForm04_PL3_03(objectPost));
+      if (result) {
+        Alert.alert('Thành công', 'Bạn đã tạo thành công!', [
+          {
+            text: 'OK',
+            onPress: () => {
+              setGoBackAlert(true);
+            },
+          },
+        ]);
+      } else {
+        Alert.alert('Lỗi! Đã có lỗi xảy ra', 'Vui lòng thử lại sau', [
+          {
+            text: 'OK',
+            onPress: () => {
+              setGoBackAlert(true);
+            },
+          },
+        ]);
+      }
     } else if (string == 'update') {
       await updateForm04_PLIII_03(modifyForm04_PL3_03(objectPost));
     }
@@ -154,7 +173,6 @@ const Form04_PLIII_03 = ({route}) => {
 
     return updatedData04_PL3_03;
   };
-
 
   const _renderActionView = () => {
     return (
@@ -237,7 +255,7 @@ const Form04_PLIII_03 = ({route}) => {
             ]);
           } else handleDataSubmit(tieuDe);
         }}
-        initialValue={initialTitle||data04_PLIII_03?.dairyname}
+        initialValue={initialTitle || data04_PLIII_03?.dairyname}
       />
     </ScrollView>
   );

@@ -155,7 +155,7 @@ const Form01adx01 = ({route}) => {
           <TouchableOpacity
             style={[styles.actionCreate, styles.button]}
             onPress={() => {
-              handleUpdate()
+              handleUpdate();
             }}>
             <Text style={styles.actionText}>Cập nhật</Text>
           </TouchableOpacity>
@@ -230,7 +230,7 @@ const Form01adx01 = ({route}) => {
         if (result === null || !Array.isArray(result)) {
           result = [];
         }
-      
+
         switch (string) {
           case 'create':
             result.push(dataForm);
@@ -259,7 +259,26 @@ const Form01adx01 = ({route}) => {
           },
         ]);
       } else {
-        await postForm0101(modifyForm0101(objectPost));
+        const result = await postForm0101(modifyForm0101(objectPost));
+        if (result) {
+          Alert.alert('Thành công', 'Bạn đã tạo thành công!', [
+            {
+              text: 'OK',
+              onPress: () => {
+                setGoBackAlert(true);
+              },
+            },
+          ]);
+        } else {
+          Alert.alert('Lỗi! Đã có lỗi xảy ra', 'Vui lòng thử lại sau', [
+            {
+              text: 'OK',
+              onPress: () => {
+                setGoBackAlert(true);
+              },
+            },
+          ]);
+        }
       }
     } else if (string == 'update') {
       console.log('UPDATED');
@@ -276,8 +295,6 @@ const Form01adx01 = ({route}) => {
       }
     }
   };
-
-
 
   React.useEffect(() => {
     const backAction = () => {
@@ -322,7 +339,7 @@ const Form01adx01 = ({route}) => {
             ]);
           } else handleDataSubmit(value);
         }}
-        initialValue={initialTitle||data0101.dairy_name}
+        initialValue={initialTitle || data0101.dairy_name}
       />
     </ScrollView>
   );

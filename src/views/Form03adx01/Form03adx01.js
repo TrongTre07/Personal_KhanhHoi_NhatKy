@@ -8,19 +8,19 @@ import {
   Alert,
   ToastAndroid,
 } from 'react-native';
-import React, { useEffect, useContext, useState } from 'react';
+import React, {useEffect, useContext, useState} from 'react';
 import TongCucThuySanView from './item/TongCucThuySanView';
-import { UserContext } from '../../contexts/UserContext';
-import { useNetInfo } from '@react-native-community/netinfo';
+import {UserContext} from '../../contexts/UserContext';
+import {useNetInfo} from '@react-native-community/netinfo';
 import ChiTietNhomKhaiThac from './item/itemTongCucThuySan/ChiTietNhomKhaiThac';
-import { useNavigation } from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 import AlertInputComponent from '../../utils/AlertInputComponent';
 import data0301Empty from './models/data0301';
 import Storage from '../../utils/storage';
 import Spinner from 'react-native-loading-spinner-overlay';
-import { ExportPDF } from './pdfForm0301/ExportPDF';
+import {ExportPDF} from './pdfForm0301/ExportPDF';
 import uploadFile from '../../axios/uploadFile';
-const Form03ad01 = ({ route }) => {
+const Form03ad01 = ({route}) => {
   const {
     getDetailForm0301Id,
     setData0301,
@@ -32,8 +32,8 @@ const Form03ad01 = ({ route }) => {
   } = useContext(UserContext);
   const navigation = useNavigation();
   const [isPopupVisible, setPopupVisible] = useState(false);
-  const { isLoading } = useContext(UserContext);
-  const { initialTitle } = useContext(UserContext);
+  const {isLoading} = useContext(UserContext);
+  const {initialTitle} = useContext(UserContext);
   const netInfo = useNetInfo();
 
   let titleForm0301 = '';
@@ -67,7 +67,7 @@ const Form03ad01 = ({ route }) => {
   };
 
   const handleCreateForm = async (tieuDe, string) => {
-    let objectPost = { ...data0301 };
+    let objectPost = {...data0301};
     objectPost.dairyname = tieuDe;
 
     // console.log(JSON.stringify(objectPost, null, 2));
@@ -124,7 +124,26 @@ const Form03ad01 = ({ route }) => {
           },
         ]);
       } else {
-        await postForm0301(modifyThongTinKhaiThac(objectPost));
+        const result = await postForm0301(modifyThongTinKhaiThac(objectPost));
+        if (result) {
+          Alert.alert('Thành công', 'Bạn đã tạo thành công!', [
+            {
+              text: 'OK',
+              onPress: () => {
+                setGoBackAlert(true);
+              },
+            },
+          ]);
+        } else {
+          Alert.alert('Lỗi! Đã có lỗi xảy ra', 'Vui lòng thử lại sau', [
+            {
+              text: 'OK',
+              onPress: () => {
+                setGoBackAlert(true);
+              },
+            },
+          ]);
+        }
       }
     } else if (string == 'update') {
       await updateForm0301(modifyThongTinKhaiThac(objectPost));
@@ -165,7 +184,7 @@ const Form03ad01 = ({ route }) => {
   };
 
   const modifyThongTinKhaiThac = data0301 => {
-    const modifiedKhaiThac = { ...data0301 };
+    const modifiedKhaiThac = {...data0301};
 
     if (modifiedKhaiThac.tau_tongcongsuatmaychinh === '') {
       modifiedKhaiThac.tau_tongcongsuatmaychinh = 0;
@@ -202,7 +221,7 @@ const Form03ad01 = ({ route }) => {
       item => {
         if (!item.hasOwnProperty('isdelete')) {
           // Item has isdelete field with a value of 1, update id to 0
-          return { ...item, id: 0 };
+          return {...item, id: 0};
         }
         return item;
       },
@@ -221,7 +240,7 @@ const Form03ad01 = ({ route }) => {
 
   // check ko có wifi thì update local
   const handleUpdateDiaryLocal = async () => {
-    const dataForm = { ...data0301 };
+    const dataForm = {...data0301};
     dataForm.dairyname = titleForm0301;
     const result = await Storage.getItem('form03adx01');
     if (result !== null) {
@@ -275,31 +294,30 @@ const Form03ad01 = ({ route }) => {
             dataFix.dairyname = 'filemau';
             const exportPDF = await ExlporPDF(dataFix);
             console.log(exportPDF);
-            if (exportPDF)
-              navigation.navigate('ViewPDF')
-            else
-              Alert.alert('Thất bại', `không thể xem file pdf`);
-
-          }}
-        >
+            if (exportPDF) navigation.navigate('ViewPDF');
+            else Alert.alert('Thất bại', `không thể xem file pdf`);
+          }}>
           <Text style={styles.actionText}>Xem mẫu</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={[styles.actionExportPDF, styles.button]}
           onPress={async () => {
             if (!netInfo.isConnected) {
-              ToastAndroid.show('Vui lòng kết nối internet.', ToastAndroid.SHORT);
+              ToastAndroid.show(
+                'Vui lòng kết nối internet.',
+                ToastAndroid.SHORT,
+              );
               return;
             }
             let dataFix = data0301;
             dataFix.dairyname = 'filemau';
             const exportPDF = await ExportPDF(dataFix);
             if (exportPDF == true)
-              uploadFile(`/storage/emulated/0/Android/data/com.khanhhoiapp/files/pdf/filemau.pdf`);
-            else
-              Alert.alert('Thất bại', `không thể xuất file pdf`);
-          }}
-        >
+              uploadFile(
+                `/storage/emulated/0/Android/data/com.khanhhoiapp/files/pdf/filemau.pdf`,
+              );
+            else Alert.alert('Thất bại', `không thể xuất file pdf`);
+          }}>
           <Text style={styles.actionText}>Xuất file</Text>
         </TouchableOpacity>
       </View>
@@ -332,7 +350,7 @@ const Form03ad01 = ({ route }) => {
             ]);
           } else handleDataSubmit(tieuDe);
         }}
-        initialValue={initialTitle||data0301?.dairyname}
+        initialValue={initialTitle || data0301?.dairyname}
       />
     </ScrollView>
   );

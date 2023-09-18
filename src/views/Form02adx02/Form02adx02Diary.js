@@ -25,11 +25,18 @@ import Storage from '../../utils/storage';
 
 import moment from 'moment';
 import {PrintfPDF} from './pdfForm0202/PrintfPDF';
+import Spinner from 'react-native-loading-spinner-overlay';
 const Form02adx02Diary = ({navigation}) => {
   const [dataDiary, setDataDiary] = useState([]);
 
-  const {getDiaryForm0202, deleteForm0202Id, getDetailForm0202Id, isLoggedIn} =
-    useContext(UserContext);
+  const {
+    getDiaryForm0202,
+    deleteForm0202Id,
+    getDetailForm0202Id,
+    isLoggedIn,
+    setIsPDFLoading,
+    isPDFLoading,
+  } = useContext(UserContext);
 
   const netInfo = useNetInfo();
   const [refreshing, setRefreshing] = React.useState(false);
@@ -89,8 +96,10 @@ const Form02adx02Diary = ({navigation}) => {
         {
           text: 'Xoá',
           onPress: async () => {
+            setIsPDFLoading(true)
             await deleteForm0202Id(id);
             fetchdata();
+            setIsPDFLoading(false)
           },
         },
       ],
@@ -128,6 +137,7 @@ const Form02adx02Diary = ({navigation}) => {
     <View style={styles.boxbtn}>
       <TouchableOpacity
         onPress={async () => {
+          setIsPDFLoading(true)
           let dataTemp;
           if (netInfo.isConnected) {
             dataTemp = await getDetailForm0202Id(id);
@@ -141,6 +151,7 @@ const Form02adx02Diary = ({navigation}) => {
             }
           }
           const result = await ExportPDF(dataTemp);
+          setIsPDFLoading(false)
           result
             ? navigation.navigate('ViewPDF')
             : Alert.alert('Thất bại', `không thể xem file pdf`);
@@ -161,6 +172,7 @@ const Form02adx02Diary = ({navigation}) => {
       </TouchableOpacity>
       <TouchableOpacity
         onPress={async () => {
+          setIsPDFLoading(true)
           let tempData;
           if (netInfo.isConnected) {
             tempData = await getDetailForm0202Id(id);
@@ -173,6 +185,7 @@ const Form02adx02Diary = ({navigation}) => {
           }
           if (tempData) ExportPDF(tempData);
           else Alert.alert('Thất bại', `không thể tải file pdf`);
+          setIsPDFLoading(false)
         }}>
         <View style={[styles.btn, {backgroundColor: '#FF99FF'}]}>
           <Text style={styles.btnText}>Tải xuống</Text>
@@ -190,6 +203,7 @@ const Form02adx02Diary = ({navigation}) => {
       </TouchableOpacity>
       <TouchableOpacity
         onPress={async () => {
+          setIsPDFLoading(true)
           let tempData;
           if (netInfo.isConnected) {
             tempData = await getDetailForm0202Id(id);
@@ -203,6 +217,7 @@ const Form02adx02Diary = ({navigation}) => {
           console.log('tempData: ', tempData);
           if (tempData) PrintfPDF(tempData);
           else Alert.alert('Thất bại', `không thể in file pdf`);
+          setIsPDFLoading(false)
         }}>
         <View style={[styles.btn, {backgroundColor: '#C0C0C0'}]}>
           <Text style={styles.btnText}>In</Text>
@@ -279,6 +294,12 @@ const Form02adx02Diary = ({navigation}) => {
           </TableWrapper>
         </Table>
       </ScrollView>
+      <Spinner
+        visible={isPDFLoading}
+        textContent={'Đang tải...'}
+        color="blue"
+        textStyle={styles.spinnerText}
+      />
     </View>
   );
 };

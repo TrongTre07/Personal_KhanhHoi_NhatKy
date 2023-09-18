@@ -83,11 +83,11 @@ const Form02ad02 = ({route}) => {
     if (!isConnect) {
       const dataForm = modifyForm0202(objectPost);
       let result = JSON.parse(await Storage.getItem('form02adx02'));
-    
+
       if (result === null || !Array.isArray(result)) {
         result = [];
       }
-    
+
       switch (string) {
         case 'create':
           result.push(dataForm);
@@ -103,7 +103,26 @@ const Form02ad02 = ({route}) => {
           break;
       }
     } else if (string == 'create') {
-      await postForm0202(modifyForm0202(objectPost));
+      const result = await postForm0202(modifyForm0202(objectPost));
+      if (result) {
+        Alert.alert('Thành công', 'Bạn đã tạo thành công!', [
+          {
+            text: 'OK',
+            onPress: () => {
+              setGoBackAlert(true);
+            },
+          },
+        ]);
+      } else {
+        Alert.alert('Lỗi! Đã có lỗi xảy ra', 'Vui lòng thử lại sau', [
+          {
+            text: 'OK',
+            onPress: () => {
+              setGoBackAlert(true);
+            },
+          },
+        ]);
+      }
     } else if (string == 'update') {
       await updateForm0202(modifyForm0202(objectPost));
     }
@@ -212,7 +231,7 @@ const Form02ad02 = ({route}) => {
           <TouchableOpacity
             style={[styles.actionCreate, styles.button]}
             onPress={() => {
-              handleUpdate()
+              handleUpdate();
             }}>
             <Text style={styles.actionText}>Cập nhật</Text>
           </TouchableOpacity>
@@ -287,7 +306,7 @@ const Form02ad02 = ({route}) => {
             ]);
           } else handleDataSubmit(tieuDe);
         }}
-        initialValue={initialTitle||data0202?.dairy_name}
+        initialValue={initialTitle || data0202?.dairy_name}
       />
     </ScrollView>
   );
