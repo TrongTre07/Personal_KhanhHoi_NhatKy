@@ -67,7 +67,7 @@ const MainNavigation = () => {
   }
   
   const { postForm0101,postForm0201,postForm0301,postForm0401,postForm0102,
-    postForm0202, } = React.useContext(UserContext);
+    postForm0202,postForm03_PLII,postForm04_PLII,postForm02b_PLIIb,postForm04_PLIII_03 } = React.useContext(UserContext);
 
     let autoPostFormExecuted = false; // Biến để kiểm tra xem autoPostForm đã được thực hiện chưa
 
@@ -80,7 +80,12 @@ const MainNavigation = () => {
             autoPostForm('form02adx01', postForm0201),
             autoPostForm('form03adx01', postForm0301),
             autoPostForm('form04adx01', postForm0401),
-            autoPostForm('form01adx02', postForm0102)
+            autoPostForm('form01adx02', postForm0102),
+            autoPostForm('form02adx02', postForm0202),
+            autoPostForm('form03_PLII', postForm03_PLII),
+            autoPostForm('form04_PLII', postForm04_PLII),
+            autoPostForm('form02b_PLIIb', postForm02b_PLIIb),
+            autoPostForm('form04_PLIII_03', postForm04_PLIII_03),
           ]).then(() => {
             autoPostFormExecuted = true; // Đánh dấu là autoPostForm đã được thực hiện
           });
