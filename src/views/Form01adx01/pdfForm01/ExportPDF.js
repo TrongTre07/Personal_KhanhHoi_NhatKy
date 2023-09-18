@@ -1,8 +1,5 @@
-import React, { useState, useContext } from 'react';
 import { Alert, Pressable, StyleSheet, Text, View } from 'react-native';
-import { UserContext } from '../../../contexts/UserContext';
 import RNHTMLtoPDF from 'react-native-html-to-pdf';
-import { checkUndefine } from './checkUndefine';
 import moment from 'moment';
 import vi from 'moment/locale/vi';
 
@@ -793,6 +790,5 @@ Thông tin tàu thu mua/chuyển tải </p>
     } catch (error) {
         console.log(error);
         return false;
-        Alert.alert('Lỗiiiiiii', error.message);
     }
 };
