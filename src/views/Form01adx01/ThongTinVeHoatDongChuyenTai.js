@@ -331,7 +331,7 @@ const ThongTinVeHoatDongChuyenTai = () => {
               value={moment(item.ngaythang).format('DD/MM/YYYY')}
               onChangeText={text => handleChangeDate(text, item.id)}
             />
-            <CustomDateTimePicker
+            <CustomDatePicker
               onDateChange={date => {
                 handleChangeDate(date, item.id);
               }}
