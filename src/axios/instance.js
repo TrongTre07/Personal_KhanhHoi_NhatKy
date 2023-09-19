@@ -4,7 +4,7 @@ import Storage from '../utils/storage';
 import DeviceInfo from 'react-native-device-info';
 
 const instance = axios.create({
-  baseURL: 'https://api-bieumau.khanhhoi.net/',
+  baseURL: 'https://not_available.net/',
 });
 
 
